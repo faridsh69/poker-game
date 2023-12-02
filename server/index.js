@@ -5,6 +5,7 @@ const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io"); // Add this
 const { TABLES } = require("./constants");
+const { renderJoinTable, renderSitUser } = require("./helpers");
 
 app.use(cors());
 
@@ -17,18 +18,29 @@ const io = new Server(server, {
   },
 });
 
+let tablesState = TABLES;
+
 io.on("connection", (socket) => {
-  console.log(`connection socket.id ${socket.id}`);
+  // console.log(`connection socket.id ${socket.id}`);
 
-  socket.on("join_room", ({ tableId, username }) => {
-    console.log(`join_room tableId ${tableId} username ${username}`);
+  io.emit("server_tables", tablesState);
+
+  socket.on("client_join_table", ({ tableId, username }) => {
     socket.join(tableId);
+    tablesState = renderJoinTable(tablesState, tableId, username);
 
-    const table = TABLES.find((t) => t.id === tableId);
+    io.to(tableId).emit("server_table", {
+      message: `${username} has joined table #${tableId}`,
+      table: tablesState.find((t) => t.id === tableId),
+    });
+  });
 
-    io.to(tableId).emit("receive_table_data", {
-      message: `${username} has joined the chat room`,
-      table,
+  socket.on("client_sit_user", ({ tableId, seatId, username }) => {
+    tablesState = renderSitUser(tablesState, tableId, seatId, username);
+
+    io.to(tableId).emit("server_table", {
+      message: `${username} has been sit`,
+      table: tablesState.find((t) => t.id === tableId),
     });
   });
 });

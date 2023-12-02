@@ -47,9 +47,8 @@ const CARD_NUMBERS = {
 
 const WAITING_USER = {
   id: 1,
-  uuid: "uuid-uuid-uuid-uuid",
   username: "username",
-  avatar: "avatar-1",
+  avatar: "/avatar.webp",
   cash: {
     out: 6500,
     inPot: 0,
@@ -59,14 +58,13 @@ const WAITING_USER = {
   hot: null,
   cards: [],
   isDealer: false,
-  seat: null,
 };
 
 const PLAYING_USER = {
   id: 1,
   uuid: "uuid-uuid-uuid-uuid",
   username: "username",
-  avatar: "avatar-1",
+  avatar: "/avatar.webp",
   cash: {
     out: 4500,
     inPot: 250,
@@ -79,13 +77,12 @@ const PLAYING_USER = {
     { type: CARD_TYPES.hearts, number: CARD_NUMBERS.jack },
   ],
   isDealer: true,
-  seat: 4,
 };
 
 const TABLES = [
   {
     id: 1,
-    name: "Holdem 1$ 2$, Buy in: 100$ - 1K$",
+    title: "Holdem 1$ 2$, Buy in: 100$ - 1K$",
     type: TABLE_TYPES.holdem,
     buyin: {
       min: 100,
@@ -100,17 +97,29 @@ const TABLES = [
       { type: CARD_TYPES.clubs, number: CARD_NUMBERS.eight },
       { type: CARD_TYPES.clubs, number: CARD_NUMBERS.nine },
     ],
-    users: [
-      WAITING_USER,
-      WAITING_USER,
-      PLAYING_USER,
-      PLAYING_USER,
-      PLAYING_USER,
+    waitingUsers: [WAITING_USER],
+    seats: [
+      {
+        id: 1,
+        user: PLAYING_USER,
+      },
+      {
+        id: 2,
+        user: null,
+      },
+      {
+        id: 3,
+        user: PLAYING_USER,
+      },
+      {
+        id: 4,
+        user: PLAYING_USER,
+      },
     ],
   },
   {
     id: 2,
-    name: "Holdem 5$ 10$, Buy in: 500$ - 5K$",
+    title: "Holdem 5$ 10$, Buy in: 500$ - 5K$",
     type: TABLE_TYPES.holdem,
     buyin: {
       min: 500,
@@ -118,7 +127,29 @@ const TABLES = [
     },
     small: 5,
     big: 10,
+    status: TABLE_STATUSES.waiting,
+    phase: null,
+    cards: [],
+    waitingUsers: [],
+    seats: [
+      {
+        id: 1,
+        user: null,
+      },
+      {
+        id: 2,
+        user: null,
+      },
+      {
+        id: 3,
+        user: null,
+      },
+      {
+        id: 4,
+        user: null,
+      },
+    ],
   },
 ];
 
-module.exports = { TABLES };
+module.exports = { TABLES, WAITING_USER, PLAYING_USER };
