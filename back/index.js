@@ -13,7 +13,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://localhost:2000",
     methods: ["GET", "POST"],
   },
 });
@@ -21,7 +21,7 @@ const io = new Server(server, {
 let tablesState = TABLES;
 
 io.on("connection", (socket) => {
-  // console.log(`connection socket.id ${socket.id}`);
+  console.log(`connection socket.id ${socket.id}`);
 
   io.emit("server_tables", tablesState);
 
