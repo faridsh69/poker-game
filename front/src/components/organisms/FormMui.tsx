@@ -28,8 +28,6 @@ export const FormMui = props => {
       delete data.category
       delete data['main-image']
 
-      console.log('1 data', data)
-
       onSubmit(data)
     },
     [onSubmit],

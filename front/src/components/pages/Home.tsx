@@ -19,7 +19,6 @@ export const Home = () => {
 
   const [raiseAmount, setRaiseAmount] = useState(2)
 
-  console.log('1 1table', table)
   const isSeated = useMemo(() => {
     if (!table) return false
 
