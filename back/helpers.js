@@ -17,6 +17,17 @@ const renderJoinTable = (tablesState, tableId, username) => {
   });
 };
 
+const renderQuitTable = (tablesState, tableId, username) => {
+  return tablesState.map((t) => {
+    return t.id !== tableId
+      ? t
+      : {
+          ...t,
+          waitingUsers: t.waitingUsers.filter((u) => u.username !== username),
+        };
+  });
+};
+
 const renderSitUser = (tablesState, tableId, seatId, username) => {
   return tablesState.map((t) => {
     return t.id !== tableId
@@ -39,4 +50,4 @@ const renderSitUser = (tablesState, tableId, seatId, username) => {
   });
 };
 
-module.exports = { renderJoinTable, renderSitUser };
+module.exports = { renderJoinTable, renderSitUser, renderQuitTable };

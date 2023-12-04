@@ -7,7 +7,7 @@ export const LanguageSwitcher = () => {
   const { i18n } = useTranslation()
 
   const changeLanguage = () => {
-    i18n.changeLanguage(i18n.resolvedLanguage === EN_LANGUAGE ? EN_LANGUAGE : DE_LANGUAGE)
+    i18n.changeLanguage(i18n.resolvedLanguage === EN_LANGUAGE ? DE_LANGUAGE : EN_LANGUAGE)
   }
 
   return (

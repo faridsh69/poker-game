@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Card, CardMedia, CardContent, Button, CardHeader, Slider } from '@mui/material'
+import { Card, CardMedia, CardContent, Button, CardHeader, Slider, IconButton } from '@mui/material'
 import { PageLayout } from 'src/components/templates/PageLayout'
 
 import socketIO from 'socket.io-client'
@@ -9,13 +9,18 @@ import omahaImage from 'src/images/omaha.png'
 import { SOCKET_URL } from 'src/services/apis'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 import { getLocalstorage } from 'src/helpers/common'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { toast } from 'react-toastify'
 
 export const Home = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
   const [socket, setSocket] = useState(null)
 
   const [tables, setTables] = useState([])
-  const [table, setTable] = useState(null)
+
+  const table = useMemo(() => {
+    return tables.find(t => t.waitingUsers.find(u => u.username === username))
+  }, [tables, username])
 
   const [raiseAmount, setRaiseAmount] = useState(2)
 
@@ -23,7 +28,7 @@ export const Home = () => {
     if (!table) return false
 
     return !table.waitingUsers.find(u => u.username === username)
-  }, [table])
+  }, [table, username])
 
   useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
@@ -32,13 +37,9 @@ export const Home = () => {
     //   console.log("Connected to server");
     // });
 
-    socketInstance.on('server_tables', tables => {
+    socketInstance.on('server_tables', ({ tables, message }) => {
+      toast.info(message)
       setTables(tables)
-    })
-
-    socketInstance.on('server_table', ({ table }) => {
-      // Notify message
-      setTable(table)
     })
 
     return () => {
@@ -49,7 +50,11 @@ export const Home = () => {
   }, [])
 
   const handleJoinTable = tableId => {
-    socket.emit('client_join_table', { tableId, username: username })
+    socket.emit('client_join_table', { tableId, username })
+  }
+
+  const handleQuitTable = tableId => {
+    socket.emit('client_quit_table', { tableId, username })
   }
 
   const handleSitUser = seatId => {
@@ -98,7 +103,14 @@ export const Home = () => {
                   Waiting List:
                   <ul>
                     {table.waitingUsers.map((u, uIndex) => {
-                      return <li key={uIndex}>{u.username}</li>
+                      return (
+                        <li key={uIndex}>
+                          {u.username}{' '}
+                          <IconButton color='error' onClick={() => handleQuitTable(table.id)}>
+                            <CancelIcon />
+                          </IconButton>
+                        </li>
+                      )
                     })}
                   </ul>
                 </div>
