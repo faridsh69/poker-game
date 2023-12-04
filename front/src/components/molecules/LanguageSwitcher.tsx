@@ -7,14 +7,15 @@ export const LanguageSwitcher = () => {
   const { i18n } = useTranslation()
 
   const changeLanguage = () => {
-    i18n.changeLanguage(i18n.language === EN_LANGUAGE ? DE_LANGUAGE : EN_LANGUAGE)
+    i18n.changeLanguage(i18n.resolvedLanguage === EN_LANGUAGE ? EN_LANGUAGE : DE_LANGUAGE)
   }
 
   return (
-    <FormControl size='small' variant='filled'>
-      <Select value={i18n.language} onChange={changeLanguage}>
+    <FormControl size='small' className='language-switcher'>
+      <Select value={i18n.resolvedLanguage} onChange={changeLanguage}>
         {Object.keys(FLAG_LOCALES).map(locale => (
           <MenuItem value={locale} key={locale}>
+            {locale.toUpperCase()}
             {/* @ts-ignore */}
             <img src={FLAG_LOCALES[locale]} alt={locale} />
           </MenuItem>

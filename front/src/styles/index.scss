@@ -11,6 +11,21 @@
   font-family: 'Ember' !important;
 }
 
+.language-switcher {
+  fieldset {
+    border: none !important;
+  }
+
+  .MuiSelect-select {
+    display: flex;
+    gap: 5px;
+
+    img {
+      height: 25px;
+    }
+  }
+}
+
 .categories {
   &-swiper {
     // width: 100%;

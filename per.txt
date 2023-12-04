@@ -1,12 +1,21 @@
-?? login form
+create two test users
++ login form
 ?? get tables data from database, also users data
-+ implement table with 8 seats
-implement buttons for user action
-if user clicks on a table he can choose seat
++ implement table with 4 seats
++ implement buttons for user action
++ if user clicks on a table he can join table
+  send a message for all users in table that this body joined
+  after refresh user again join the table he actually joined: send always data of all tables?
 if a seat clicked ask for money in game
+  user can not click on two seats in a table
+  show auth seat with other color for border
+user can seat out from game
+  add a button for seat out
+  add user to waiting list
+when table is full show button for join waiting list, otherwise join & play
 if at least two person are seated start the game
-shuffle cards and give cards to users
 set someone as a dealer
+shuffle cards and give cards to users
 pay small and big to pot
 wait for user to action 10 seconds
 add option for check, fold, raise, all in, 
@@ -17,3 +26,4 @@ show flop after finishing all user actions
 
 design:
   show tables inside a list/table
+  add option to rotate table

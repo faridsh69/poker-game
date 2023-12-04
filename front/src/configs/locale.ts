@@ -36,3 +36,5 @@ i18next
     fallbackLng: EN_LANGUAGE,
     debug: false,
   })
+
+// en-US
