@@ -214,6 +214,11 @@
     }
   }
 
+  &-runtables {
+    display: flex;
+    flex-direction: column;
+  }
+
   &-runtable {
     margin-top: 15px;
     border: 1px solid #efefef;
@@ -277,8 +282,8 @@
             height: 100%;
 
             img {
-              width: 70px;
-              min-width: 70px;
+              width: 50px;
+              min-width: 50px;
             }
           }
         }
