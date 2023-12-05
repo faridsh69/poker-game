@@ -17,10 +17,10 @@ import {
   findUserTables,
   isUserSeatedTable,
   isUserWaitingTable,
-} from 'src/helpers/clientGameHelpers'
-import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientGameConstants'
+} from 'src/helpers/clientHelpersPoker'
+import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPoker'
 
-export const Poker = () => {
+export const ClientPoker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
   const [socket, setSocket] = useState<TypeSocket>(null)
   const [allTables, setAllTables] = useState<TypeTable[]>([])
@@ -205,7 +205,12 @@ export const Poker = () => {
                     )}
                     {userTable.seats.map(s => {
                       return (
-                        <div key={s.id} className={`home-runtable-main-body-seat seat-${s.id}`}>
+                        <div
+                          key={s.id}
+                          className={`home-runtable-main-body-seat seat-${s.id} ${
+                            s.user?.username === username && 'seat-auth'
+                          }`}
+                        >
                           {!s.user && isAuthUserWaitingTable && (
                             <div
                               className='seat-user'
@@ -215,11 +220,7 @@ export const Poker = () => {
                             </div>
                           )}
                           {s.user && (
-                            <div
-                              className={`seat-user ${
-                                s.user.username === username && 'seat-user-auth'
-                              }`}
-                            >
+                            <div className='seat-user'>
                               <img src={s.user.avatar} alt={s.user.username} />
                               {s.user.username}
                             </div>

@@ -3,11 +3,11 @@ import { ConfigModule } from '@nestjs/config'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { TableGateway } from './table/table.gateway'
+import { ServerPokerGateway } from './table/serverPoker.gateway'
 
 @Module({
   imports: [ConfigModule.forRoot()],
   controllers: [AppController],
-  providers: [AppService, TableGateway],
+  providers: [AppService, ServerPokerGateway],
 })
 export class AppModule {}

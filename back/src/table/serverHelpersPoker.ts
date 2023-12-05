@@ -1,4 +1,4 @@
-import { WAITING_USER, PLAYING_USER } from './serverGameConstants'
+import { WAITING_USER, PLAYING_USER } from './serverConstantsPoker'
 
 const isUserSeatedTable = (table, username) => {
   return !!table.seats.find(s => s.user?.username === username)

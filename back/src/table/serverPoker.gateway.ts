@@ -10,13 +10,13 @@ import {
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './serverGameConstants'
+import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './serverConstantsPoker'
 import {
   renderJoinTable,
   renderQuitTable,
   renderSitUser,
   renderSitoutUser,
-} from './serverGameHelpers'
+} from './serverHelpersPoker'
 
 @WebSocketGateway({
   cors: {
@@ -25,7 +25,7 @@ import {
     // methods: ['GET', 'POST'],
   },
 })
-export class TableGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server
 
