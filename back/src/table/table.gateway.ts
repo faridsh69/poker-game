@@ -10,8 +10,13 @@ import {
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './constants'
-import { renderJoinTable, renderQuitTable, renderSitUser, renderSitoutUser } from './helpers'
+import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './serverGameConstants'
+import {
+  renderJoinTable,
+  renderQuitTable,
+  renderSitUser,
+  renderSitoutUser,
+} from './serverGameHelpers'
 
 @WebSocketGateway({
   cors: {
@@ -36,6 +41,7 @@ export class TableGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleConnection(clientSocket: Socket) {
     clientSocket.emit(SERVER_CHANNELS.updateTables, {
       tables: this.tablesState,
+      checkJoinTabls: true,
     })
   }
 

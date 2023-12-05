@@ -2,18 +2,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import socketIO from 'socket.io-client'
-import { Card, CardMedia, CardContent, Button, CardHeader, Slider, IconButton } from '@mui/material'
-import CancelIcon from '@mui/icons-material/Cancel'
+import { Card, CardMedia, CardContent, Button, CardHeader, Slider } from '@mui/material'
 
 import { PageLayout } from 'src/components/templates/PageLayout'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
-import { isUserSeatedTable, isUserWaitingTable } from 'src/helpers/game'
 import { getLocalstorage } from 'src/helpers/common'
 import { SOCKET_URL } from 'src/services/apis'
 import tableImage from 'src/images/table.jpg'
 import holdemImage from 'src/images/holdem.png'
 import omahaImage from 'src/images/omaha.png'
-import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/game'
+import {
+  findUserTables,
+  isUserSeatedTable,
+  isUserWaitingTable,
+} from 'src/helpers/clientGameHelpers'
+import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientGameConstants'
 
 export const Poker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
@@ -22,12 +25,7 @@ export const Poker = () => {
   const [allTables, setAllTables] = useState([])
 
   const userTables = useMemo(() => {
-    return allTables.filter(t => {
-      const isUserSeated = isUserSeatedTable(t, username)
-      const isUserWaited = isUserWaitingTable(t, username)
-
-      return isUserSeated || isUserWaited
-    })
+    return findUserTables(allTables, username)
   }, [allTables, username])
 
   const [raiseAmount, setRaiseAmount] = useState(2)
@@ -35,16 +33,31 @@ export const Poker = () => {
   useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
     setSocket(socketInstance)
-    socketInstance.on('connect', () => console.log('Connected to server'))
+    socketInstance.on(SERVER_CHANNELS.connect, () => console.log('Connected to server'))
 
-    socketInstance.on(SERVER_CHANNELS.updateTables, ({ tables, message }) => {
+    socketInstance.on(SERVER_CHANNELS.updateTables, ({ tables, message, checkJoinTabls }) => {
+      setAllTables(tables)
       toast.info(message)
       console.log('1 tables', tables)
-      setAllTables(tables)
+
+      if (checkJoinTabls) {
+        console.log('checkJoinTabls')
+        handleAutoJoinTable(tables, socketInstance)
+      }
     })
 
     return () => socketInstance.disconnect()
   }, [])
+
+  const handleAutoJoinTable = useCallback(
+    (tables, socketInstance) => {
+      const userTables = findUserTables(tables, username)
+      for (const userTable of userTables) {
+        socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: userTable.id, username })
+      }
+    },
+    [username],
+  )
 
   const handleJoinTable = useCallback(
     tableId => {
@@ -127,6 +140,15 @@ export const Poker = () => {
                 <CardContent className='home-runtable-main'>
                   <div className='home-runtable-main-sidebar'>
                     <div className='home-runtable-main-sidebar-waitinglist'>
+                      <Button
+                        variant='outlined'
+                        color='error'
+                        onClick={() => handleQuitTable(userTable.id)}
+                      >
+                        Quit Table
+                      </Button>
+                      <br />
+                      <br />
                       {isAuthUserSeatedTable && (
                         <Button
                           variant='outlined'
@@ -137,23 +159,11 @@ export const Poker = () => {
                         </Button>
                       )}
                       <br />
+                      <br />
                       Waiting List:
                       <ul>
                         {userTable.waitingUsers.map((u, uIndex) => {
-                          return (
-                            <li key={uIndex}>
-                              {u.username}{' '}
-                              {u.username === username && (
-                                <Button
-                                  variant='outlined'
-                                  color='error'
-                                  onClick={() => handleQuitTable(userTable.id)}
-                                >
-                                  Quit Table
-                                </Button>
-                              )}
-                            </li>
-                          )
+                          return <li key={uIndex}>{u.username}</li>
                         })}
                       </ul>
                     </div>

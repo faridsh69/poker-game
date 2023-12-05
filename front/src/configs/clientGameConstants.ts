@@ -1,4 +1,5 @@
 export const SERVER_CHANNELS = {
+  connect: 'connect',
   updateTables: 'server:update_tables',
 }
 
