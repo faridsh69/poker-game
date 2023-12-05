@@ -16,6 +16,7 @@ import {
   renderQuitTable,
   renderSitUser,
   renderSitoutUser,
+  renderStartTable,
 } from './serverHelpersPoker'
 
 @WebSocketGateway({
@@ -58,7 +59,6 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
 
     clientSocket.join(tableId)
     this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} has joined table #${tableId}`,
       tables: this.tablesState,
     })
   }
@@ -78,8 +78,9 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.sitTable)
-  handleClientSitTable(@MessageBody() { tableId, seatId, username }: any) {
-    this.tablesState = renderSitUser(this.tablesState, tableId, seatId, username)
+  handleClientSitTable(@MessageBody() { tableId, seatId, buyinAmount, username }) {
+    this.tablesState = renderSitUser(this.tablesState, tableId, seatId, buyinAmount, username)
+    this.tablesState = renderStartTable(this.tablesState, tableId)
 
     this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sit on seat #${seatId}`,

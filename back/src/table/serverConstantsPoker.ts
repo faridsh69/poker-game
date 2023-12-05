@@ -1,3 +1,5 @@
+import { TypeTable, TypeUser } from 'src/utils/types'
+
 export const SERVER_CHANNELS = {
   updateTables: 'server:update_tables',
 }
@@ -14,33 +16,28 @@ const TABLE_TYPES = {
   omaha: 'OMAHA',
 }
 
-const TABLE_STATUSES = {
-  run: 'run',
-  waiting: 'waiting',
+export const TABLE_PHASES = {
+  wait: 'Wait',
+  preflop: 'Preflop',
+  flop: 'Flop',
+  turn: 'Turn',
+  river: 'River',
+  show: 'Show',
 }
 
-const TABLE_PHASES = {
-  preflop: 'preflop',
-  flop: 'flop',
-  turn: 'turn',
-  river: 'river',
-  show: 'show',
-}
+// const USER_STATUSES = {
+//   run: 'run',
+//   waiting: 'waiting',
+// }
 
-const USER_STATUSES = {
-  run: 'run',
-  waiting: 'waiting',
-  sitout: 'sitout',
-}
-
-const CARD_TYPES = {
+export const CARD_TYPES = {
   diamonds: 'diamonds',
   clubs: 'clubs',
   spades: 'spades',
   hearts: 'hearts',
 }
 
-const CARD_NUMBERS = {
+export const CARD_NUMBERS = {
   tow: '2',
   three: '3',
   four: '4',
@@ -56,58 +53,50 @@ const CARD_NUMBERS = {
   ace: 'A',
 }
 
-export const WAITING_USER = {
-  id: 1,
-  username: 'username',
+export const WAITING_USER: TypeUser = {
+  username: 'W8 player',
   avatar: '/avatar.webp',
   cash: {
-    out: 6500,
-    inPot: 0,
+    inBank: 10000,
     inGame: 0,
+    inPot: 0,
   },
-  status: USER_STATUSES.waiting,
-  hot: null,
   cards: [],
   isDealer: false,
+  // id: 1,
+  // status: USER_STATUSES.waiting,
+  // hot: null,
 }
 
-export const PLAYING_USER = {
-  id: 1,
-  uuid: 'uuid-uuid-uuid-uuid',
-  username: 'username',
+export const PLAYING_USER: TypeUser = {
+  username: 'Active Player',
   avatar: '/avatar.webp',
   cash: {
-    out: 4500,
-    inPot: 250,
-    inGame: 1750,
+    inBank: 7500,
+    inGame: 2000,
+    inPot: 500,
   },
-  status: USER_STATUSES.run,
-  hot: 50,
   cards: [
     { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.seven },
     { type: CARD_TYPES.hearts, number: CARD_NUMBERS.jack },
   ],
   isDealer: true,
+  // id: 1,
+  // status: USER_STATUSES.run,
+  // hot: 50,
 }
 
-export const TABLES = [
+export const TABLES: TypeTable[] = [
   {
     id: 1,
     title: 'Holdem 1$ 2$, Buy in: 100$ - 1K$',
     type: TABLE_TYPES.holdem,
+    small: 1,
+    big: 2,
     buyin: {
       min: 100,
       max: 1000,
     },
-    small: 1,
-    big: 2,
-    status: TABLE_STATUSES.run,
-    phase: TABLE_PHASES.flop,
-    cards: [
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.seven },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.eight },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.nine },
-    ],
     waitingUsers: [WAITING_USER],
     seats: [
       {
@@ -124,23 +113,26 @@ export const TABLES = [
       },
       {
         id: 4,
-        user: PLAYING_USER,
+        user: null,
       },
+    ],
+    phase: TABLE_PHASES.flop,
+    cards: [
+      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.seven },
+      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.eight },
+      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.nine },
     ],
   },
   {
     id: 2,
     title: 'Holdem 5$ 10$, Buy in: 500$ - 5K$',
     type: TABLE_TYPES.holdem,
+    small: 5,
+    big: 10,
     buyin: {
       min: 500,
       max: 5000,
     },
-    small: 5,
-    big: 10,
-    status: TABLE_STATUSES.waiting,
-    phase: null,
-    cards: [],
     waitingUsers: [],
     seats: [
       {
@@ -160,5 +152,7 @@ export const TABLES = [
         user: null,
       },
     ],
+    phase: TABLE_PHASES.wait,
+    cards: [],
   },
 ]

@@ -1,23 +1,15 @@
-import { WAITING_USER, PLAYING_USER } from './serverConstantsPoker'
+import { TypeTable } from 'src/utils/types'
+import { CARD_NUMBERS, CARD_TYPES, TABLE_PHASES, WAITING_USER } from './serverConstantsPoker'
 
-const isUserSeatedTable = (table, username) => {
+const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
   return !!table.seats.find(s => s.user?.username === username)
 }
 
-const isUserWaitingTable = (table, username) => {
+const isUserWaitingTable = (table: TypeTable, username: string): boolean => {
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
-// const findUserTables = (allTables, username) => {
-//   return allTables.filter(t => {
-//     const isUserSeated = isUserSeatedTable(t, username)
-//     const isUserWaited = isUserWaitingTable(t, username)
-
-//     return isUserSeated || isUserWaited
-//   })
-// }
-
-export const renderJoinTable = (tablesState, tableId, username) => {
+export const renderJoinTable = (tablesState: TypeTable[], tableId: number, username: string) => {
   return tablesState.map(t => {
     return t.id !== tableId
       ? t
@@ -37,7 +29,7 @@ export const renderJoinTable = (tablesState, tableId, username) => {
   })
 }
 
-export const renderQuitTable = (tablesState, tableId, username) => {
+export const renderQuitTable = (tablesState: TypeTable[], tableId: number, username: string) => {
   return tablesState.map(t => {
     return t.id !== tableId
       ? t
@@ -48,7 +40,13 @@ export const renderQuitTable = (tablesState, tableId, username) => {
   })
 }
 
-export const renderSitUser = (tablesState, tableId, seatId, username) => {
+export const renderSitUser = (
+  tablesState: TypeTable[],
+  tableId: number,
+  seatId: number,
+  buyinAmount: number,
+  username: string,
+) => {
   return tablesState.map(t => {
     return t.id !== tableId
       ? t
@@ -63,8 +61,13 @@ export const renderSitUser = (tablesState, tableId, seatId, username) => {
                   : {
                       id: seatId,
                       user: {
-                        ...PLAYING_USER,
+                        ...WAITING_USER,
                         username,
+                        cash: {
+                          inBank: WAITING_USER.cash.inBank - buyinAmount,
+                          inPot: 0,
+                          inGame: buyinAmount,
+                        },
                       },
                     }
               }),
@@ -72,7 +75,7 @@ export const renderSitUser = (tablesState, tableId, seatId, username) => {
   })
 }
 
-export const renderSitoutUser = (tablesState, tableId, username) => {
+export const renderSitoutUser = (tablesState: TypeTable[], tableId: number, username: string) => {
   return tablesState.map(t => {
     return t.id !== tableId
       ? t
@@ -94,5 +97,29 @@ export const renderSitoutUser = (tablesState, tableId, username) => {
             }
           }),
         }
+  })
+}
+
+export const renderStartTable = (tablesState: TypeTable[], tableId: number) => {
+  return tablesState.map(t => {
+    if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
+
+    return {
+      ...t,
+      phase: TABLE_PHASES.preflop,
+      cards: [],
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+
+        return {
+          ...s.user,
+          cards: [
+            { type: CARD_TYPES.clubs, number: CARD_NUMBERS.seven },
+            { type: CARD_TYPES.clubs, number: CARD_NUMBERS.eight },
+          ],
+          isDealer: false,
+        }
+      }),
+    }
   })
 }
