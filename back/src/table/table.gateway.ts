@@ -8,14 +8,16 @@ import {
   OnGatewayDisconnect,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
+import { instrument } from '@socket.io/admin-ui'
 
 import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './constants'
 import { renderJoinTable, renderQuitTable, renderSitUser } from './helpers'
 
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:2000',
-    methods: ['GET', 'POST'],
+    origin: ['http://localhost:2000', 'https://admin.socket.io'],
+    credentials: true,
+    // methods: ['GET', 'POST'],
   },
 })
 export class TableGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -23,6 +25,13 @@ export class TableGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server
 
   tablesState = TABLES
+
+  afterInit() {
+    instrument(this.server, {
+      auth: false,
+      mode: 'development',
+    })
+  }
 
   handleConnection(clientSocket: Socket) {
     clientSocket.emit(SERVER_CHANNELS.updateTables, {
@@ -55,11 +64,11 @@ export class TableGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     this.tablesState = renderQuitTable(this.tablesState, tableId, username)
 
-    clientSocket.leave(tableId)
-    this.server.emit(SERVER_CHANNELS.updateTables, {
+    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has left table #${tableId}`,
       tables: this.tablesState,
     })
+    clientSocket.leave(tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.sitTable)
