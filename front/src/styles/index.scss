@@ -269,6 +269,36 @@
           min-width: 600px;
         }
 
+        &-tablecards {
+          position: absolute;
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+          height: 90px;
+          left: 165px;
+          top: 140px;
+
+          &-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50px;
+            padding: 1px;
+            background-color: white;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: -2px -2px 3px #777;
+
+            b {
+              font-size: 20px;
+            }
+
+            img {
+              width: 35px;
+            }
+          }
+        }
+
         &-actions {
           border: 1px solid #efefef;
           padding: 15px;
@@ -294,9 +324,36 @@
             justify-content: center;
             height: 100%;
 
-            img {
+            &-avatar {
               width: 50px;
               min-width: 50px;
+            }
+
+            &-cards {
+              position: absolute;
+              display: flex;
+              flex-direction: row;
+              gap: 2px;
+              width: 70px;
+              height: 80px;
+              left: 100px;
+              top: 0px;
+
+              &-card {
+                padding: 1px;
+                background-color: white;
+                text-align: center;
+                border-radius: 10px;
+                box-shadow: -2px -2px 7px #777;
+
+                b {
+                  font-size: 20px;
+                }
+
+                img {
+                  width: 25px;
+                }
+              }
             }
           }
         }

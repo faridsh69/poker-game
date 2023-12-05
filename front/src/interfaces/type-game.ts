@@ -23,11 +23,11 @@ type TypeUser = {
   username: string
   avatar: string
   cash: TypeCash
+  cards: TypeCard[]
+  isDealer: boolean
   // id: number
   // status: string
   // hot: number
-  // cards: TypeCard[]
-  // isDealer: boolean
 }
 
 export type TypeTable = {

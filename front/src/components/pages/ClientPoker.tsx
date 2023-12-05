@@ -111,7 +111,7 @@ export const ClientPoker = () => {
 
   return (
     <PageLayout>
-      {seatModal.tableId && (
+      {!!seatModal.tableId && (
         <Modal open={!!seatModal.tableId} onClose={() => setSeatModal({ tableId: 0, seatId: 0 })}>
           <div className='modal'>
             <h2>Set Buy In</h2>
@@ -221,6 +221,19 @@ export const ClientPoker = () => {
                       alt='poker-table'
                       className='home-runtable-main-body-mainimage'
                     />
+                    <div className='home-runtable-main-body-tablecards'>
+                      {userTable.cards.map(card => {
+                        return (
+                          <div
+                            key={card.type + card.number}
+                            className='home-runtable-main-body-tablecards-card'
+                          >
+                            <b>{card.number}</b>
+                            <img src={`/${card.type}.png`} alt={card.type} />
+                          </div>
+                        )
+                      })}
+                    </div>
                     {isUserSeatedTable(userTable, username) && (
                       <div className='home-runtable-main-body-actions'>
                         <Button variant='outlined' color='success'>
@@ -262,10 +275,23 @@ export const ClientPoker = () => {
                           )}
                           {s.user && (
                             <div className='seat-user'>
-                              <img src={s.user.avatar} alt={'Pic'} />
+                              <img src={s.user.avatar} alt='Avatar' className='seat-user-avatar' />
                               {s.user.username}
                               <br />
                               {s.user.cash.inGame}
+                              <div className='seat-user-cards'>
+                                {s.user.cards.map(card => {
+                                  return (
+                                    <div
+                                      className='seat-user-cards-card'
+                                      key={card.type + card.number}
+                                    >
+                                      <b>{card.number}</b>
+                                      <img src={`/${card.type}.png`} alt={card.type} />
+                                    </div>
+                                  )
+                                })}
+                              </div>
                             </div>
                           )}
                         </div>
