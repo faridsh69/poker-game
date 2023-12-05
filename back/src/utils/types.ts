@@ -8,7 +8,7 @@ type TypeSeat = {
   user: TypeUser
 }
 
-type TypeCard = {
+export type TypeCard = {
   type: string
   number: string
 }

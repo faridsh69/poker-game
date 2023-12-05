@@ -1,4 +1,4 @@
-import { TypeTable } from 'src/utils/types'
+import { TypeCard, TypeTable } from 'src/utils/types'
 import { CARD_NUMBERS, CARD_TYPES, TABLE_PHASES, WAITING_USER } from './serverConstantsPoker'
 
 const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
@@ -100,24 +100,50 @@ export const renderSitoutUser = (tablesState: TypeTable[], tableId: number, user
   })
 }
 
-export const renderStartTable = (tablesState: TypeTable[], tableId: number) => {
+export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
+  const cards: TypeCard[] = []
+
+  while (cards.length < cardsCount) {
+    const cardTypeIndex = Math.floor(Math.random() * 4)
+    const cardNumberIndex = Math.floor(Math.random() * 13)
+    const card = {
+      type: Object.values(CARD_TYPES)[cardTypeIndex],
+      number: Object.values(CARD_NUMBERS)[cardNumberIndex],
+    }
+
+    const isUsed = usedCards.find(c => c.type === card.type && c.number === card.number)
+
+    if (!isUsed) {
+      cards.push(card)
+    }
+  }
+
+  return cards
+}
+
+export const renderStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
 
+    const tableCards = getRandomCards(5, [])
+    let usedCards = [...tableCards]
     return {
       ...t,
       phase: TABLE_PHASES.preflop,
-      cards: [],
+      cards: tableCards,
       seats: t.seats.map(s => {
         if (!s.user) return s
 
+        const userCards = getRandomCards(2, usedCards)
+        usedCards = [...usedCards, ...userCards]
+
         return {
-          ...s.user,
-          cards: [
-            { type: CARD_TYPES.clubs, number: CARD_NUMBERS.seven },
-            { type: CARD_TYPES.clubs, number: CARD_NUMBERS.eight },
-          ],
-          isDealer: false,
+          ...s,
+          user: {
+            ...s.user,
+            cards: userCards,
+            isDealer: false,
+          },
         }
       }),
     }
