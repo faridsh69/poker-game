@@ -8,14 +8,14 @@ const isUserWaitingTable = (table, username) => {
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
-const findUserTables = (allTables, username) => {
-  return allTables.filter(t => {
-    const isUserSeated = isUserSeatedTable(t, username)
-    const isUserWaited = isUserWaitingTable(t, username)
+// const findUserTables = (allTables, username) => {
+//   return allTables.filter(t => {
+//     const isUserSeated = isUserSeatedTable(t, username)
+//     const isUserWaited = isUserWaitingTable(t, username)
 
-    return isUserSeated || isUserWaited
-  })
-}
+//     return isUserSeated || isUserWaited
+//   })
+// }
 
 export const renderJoinTable = (tablesState, tableId, username) => {
   return tablesState.map(t => {

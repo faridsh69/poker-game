@@ -82,7 +82,7 @@ export const isObjectEmpty = object => !object || !isObject(object) || !Object.k
 export const isThereCommonItemsInArrays = (array1, array2) =>
   array1.some(item => array2.includes(item))
 
-export const getLocalstorage = (key, defaultValue = null) => {
+export const getLocalstorage = (key, defaultValue = null): string => {
   const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY)
   const data = JSON.parse(json)
 

@@ -1,9 +1,11 @@
-// @ts-nocheck
+// @txs-nocheck
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import socketIO from 'socket.io-client'
 import { Card, CardMedia, CardContent, Button, CardHeader, Slider } from '@mui/material'
 
+import { TypeServerChannelsUpdateTablesData, TypeSocket } from 'src/interfaces/type-socket'
+import { TypeTable } from 'src/interfaces/type-game'
 import { PageLayout } from 'src/components/templates/PageLayout'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 import { getLocalstorage } from 'src/helpers/common'
@@ -20,37 +22,41 @@ import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientGameConstant
 
 export const Poker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
-  const [socket, setSocket] = useState(null)
-
-  const [allTables, setAllTables] = useState([])
+  const [socket, setSocket] = useState<TypeSocket>(null)
+  const [allTables, setAllTables] = useState<TypeTable[]>([])
 
   const userTables = useMemo(() => {
     return findUserTables(allTables, username)
   }, [allTables, username])
 
-  const [raiseAmount, setRaiseAmount] = useState(2)
+  const [raiseAmount, setRaiseAmount] = useState<number>(2)
 
   useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
     setSocket(socketInstance)
     socketInstance.on(SERVER_CHANNELS.connect, () => console.log('Connected to server'))
 
-    socketInstance.on(SERVER_CHANNELS.updateTables, ({ tables, message, checkJoinTabls }) => {
-      setAllTables(tables)
-      toast.info(message)
-      console.log('1 tables', tables)
+    socketInstance.on(
+      SERVER_CHANNELS.updateTables,
+      ({ tables, message, checkJoinTabls }: TypeServerChannelsUpdateTablesData) => {
+        setAllTables(tables)
+        toast.info(message)
+        console.log('1 tables', tables)
 
-      if (checkJoinTabls) {
-        console.log('checkJoinTabls')
-        handleAutoJoinTable(tables, socketInstance)
-      }
-    })
+        if (checkJoinTabls) {
+          console.log('checkJoinTabls')
+          handleAutoJoinTable(tables, socketInstance)
+        }
+      },
+    )
 
-    return () => socketInstance.disconnect()
+    return () => {
+      socketInstance.disconnect()
+    }
   }, [])
 
   const handleAutoJoinTable = useCallback(
-    (tables, socketInstance) => {
+    (tables: TypeTable[], socketInstance: TypeSocket) => {
       const userTables = findUserTables(tables, username)
       for (const userTable of userTables) {
         socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: userTable.id, username })
@@ -60,28 +66,28 @@ export const Poker = () => {
   )
 
   const handleJoinTable = useCallback(
-    tableId => {
+    (tableId: number) => {
       socket.emit(CLIENT_CHANNELS.joinTable, { tableId, username })
     },
     [socket, username],
   )
 
   const handleQuitTable = useCallback(
-    tableId => {
+    (tableId: number) => {
       socket.emit(CLIENT_CHANNELS.leaveTable, { tableId, username })
     },
     [socket, username],
   )
 
   const handleSitTable = useCallback(
-    (tableId, seatId) => {
+    (tableId: number, seatId: number) => {
       socket.emit(CLIENT_CHANNELS.sitTable, { tableId, seatId, username })
     },
     [socket, username],
   )
 
   const handleSitoutTable = useCallback(
-    tableId => {
+    (tableId: number) => {
       socket.emit(CLIENT_CHANNELS.sitoutTable, { tableId, username })
     },
     [socket, username],
@@ -191,7 +197,7 @@ export const Poker = () => {
                           step={1}
                           max={100}
                           valueLabelFormat={val => '$' + val}
-                          onChange={(e, val) => setRaiseAmount(val)}
+                          onChange={(e, val) => setRaiseAmount(+val)}
                           valueLabelDisplay='auto'
                           aria-labelledby='non-linear-slider'
                         />
@@ -209,7 +215,11 @@ export const Poker = () => {
                             </div>
                           )}
                           {s.user && (
-                            <div className='seat-user'>
+                            <div
+                              className={`seat-user ${
+                                s.user.username === username && 'seat-user-auth'
+                              }`}
+                            >
                               <img src={s.user.avatar} alt={s.user.username} />
                               {s.user.username}
                             </div>
