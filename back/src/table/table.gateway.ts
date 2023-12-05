@@ -11,7 +11,7 @@ import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
 import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './constants'
-import { renderJoinTable, renderQuitTable, renderSitUser } from './helpers'
+import { renderJoinTable, renderQuitTable, renderSitUser, renderSitoutUser } from './helpers'
 
 @WebSocketGateway({
   cors: {
@@ -77,6 +77,16 @@ export class TableGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sit on seat #${seatId}`,
+      tables: this.tablesState,
+    })
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.sitoutTable)
+  handleClientSitoutTable(@MessageBody() { tableId, username }: any) {
+    this.tablesState = renderSitoutUser(this.tablesState, tableId, username)
+
+    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
+      message: `${username} has been sitout`,
       tables: this.tablesState,
     })
   }

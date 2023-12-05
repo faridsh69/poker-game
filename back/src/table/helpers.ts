@@ -6,7 +6,7 @@ export const renderJoinTable = (tablesState, tableId, username) => {
       ? t
       : {
           ...t,
-          waitingUsers: t.waitingUsers.find(u => u.username === username) ? t.waitingUsers : [
+          waitingUsers: [
             ...t.waitingUsers,
             {
               ...WAITING_USER,
@@ -35,16 +35,41 @@ export const renderSitUser = (tablesState, tableId, seatId, username) => {
       : {
           ...t,
           waitingUsers: t.waitingUsers.filter(wu => wu.username !== username),
+          seats: t.seats.find(s => s.user?.username === username)
+            ? t.seats
+            : t.seats.map(s => {
+                return s.id !== seatId
+                  ? s
+                  : {
+                      id: seatId,
+                      user: {
+                        ...PLAYING_USER,
+                        username,
+                      },
+                    }
+              }),
+        }
+  })
+}
+
+export const renderSitoutUser = (tablesState, tableId, username) => {
+  return tablesState.map(t => {
+    return t.id !== tableId
+      ? t
+      : {
+          ...t,
+          waitingUsers: [
+            ...t.waitingUsers,
+            {
+              ...WAITING_USER,
+              username,
+            },
+          ],
           seats: t.seats.map(s => {
-            return s.id !== seatId
-              ? s
-              : {
-                  id: seatId,
-                  user: {
-                    ...PLAYING_USER,
-                    username,
-                  },
-                }
+            return {
+              ...s,
+              user: s.user?.username === username ? null : s.user,
+            }
           }),
         }
   })
