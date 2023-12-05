@@ -1,54 +1,64 @@
+export const SERVER_CHANNELS = {
+  updateTables: 'server:update_tables',
+}
+
+export const CLIENT_CHANNELS = {
+  joinTable: 'client:join_table',
+  leaveTable: 'client:leave_table',
+  sitTable: 'client:sit_table',
+}
+
 const TABLE_TYPES = {
-  holdem: "HOLDEM",
-  omaha: "OMAHA",
-};
+  holdem: 'HOLDEM',
+  omaha: 'OMAHA',
+}
 
 const TABLE_STATUSES = {
-  run: "run",
-  waiting: "waiting",
-};
+  run: 'run',
+  waiting: 'waiting',
+}
 
 const TABLE_PHASES = {
-  preflop: "preflop",
-  flop: "flop",
-  turn: "turn",
-  river: "river",
-  show: "show",
-};
+  preflop: 'preflop',
+  flop: 'flop',
+  turn: 'turn',
+  river: 'river',
+  show: 'show',
+}
 
 const USER_STATUSES = {
-  run: "run",
-  waiting: "waiting",
-  sitout: "sitout",
-};
+  run: 'run',
+  waiting: 'waiting',
+  sitout: 'sitout',
+}
 
 const CARD_TYPES = {
-  diamonds: "diamonds",
-  clubs: "clubs",
-  spades: "spades",
-  hearts: "hearts",
-};
+  diamonds: 'diamonds',
+  clubs: 'clubs',
+  spades: 'spades',
+  hearts: 'hearts',
+}
 
 const CARD_NUMBERS = {
-  tow: "2",
-  three: "3",
-  four: "4",
-  five: "5",
-  six: "6",
-  seven: "7",
-  eight: "8",
-  nine: "9",
-  ten: "10",
-  jack: "J",
-  queen: "Q",
-  king: "K",
-  ace: "A",
-};
+  tow: '2',
+  three: '3',
+  four: '4',
+  five: '5',
+  six: '6',
+  seven: '7',
+  eight: '8',
+  nine: '9',
+  ten: '10',
+  jack: 'J',
+  queen: 'Q',
+  king: 'K',
+  ace: 'A',
+}
 
-const WAITING_USER = {
+export const WAITING_USER = {
   id: 1,
-  username: "username",
-  avatar: "/avatar.webp",
+  username: 'username',
+  avatar: '/avatar.webp',
   cash: {
     out: 6500,
     inPot: 0,
@@ -58,13 +68,13 @@ const WAITING_USER = {
   hot: null,
   cards: [],
   isDealer: false,
-};
+}
 
-const PLAYING_USER = {
+export const PLAYING_USER = {
   id: 1,
-  uuid: "uuid-uuid-uuid-uuid",
-  username: "username",
-  avatar: "/avatar.webp",
+  uuid: 'uuid-uuid-uuid-uuid',
+  username: 'username',
+  avatar: '/avatar.webp',
   cash: {
     out: 4500,
     inPot: 250,
@@ -77,12 +87,12 @@ const PLAYING_USER = {
     { type: CARD_TYPES.hearts, number: CARD_NUMBERS.jack },
   ],
   isDealer: true,
-};
+}
 
-const TABLES = [
+export const TABLES = [
   {
     id: 1,
-    title: "Holdem 1$ 2$, Buy in: 100$ - 1K$",
+    title: 'Holdem 1$ 2$, Buy in: 100$ - 1K$',
     type: TABLE_TYPES.holdem,
     buyin: {
       min: 100,
@@ -119,7 +129,7 @@ const TABLES = [
   },
   {
     id: 2,
-    title: "Holdem 5$ 10$, Buy in: 500$ - 5K$",
+    title: 'Holdem 5$ 10$, Buy in: 500$ - 5K$',
     type: TABLE_TYPES.holdem,
     buyin: {
       min: 500,
@@ -150,6 +160,4 @@ const TABLES = [
       },
     ],
   },
-];
-
-module.exports = { TABLES, WAITING_USER, PLAYING_USER };
+]
