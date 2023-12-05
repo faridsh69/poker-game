@@ -39,6 +39,7 @@ export const Poker = () => {
 
     socketInstance.on(SERVER_CHANNELS.updateTables, ({ tables, message }) => {
       toast.info(message)
+      console.log('1 tables', tables)
       setAllTables(tables)
     })
 
@@ -62,6 +63,13 @@ export const Poker = () => {
   const handleSitTable = useCallback(
     (tableId, seatId) => {
       socket.emit(CLIENT_CHANNELS.sitTable, { tableId, seatId, username })
+    },
+    [socket, username],
+  )
+
+  const handleSitoutTable = useCallback(
+    tableId => {
+      socket.emit(CLIENT_CHANNELS.sitoutTable, { tableId, username })
     },
     [socket, username],
   )
@@ -106,6 +114,9 @@ export const Poker = () => {
         </div>
         <div className='home-runtables'>
           {userTables.map(userTable => {
+            const isAuthUserSeatedTable = isUserSeatedTable(userTable, username)
+            const isAuthUserWaitingTable = isUserWaitingTable(userTable, username)
+
             return (
               <Card className='home-runtable' key={userTable.id}>
                 <CardHeader
@@ -116,6 +127,16 @@ export const Poker = () => {
                 <CardContent className='home-runtable-main'>
                   <div className='home-runtable-main-sidebar'>
                     <div className='home-runtable-main-sidebar-waitinglist'>
+                      {isAuthUserSeatedTable && (
+                        <Button
+                          variant='outlined'
+                          color='error'
+                          onClick={() => handleSitoutTable(userTable.id)}
+                        >
+                          Sit Out
+                        </Button>
+                      )}
+                      <br />
                       Waiting List:
                       <ul>
                         {userTable.waitingUsers.map((u, uIndex) => {
@@ -123,12 +144,13 @@ export const Poker = () => {
                             <li key={uIndex}>
                               {u.username}{' '}
                               {u.username === username && (
-                                <IconButton
+                                <Button
+                                  variant='outlined'
                                   color='error'
                                   onClick={() => handleQuitTable(userTable.id)}
                                 >
-                                  <CancelIcon />
-                                </IconButton>
+                                  Quit Table
+                                </Button>
                               )}
                             </li>
                           )
@@ -168,7 +190,7 @@ export const Poker = () => {
                     {userTable.seats.map(s => {
                       return (
                         <div key={s.id} className={`home-runtable-main-body-seat seat-${s.id}`}>
-                          {!s.user && (
+                          {!s.user && isAuthUserWaitingTable && (
                             <div
                               className='seat-user'
                               onClick={() => handleSitTable(userTable.id, s.id)}
