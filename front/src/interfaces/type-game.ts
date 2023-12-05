@@ -3,38 +3,42 @@ type TypeBuyIn = {
   max: number
 }
 
-type TypeCash = {
-  out: number
-  inPot: number
-  inGame: number
-}
-
-type TypeUser = {
-  id: number
-  username: string
-  avatar: string
-  cash: TypeCash
-  status: string
-  hot: number
-  cards: string[]
-  isDealer: boolean
-}
-
 type TypeSeat = {
   id: number
   user: TypeUser
+}
+
+type TypeCard = {
+  type: string
+  number: string
+}
+
+type TypeCash = {
+  inBank: number
+  inGame: number
+  inPot: number
+}
+
+type TypeUser = {
+  username: string
+  avatar: string
+  cash: TypeCash
+  // id: number
+  // status: string
+  // hot: number
+  // cards: TypeCard[]
+  // isDealer: boolean
 }
 
 export type TypeTable = {
   id: number
   title: string
   type: string
-  buyin: TypeBuyIn
   small: number
   big: number
-  status: string
-  phase: string
-  cards: string[]
+  buyin: TypeBuyIn
   waitingUsers: TypeUser[]
   seats: TypeSeat[]
+  phase: string
+  cards: TypeCard[]
 }

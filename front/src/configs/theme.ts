@@ -1,5 +1,10 @@
 export const LIGHT_THEME = {
   components: {
+    MuiModal: {
+      styleOverrides: {
+        root: {},
+      },
+    },
     MuiFormControl: {
       styleOverrides: {
         root: {},

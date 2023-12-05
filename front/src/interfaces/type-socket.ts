@@ -8,3 +8,8 @@ export type TypeServerChannelsUpdateTablesData = {
   message: string
   checkJoinTabls: boolean
 }
+
+export type TypeSeatModal = {
+  tableId: number
+  seatId: number
+}

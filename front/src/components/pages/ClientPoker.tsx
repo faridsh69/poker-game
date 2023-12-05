@@ -2,9 +2,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import socketIO from 'socket.io-client'
-import { Card, CardMedia, CardContent, Button, CardHeader, Slider } from '@mui/material'
+import { Card, CardMedia, CardContent, Button, CardHeader, Slider, Modal, Box } from '@mui/material'
 
-import { TypeServerChannelsUpdateTablesData, TypeSocket } from 'src/interfaces/type-socket'
+import {
+  TypeSeatModal,
+  TypeServerChannelsUpdateTablesData,
+  TypeSocket,
+} from 'src/interfaces/type-socket'
 import { TypeTable } from 'src/interfaces/type-game'
 import { PageLayout } from 'src/components/templates/PageLayout'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
@@ -24,12 +28,13 @@ export const ClientPoker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
   const [socket, setSocket] = useState<TypeSocket>(null)
   const [allTables, setAllTables] = useState<TypeTable[]>([])
+  const [raiseAmount, setRaiseAmount] = useState<number>(2)
+  const [seatModal, setSeatModal] = useState<TypeSeatModal>({ tableId: 0, seatId: 0 })
+  const [buyinAmount, setBuyinAmount] = useState<number>(0)
 
   const userTables = useMemo(() => {
     return findUserTables(allTables, username)
   }, [allTables, username])
-
-  const [raiseAmount, setRaiseAmount] = useState<number>(2)
 
   useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
@@ -79,9 +84,20 @@ export const ClientPoker = () => {
     [socket, username],
   )
 
+  const handleSitTableModal = (tableId: number, seatId: number) => {
+    setSeatModal({
+      tableId,
+      seatId,
+    })
+  }
+
   const handleSitTable = useCallback(
-    (tableId: number, seatId: number) => {
-      socket.emit(CLIENT_CHANNELS.sitTable, { tableId, seatId, username })
+    (tableId: number, seatId: number, buyinAmount: number) => {
+      socket.emit(CLIENT_CHANNELS.sitTable, { tableId, seatId, buyinAmount, username })
+      setSeatModal({
+        tableId: 0,
+        seatId: 0,
+      })
     },
     [socket, username],
   )
@@ -95,6 +111,31 @@ export const ClientPoker = () => {
 
   return (
     <PageLayout>
+      {seatModal.tableId && (
+        <Modal open={!!seatModal.tableId} onClose={() => setSeatModal({ tableId: 0, seatId: 0 })}>
+          <div className='modal'>
+            <h2>Set Buy In</h2>
+            <div>
+              <Slider
+                value={buyinAmount}
+                min={userTables.find(t => t.id === seatModal.tableId)?.buyin.min}
+                step={1}
+                max={userTables.find(t => t.id === seatModal.tableId)?.buyin.max}
+                valueLabelFormat={val => '$' + val}
+                onChange={(e, val) => setBuyinAmount(+val)}
+                valueLabelDisplay='auto'
+              />
+            </div>
+            <Button
+              color='success'
+              variant='contained'
+              onClick={() => handleSitTable(seatModal.tableId, seatModal.seatId, buyinAmount)}
+            >
+              Seat with {buyinAmount}
+            </Button>
+          </div>
+        </Modal>
+      )}
       <div className='home'>
         <div className='home-tables'>
           {allTables.map(allTable => {
@@ -214,15 +255,17 @@ export const ClientPoker = () => {
                           {!s.user && isAuthUserWaitingTable && (
                             <div
                               className='seat-user'
-                              onClick={() => handleSitTable(userTable.id, s.id)}
+                              onClick={() => handleSitTableModal(userTable.id, s.id)}
                             >
                               Empty
                             </div>
                           )}
                           {s.user && (
                             <div className='seat-user'>
-                              <img src={s.user.avatar} alt={s.user.username} />
+                              <img src={s.user.avatar} alt={'Pic'} />
                               {s.user.username}
+                              <br />
+                              {s.user.cash.inGame}
                             </div>
                           )}
                         </div>
