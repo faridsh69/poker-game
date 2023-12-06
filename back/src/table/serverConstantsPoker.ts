@@ -1,4 +1,11 @@
-import { TypeTable, TypeUser } from 'src/utils/types'
+import {
+  TypeCardNumber,
+  TypeCardType,
+  TypeTable,
+  TypeTablePhase,
+  TypeTableType,
+  TypeUser,
+} from 'src/utils/types'
 
 export const SERVER_CHANNELS = {
   updateTables: 'server:update_tables',
@@ -14,46 +21,41 @@ export const CLIENT_CHANNELS = {
   raiseAction: 'client:raise_action',
 }
 
-const TABLE_TYPES = {
-  holdem: 'HOLDEM',
-  omaha: 'OMAHA',
+const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
+  holdem: 'holdem',
+  omaha: 'omaha',
 }
 
-export const TABLE_PHASES = {
-  wait: 'Wait',
-  preflop: 'Preflop',
-  flop: 'Flop',
-  turn: 'Turn',
-  river: 'River',
-  show: 'Show',
+export const TABLE_PHASES: { [key in TypeTablePhase]: TypeTablePhase } = {
+  wait: 'wait',
+  preflop: 'preflop',
+  flop: 'flop',
+  turn: 'turn',
+  river: 'river',
+  show: 'show',
 }
 
-// const USER_STATUSES = {
-//   run: 'run',
-//   waiting: 'waiting',
-// }
-
-export const CARD_TYPES = {
+export const CARD_TYPES: { [key in TypeCardType]: TypeCardType } = {
   diamonds: 'diamonds',
   clubs: 'clubs',
   spades: 'spades',
   hearts: 'hearts',
 }
 
-export const CARD_NUMBERS = {
-  tow: '2',
-  three: '3',
-  four: '4',
-  five: '5',
-  six: '6',
-  seven: '7',
-  eight: '8',
-  nine: '9',
-  ten: '10',
-  jack: 'J',
-  queen: 'Q',
-  king: 'K',
-  ace: 'A',
+export const CARD_NUMBERS: { [key in TypeCardNumber]: TypeCardNumber } = {
+  '2': '2',
+  '3': '3',
+  '4': '4',
+  '5': '5',
+  '6': '6',
+  '7': '7',
+  '8': '8',
+  '9': '9',
+  '10': '10',
+  j: 'j',
+  q: 'q',
+  k: 'k',
+  a: 'a',
 }
 
 export const WAITING_USER: TypeUser = {
@@ -67,8 +69,6 @@ export const WAITING_USER: TypeUser = {
   cards: [],
   isDealer: false,
   gameTurn: false,
-  // id: 1,
-  // status: USER_STATUSES.waiting,
   // hot: null,
 }
 
@@ -81,13 +81,11 @@ export const PLAYING_USER: TypeUser = {
     inPot: 500,
   },
   cards: [
-    { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.seven },
-    { type: CARD_TYPES.hearts, number: CARD_NUMBERS.jack },
+    { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.q },
+    { type: CARD_TYPES.hearts, number: CARD_NUMBERS.j },
   ],
   isDealer: false,
   gameTurn: false,
-  // id: 1,
-  // status: USER_STATUSES.run,
   // hot: 50,
 }
 
@@ -123,9 +121,9 @@ export const TABLES: TypeTable[] = [
     ],
     phase: TABLE_PHASES.flop,
     cards: [
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.seven },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.eight },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.nine },
+      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[7] },
+      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
+      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[9] },
     ],
   },
   {

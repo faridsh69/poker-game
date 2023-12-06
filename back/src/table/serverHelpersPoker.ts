@@ -1,9 +1,11 @@
-import { TypeTable } from 'src/utils/types'
+import { TypeTable, TypeTablePhase } from 'src/utils/types'
 import { TABLE_PHASES, WAITING_USER } from './serverConstantsPoker'
 import {
   getCurrentGameTurnSeatId,
+  getIsPhaseTurnsFinished,
   getNewDealerSeatId,
   getNextSeatId,
+  getNextTablePhase,
   getRandomCards,
 } from 'src/utils/common'
 
@@ -128,9 +130,12 @@ export const renderClientCheckAction = (
 
     const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
     const gameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
+    const isPhaseTurnsFinished = getIsPhaseTurnsFinished(t)
+    const nextTablePhase = getNextTablePhase(t.phase)
 
     return {
       ...t,
+      phase: isPhaseTurnsFinished ? nextTablePhase : t.phase,
       seats: t.seats.map(s => {
         if (!s.user) return s
 
@@ -160,7 +165,7 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
 
     return {
       ...t,
-      phase: TABLE_PHASES.preflop,
+      phase: TABLE_PHASES.preflop as TypeTablePhase,
       cards: tableCards,
       seats: t.seats.map(s => {
         if (!s.user) return s

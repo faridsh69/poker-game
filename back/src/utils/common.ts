@@ -1,5 +1,5 @@
-import { CARD_NUMBERS, CARD_TYPES } from 'src/table/serverConstantsPoker'
-import { TypeCard, TypeTable } from 'src/utils/types'
+import { CARD_NUMBERS, CARD_TYPES, TABLE_PHASES } from 'src/table/serverConstantsPoker'
+import { TypeCard, TypeTable, TypeTablePhase } from 'src/utils/types'
 
 export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   const cards: TypeCard[] = []
@@ -45,21 +45,21 @@ export const getNewDealerSeatId = (table: TypeTable): number => {
 
 export const getNextSeatId = (table: TypeTable, seatId: number): number => {
   const playerSeats = table.seats.filter(s => s.user)
-  let newSeatId = playerSeats[0].id
-  let nextSeat = false
+  let nextSeatId = playerSeats[0].id
+  let foundSeat = false
 
   for (const playerSeat of playerSeats) {
-    if (nextSeat) {
-      newSeatId = playerSeat.id
+    if (foundSeat) {
+      nextSeatId = playerSeat.id
       break
     }
 
     if (playerSeat.id === seatId) {
-      nextSeat = true
+      foundSeat = true
     }
   }
 
-  return newSeatId
+  return nextSeatId
 }
 
 export const getCurrentGameTurnSeatId = (table: TypeTable, username: string) => {
@@ -72,16 +72,28 @@ export const getCurrentGameTurnSeatId = (table: TypeTable, username: string) => 
   throw Error(`${currentGameTurnSeat.user.username} is acting when it's not his turn.`)
 }
 
-// export const makeUniqueArray = initialArray => {
-//   const arrayOfJsons = initialArray.map(value => JSON.stringify(value))
+export const getIsPhaseTurnsFinished = (table: TypeTable) => {
+  const currentGameTurnSeat = table.seats.find(s => s.user?.gameTurn)
 
-//   return initialArray.filter(
-//     (value, index) => arrayOfJsons.indexOf(JSON.stringify(value)) === index,
-//   )
-// }
+  // @TODO if other users raise then this part should be updated
+  return currentGameTurnSeat.user.isDealer
+}
 
-// export const makeUniqueArrayByPropery = (initialArray, property) => {
-//   const arrayOfProperty = initialArray.map(object => object[property])
+export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
+  const tablePhases = Object.values(TABLE_PHASES)
+  let nextPhase = tablePhases[0]
+  let foundPhase = false
 
-//   return initialArray.filter((object, index) => arrayOfProperty.indexOf(object[property]) === index)
-// }
+  for (const tablePhase of tablePhases) {
+    if (foundPhase) {
+      nextPhase = tablePhase
+      break
+    }
+
+    if (tablePhase === currentPhase) {
+      foundPhase = true
+    }
+  }
+
+  return nextPhase
+}
