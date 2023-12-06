@@ -33,12 +33,12 @@ type TypeUser = {
 export type TypeTable = {
   id: number
   title: string
-  type: string
+  type: 'HOLDEM' | 'OMAHA'
   small: number
   big: number
   buyin: TypeBuyIn
   waitingUsers: TypeUser[]
   seats: TypeSeat[]
-  phase: string
+  phase: 'Wait' | 'Preflop' | 'Flop' | 'Turn' | 'River' | 'Show'
   cards: TypeCard[]
 }

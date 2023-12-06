@@ -22,7 +22,7 @@ import {
   isUserSeatedTable,
   isUserWaitingTable,
 } from 'src/helpers/clientHelpersPoker'
-import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPoker'
+import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 
 export const ClientPoker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
@@ -231,7 +231,17 @@ export const ClientPoker = () => {
                       className='home-runtable-main-body-mainimage'
                     />
                     <div className='home-runtable-main-body-tablecards'>
-                      {userTable.cards.map(card => {
+                      {userTable.cards.map((card, cardIndex) => {
+                        const preflopPhase =
+                          userTable.phase == TABLE_PHASES.wait ||
+                          userTable.phase == TABLE_PHASES.preflop
+                        const flopPhase = userTable.phase == TABLE_PHASES.flop || cardIndex > 2
+                        const turnPhase = userTable.phase == TABLE_PHASES.turn || cardIndex > 3
+
+                        if (preflopPhase || flopPhase || turnPhase) {
+                          return null
+                        }
+
                         return (
                           <div
                             key={card.type + card.number}
@@ -260,7 +270,7 @@ export const ClientPoker = () => {
                           step={1}
                           max={100}
                           valueLabelFormat={val => '$' + val}
-                          onChange={(e, val) => setRaiseAmount(+val)}
+                          onChange={(_, val) => setRaiseAmount(+val)}
                           valueLabelDisplay='auto'
                           aria-labelledby='non-linear-slider'
                         />
