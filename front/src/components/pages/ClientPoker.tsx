@@ -300,13 +300,15 @@ export const ClientPoker = () => {
                                   )
                                 })}
                               </div>
-                              <div className='seat-user-isdealer'>
-                                <img
-                                  src='/dealer.webp'
-                                  alt='dealer'
-                                  className='seat-user-isdealer-img'
-                                />
-                              </div>
+                              {s.user.isDealer && (
+                                <div className='seat-user-isdealer'>
+                                  <img
+                                    src='/dealer.png'
+                                    alt='dealer'
+                                    className='seat-user-isdealer-img'
+                                  />
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>

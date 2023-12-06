@@ -345,7 +345,7 @@
               position: absolute;
 
               &-img {
-                width: 30px;
+                width: 50px;
               }
             }
 
@@ -356,8 +356,6 @@
               gap: 3px;
               width: 70px;
               height: 70px;
-              left: 100px;
-              top: 5px;
 
               &-card {
                 width: 35px;
@@ -392,9 +390,14 @@
           top: 0px;
           left: 500px;
 
+          .seat-user-cards {
+            right: 105px;
+            top: 5px;
+          }
+
           .seat-user-isdealer {
-            bottom: -25px;
-            left: -25px;
+            bottom: -50px;
+            left: -35px;
           }
         }
 
@@ -402,9 +405,14 @@
           top: 290px;
           left: 500px;
 
+          .seat-user-cards {
+            right: 105px;
+            top: 5px;
+          }
+
           .seat-user-isdealer {
-            top: -25px;
-            left: -25px;
+            top: -45px;
+            left: -35px;
           }
         }
 
@@ -412,9 +420,14 @@
           top: 290px;
           left: 0px;
 
+          .seat-user-cards {
+            left: 100px;
+            top: 5px;
+          }
+
           .seat-user-isdealer {
-            top: -25px;
-            right: -25px;
+            top: -45px;
+            right: -35px;
           }
         }
 
@@ -422,9 +435,14 @@
           top: 0px;
           left: 0px;
 
+          .seat-user-cards {
+            left: 100px;
+            top: 5px;
+          }
+
           .seat-user-isdealer {
-            bottom: -25px;
-            right: -25px;
+            bottom: -50px;
+            right: -35px;
           }
         }
       }
