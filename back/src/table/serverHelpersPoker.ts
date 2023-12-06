@@ -142,6 +142,25 @@ const getNewDealerSeatId = (table: TypeTable): number => {
   return newDealerSeatId
 }
 
+const getNextSeatId = (table: TypeTable, seatId: number): number => {
+  const playerSeats = table.seats.filter(s => s.user)
+  let newSeatId = playerSeats[0].id
+  let nextSeat = false
+
+  for (const playerSeat of playerSeats) {
+    if (nextSeat) {
+      newSeatId = playerSeat.id
+      break
+    }
+
+    if (playerSeat.id === seatId) {
+      nextSeat = true
+    }
+  }
+
+  return newSeatId
+}
+
 export const renderStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
@@ -150,6 +169,9 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
     let usedCards = [...tableCards]
 
     const newDealerSeatId = getNewDealerSeatId(t)
+    const smallSeatId = getNextSeatId(t, newDealerSeatId)
+    const bigSeatId = getNextSeatId(t, smallSeatId)
+
     return {
       ...t,
       phase: TABLE_PHASES.preflop,
@@ -159,6 +181,8 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
 
         const userCards = getRandomCards(2, usedCards)
         usedCards = [...usedCards, ...userCards]
+        const inPot = smallSeatId === s.id ? t.small : bigSeatId === s.id ? t.big : 0
+        const inGame = s.user.cash.inGame - inPot
 
         return {
           ...s,
@@ -166,6 +190,11 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
             ...s.user,
             cards: userCards,
             isDealer: newDealerSeatId === s.id,
+            cash: {
+              ...s.user.cash,
+              inPot,
+              inGame,
+            },
           },
         }
       }),

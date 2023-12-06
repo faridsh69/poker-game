@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import socketIO from 'socket.io-client'
-import { Card, CardMedia, CardContent, Button, CardHeader, Slider, Modal, Box } from '@mui/material'
+import { Card, CardMedia, CardContent, Button, CardHeader, Slider, Modal } from '@mui/material'
 
 import {
   TypeSeatModal,
@@ -43,7 +43,7 @@ export const ClientPoker = () => {
     const max = userTables.find(t => t.id === seatModal.tableId)?.buyin.max || 0
 
     setBuyinAmount((max + min) / 2)
-  }, [seatModal])
+  }, [seatModal, userTables])
 
   useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
@@ -69,15 +69,15 @@ export const ClientPoker = () => {
     }
   }, [])
 
-  const handleAutoJoinTable = useCallback(
-    (tables: TypeTable[], socketInstance: TypeSocket) => {
-      const userTables = findUserTables(tables, username)
-      for (const userTable of userTables) {
-        socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: userTable.id, username })
-      }
-    },
-    [username],
-  )
+  // const handleAutoJoinTable = useCallback(
+  //   (tables: TypeTable[], socketInstance: TypeSocket) => {
+  //     const userTables = findUserTables(tables, username)
+  //     for (const userTable of userTables) {
+  //       socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: userTable.id, username })
+  //     }
+  //   },
+  //   [username],
+  // )
 
   const handleJoinTable = useCallback(
     (tableId: number) => {
@@ -131,7 +131,7 @@ export const ClientPoker = () => {
                 step={1}
                 max={userTables.find(t => t.id === seatModal.tableId)?.buyin.max}
                 valueLabelFormat={val => '$' + val}
-                onChange={(e, val) => setBuyinAmount(+val)}
+                onChange={(_, val) => setBuyinAmount(+val)}
                 valueLabelDisplay='auto'
               />
             </div>
@@ -308,6 +308,9 @@ export const ClientPoker = () => {
                                     className='seat-user-isdealer-img'
                                   />
                                 </div>
+                              )}
+                              {!!s.user.cash.inPot && (
+                                <div className='seat-user-inpot'>${s.user.cash.inPot}</div>
                               )}
                             </div>
                           )}

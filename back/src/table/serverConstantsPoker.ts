@@ -105,11 +105,11 @@ export const TABLES: TypeTable[] = [
       },
       {
         id: 2,
-        user: null,
+        user: PLAYING_USER,
       },
       {
         id: 3,
-        user: PLAYING_USER,
+        user: null,
       },
       {
         id: 4,

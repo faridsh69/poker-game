@@ -290,6 +290,8 @@
             text-align: center;
             border-radius: 10px;
             box-shadow: -2px -2px 3px #777;
+            cursor: default;
+            user-select: none;
 
             b {
               font-size: 20px;
@@ -327,6 +329,7 @@
             align-items: center;
             justify-content: center;
             height: 100%;
+            user-select: none;
 
             &-avatar {
               width: 50px;
@@ -349,6 +352,13 @@
               }
             }
 
+            &-inpot {
+              width: 50px;
+              text-align: center;
+              position: absolute;
+              color: white;
+            }
+
             &-cards {
               position: absolute;
               display: flex;
@@ -356,6 +366,8 @@
               gap: 3px;
               width: 70px;
               height: 70px;
+              cursor: default;
+              user-select: none;
 
               &-card {
                 width: 35px;
@@ -391,12 +403,17 @@
           left: 500px;
 
           .seat-user-cards {
-            right: 105px;
             top: 5px;
+            right: 105px;
           }
 
           .seat-user-isdealer {
             bottom: -50px;
+            left: -35px;
+          }
+
+          .seat-user-inpot {
+            bottom: -60px;
             left: -35px;
           }
         }
@@ -406,12 +423,17 @@
           left: 500px;
 
           .seat-user-cards {
-            right: 105px;
             top: 5px;
+            right: 105px;
           }
 
           .seat-user-isdealer {
             top: -45px;
+            left: -35px;
+          }
+
+          .seat-user-inpot {
+            top: -65px;
             left: -35px;
           }
         }
@@ -421,12 +443,17 @@
           left: 0px;
 
           .seat-user-cards {
-            left: 100px;
             top: 5px;
+            left: 100px;
           }
 
           .seat-user-isdealer {
             top: -45px;
+            right: -35px;
+          }
+
+          .seat-user-inpot {
+            top: -65px;
             right: -35px;
           }
         }
@@ -436,12 +463,17 @@
           left: 0px;
 
           .seat-user-cards {
-            left: 100px;
             top: 5px;
+            left: 100px;
           }
 
           .seat-user-isdealer {
             bottom: -50px;
+            right: -35px;
+          }
+
+          .seat-user-inpot {
+            bottom: -60px;
             right: -35px;
           }
         }
