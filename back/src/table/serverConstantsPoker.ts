@@ -80,7 +80,7 @@ export const PLAYING_USER: TypeUser = {
     { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.seven },
     { type: CARD_TYPES.hearts, number: CARD_NUMBERS.jack },
   ],
-  isDealer: true,
+  isDealer: false,
   // id: 1,
   // status: USER_STATUSES.run,
   // hot: 50,

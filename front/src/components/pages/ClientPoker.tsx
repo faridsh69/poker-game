@@ -37,6 +37,15 @@ export const ClientPoker = () => {
   }, [allTables, username])
 
   useEffect(() => {
+    if (!seatModal.tableId) return
+
+    const min = userTables.find(t => t.id === seatModal.tableId)?.buyin.min || 0
+    const max = userTables.find(t => t.id === seatModal.tableId)?.buyin.max || 0
+
+    setBuyinAmount((max + min) / 2)
+  }, [seatModal])
+
+  useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
     setSocket(socketInstance)
     socketInstance.on(SERVER_CHANNELS.connect, () => console.log('Connected to server'))
@@ -50,7 +59,7 @@ export const ClientPoker = () => {
 
         if (checkJoinTabls) {
           console.log('checkJoinTabls')
-          handleAutoJoinTable(tables, socketInstance)
+          // handleAutoJoinTable(tables, socketInstance)
         }
       },
     )
@@ -276,9 +285,8 @@ export const ClientPoker = () => {
                           {s.user && (
                             <div className='seat-user'>
                               <img src={s.user.avatar} alt='Avatar' className='seat-user-avatar' />
-                              {s.user.username}
-                              <br />
-                              {s.user.cash.inGame}
+                              <div className='seat-user-username'>{s.user.username}</div>
+                              <div className='seat-user-cash'>${s.user.cash.inGame}</div>
                               <div className='seat-user-cards'>
                                 {s.user.cards.map(card => {
                                   return (
@@ -291,6 +299,13 @@ export const ClientPoker = () => {
                                     </div>
                                   )
                                 })}
+                              </div>
+                              <div className='seat-user-isdealer'>
+                                <img
+                                  src='/dealer.webp'
+                                  alt='dealer'
+                                  className='seat-user-isdealer-img'
+                                />
                               </div>
                             </div>
                           )}

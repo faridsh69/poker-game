@@ -274,15 +274,17 @@
           display: flex;
           flex-direction: row;
           gap: 5px;
-          height: 90px;
+          height: 80px;
           left: 165px;
-          top: 140px;
+          top: 130px;
 
           &-card {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 50px;
+            min-width: 50px;
+            max-width: 50px;
             padding: 1px;
             background-color: white;
             text-align: center;
@@ -294,7 +296,9 @@
             }
 
             img {
-              width: 35px;
+              width: 30px;
+              min-width: 30px;
+              max-width: 30px;
             }
           }
         }
@@ -329,29 +333,51 @@
               min-width: 50px;
             }
 
+            &-username {
+              font-size: 10px;
+            }
+
+            &-cash {
+              font-weight: bold;
+            }
+
+            &-isdealer {
+              position: absolute;
+
+              &-img {
+                width: 30px;
+              }
+            }
+
             &-cards {
               position: absolute;
               display: flex;
               flex-direction: row;
-              gap: 2px;
+              gap: 3px;
               width: 70px;
-              height: 80px;
+              height: 70px;
               left: 100px;
-              top: 0px;
+              top: 5px;
 
               &-card {
+                width: 35px;
+                min-width: 35px;
+                max-width: 35px;
                 padding: 1px;
                 background-color: white;
                 text-align: center;
-                border-radius: 10px;
-                box-shadow: -2px -2px 7px #777;
+                border-radius: 8px;
+                box-shadow: -2px -2px 5px #928b8b;
 
                 b {
                   font-size: 20px;
+                  color: #000;
                 }
 
                 img {
                   width: 25px;
+                  min-width: 25px;
+                  max-width: 25px;
                 }
               }
             }
@@ -365,21 +391,41 @@
         .seat-1 {
           top: 0px;
           left: 500px;
+
+          .seat-user-isdealer {
+            bottom: -25px;
+            left: -25px;
+          }
         }
 
         .seat-2 {
           top: 290px;
           left: 500px;
+
+          .seat-user-isdealer {
+            top: -25px;
+            left: -25px;
+          }
         }
 
         .seat-3 {
           top: 290px;
           left: 0px;
+
+          .seat-user-isdealer {
+            top: -25px;
+            right: -25px;
+          }
         }
 
         .seat-4 {
           top: 0px;
           left: 0px;
+
+          .seat-user-isdealer {
+            bottom: -25px;
+            right: -25px;
+          }
         }
       }
     }

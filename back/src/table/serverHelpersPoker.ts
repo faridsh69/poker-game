@@ -100,8 +100,9 @@ export const renderSitoutUser = (tablesState: TypeTable[], tableId: number, user
   })
 }
 
-export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
+const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   const cards: TypeCard[] = []
+  const updatedUsedCards = [...usedCards]
 
   while (cards.length < cardsCount) {
     const cardTypeIndex = Math.floor(Math.random() * 4)
@@ -111,14 +112,34 @@ export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
       number: Object.values(CARD_NUMBERS)[cardNumberIndex],
     }
 
-    const isUsed = usedCards.find(c => c.type === card.type && c.number === card.number)
+    const isUsed = updatedUsedCards.find(c => c.type === card.type && c.number === card.number)
 
     if (!isUsed) {
       cards.push(card)
+      updatedUsedCards.push(card)
     }
   }
 
   return cards
+}
+
+const getNewDealerSeatId = (table: TypeTable): number => {
+  const playerSeats = table.seats.filter(s => s.user)
+  let newDealerSeatId = playerSeats[0].id
+  let nextOneIsDealer = false
+
+  for (const playerSeat of playerSeats) {
+    if (nextOneIsDealer) {
+      newDealerSeatId = playerSeat.id
+      break
+    }
+
+    if (playerSeat.user.isDealer) {
+      nextOneIsDealer = true
+    }
+  }
+
+  return newDealerSeatId
 }
 
 export const renderStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
@@ -127,6 +148,8 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
 
     const tableCards = getRandomCards(5, [])
     let usedCards = [...tableCards]
+
+    const newDealerSeatId = getNewDealerSeatId(t)
     return {
       ...t,
       phase: TABLE_PHASES.preflop,
@@ -142,7 +165,7 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
           user: {
             ...s.user,
             cards: userCards,
-            isDealer: false,
+            isDealer: newDealerSeatId === s.id,
           },
         }
       }),
