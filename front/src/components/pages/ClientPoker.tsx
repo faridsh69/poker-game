@@ -19,18 +19,25 @@ import holdemImage from 'src/images/holdem.png'
 import omahaImage from 'src/images/omaha.png'
 import {
   findUserTables,
+  isAuthUserGameTurn,
   isUserSeatedTable,
   isUserWaitingTable,
 } from 'src/helpers/clientHelpersPoker'
-import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import {
+  CLIENT_CHANNELS,
+  SERVER_CHANNELS,
+  TABLE_PHASES,
+  TABLE_TYPES,
+} from 'src/configs/clientConstantsPoker'
 
 export const ClientPoker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
   const [socket, setSocket] = useState<TypeSocket>(null)
   const [allTables, setAllTables] = useState<TypeTable[]>([])
-  const [raiseAmount, setRaiseAmount] = useState<number>(2)
   const [seatModal, setSeatModal] = useState<TypeSeatModal>({ tableId: 0, seatId: 0 })
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
+
+  const [raiseAmount, setRaiseAmount] = useState<number>(2)
 
   const userTables = useMemo(() => {
     return findUserTables(allTables, username)
@@ -118,6 +125,27 @@ export const ClientPoker = () => {
     [socket, username],
   )
 
+  const handleCheckAction = useCallback(
+    (tableId: number) => {
+      socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
+    },
+    [socket, username],
+  )
+
+  const handleFoldAction = useCallback(
+    (tableId: number) => {
+      socket.emit(CLIENT_CHANNELS.foldAction, { tableId, username })
+    },
+    [socket, username],
+  )
+
+  const handleRaiseAction = useCallback(
+    (tableId: number) => {
+      socket.emit(CLIENT_CHANNELS.raiseAction, { tableId, username, raiseAmount })
+    },
+    [socket, username, raiseAmount],
+  )
+
   return (
     <PageLayout>
       {!!seatModal.tableId && (
@@ -153,7 +181,7 @@ export const ClientPoker = () => {
                 <CardMedia
                   className='home-tables-table-image'
                   component='img'
-                  image={allTable.type === 'HOLDEM' ? holdemImage : omahaImage}
+                  image={allTable.type === TABLE_TYPES.holdem ? holdemImage : omahaImage}
                   alt={allTable.type}
                 />
                 <CardContent className='home-tables-table-content'>
@@ -253,22 +281,35 @@ export const ClientPoker = () => {
                         )
                       })}
                     </div>
-                    {isUserSeatedTable(userTable, username) && (
+                    {isAuthUserGameTurn(userTable, username) && (
                       <div className='home-runtable-main-body-actions'>
-                        <Button variant='outlined' color='success'>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          onClick={() => handleCheckAction(userTable.id)}
+                        >
                           Check
                         </Button>
-                        <Button variant='outlined' color='error'>
+                        <Button
+                          variant='text'
+                          color='error'
+                          size='small'
+                          onClick={() => handleFoldAction(userTable.id)}
+                        >
                           Fold
                         </Button>
-                        <Button variant='outlined' color='warning'>
+                        <Button
+                          variant='outlined'
+                          color='success'
+                          onClick={() => handleRaiseAction(userTable.id)}
+                        >
                           RAISE
                         </Button>
                         <Slider
                           value={raiseAmount}
-                          min={1}
-                          step={1}
-                          max={100}
+                          min={userTable.big}
+                          step={userTable.big}
+                          max={userTable.big * 5}
                           valueLabelFormat={val => '$' + val}
                           onChange={(_, val) => setRaiseAmount(+val)}
                           valueLabelDisplay='auto'

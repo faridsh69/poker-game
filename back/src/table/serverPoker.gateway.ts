@@ -12,10 +12,11 @@ import { instrument } from '@socket.io/admin-ui'
 
 import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './serverConstantsPoker'
 import {
-  renderJoinTable,
-  renderQuitTable,
-  renderSitUser,
-  renderSitoutUser,
+  renderClientCheckAction,
+  renderClientJoinTable,
+  renderClientQuitTable,
+  renderClientSitTable,
+  renderClientSitoutTable,
   renderStartTable,
 } from './serverHelpersPoker'
 
@@ -52,10 +53,10 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
 
   @SubscribeMessage(CLIENT_CHANNELS.joinTable)
   handleClientJoinTable(
-    @MessageBody() { tableId, username }: any,
+    @MessageBody() { tableId, username },
     @ConnectedSocket() clientSocket: Socket,
   ) {
-    this.tablesState = renderJoinTable(this.tablesState, tableId, username)
+    this.tablesState = renderClientJoinTable(this.tablesState, tableId, username)
 
     clientSocket.join(tableId)
     this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
@@ -65,10 +66,10 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveTable)
   handleClientLeaveTable(
-    @MessageBody() { tableId, username }: any,
+    @MessageBody() { tableId, username },
     @ConnectedSocket() clientSocket: Socket,
   ) {
-    this.tablesState = renderQuitTable(this.tablesState, tableId, username)
+    this.tablesState = renderClientQuitTable(this.tablesState, tableId, username)
 
     this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has left table #${tableId}`,
@@ -79,7 +80,13 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
 
   @SubscribeMessage(CLIENT_CHANNELS.sitTable)
   handleClientSitTable(@MessageBody() { tableId, seatId, buyinAmount, username }) {
-    this.tablesState = renderSitUser(this.tablesState, tableId, seatId, buyinAmount, username)
+    this.tablesState = renderClientSitTable(
+      this.tablesState,
+      tableId,
+      seatId,
+      buyinAmount,
+      username,
+    )
     this.tablesState = renderStartTable(this.tablesState, tableId)
 
     this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
@@ -89,11 +96,21 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.sitoutTable)
-  handleClientSitoutTable(@MessageBody() { tableId, username }: any) {
-    this.tablesState = renderSitoutUser(this.tablesState, tableId, username)
+  handleClientSitoutTable(@MessageBody() { tableId, username }) {
+    this.tablesState = renderClientSitoutTable(this.tablesState, tableId, username)
 
     this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sitout`,
+      tables: this.tablesState,
+    })
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.checkAction)
+  handleClientCheckAction(@MessageBody() { tableId, username }) {
+    this.tablesState = renderClientCheckAction(this.tablesState, tableId, username)
+
+    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
+      message: `${username} checked.`,
       tables: this.tablesState,
     })
   }

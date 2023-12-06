@@ -8,9 +8,13 @@ type TypeSeat = {
   user: TypeUser
 }
 
+type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
+
+type TypeCardNumber = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A'
+
 type TypeCard = {
-  type: string
-  number: string
+  type: TypeCardType
+  number: TypeCardNumber
 }
 
 type TypeCash = {
@@ -25,20 +29,25 @@ type TypeUser = {
   cash: TypeCash
   cards: TypeCard[]
   isDealer: boolean
+  gameTurn: boolean
   // id: number
   // status: string
   // hot: number
 }
 
+type TypeTableType = 'HOLDEM' | 'OMAHA'
+
+type TypeTablePhase = 'Wait' | 'Preflop' | 'Flop' | 'Turn' | 'River' | 'Show'
+
 export type TypeTable = {
   id: number
   title: string
-  type: 'HOLDEM' | 'OMAHA'
+  type: TypeTableType
   small: number
   big: number
   buyin: TypeBuyIn
   waitingUsers: TypeUser[]
   seats: TypeSeat[]
-  phase: 'Wait' | 'Preflop' | 'Flop' | 'Turn' | 'River' | 'Show'
+  phase: TypeTablePhase
   cards: TypeCard[]
 }

@@ -16,3 +16,7 @@ export const findUserTables = (allTables: TypeTable[], username: string): TypeTa
     return isUserSeated || isUserWaited
   })
 }
+
+export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
+  return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
+}

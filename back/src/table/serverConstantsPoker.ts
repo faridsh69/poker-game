@@ -9,6 +9,9 @@ export const CLIENT_CHANNELS = {
   leaveTable: 'client:leave_table',
   sitTable: 'client:sit_table',
   sitoutTable: 'client:sitout_table',
+  checkAction: 'client:check_action',
+  foldAction: 'client:fold_action',
+  raiseAction: 'client:raise_action',
 }
 
 const TABLE_TYPES = {
@@ -63,6 +66,7 @@ export const WAITING_USER: TypeUser = {
   },
   cards: [],
   isDealer: false,
+  gameTurn: false,
   // id: 1,
   // status: USER_STATUSES.waiting,
   // hot: null,
@@ -81,6 +85,7 @@ export const PLAYING_USER: TypeUser = {
     { type: CARD_TYPES.hearts, number: CARD_NUMBERS.jack },
   ],
   isDealer: false,
+  gameTurn: false,
   // id: 1,
   // status: USER_STATUSES.run,
   // hot: 50,

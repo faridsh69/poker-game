@@ -25,6 +25,7 @@ export type TypeUser = {
   cash: TypeCash
   cards: TypeCard[]
   isDealer: boolean
+  gameTurn: boolean
   // id: number
   // status: string
   // hot: number

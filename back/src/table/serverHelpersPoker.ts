@@ -1,5 +1,11 @@
-import { TypeCard, TypeTable } from 'src/utils/types'
-import { CARD_NUMBERS, CARD_TYPES, TABLE_PHASES, WAITING_USER } from './serverConstantsPoker'
+import { TypeTable } from 'src/utils/types'
+import { TABLE_PHASES, WAITING_USER } from './serverConstantsPoker'
+import {
+  getCurrentGameTurnSeatId,
+  getNewDealerSeatId,
+  getNextSeatId,
+  getRandomCards,
+} from 'src/utils/common'
 
 const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
   return !!table.seats.find(s => s.user?.username === username)
@@ -9,7 +15,11 @@ const isUserWaitingTable = (table: TypeTable, username: string): boolean => {
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
-export const renderJoinTable = (tablesState: TypeTable[], tableId: number, username: string) => {
+export const renderClientJoinTable = (
+  tablesState: TypeTable[],
+  tableId: number,
+  username: string,
+) => {
   return tablesState.map(t => {
     return t.id !== tableId
       ? t
@@ -29,7 +39,11 @@ export const renderJoinTable = (tablesState: TypeTable[], tableId: number, usern
   })
 }
 
-export const renderQuitTable = (tablesState: TypeTable[], tableId: number, username: string) => {
+export const renderClientQuitTable = (
+  tablesState: TypeTable[],
+  tableId: number,
+  username: string,
+) => {
   return tablesState.map(t => {
     return t.id !== tableId
       ? t
@@ -40,7 +54,7 @@ export const renderQuitTable = (tablesState: TypeTable[], tableId: number, usern
   })
 }
 
-export const renderSitUser = (
+export const renderClientSitTable = (
   tablesState: TypeTable[],
   tableId: number,
   seatId: number,
@@ -75,7 +89,11 @@ export const renderSitUser = (
   })
 }
 
-export const renderSitoutUser = (tablesState: TypeTable[], tableId: number, username: string) => {
+export const renderClientSitoutTable = (
+  tablesState: TypeTable[],
+  tableId: number,
+  username: string,
+) => {
   return tablesState.map(t => {
     return t.id !== tableId
       ? t
@@ -100,65 +118,32 @@ export const renderSitoutUser = (tablesState: TypeTable[], tableId: number, user
   })
 }
 
-const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
-  const cards: TypeCard[] = []
-  const updatedUsedCards = [...usedCards]
+export const renderClientCheckAction = (
+  tablesState: TypeTable[],
+  tableId: number,
+  username: string,
+) => {
+  return tablesState.map(t => {
+    if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
 
-  while (cards.length < cardsCount) {
-    const cardTypeIndex = Math.floor(Math.random() * 4)
-    const cardNumberIndex = Math.floor(Math.random() * 13)
-    const card = {
-      type: Object.values(CARD_TYPES)[cardTypeIndex],
-      number: Object.values(CARD_NUMBERS)[cardNumberIndex],
+    const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
+    const gameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
+
+    return {
+      ...t,
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            gameTurn: gameTurnSeatId === s.id,
+          },
+        }
+      }),
     }
-
-    const isUsed = updatedUsedCards.find(c => c.type === card.type && c.number === card.number)
-
-    if (!isUsed) {
-      cards.push(card)
-      updatedUsedCards.push(card)
-    }
-  }
-
-  return cards
-}
-
-const getNewDealerSeatId = (table: TypeTable): number => {
-  const playerSeats = table.seats.filter(s => s.user)
-  let newDealerSeatId = playerSeats[0].id
-  let nextOneIsDealer = false
-
-  for (const playerSeat of playerSeats) {
-    if (nextOneIsDealer) {
-      newDealerSeatId = playerSeat.id
-      break
-    }
-
-    if (playerSeat.user.isDealer) {
-      nextOneIsDealer = true
-    }
-  }
-
-  return newDealerSeatId
-}
-
-const getNextSeatId = (table: TypeTable, seatId: number): number => {
-  const playerSeats = table.seats.filter(s => s.user)
-  let newSeatId = playerSeats[0].id
-  let nextSeat = false
-
-  for (const playerSeat of playerSeats) {
-    if (nextSeat) {
-      newSeatId = playerSeat.id
-      break
-    }
-
-    if (playerSeat.id === seatId) {
-      nextSeat = true
-    }
-  }
-
-  return newSeatId
+  })
 }
 
 export const renderStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
@@ -171,6 +156,7 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
     const newDealerSeatId = getNewDealerSeatId(t)
     const smallSeatId = getNextSeatId(t, newDealerSeatId)
     const bigSeatId = getNextSeatId(t, smallSeatId)
+    const gameTurnSeatId = getNextSeatId(t, bigSeatId)
 
     return {
       ...t,
@@ -190,6 +176,7 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
             ...s.user,
             cards: userCards,
             isDealer: newDealerSeatId === s.id,
+            gameTurn: gameTurnSeatId === s.id,
             cash: {
               ...s.user.cash,
               inPot,

@@ -10,8 +10,11 @@ import { LanguageSwitcher } from '../molecules/LanguageSwitcher'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import { getLocalstorage } from 'src/helpers/common'
+import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 
 export const Navbar = () => {
+  const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
   const navigate = useNavigate()
   const { handleLogout } = useAuth()
 
@@ -45,7 +48,7 @@ export const Navbar = () => {
           component='div'
           sx={{ display: { xs: 'none', sm: 'block' } }}
         >
-          POKER
+          POKER {username}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <LanguageSwitcher />
