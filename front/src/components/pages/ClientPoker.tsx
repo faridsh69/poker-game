@@ -29,6 +29,7 @@ import {
   TABLE_PHASES,
   TABLE_TYPES,
 } from 'src/configs/clientConstantsPoker'
+import { CountDownTimer } from '../molecules/CountDownTimer'
 
 export const ClientPoker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
@@ -66,7 +67,7 @@ export const ClientPoker = () => {
 
         if (checkJoinTabls) {
           console.log('checkJoinTabls')
-          // handleAutoJoinTable(tables, socketInstance)
+          handleAutoJoinTable(tables, socketInstance)
         }
       },
     )
@@ -76,15 +77,15 @@ export const ClientPoker = () => {
     }
   }, [])
 
-  // const handleAutoJoinTable = useCallback(
-  //   (tables: TypeTable[], socketInstance: TypeSocket) => {
-  //     const userTables = findUserTables(tables, username)
-  //     for (const userTable of userTables) {
-  //       socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: userTable.id, username })
-  //     }
-  //   },
-  //   [username],
-  // )
+  const handleAutoJoinTable = useCallback(
+    (tables: TypeTable[], socketInstance: TypeSocket) => {
+      const userTables = findUserTables(tables, username)
+      for (const userTable of userTables) {
+        socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: userTable.id, username })
+      }
+    },
+    [username],
+  )
 
   const handleJoinTable = useCallback(
     (tableId: number) => {
@@ -263,8 +264,8 @@ export const ClientPoker = () => {
                         const preflopPhase =
                           userTable.phase == TABLE_PHASES.wait ||
                           userTable.phase == TABLE_PHASES.preflop
-                        const flopPhase = userTable.phase == TABLE_PHASES.flop || cardIndex > 2
-                        const turnPhase = userTable.phase == TABLE_PHASES.turn || cardIndex > 3
+                        const flopPhase = userTable.phase == TABLE_PHASES.flop && cardIndex > 2
+                        const turnPhase = userTable.phase == TABLE_PHASES.turn && cardIndex > 3
 
                         if (preflopPhase || flopPhase || turnPhase) {
                           return null
@@ -272,17 +273,24 @@ export const ClientPoker = () => {
 
                         return (
                           <div
-                            key={card.type + card.number}
                             className='home-runtable-main-body-tablecards-card'
+                            key={card.type + card.number}
                           >
-                            <b>{card.number}</b>
-                            <img src={`/${card.type}.png`} alt={card.type} />
+                            <div className='home-runtable-main-body-tablecards-card-number'>
+                              {card.number}
+                            </div>
+                            <img
+                              className='home-runtable-main-body-tablecards-card-type'
+                              src={`/${card.type}.png`}
+                              alt={card.type}
+                            />
                           </div>
                         )
                       })}
                     </div>
                     {isAuthUserGameTurn(userTable, username) && (
                       <div className='home-runtable-main-body-actions'>
+                        <CountDownTimer onFinishTimer={() => handleCheckAction(userTable.id)} />
                         <Button
                           variant='contained'
                           color='primary'
@@ -345,8 +353,14 @@ export const ClientPoker = () => {
                                       className='seat-user-cards-card'
                                       key={card.type + card.number}
                                     >
-                                      <b>{card.number}</b>
-                                      <img src={`/${card.type}.png`} alt={card.type} />
+                                      <div className='seat-user-cards-card-number'>
+                                        {card.number}
+                                      </div>
+                                      <img
+                                        src={`/${card.type}.png`}
+                                        alt={card.type}
+                                        className='seat-user-cards-card-type'
+                                      />
                                     </div>
                                   )
                                 })}
