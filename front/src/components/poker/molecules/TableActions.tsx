@@ -9,15 +9,27 @@ import { TypeSocket, TypeTable } from 'src/interfaces/type-game'
 export const TableActions = (props: { table: TypeTable; username: string; socket: TypeSocket }) => {
   const { table, username, socket } = props
 
-  const [raiseActionAmount, setRaiseActionAmount] = useState<number>(2)
+  const [raiseActionAmount, setRaiseActionAmount] = useState<number>(0)
+  const [raiseLimits, setRaiseLimits] = useState({
+    min: 0,
+    max: 0,
+    step: 1,
+  })
 
   const callActionAmount = useMemo(() => {
     return getCallActionAmount(table, username)
   }, [table, username])
 
   useEffect(() => {
-    setRaiseActionAmount(callActionAmount)
-  }, [callActionAmount])
+    const raiseStep = callActionAmount || table.big
+    const raiseMin = 2 * callActionAmount || table.big
+    setRaiseLimits({
+      min: raiseMin,
+      max: raiseStep * 10,
+      step: raiseStep,
+    })
+    setRaiseActionAmount(raiseMin)
+  }, [callActionAmount, table.big])
 
   const handleCheckAction = useCallback(
     (tableId: number) => {
@@ -48,7 +60,7 @@ export const TableActions = (props: { table: TypeTable; username: string; socket
     [socket, username],
   )
 
-  if (isAuthUserGameTurn(table, username)) return null
+  if (!isAuthUserGameTurn(table, username)) return null
 
   return (
     <div className='home-runtable-main-body-actions'>
@@ -75,17 +87,16 @@ export const TableActions = (props: { table: TypeTable; username: string; socket
         color='success'
         onClick={() => handleRaiseAction(table.id, raiseActionAmount)}
       >
-        RAISE
+        RAISE {raiseActionAmount}$
       </Button>
       <Slider
         value={raiseActionAmount}
-        min={callActionAmount}
-        step={callActionAmount}
-        max={callActionAmount * 10}
+        min={raiseLimits.min}
+        step={raiseLimits.step}
+        max={raiseLimits.max}
         valueLabelFormat={val => '$' + val}
         onChange={(_, val) => setRaiseActionAmount(+val)}
         valueLabelDisplay='auto'
-        aria-labelledby='non-linear-slider'
       />
     </div>
   )

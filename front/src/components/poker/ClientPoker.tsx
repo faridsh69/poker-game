@@ -67,7 +67,9 @@ export const ClientPoker = () => {
         </div>
         <div className='home-runtables'>
           {userTables.map(userTable => {
-            return <UserTable table={userTable} username={username} socket={socket} />
+            return (
+              <UserTable key={userTable.id} table={userTable} username={username} socket={socket} />
+            )
           })}
         </div>
       </div>

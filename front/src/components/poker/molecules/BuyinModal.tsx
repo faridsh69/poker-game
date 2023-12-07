@@ -37,12 +37,12 @@ export const BuyinModal = (props: {
     setBuyinAmount((max + min) / 2)
   }, [seatModal, table.buyin.min, table.buyin.max])
 
-  if (seatModal.tableId) return null
+  if (!seatModal.tableId) return null
 
   return (
     <Modal open={!!seatModal.tableId} onClose={() => handleSitTableModal(0, 0)}>
       <div className='modal'>
-        <h2>Set Buy In</h2>
+        <h3>Set Buy In for {table.title}</h3>
         <div>
           <Slider
             value={buyinAmount}

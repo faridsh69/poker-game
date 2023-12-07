@@ -15,8 +15,9 @@ export const TableSeats = (props: {
     return (
       <div
         key={s.id}
-        className={`home-runtable-main-body-seat seat-${s.id} ${
-          s.user?.username === username && 'seat-auth'
+        className={`home-runtable-main-body-seat seat-${s.id} 
+          ${s.user?.username === username ? 'seat-auth' : ''}
+          ${s.user?.gameTurn ? 'seat-turn' : ''}
         }`}
       >
         {!s.user && isAuthUserWaitingTable && (

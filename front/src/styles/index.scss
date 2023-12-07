@@ -114,9 +114,13 @@
       border: 1px solid #efefef;
       padding: 20px;
       border-radius: 2%;
+      display: flex;
+      flex-direction: column;
+      width: 180px !important;
 
       &-image {
-        width: 250px !important;
+        width: 180px !important;
+        height: 100px;
       }
 
       &-content {
@@ -148,13 +152,14 @@
       display: flex;
       flex-direction: row;
       gap: 30px;
+      background-color: rgb(201, 226, 205);
 
       &-sidebar {
         &-waitinglist {
           overflow-y: auto;
           height: 100%;
           max-height: 100%;
-          border: 1px solid #efefef;
+          border: 1px solid rgb(102, 162, 112);
           border-radius: 5px;
           padding: 20px;
         }
@@ -210,25 +215,30 @@
 
         @keyframes blink {
           0% {
-            border-color: blue;
+            border-color: rgb(255, 0, 191);
           }
           50% {
-            border-color: green;
+            border-color: rgb(214, 233, 51);
           }
           100% {
-            border-color: blue;
+            border-color: rgb(255, 0, 81);
           }
         }
 
         &-actions {
-          border: 2px solid #efefef;
-          padding: 25px;
           display: flex;
           flex-direction: row;
-          justify-content: flex-end;
-          gap: 30px;
-
+          justify-content: space-between;
+          border: 4px solid #efefef;
+          border-radius: 10px;
+          padding: 25px;
+          gap: 15px;
           animation: blink 2s infinite alternate;
+          background-color: #ebe8c8;
+
+          .MuiSlider-root {
+            width: 100px;
+          }
         }
 
         &-seat {
@@ -315,6 +325,10 @@
 
         .seat-auth {
           border: 5px solid blueviolet;
+        }
+
+        .seat-turn {
+          animation: blink 1s infinite alternate;
         }
 
         .seat-1 {
