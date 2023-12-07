@@ -30,7 +30,7 @@ import {
 
 @WebSocketGateway({
   cors: {
-    origin: [process.env.CLIENT_CORS_URL, 'https://admin.socket.io'],
+    origin: ['http://localhost:2000', 'https://admin.socket.io'],
     credentials: true,
   },
 })

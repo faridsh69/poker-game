@@ -4,7 +4,8 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { TIMER_SECONDS } from 'src/configs/clientConstantsPoker'
 
-export const CountDownTimer = ({ onFinishTimer }) => {
+export const CountDownTimer = (props: { onFinishTimer: () => void }) => {
+  const { onFinishTimer } = props
   const [progress, setProgress] = useState(TIMER_SECONDS)
 
   useEffect(() => {

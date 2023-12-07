@@ -1,4 +1,4 @@
-import { TypeSeat, TypeTable } from 'src/interfaces/type-game'
+import { TypeTable } from 'src/interfaces/type-game'
 
 export const isUserSeatedTable = (table: TypeTable, username: string) => {
   return !!table.seats.find(s => s.user?.username === username)

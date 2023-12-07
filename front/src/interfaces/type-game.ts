@@ -1,3 +1,18 @@
+import { Socket } from 'socket.io-client'
+
+export type TypeSocket = Socket
+
+export type TypeServerChannelsUpdateTablesData = {
+  tables: TypeTable[]
+  message: string
+  checkJoinTabls: boolean
+}
+
+export type TypeSeatModal = {
+  tableId: number
+  seatId: number
+}
+
 type TypeBuyIn = {
   min: number
   max: number
@@ -62,3 +77,5 @@ export type TypeTable = {
   phase: TypeTablePhase
   cards: TypeCard[]
 }
+
+export type TypeHandleSitTableModal = (tableId: number, seatId: number) => void

@@ -36,6 +36,7 @@ after raise or win the game reduce or add money to users table
 + small player should at least call, or fold, he cant check
 + click on raise will raise
 + show flop after finishing all user actions
+minimum price for raise is equal to last bet
 at the show space finish the game and find the winner
 calculat the win and reduce 2%
 restart the game
