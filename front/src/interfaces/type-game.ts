@@ -3,7 +3,7 @@ type TypeBuyIn = {
   max: number
 }
 
-type TypeSeat = {
+export type TypeSeat = {
   id: number
   user: TypeUser
 }

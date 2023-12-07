@@ -1,9 +1,9 @@
 import { TypeTable, TypeTablePhase } from 'src/utils/types'
-import { TABLE_PHASES, WAITING_USER } from './serverConstantsPoker'
+import { TABLE_PHASES, WAITING_USER } from 'src/table/serverConstantsPoker'
 import {
+  getCurrentDealerSeatId,
   getCurrentGameTurnSeatId,
-  getIsPhaseTurnsFinished,
-  getNewDealerSeatId,
+  getIsPhaseFinished,
   getNextSeatId,
   getNextTablePhase,
   getRandomCards,
@@ -129,13 +129,14 @@ export const renderClientCheckAction = (
     if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
 
     const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
-    const gameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
-    const isPhaseTurnsFinished = getIsPhaseTurnsFinished(t)
+    const nextGameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
+
+    const isPhaseFinished = getIsPhaseFinished(t)
     const nextTablePhase = getNextTablePhase(t.phase)
 
     return {
       ...t,
-      phase: isPhaseTurnsFinished ? nextTablePhase : t.phase,
+      phase: isPhaseFinished ? nextTablePhase : t.phase,
       seats: t.seats.map(s => {
         if (!s.user) return s
 
@@ -143,7 +144,87 @@ export const renderClientCheckAction = (
           ...s,
           user: {
             ...s.user,
-            gameTurn: gameTurnSeatId === s.id,
+            gameTurn: nextGameTurnSeatId === s.id,
+          },
+        }
+      }),
+    }
+  })
+}
+
+export const renderClientCallAction = (
+  tablesState: TypeTable[],
+  tableId: number,
+  callActionAmount: number,
+  username: string,
+) => {
+  return tablesState.map(t => {
+    if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
+
+    const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
+    const nextGameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
+
+    const isPhaseFinished = getIsPhaseFinished(t)
+    const nextTablePhase = getNextTablePhase(t.phase)
+
+    return {
+      ...t,
+      phase: isPhaseFinished ? nextTablePhase : t.phase,
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+
+        const addedToPot = currentGameTurnSeatId === s.id ? callActionAmount : 0
+        const inPot = s.user.cash.inPot + addedToPot
+        const inGame = s.user.cash.inGame - addedToPot
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            gameTurn: nextGameTurnSeatId === s.id,
+            cash: {
+              ...s.user.cash,
+              inPot,
+              inGame,
+            },
+          },
+        }
+      }),
+    }
+  })
+}
+
+export const renderClientRaiseAction = (
+  tablesState: TypeTable[],
+  tableId: number,
+  raiseActionAmount: number,
+  username: string,
+) => {
+  return tablesState.map(t => {
+    if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
+
+    const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
+    const nextGameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
+
+    return {
+      ...t,
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+
+        const addedToPot = currentGameTurnSeatId === s.id ? raiseActionAmount : 0
+        const inPot = s.user.cash.inPot + addedToPot
+        const inGame = s.user.cash.inGame - addedToPot
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            gameTurn: nextGameTurnSeatId === s.id,
+            cash: {
+              ...s.user.cash,
+              inPot,
+              inGame,
+            },
           },
         }
       }),
@@ -158,10 +239,11 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
     const tableCards = getRandomCards(5, [])
     let usedCards = [...tableCards]
 
-    const newDealerSeatId = getNewDealerSeatId(t)
-    const smallSeatId = getNextSeatId(t, newDealerSeatId)
-    const bigSeatId = getNextSeatId(t, smallSeatId)
-    const gameTurnSeatId = getNextSeatId(t, bigSeatId)
+    const currentDealerSeatId = getCurrentDealerSeatId(t)
+    const newDealerSeatId = getNextSeatId(t, currentDealerSeatId)
+    const newSmallSeatId = getNextSeatId(t, newDealerSeatId)
+    const newBigSeatId = getNextSeatId(t, newSmallSeatId)
+    const newGameTurnSeatId = getNextSeatId(t, newBigSeatId)
 
     return {
       ...t,
@@ -172,8 +254,10 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
 
         const userCards = getRandomCards(2, usedCards)
         usedCards = [...usedCards, ...userCards]
-        const inPot = smallSeatId === s.id ? t.small : bigSeatId === s.id ? t.big : 0
-        const inGame = s.user.cash.inGame - inPot
+
+        const addedToPot = newSmallSeatId === s.id ? t.small : newBigSeatId === s.id ? t.big : 0
+        const inPot = addedToPot
+        const inGame = s.user.cash.inGame - addedToPot
 
         return {
           ...s,
@@ -181,7 +265,7 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
             ...s.user,
             cards: userCards,
             isDealer: newDealerSeatId === s.id,
-            gameTurn: gameTurnSeatId === s.id,
+            gameTurn: newGameTurnSeatId === s.id,
             cash: {
               ...s.user.cash,
               inPot,

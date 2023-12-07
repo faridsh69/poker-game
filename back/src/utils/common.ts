@@ -1,6 +1,8 @@
 import { CARD_NUMBERS, CARD_TYPES, TABLE_PHASES } from 'src/table/serverConstantsPoker'
 import { TypeCard, TypeTable, TypeTablePhase } from 'src/utils/types'
 
+export const isUndefined = variable => typeof variable === 'undefined'
+
 export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   const cards: TypeCard[] = []
   const updatedUsedCards = [...usedCards]
@@ -24,23 +26,32 @@ export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   return cards
 }
 
-export const getNewDealerSeatId = (table: TypeTable): number => {
-  const playerSeats = table.seats.filter(s => s.user)
-  let newDealerSeatId = playerSeats[0].id
-  let nextOneIsDealer = false
+export const getCurrentGameTurnSeatId = (table: TypeTable, username: string) => {
+  const gameTurnSeatId = table.seats.find(s => s.user?.gameTurn)
 
-  for (const playerSeat of playerSeats) {
-    if (nextOneIsDealer) {
-      newDealerSeatId = playerSeat.id
-      break
-    }
-
-    if (playerSeat.user.isDealer) {
-      nextOneIsDealer = true
-    }
+  if (isUndefined(username) || gameTurnSeatId.user.username === username) {
+    return gameTurnSeatId.id
   }
 
-  return newDealerSeatId
+  throw Error(`${gameTurnSeatId.user.username} is acting when it's not his turn.`)
+}
+
+export const getCurrentDealerSeatId = (table: TypeTable): number => {
+  const dealerSeat = table.seats.find(s => s.user?.isDealer)
+
+  return dealerSeat?.id || 1
+}
+
+const getCurrentSmallSeatId = (table: TypeTable): number => {
+  const currentDealerSeatId = getCurrentDealerSeatId(table)
+
+  return getNextSeatId(table, currentDealerSeatId)
+}
+
+const getCurrentBigSeatId = (table: TypeTable) => {
+  const smallSeatId = getCurrentSmallSeatId(table)
+
+  return getNextSeatId(table, smallSeatId)
 }
 
 export const getNextSeatId = (table: TypeTable, seatId: number): number => {
@@ -62,21 +73,62 @@ export const getNextSeatId = (table: TypeTable, seatId: number): number => {
   return nextSeatId
 }
 
-export const getCurrentGameTurnSeatId = (table: TypeTable, username: string) => {
-  const currentGameTurnSeat = table.seats.find(s => s.user?.gameTurn)
+const getMaximumBet = (table: TypeTable) => {
+  let maximumBet = 0
 
-  if (currentGameTurnSeat.user.username === username) {
-    return currentGameTurnSeat.id
+  for (const seat of table.seats) {
+    if (!seat.user) continue
+
+    if (seat.user.cash.inPot > maximumBet) {
+      maximumBet = seat.user.cash.inPot
+    }
   }
 
-  throw Error(`${currentGameTurnSeat.user.username} is acting when it's not his turn.`)
+  return maximumBet
 }
 
-export const getIsPhaseTurnsFinished = (table: TypeTable) => {
-  const currentGameTurnSeat = table.seats.find(s => s.user?.gameTurn)
+const getMaximumBetSeatIds = (table: TypeTable): number[] => {
+  const maximumBet = getMaximumBet(table)
+  const maximumBetSeatIds: number[] = []
 
-  // @TODO if other users raise then this part should be updated
-  return currentGameTurnSeat.user.isDealer
+  for (const seat of table.seats) {
+    if (!seat.user) continue
+
+    if (seat.user.cash.inPot === maximumBet) {
+      maximumBetSeatIds.push(seat.id)
+    }
+  }
+
+  return maximumBetSeatIds
+}
+
+const getRaiserSeatId = (table: TypeTable) => {
+  const maximumBetSeatIds = getMaximumBetSeatIds(table)
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table, undefined)
+  let raiserSeatId = getNextSeatId(table, currentGameTurnSeatId)
+
+  while (!maximumBetSeatIds.includes(raiserSeatId)) {
+    raiserSeatId = getNextSeatId(table, raiserSeatId)
+  }
+
+  return raiserSeatId
+}
+
+export const getIsPhaseFinished = (table: TypeTable) => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table, undefined)
+
+  if (table.phase === TABLE_PHASES.preflop) {
+    if (getMaximumBet(table) === table.big) {
+      const currentBigSeatId = getCurrentBigSeatId(table)
+
+      return currentBigSeatId === currentGameTurnSeatId
+    }
+  }
+
+  const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId)
+  const raiserSeatId = getRaiserSeatId(table)
+
+  return raiserSeatId === nextGameTurnSeatId
 }
 
 export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {

@@ -5,33 +5,40 @@ import {
   WebSocketGateway,
   WebSocketServer,
   OnGatewayConnection,
-  OnGatewayDisconnect,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from './serverConstantsPoker'
+import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from 'src/table/serverConstantsPoker'
 import {
+  renderClientCallAction,
   renderClientCheckAction,
   renderClientJoinTable,
   renderClientQuitTable,
+  renderClientRaiseAction,
   renderClientSitTable,
   renderClientSitoutTable,
   renderStartTable,
-} from './serverHelpersPoker'
+} from 'src/table/serverHelpersPoker'
+import {
+  TypeHandleClientCallAction,
+  TypeHandleClientJoinTable,
+  TypeHandleClientRaiseAction,
+  TypeHandleClientSitTable,
+  TypeTable,
+} from 'src/utils/types'
 
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:2000', 'https://admin.socket.io'],
+    origin: [process.env.CLIENT_CORS_URL, 'https://admin.socket.io'],
     credentials: true,
-    // methods: ['GET', 'POST'],
   },
 })
-export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ServerPokerGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server
 
-  tablesState = TABLES
+  private tablesState: TypeTable[] = TABLES
 
   afterInit() {
     instrument(this.server, {
@@ -47,39 +54,37 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
     })
   }
 
-  handleDisconnect() {
-    // Handle disconnection event
-  }
-
   @SubscribeMessage(CLIENT_CHANNELS.joinTable)
   handleClientJoinTable(
-    @MessageBody() { tableId, username },
+    @MessageBody() { tableId, username }: TypeHandleClientJoinTable,
     @ConnectedSocket() clientSocket: Socket,
   ) {
     this.tablesState = renderClientJoinTable(this.tablesState, tableId, username)
 
-    clientSocket.join(tableId)
-    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
+    clientSocket.join('' + tableId)
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       tables: this.tablesState,
     })
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveTable)
   handleClientLeaveTable(
-    @MessageBody() { tableId, username },
+    @MessageBody() { tableId, username }: TypeHandleClientJoinTable,
     @ConnectedSocket() clientSocket: Socket,
   ) {
     this.tablesState = renderClientQuitTable(this.tablesState, tableId, username)
 
-    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has left table #${tableId}`,
       tables: this.tablesState,
     })
-    clientSocket.leave(tableId)
+    clientSocket.leave('' + tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.sitTable)
-  handleClientSitTable(@MessageBody() { tableId, seatId, buyinAmount, username }) {
+  handleClientSitTable(
+    @MessageBody() { tableId, seatId, buyinAmount, username }: TypeHandleClientSitTable,
+  ) {
     this.tablesState = renderClientSitTable(
       this.tablesState,
       tableId,
@@ -89,27 +94,56 @@ export class ServerPokerGateway implements OnGatewayConnection, OnGatewayDisconn
     )
     this.tablesState = renderStartTable(this.tablesState, tableId)
 
-    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sit on seat #${seatId}`,
       tables: this.tablesState,
     })
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.sitoutTable)
-  handleClientSitoutTable(@MessageBody() { tableId, username }) {
+  handleClientSitoutTable(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     this.tablesState = renderClientSitoutTable(this.tablesState, tableId, username)
 
-    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sitout`,
       tables: this.tablesState,
     })
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.checkAction)
-  handleClientCheckAction(@MessageBody() { tableId, username }) {
+  handleClientCheckAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     this.tablesState = renderClientCheckAction(this.tablesState, tableId, username)
 
-    this.server.to(tableId).emit(SERVER_CHANNELS.updateTables, {
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+      message: `${username} checked.`,
+      tables: this.tablesState,
+    })
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.callAction)
+  handleClientCallAction(
+    @MessageBody() { tableId, callActionAmount, username }: TypeHandleClientCallAction,
+  ) {
+    this.tablesState = renderClientCallAction(this.tablesState, tableId, callActionAmount, username)
+
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+      message: `${username} checked.`,
+      tables: this.tablesState,
+    })
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.raiseAction)
+  handleClientRaiseAction(
+    @MessageBody() { tableId, raiseActionAmount, username }: TypeHandleClientRaiseAction,
+  ) {
+    this.tablesState = renderClientRaiseAction(
+      this.tablesState,
+      tableId,
+      raiseActionAmount,
+      username,
+    )
+
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} checked.`,
       tables: this.tablesState,
     })

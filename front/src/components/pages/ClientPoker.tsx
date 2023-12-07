@@ -19,6 +19,7 @@ import holdemImage from 'src/images/holdem.png'
 import omahaImage from 'src/images/omaha.png'
 import {
   findUserTables,
+  getCallActionAmount,
   isAuthUserGameTurn,
   isUserSeatedTable,
   isUserWaitingTable,
@@ -38,7 +39,7 @@ export const ClientPoker = () => {
   const [seatModal, setSeatModal] = useState<TypeSeatModal>({ tableId: 0, seatId: 0 })
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
 
-  const [raiseAmount, setRaiseAmount] = useState<number>(2)
+  const [raiseActionAmount, setRaiseActionAmount] = useState<number>(2)
 
   const userTables = useMemo(() => {
     return findUserTables(allTables, username)
@@ -67,7 +68,7 @@ export const ClientPoker = () => {
 
         if (checkJoinTabls) {
           console.log('checkJoinTabls')
-          handleAutoJoinTable(tables, socketInstance)
+          // handleAutoJoinTable(tables, socketInstance)
         }
       },
     )
@@ -128,7 +129,15 @@ export const ClientPoker = () => {
 
   const handleCheckAction = useCallback(
     (tableId: number) => {
+      // @TODO check if user is able to do check let him do check action
       socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
+    },
+    [socket, username],
+  )
+
+  const handleCallAction = useCallback(
+    (tableId: number, callActionAmount: number) => {
+      socket.emit(CLIENT_CHANNELS.callAction, { tableId, callActionAmount, username })
     },
     [socket, username],
   )
@@ -141,10 +150,10 @@ export const ClientPoker = () => {
   )
 
   const handleRaiseAction = useCallback(
-    (tableId: number) => {
-      socket.emit(CLIENT_CHANNELS.raiseAction, { tableId, username, raiseAmount })
+    (tableId: number, raiseActionAmount: number) => {
+      socket.emit(CLIENT_CHANNELS.raiseAction, { tableId, raiseActionAmount, username })
     },
-    [socket, username, raiseAmount],
+    [socket, username],
   )
 
   return (
@@ -214,6 +223,7 @@ export const ClientPoker = () => {
           {userTables.map(userTable => {
             const isAuthUserSeatedTable = isUserSeatedTable(userTable, username)
             const isAuthUserWaitingTable = isUserWaitingTable(userTable, username)
+            const callActionAmount = getCallActionAmount(userTable, username)
 
             return (
               <Card className='home-runtable' key={userTable.id}>
@@ -291,13 +301,24 @@ export const ClientPoker = () => {
                     {isAuthUserGameTurn(userTable, username) && (
                       <div className='home-runtable-main-body-actions'>
                         <CountDownTimer onFinishTimer={() => handleCheckAction(userTable.id)} />
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => handleCheckAction(userTable.id)}
-                        >
-                          Check
-                        </Button>
+                        {!callActionAmount && (
+                          <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={() => handleCheckAction(userTable.id)}
+                          >
+                            Check
+                          </Button>
+                        )}
+                        {!!callActionAmount && (
+                          <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={() => handleCallAction(userTable.id, callActionAmount)}
+                          >
+                            Call {callActionAmount}$
+                          </Button>
+                        )}
                         <Button
                           variant='text'
                           color='error'
@@ -309,17 +330,17 @@ export const ClientPoker = () => {
                         <Button
                           variant='outlined'
                           color='success'
-                          onClick={() => handleRaiseAction(userTable.id)}
+                          onClick={() => handleRaiseAction(userTable.id, raiseActionAmount)}
                         >
                           RAISE
                         </Button>
                         <Slider
-                          value={raiseAmount}
+                          value={raiseActionAmount}
                           min={userTable.big}
                           step={userTable.big}
                           max={userTable.big * 5}
                           valueLabelFormat={val => '$' + val}
-                          onChange={(_, val) => setRaiseAmount(+val)}
+                          onChange={(_, val) => setRaiseActionAmount(+val)}
                           valueLabelDisplay='auto'
                           aria-labelledby='non-linear-slider'
                         />

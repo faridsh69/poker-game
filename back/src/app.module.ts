@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
+import { AppController } from './utils/app.controller'
+import { AppService } from './utils/app.service'
 import { ServerPokerGateway } from './table/serverPoker.gateway'
 
 @Module({

@@ -1,29 +1,57 @@
-create two test users
+handle authentication (connet nest and laravel or usuth authJs ya nestAuth)
+get tables data from database, also users data
+save tableStates in mysql each time
+refetch latest tableStates after DC
+after raise or win the game reduce or add money to users table
++ run nest
++ think about single user room (or better way)
++ think about sending api for reduced money after user bet
++ create two test users 
 + login form
-?? get tables data from database, also users data
 + implement table with 4 seats
 + implement buttons for user action
 + if user clicks on a table he can join table
-  send a message for all users in table that this body joined
-  after refresh user again join the table he actually joined: send always data of all tables?
-if a seat clicked ask for money in game
-  user can not click on two seats in a table
-  show auth seat with other color for border
-user can seat out from game
-  add a button for seat out
-  add user to waiting list
-when table is full show button for join waiting list, otherwise join & play
-if at least two person are seated start the game
-set someone as a dealer
-shuffle cards and give cards to users
-pay small and big to pot
-wait for user to action 10 seconds
-add option for check, fold, raise, all in, 
-add option to make your hand invisible
-if user didn't act auto check/fold his hand
-if user is disconnected set 30 seconds timer for him
-show flop after finishing all user actions
++ send a message for all users in table that this body joined
++ after refresh user again join the table he actually joined 
++ user can not click on two seats in a table
++ show auth seat with other color for border
++ user can seat out from game
++ add a button for seat out
++ add user to waiting list
++ when table is full show button for join waiting list, otherwise join & play
++ if a seat clicked ask for money in game
++ set the default money in modal mean of min and max
++ if at least two person are seated start the game
++ shuffle cards and give cards to users
++ add option for check, fold, raise, all in, 
++ set someone as a dealer
++ pay small and big to pot
++ the one after dealer is paying small
++ cash.inPot
++ calculate whose turn it is
++ click on check will move turn to next one
++ wait for user to action 20 seconds
++ if user didn't act auto checkfold his hand
++ if finished turns then go next phase
++ small player should at least call, or fold, he cant check
++ click on raise will raise
++ show flop after finishing all user actions
+at the show space finish the game and find the winner
+calculat the win and reduce 2%
+restart the game
+click on fold will remove user cards
 
-design:
-  show tables inside a list/table
+Details:
+  user should be able to sit but onhold
+  if user is disconnected set 20 seconds timer for him
+  if users sitout finish the game
+
+Design
+  show tables inside a listtable
   add option to rotate table
+  add sound preflop for shuffling cards
+  add sound on bet and check
+
+Extra:
+  add option to make your hand invisible
+  show how hot is each user, by calculating the hits

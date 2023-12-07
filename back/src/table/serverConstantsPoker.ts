@@ -1,24 +1,27 @@
 import {
   TypeCardNumber,
   TypeCardType,
+  TypeClientChannels,
+  TypeServerChannels,
   TypeTable,
   TypeTablePhase,
   TypeTableType,
   TypeUser,
 } from 'src/utils/types'
 
-export const SERVER_CHANNELS = {
+export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
   updateTables: 'server:update_tables',
 }
 
-export const CLIENT_CHANNELS = {
+export const CLIENT_CHANNELS: { [key: string]: TypeClientChannels } = {
   joinTable: 'client:join_table',
   leaveTable: 'client:leave_table',
   sitTable: 'client:sit_table',
   sitoutTable: 'client:sitout_table',
   checkAction: 'client:check_action',
-  foldAction: 'client:fold_action',
+  callAction: 'client:call_action',
   raiseAction: 'client:raise_action',
+  foldAction: 'client:fold_action',
 }
 
 const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {

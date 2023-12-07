@@ -1,3 +1,15 @@
+export type TypeServerChannels = 'server:update_tables'
+
+export type TypeClientChannels =
+  | 'client:join_table'
+  | 'client:leave_table'
+  | 'client:sit_table'
+  | 'client:sitout_table'
+  | 'client:check_action'
+  | 'client:call_action'
+  | 'client:raise_action'
+  | 'client:fold_action'
+
 type TypeBuyIn = {
   min: number
   max: number
@@ -61,4 +73,28 @@ export type TypeTable = {
   seats: TypeSeat[]
   phase: TypeTablePhase
   cards: TypeCard[]
+}
+
+export type TypeHandleClientJoinTable = {
+  tableId: number
+  username: string
+}
+
+export type TypeHandleClientSitTable = {
+  tableId: number
+  seatId: number
+  buyinAmount: number
+  username: string
+}
+
+export type TypeHandleClientCallAction = {
+  tableId: number
+  callActionAmount: number
+  username: string
+}
+
+export type TypeHandleClientRaiseAction = {
+  tableId: number
+  raiseActionAmount: number
+  username: string
 }
