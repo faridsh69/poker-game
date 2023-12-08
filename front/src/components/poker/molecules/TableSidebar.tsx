@@ -2,13 +2,14 @@ import { useCallback } from 'react'
 import { Button } from '@mui/material'
 
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import { isUserSeatedTable } from 'src/helpers/clientHelpersPoker'
+import { isUserSeatedTable, isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
 import { TypeSocket, TypeTable } from 'src/interfaces/type-game'
 
 export const TableSidebar = (props: { table: TypeTable; username: string; socket: TypeSocket }) => {
   const { table, username, socket } = props
 
   const isAuthUserSeatedTable = isUserSeatedTable(table, username)
+  const isAuthUserWaitingTable = isUserWaitingTable(table, username)
 
   const handleQuitTable = useCallback(
     (tableId: number) => {
@@ -27,9 +28,11 @@ export const TableSidebar = (props: { table: TypeTable; username: string; socket
   return (
     <div className='home-runtable-main-sidebar'>
       <div className='home-runtable-main-sidebar-waitinglist'>
-        <Button variant='outlined' color='error' onClick={() => handleQuitTable(table.id)}>
-          Quit Table
-        </Button>
+        {isAuthUserWaitingTable && (
+          <Button variant='outlined' color='error' onClick={() => handleQuitTable(table.id)}>
+            Quit Table
+          </Button>
+        )}
         <br />
         <br />
         {isAuthUserSeatedTable && (

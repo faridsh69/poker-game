@@ -52,6 +52,12 @@ export const renderClientQuitTable = (
       : {
           ...t,
           waitingUsers: t.waitingUsers.filter(u => u.username !== username),
+          seats: t.seats.map(s => {
+            return {
+              ...s,
+              user: s.user?.username === username ? null : s.user,
+            }
+          }),
         }
   })
 }

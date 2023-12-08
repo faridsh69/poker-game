@@ -30,7 +30,7 @@ export const TableSeats = (props: {
             <img src={s.user.avatar} alt='Avatar' className='seat-user-avatar' />
             <div className='seat-user-username'>{s.user.username}</div>
             <div className='seat-user-cash'>${s.user.cash.inGame}</div>
-            <TableSeatCards cards={s.user.cards} />
+            <TableSeatCards cards={s.user.cards} isAuthSeat={s.user.username === username} />
             {s.user.isDealer && (
               <div className='seat-user-isdealer'>
                 <img src='/dealer.png' alt='dealer' className='seat-user-isdealer-img' />
