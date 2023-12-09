@@ -1,5 +1,6 @@
 import { CARD_NUMBERS, CARD_TYPES, TABLE_PHASES } from 'src/table/serverConstantsPoker'
-import { TypeCard, TypeTable, TypeTablePhase } from 'src/utils/types'
+import { TypeCard, TypeScoreAndAchivements, TypeTable, TypeTablePhase } from 'src/utils/types'
+import { getCardsScoreAndAchivement } from './winnerAlghoritm'
 
 export const isUndefined = variable => typeof variable === 'undefined'
 
@@ -148,4 +149,45 @@ export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase 
   }
 
   return nextPhase
+}
+
+export const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
+  const tableCards = table.cards
+  const scoreAndAchivements: TypeScoreAndAchivements = {}
+
+  for (const seat of table.seats) {
+    if (!seat.user) continue
+
+    const userCards = seat.user.cards
+    scoreAndAchivements[seat.id] = getCardsScoreAndAchivement([...tableCards, ...userCards])
+  }
+
+  return scoreAndAchivements
+}
+
+const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number => {
+  const seatIds = Object.keys(scoreAndAchievements)
+  let maximumScore = 0
+
+  for (const seatId of seatIds) {
+    if (scoreAndAchievements[seatId].score > maximumScore) {
+      maximumScore = scoreAndAchievements[seatId].score
+    }
+  }
+
+  return maximumScore
+}
+
+export const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements) => {
+  const seatIds = Object.keys(scoreAndAchievements)
+  const maximumScore = getMaximumScore(scoreAndAchievements)
+  const winnerSeatIds: number[] = []
+
+  for (const seatId of seatIds) {
+    if (scoreAndAchievements[seatId].score === maximumScore) {
+      winnerSeatIds.push(+seatId)
+    }
+  }
+
+  return winnerSeatIds
 }

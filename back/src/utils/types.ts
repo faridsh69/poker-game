@@ -55,6 +55,8 @@ export type TypeUser = {
   cards: TypeCard[]
   isDealer: boolean
   gameTurn: boolean
+  isWinner: boolean
+  achievement: string
   // hot: number
 }
 
@@ -98,3 +100,7 @@ export type TypeHandleClientRaiseAction = {
   raiseActionAmount: number
   username: string
 }
+
+export type TypeScoreAndAchivement = { score: number; achievement: string }
+
+export type TypeScoreAndAchivements = { [key: string]: TypeScoreAndAchivement }

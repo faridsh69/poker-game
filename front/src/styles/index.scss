@@ -286,6 +286,24 @@
               color: white;
             }
 
+            &-winner {
+              position: absolute;
+              background-color: white;
+            }
+
+            &-achievement {
+              text-wrap: wrap;
+              position: absolute;
+              background-color: white;
+              z-index: 2;
+              left: -190px;
+              width: 200px;
+              overflow: hidden;
+              padding: 3px;
+              border: 1px solid gray;
+              word-break: break-all;
+            }
+
             &-cards {
               position: absolute;
               display: flex;

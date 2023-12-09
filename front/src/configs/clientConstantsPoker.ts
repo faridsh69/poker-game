@@ -21,7 +21,7 @@ export const CLIENT_CHANNELS = {
   raiseAction: 'client:raise_action',
 }
 
-export const TIMER_SECONDS = 20
+export const TIMER_SECONDS = 2000
 
 export const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
   holdem: 'holdem',

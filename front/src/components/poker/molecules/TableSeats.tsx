@@ -30,13 +30,18 @@ export const TableSeats = (props: {
             <img src={s.user.avatar} alt='Avatar' className='seat-user-avatar' />
             <div className='seat-user-username'>{s.user.username}</div>
             <div className='seat-user-cash'>${s.user.cash.inGame}</div>
-            <TableSeatCards cards={s.user.cards} isAuthSeat={s.user.username === username} />
+            {!!s.user.cash.inPot && <div className='seat-user-inpot'>${s.user.cash.inPot}</div>}
+            {s.user.isWinner && <div className='seat-user-winner'>*WINNER*</div>}
+            {s.user.achievement && (
+              <div className='seat-user-achievement'>{s.user.achievement}</div>
+            )}
             {s.user.isDealer && (
               <div className='seat-user-isdealer'>
                 <img src='/dealer.png' alt='dealer' className='seat-user-isdealer-img' />
               </div>
             )}
-            {!!s.user.cash.inPot && <div className='seat-user-inpot'>${s.user.cash.inPot}</div>}
+
+            <TableSeatCards cards={s.user.cards} isAuthSeat={s.user.username === username} />
           </div>
         )}
       </div>

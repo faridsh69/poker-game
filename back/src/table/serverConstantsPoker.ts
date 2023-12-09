@@ -72,6 +72,8 @@ export const WAITING_USER: TypeUser = {
   cards: [],
   isDealer: false,
   gameTurn: false,
+  isWinner: false,
+  achievement: '',
   // hot: null,
 }
 
@@ -89,6 +91,8 @@ export const PLAYING_USER: TypeUser = {
   ],
   isDealer: false,
   gameTurn: false,
+  isWinner: false,
+  achievement: '',
   // hot: 50,
 }
 

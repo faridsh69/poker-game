@@ -1,4 +1,4 @@
-import { TypeTable, TypeTablePhase } from 'src/utils/types'
+import { TypeScoreAndAchivements, TypeTable, TypeTablePhase } from 'src/utils/types'
 import { TABLE_PHASES, WAITING_USER } from 'src/table/serverConstantsPoker'
 import {
   getCurrentDealerSeatId,
@@ -7,6 +7,8 @@ import {
   getNextSeatId,
   getNextTablePhase,
   getRandomCards,
+  getScoreAndAchievements,
+  getWinnerSeatIds,
 } from 'src/utils/common'
 
 const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
@@ -134,15 +136,29 @@ export const renderClientCheckAction = (
   return tablesState.map(t => {
     if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
 
+    // @todo check if user is not able to do check action
     const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
     const nextGameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
 
     const isPhaseFinished = getIsPhaseFinished(t)
-    const nextTablePhase = getNextTablePhase(t.phase)
+
+    let tablePhase = t.phase
+    let scoreAndAchievements: TypeScoreAndAchivements = {}
+    let winnerSeatIds: number[] = []
+
+    if (isPhaseFinished) {
+      tablePhase = getNextTablePhase(t.phase)
+
+      // if (tablePhase === TABLE_PHASES.show) {
+      if (tablePhase) {
+        scoreAndAchievements = getScoreAndAchievements(t)
+        winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
+      }
+    }
 
     return {
       ...t,
-      phase: isPhaseFinished ? nextTablePhase : t.phase,
+      phase: tablePhase,
       seats: t.seats.map(s => {
         if (!s.user) return s
 
@@ -151,6 +167,8 @@ export const renderClientCheckAction = (
           user: {
             ...s.user,
             gameTurn: nextGameTurnSeatId === s.id,
+            isWinner: winnerSeatIds.includes(s.id),
+            achievement: scoreAndAchievements[s.id]?.achievement,
           },
         }
       }),
@@ -167,15 +185,28 @@ export const renderClientCallAction = (
   return tablesState.map(t => {
     if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
 
+    // @todo check if user is not able to do call that amount and he should call more
     const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
     const nextGameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
 
     const isPhaseFinished = getIsPhaseFinished(t)
-    const nextTablePhase = getNextTablePhase(t.phase)
+
+    let tablePhase = t.phase
+    let scoreAndAchievements: TypeScoreAndAchivements = {}
+    let winnerSeatIds: number[] = []
+
+    if (isPhaseFinished) {
+      tablePhase = getNextTablePhase(t.phase)
+
+      if (tablePhase === TABLE_PHASES.show) {
+        scoreAndAchievements = getScoreAndAchievements(t)
+        winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
+      }
+    }
 
     return {
       ...t,
-      phase: isPhaseFinished ? nextTablePhase : t.phase,
+      phase: tablePhase,
       seats: t.seats.map(s => {
         if (!s.user) return s
 
@@ -193,6 +224,8 @@ export const renderClientCallAction = (
               inPot,
               inGame,
             },
+            isWinner: winnerSeatIds.includes(s.id),
+            achievement: scoreAndAchievements[s.id]?.achievement,
           },
         }
       }),
@@ -209,6 +242,7 @@ export const renderClientRaiseAction = (
   return tablesState.map(t => {
     if (t.id !== tableId || t.seats.filter(s => s.user).length < 2) return t
 
+    // @todo check the raise amount is allowed and equal to last bet
     const currentGameTurnSeatId = getCurrentGameTurnSeatId(t, username)
     const nextGameTurnSeatId = getNextSeatId(t, currentGameTurnSeatId)
 

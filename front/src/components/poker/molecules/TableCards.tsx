@@ -12,7 +12,8 @@ export const TableCards = (props: { table: TypeTable }) => {
         const turnPhase = table.phase == TABLE_PHASES.turn && cardIndex > 3
 
         if (preflopPhase || flopPhase || turnPhase) {
-          return null
+          // @TODO revert
+          // return null
         }
 
         return (
