@@ -84,6 +84,14 @@ const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number 
   return maximumScore
 }
 
+const getTablePot = (table: TypeTable) => {
+  const maximumBet = getMaximumBet(table)
+  const userSeats = table.seats.filter(s => s.user)
+  const tablePot = table.pot + maximumBet * userSeats.length
+
+  return tablePot
+}
+
 export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
   return !!table.seats.find(s => s.user?.username === username)
 }
@@ -195,8 +203,6 @@ export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase 
   return nextPhase
 }
 
-export const x = 1
-
 export const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
   const tableCards = table.cards
   const scoreAndAchivements: TypeScoreAndAchivements = {}
@@ -226,13 +232,12 @@ export const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements) 
   return winnerSeatIds
 }
 
-export const getUpdatedTableNextGameTurn = (table: TypeTable) => {
+export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: boolean) => {
   if (table.phase === TABLE_PHASES.show) return table
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
   let nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId)
 
-  const isPhaseFinished = getIsPhaseFinished(table)
   if (isPhaseFinished) {
     nextGameTurnSeatId = getCurrentSmallSeatId(table)
   }
@@ -280,24 +285,20 @@ export const getUpdatedSeatWithRaiseOrCallAmount = (table: TypeTable, amount: nu
   }
 }
 
-export const getUpdatedTableIfPhaseFinished = (table: TypeTable) => {
-  const isPhaseFinished = getIsPhaseFinished(table)
-
+export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished: boolean) => {
   if (!isPhaseFinished) return table
 
   const tablePhase = getNextTablePhase(table.phase)
+  const tablePot = getTablePot(table)
+
   let scoreAndAchievements: TypeScoreAndAchivements = {}
   let winnerSeatIds: number[] = []
-
+  let winnerReward = 0
   if (tablePhase === TABLE_PHASES.show) {
     scoreAndAchievements = getScoreAndAchievements(table)
     winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
+    winnerReward = (tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100)
   }
-
-  const maximumBet = getMaximumBet(table)
-  const userSeats = table.seats.filter(s => s.user)
-  const tablePot = table.pot + maximumBet * userSeats.length
-  const tablePotAfterKaniat = tablePot * (1 - KANIAT_PERCENT / 100)
 
   return {
     ...table,
@@ -315,7 +316,7 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable) => {
           cash: {
             ...s.user.cash,
             inPot: 0,
-            inGame: isWinner ? s.user.cash.inGame + tablePotAfterKaniat : s.user.cash.inGame,
+            inGame: isWinner ? s.user.cash.inGame + winnerReward : s.user.cash.inGame,
           },
           achievement: scoreAndAchievements[s.id]?.achievement,
           isWinner,

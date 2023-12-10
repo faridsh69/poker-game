@@ -2,6 +2,7 @@ import { TypeTable } from 'src/utils/serverPokerTypes'
 import { TABLE_PHASES, WAITING_USER } from 'src/utils/serverPokerConstants'
 import {
   getCurrentDealerSeatId,
+  getIsPhaseFinished,
   getNextSeatId,
   getRandomCards,
   getUpdatedSeatWithRaiseOrCallAmount,
@@ -175,8 +176,12 @@ export const renderClientCheckAction = (tablesState: TypeTable[], tableId: numbe
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(t)
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(updatedTableIfPhaseFinished)
+    const isPhaseFinished = getIsPhaseFinished(t)
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(t, isPhaseFinished)
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+      updatedTableIfPhaseFinished,
+      isPhaseFinished,
+    )
 
     return updatedTableNextGameTurn
   })
@@ -191,8 +196,15 @@ export const renderClientCallAction = (
     if (t.id !== tableId) return t
 
     const updatedSeatsWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, callActionAmount)
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(updatedSeatsWithAmount)
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(updatedTableIfPhaseFinished)
+    const isPhaseFinished = getIsPhaseFinished(t)
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
+      updatedSeatsWithAmount,
+      isPhaseFinished,
+    )
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+      updatedTableIfPhaseFinished,
+      isPhaseFinished,
+    )
 
     return updatedTableNextGameTurn
   })
@@ -207,7 +219,7 @@ export const renderClientRaiseAction = (
     if (t.id !== tableId) return t
 
     const updatedSeatsWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, raiseActionAmount)
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(updatedSeatsWithAmount)
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(updatedSeatsWithAmount, false)
 
     return updatedTableNextGameTurn
   })
