@@ -1,10 +1,13 @@
 import { TypeCard } from 'src/interfaces/type-game'
 
-export const TableSeatCards = (props: { cards: TypeCard[]; isAuthSeat: boolean }) => {
-  const { cards, isAuthSeat } = props
+export const SeatUserCards = (props: {
+  cards: TypeCard[]
+  isAuthSeat: boolean
+  showPhase: boolean
+}) => {
+  const { cards, isAuthSeat, showPhase } = props
 
-  // @TODO revert
-  if (!isAuthSeat && cards.length) {
+  if (!isAuthSeat && cards.length && !showPhase) {
     return (
       <div className='seat-user-cards'>
         <div className='seat-user-cards-card hide-card'>

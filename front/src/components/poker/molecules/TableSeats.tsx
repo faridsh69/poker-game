@@ -1,6 +1,14 @@
-import { TableSeatCards } from 'src/components/poker/molecules/TableSeatCards'
+import { SeatUserCards } from 'src/components/poker/molecules/SeatUserCards'
+import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
 import { TypeTable } from 'src/interfaces/type-game'
+import { SeatUserDealer } from '../atoms/SeatUserDealer'
+import { SeattUserAchievement } from '../atoms/SeattUserAchievement'
+import { SeatUserWinner } from '../atoms/SeatUserWinner'
+import { SeatUserCashIngame } from '../atoms/SeatUserCashIngame'
+import { SeatUserUsername } from '../atoms/SeatUserUsername'
+import { SeatUserAvatar } from '../atoms/SeatUserAvatar'
+import { SeatUserCashInpot } from '../atoms/SeatUserCashInpot'
 
 export const TableSeats = (props: {
   table: TypeTable
@@ -27,21 +35,18 @@ export const TableSeats = (props: {
         )}
         {s.user && (
           <div className='seat-user'>
-            <img src={s.user.avatar} alt='Avatar' className='seat-user-avatar' />
-            <div className='seat-user-username'>{s.user.username}</div>
-            <div className='seat-user-cash'>${s.user.cash.inGame}</div>
-            {!!s.user.cash.inPot && <div className='seat-user-inpot'>${s.user.cash.inPot}</div>}
-            {s.user.isWinner && <div className='seat-user-winner'>*WINNER*</div>}
-            {s.user.achievement && (
-              <div className='seat-user-achievement'>{s.user.achievement}</div>
-            )}
-            {s.user.isDealer && (
-              <div className='seat-user-isdealer'>
-                <img src='/dealer.png' alt='dealer' className='seat-user-isdealer-img' />
-              </div>
-            )}
-
-            <TableSeatCards cards={s.user.cards} isAuthSeat={s.user.username === username} />
+            <SeatUserAvatar seat={s} />
+            <SeatUserUsername seat={s} />
+            <SeatUserCashIngame seat={s} />
+            <SeatUserCashInpot seat={s} />
+            <SeatUserWinner seat={s} />
+            <SeattUserAchievement seat={s} />
+            <SeatUserDealer seat={s} />
+            <SeatUserCards
+              cards={s.user.cards}
+              isAuthSeat={s.user.username === username}
+              showPhase={table.phase === TABLE_PHASES.show}
+            />
           </div>
         )}
       </div>

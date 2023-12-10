@@ -9,6 +9,10 @@ import {
   TypeUser,
 } from 'src/utils/serverPokerTypes'
 
+export const KANIAT_PERCENT = 5
+
+export const START_NEW_ROUND_TIMEOUT = 15000
+
 export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
   updateTables: 'server:update_tables',
 }
@@ -97,43 +101,43 @@ export const PLAYING_USER: TypeUser = {
 }
 
 export const TABLES: TypeTable[] = [
-  {
-    id: 1,
-    title: 'Holdem 1$ 2$, Buy in: 100$ - 1K$',
-    type: TABLE_TYPES.holdem,
-    small: 1,
-    big: 2,
-    buyin: {
-      min: 100,
-      max: 1000,
-    },
-    waitingUsers: [WAITING_USER],
-    seats: [
-      {
-        id: 1,
-        user: PLAYING_USER,
-      },
-      {
-        id: 2,
-        user: PLAYING_USER,
-      },
-      {
-        id: 3,
-        user: null,
-      },
-      {
-        id: 4,
-        user: null,
-      },
-    ],
-    phase: TABLE_PHASES.flop,
-    pot: 20,
-    cards: [
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[7] },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[9] },
-    ],
-  },
+  // {
+  //   id: 1,
+  //   title: 'Holdem 1$ 2$, Buy in: 100$ - 1K$',
+  //   type: TABLE_TYPES.holdem,
+  //   small: 1,
+  //   big: 2,
+  //   buyin: {
+  //     min: 100,
+  //     max: 1000,
+  //   },
+  //   waitingUsers: [WAITING_USER],
+  //   seats: [
+  //     {
+  //       id: 1,
+  //       user: PLAYING_USER,
+  //     },
+  //     {
+  //       id: 2,
+  //       user: PLAYING_USER,
+  //     },
+  //     {
+  //       id: 3,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 4,
+  //       user: null,
+  //     },
+  //   ],
+  //   phase: TABLE_PHASES.flop,
+  //   pot: 20,
+  //   cards: [
+  //     { type: CARD_TYPES.clubs, number: CARD_NUMBERS[7] },
+  //     { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
+  //     { type: CARD_TYPES.clubs, number: CARD_NUMBERS[9] },
+  //   ],
+  // },
   {
     id: 2,
     title: 'Holdem 5$ 10$, Buy in: 500$ - 5K$',

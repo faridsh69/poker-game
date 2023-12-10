@@ -1,4 +1,9 @@
-import { CARD_NUMBERS, CARD_TYPES, TABLE_PHASES } from 'src/utils/serverPokerConstants'
+import {
+  CARD_NUMBERS,
+  CARD_TYPES,
+  KANIAT_PERCENT,
+  TABLE_PHASES,
+} from 'src/utils/serverPokerConstants'
 import { getCardsScoreAndAchivement } from 'src/table/services/winnerService'
 import {
   TypeCard,
@@ -222,6 +227,8 @@ export const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements) 
 }
 
 export const getUpdatedTableNextGameTurn = (table: TypeTable) => {
+  if (table.phase === TABLE_PHASES.show) return table
+
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
   let nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId)
 
@@ -290,6 +297,7 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
   const userSeats = table.seats.filter(s => s.user)
   const tablePot = table.pot + maximumBet * userSeats.length
+  const tablePotAfterKaniat = tablePot * (1 - KANIAT_PERCENT / 100)
 
   return {
     ...table,
@@ -307,7 +315,7 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable) => {
           cash: {
             ...s.user.cash,
             inPot: 0,
-            inGame: isWinner ? s.user.cash.inGame + tablePot : s.user.cash.inGame,
+            inGame: isWinner ? s.user.cash.inGame + tablePotAfterKaniat : s.user.cash.inGame,
           },
           achievement: scoreAndAchievements[s.id]?.achievement,
           isWinner,

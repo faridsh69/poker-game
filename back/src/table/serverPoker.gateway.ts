@@ -9,7 +9,12 @@ import {
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from 'src/utils/serverPokerConstants'
+import {
+  CLIENT_CHANNELS,
+  SERVER_CHANNELS,
+  START_NEW_ROUND_TIMEOUT,
+  TABLES,
+} from 'src/utils/serverPokerConstants'
 import {
   renderClientCallAction,
   renderClientCheckAction,
@@ -137,7 +142,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
         this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
           tables: this.tablesState,
         })
-      }, 5000)
+      }, START_NEW_ROUND_TIMEOUT)
     }
   }
 
@@ -161,7 +166,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
         this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
           tables: this.tablesState,
         })
-      }, 5000)
+      }, START_NEW_ROUND_TIMEOUT)
     }
   }
 

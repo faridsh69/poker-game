@@ -1,8 +1,8 @@
 import { TypeCard, TypeScoreAndAchivement } from 'src/utils/serverPokerTypes'
 import { CARD_NUMBERS } from 'src/utils/serverPokerConstants'
 
-// 9 Royal Flush
-// 8 Straight Flush
+// 9 Royal Flush = 9 * 100 ^ 5
+// 8 Straight Flush = 8 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1 + 14 * 100 ^ 0
 // 7 quads = 7 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3
 // 6 Full House = 6 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3
 // 5 Flush = 5 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1 + 14 * 100 ^ 0
@@ -18,6 +18,7 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
   const pairOrSetOrQuadsCards = getPairOrSetOrQuadsCards(sortedCards)
   const flushCards = getFlushCards(sortedCards)
   const straightCards = getStraightCards(sortedCards)
+  const straightFlushCards = getStraightCards(flushCards)
 
   if (pairOrSetOrQuadsCards.length) {
     for (const pairOrSetOrQuadsCard of pairOrSetOrQuadsCards) {
@@ -45,6 +46,12 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
   if (flushCards.length) {
     level = Math.max(level, 5)
   }
+  if (straightFlushCards.length) {
+    level = Math.max(level, 8)
+  }
+  if (straightFlushCards.length && getCardScore(straightFlushCards[0]) === 14) {
+    level = Math.max(level, 9)
+  }
 
   if (level === 0) {
     score = getHighCardScore(sortedCards)
@@ -71,21 +78,21 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
     score = getQuadsScore(sortedCards, pairOrSetOrQuadsCards)
   }
   if (level === 8) {
-    score = getStraightFlushScore(sortedCards)
+    score = getStraightFlushScore(straightFlushCards)
   }
   if (level === 9) {
-    score = getRoyalFlushScore(sortedCards)
+    score = getRoyalFlushScore()
   }
 
   return { score, achievement: JSON.stringify({ score, pairs: pairOrSetOrQuadsCards }) }
 }
 
-const getRoyalFlushScore = (cards: TypeCard[]) => {
-  return 9 * Math.pow(100, 5) + getCardScoreWithLevel(cards[0], 4)
+const getRoyalFlushScore = () => {
+  return 9 * Math.pow(100, 5)
 }
 
-const getStraightFlushScore = (cards: TypeCard[]) => {
-  return 8 * Math.pow(100, 5) + getCardScoreWithLevel(cards[0], 4)
+const getStraightFlushScore = (straightFlushCards: TypeCard[]) => {
+  return 8 * Math.pow(100, 5) + getCardScoreWithLevel(straightFlushCards[0], 4)
 }
 
 const getQuadsScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]) => {
