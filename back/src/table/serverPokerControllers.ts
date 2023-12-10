@@ -138,6 +138,7 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
     return {
       ...t,
       phase: TABLE_PHASES.preflop,
+      pot: 0,
       cards: tableCards,
       seats: t.seats.map(s => {
         if (!s.user) return s
@@ -156,6 +157,8 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
             cards: userCards,
             isDealer: newDealerSeatId === s.id,
             gameTurn: newGameTurnSeatId === s.id,
+            isWinner: false,
+            achievement: '',
             cash: {
               ...s.user.cash,
               inPot,

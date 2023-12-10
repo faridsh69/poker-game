@@ -90,7 +90,17 @@ export const isUserWaitingTable = (table: TypeTable, username: string): boolean 
 }
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {
-  return table.phase === TABLE_PHASES.wait && table.seats.filter(s => s.user).length > 1
+  const isWaitingOrShowPhase =
+    table.phase === TABLE_PHASES.wait || table.phase === TABLE_PHASES.show
+  const atLeastTwpPlayers = table.seats.filter(s => s.user).length > 1
+
+  return isWaitingOrShowPhase && atLeastTwpPlayers
+}
+
+export const isTimeToRestartTable = (tables: TypeTable[], tableId: number): boolean => {
+  const table = tables.find(t => t.id === tableId)
+
+  return table.phase === TABLE_PHASES.show
 }
 
 export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
@@ -117,7 +127,7 @@ export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
 }
 
 export const getCurrentGameTurnSeatId = (table: TypeTable) => {
-  return table.seats.find(s => s.user?.gameTurn).id
+  return table.seats.find(s => s.user?.gameTurn)?.id || -1
 }
 
 export const getCurrentDealerSeatId = (table: TypeTable): number => {
@@ -303,6 +313,7 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable) => {
           },
           achievement: scoreAndAchievements[s.id]?.achievement,
           isWinner,
+          gameTurn: false,
         },
       }
     }),

@@ -27,6 +27,7 @@ import {
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/utils/serverPokerTypes'
+import { isTimeToRestartTable } from 'src/table/serverPokerServices'
 
 @WebSocketGateway({
   cors: {
@@ -129,6 +130,15 @@ export class ServerPokerGateway implements OnGatewayConnection {
       message: `${username} checked.`,
       tables: this.tablesState,
     })
+
+    if (isTimeToRestartTable(this.tablesState, tableId)) {
+      setTimeout(() => {
+        this.tablesState = renderStartTable(this.tablesState, tableId)
+        this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+          tables: this.tablesState,
+        })
+      }, 5000)
+    }
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.callAction)
@@ -141,7 +151,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientCallAction(this.tablesState, tableId, callActionAmount)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} checked.`,
+      message: `${username} called ${callActionAmount}$.`,
       tables: this.tablesState,
     })
   }
@@ -156,7 +166,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientRaiseAction(this.tablesState, tableId, raiseActionAmount)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} checked.`,
+      message: `${username} raised ${raiseActionAmount}$.`,
       tables: this.tablesState,
     })
   }
