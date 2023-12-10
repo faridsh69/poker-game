@@ -50,20 +50,18 @@ const getMaximumBetSeatIds = (table: TypeTable): number[] => {
 
 const getRaiserSeatId = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
-  const maximumBetSeatIds = getMaximumBetSeatIds(table)
-  console.log('1 maximumBetSeatIds', maximumBetSeatIds)
-  console.log('2 maximumBet', maximumBet)
-  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-  const currentDealerSeatId = getCurrentDealerSeatId(table)
-  const initialRaiserSeatId = maximumBet
-    ? getNextSeatId(table, currentGameTurnSeatId)
-    : currentDealerSeatId
 
-  let raiserSeatId = initialRaiserSeatId
+  if (maximumBet === 0) {
+    return getCurrentSmallSeatId(table)
+  }
+
+  const maximumBetSeatIds = getMaximumBetSeatIds(table)
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+  let raiserSeatId = getNextSeatId(table, currentGameTurnSeatId)
+
   while (!maximumBetSeatIds.includes(raiserSeatId)) {
     raiserSeatId = getNextSeatId(table, raiserSeatId)
   }
-  console.log('3 raiserSeatId', raiserSeatId)
 
   return raiserSeatId
 }

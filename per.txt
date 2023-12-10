@@ -1,8 +1,3 @@
-handle authentication (connet nest and laravel or usuth authJs ya nestAuth)
-get tables data from database, also users data
-save tableStates in mysql each time
-refetch latest tableStates after DC
-after raise or win the game reduce or add money to users table
 + run nest
 + think about single user room (or better way)
 + think about sending api for reduced money after user bet
@@ -36,23 +31,51 @@ after raise or win the game reduce or add money to users table
 + small player should at least call, or fold, he cant check
 + click on raise will raise
 + show flop after finishing all user actions
-minimum price for raise is equal to last bet
-at the show space finish the game and find the winner
-calculat the win and reduce 2%
-restart the game
-click on fold will remove user cards
++ at the show space finish the game and find the winner
++ calculat the winner
++ add user pots to table pot after phase
++ useEffecti bezar ke bade 10 second restart she
++ add money to winner
++ restart the game
+reduce 2% for kaniat
+
+click on fold will remove him from the pot
+check if users length in round is less than 2 and finish it
+
+add checkbox for check/fold
+if user do not act 20 second auto fold/check
+
+Questions:
+  user should be able to sit but onhold
+  if user is disconnected set 20 seconds timer for him, then sit him out
+  if users sitout and less than 2 players finish the game
+  
+Server:
+  get tables data from database
+  handle authentication (connect nest and laravel or useAth authJs ya nestAuth)
+  save tableStates in mysql each time
+  refetch latest tableStates after DC
+  after bet, call or win the game reduce or add money to users table
+  add caching for reading from database
 
 Details:
-  user should be able to sit but onhold
-  if user is disconnected set 20 seconds timer for him
-  if users sitout finish the game
-
-Design
-  show tables inside a listtable
-  add option to rotate table
   add sound preflop for shuffling cards
   add sound on bet and check
 
+Security:
+  add validation before each action
+  add authorization before sending data to users
+  check if check action is ok
+  check if call price is expected
+  check if raise price is allowed
+  dont show table and other user cards on update_table
+
 Extra:
+  add option to rotate table
   add option to make your hand invisible
   show how hot is each user, by calculating the hits
+  add deal when they are all-in
+  create seperate pots when someone finished money
+  add all-in button
+  handle Omaha 4 card and 5 card
+

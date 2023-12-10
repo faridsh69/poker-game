@@ -154,6 +154,15 @@ export class ServerPokerGateway implements OnGatewayConnection {
       message: `${username} called ${callActionAmount}$.`,
       tables: this.tablesState,
     })
+
+    if (isTimeToRestartTable(this.tablesState, tableId)) {
+      setTimeout(() => {
+        this.tablesState = renderStartTable(this.tablesState, tableId)
+        this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+          tables: this.tablesState,
+        })
+      }, 5000)
+    }
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.raiseAction)
