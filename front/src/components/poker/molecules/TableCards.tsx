@@ -13,7 +13,7 @@ export const TableCards = (props: { table: TypeTable }) => {
 
         if (preflopPhase || flopPhase || turnPhase) {
           // @TODO revert
-          // return null
+          return null
         }
 
         return (

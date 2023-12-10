@@ -75,6 +75,7 @@ export type TypeTable = {
   seats: TypeSeat[]
   phase: TypeTablePhase
   cards: TypeCard[]
+  pot: number
 }
 
 export type TypeHandleClientJoinTable = {

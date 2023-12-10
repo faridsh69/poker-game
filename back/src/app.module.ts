@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { AppController } from './utils/app.controller'
-import { AppService } from './utils/app.service'
-import { ServerPokerGateway } from './table/serverPoker.gateway'
+import { ServerPokerGateway } from 'src/table/serverPoker.gateway'
 
 @Module({
   imports: [ConfigModule.forRoot()],
-  controllers: [AppController],
-  providers: [AppService, ServerPokerGateway],
+  controllers: [],
+  providers: [ServerPokerGateway],
 })
 export class AppModule {}

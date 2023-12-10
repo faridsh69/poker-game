@@ -45,6 +45,7 @@ export const UserTable = (props: { table: TypeTable; username: string; socket: T
         <div className='home-runtable-main-body'>
           <img src={tableImage} alt='poker-table' className='home-runtable-main-body-mainimage' />
           <TableCards table={table} />
+          {!!table.pot && <div className='home-runtable-main-body-tablepot'>${table.pot}</div>}
           <TableActions table={table} username={username} socket={socket} />
           <TableSeats table={table} username={username} handleSitTableModal={handleSitTableModal} />
         </div>

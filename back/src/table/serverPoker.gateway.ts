@@ -9,24 +9,24 @@ import {
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from 'src/table/serverConstantsPoker'
+import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from 'src/utils/serverPokerConstants'
 import {
   renderClientCallAction,
   renderClientCheckAction,
   renderClientJoinTable,
-  renderClientQuitTable,
+  renderClientLeaveTable,
   renderClientRaiseAction,
   renderClientSitTable,
   renderClientSitoutTable,
   renderStartTable,
-} from 'src/table/serverHelpersPoker'
+} from 'src/table/serverPokerControllers'
 import {
   TypeHandleClientCallAction,
   TypeHandleClientJoinTable,
   TypeHandleClientRaiseAction,
   TypeHandleClientSitTable,
   TypeTable,
-} from 'src/utils/types'
+} from 'src/utils/serverPokerTypes'
 
 @WebSocketGateway({
   cors: {
@@ -59,6 +59,8 @@ export class ServerPokerGateway implements OnGatewayConnection {
     @MessageBody() { tableId, username }: TypeHandleClientJoinTable,
     @ConnectedSocket() clientSocket: Socket,
   ) {
+    // Validations: check user not joined this table before
+
     this.tablesState = renderClientJoinTable(this.tablesState, tableId, username)
 
     clientSocket.join('' + tableId)
@@ -72,7 +74,9 @@ export class ServerPokerGateway implements OnGatewayConnection {
     @MessageBody() { tableId, username }: TypeHandleClientJoinTable,
     @ConnectedSocket() clientSocket: Socket,
   ) {
-    this.tablesState = renderClientQuitTable(this.tablesState, tableId, username)
+    // Validations: check user is joined before as waiting user in this table
+
+    this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has left table #${tableId}`,
@@ -85,6 +89,8 @@ export class ServerPokerGateway implements OnGatewayConnection {
   handleClientSitTable(
     @MessageBody() { tableId, seatId, buyinAmount, username }: TypeHandleClientSitTable,
   ) {
+    // Validations: check user is joined before as waiting user in this table, also he is not seated
+
     this.tablesState = renderClientSitTable(
       this.tablesState,
       tableId,
@@ -102,6 +108,8 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
   @SubscribeMessage(CLIENT_CHANNELS.sitoutTable)
   handleClientSitoutTable(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    // Validations: check user is seated beforein this table
+
     this.tablesState = renderClientSitoutTable(this.tablesState, tableId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
@@ -112,7 +120,10 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
   @SubscribeMessage(CLIENT_CHANNELS.checkAction)
   handleClientCheckAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
-    this.tablesState = renderClientCheckAction(this.tablesState, tableId, username)
+    // Validations: check user can do check or he should call/fold, also is it user turn
+    // check two person are seating in table, check table phase is not waiting
+
+    this.tablesState = renderClientCheckAction(this.tablesState, tableId)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} checked.`,
@@ -124,7 +135,10 @@ export class ServerPokerGateway implements OnGatewayConnection {
   handleClientCallAction(
     @MessageBody() { tableId, callActionAmount, username }: TypeHandleClientCallAction,
   ) {
-    this.tablesState = renderClientCallAction(this.tablesState, tableId, callActionAmount, username)
+    // Validations: check user can call this amount, also is it user turn
+    // check two person are seating in table, check table phase is not waiting
+
+    this.tablesState = renderClientCallAction(this.tablesState, tableId, callActionAmount)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} checked.`,
@@ -136,12 +150,10 @@ export class ServerPokerGateway implements OnGatewayConnection {
   handleClientRaiseAction(
     @MessageBody() { tableId, raiseActionAmount, username }: TypeHandleClientRaiseAction,
   ) {
-    this.tablesState = renderClientRaiseAction(
-      this.tablesState,
-      tableId,
-      raiseActionAmount,
-      username,
-    )
+    // Validations: check user can raise this amount, also is it user turn
+    // check two person are seating in table, check table phase is not waiting
+
+    this.tablesState = renderClientRaiseAction(this.tablesState, tableId, raiseActionAmount)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} checked.`,

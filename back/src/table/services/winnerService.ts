@@ -1,12 +1,12 @@
-import { TypeCard, TypeScoreAndAchivement } from './types'
-import { CARD_NUMBERS } from 'src/table/serverConstantsPoker'
+import { TypeCard, TypeScoreAndAchivement } from 'src/utils/serverPokerTypes'
+import { CARD_NUMBERS } from 'src/utils/serverPokerConstants'
 
 // 9 Royal Flush
 // 8 Straight Flush
 // 7 quads = 7 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3
 // 6 Full House = 6 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3
-// 5 Flush
-// 4 Straight
+// 5 Flush = 5 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1 + 14 * 100 ^ 0
+// 4 Straight = 4 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1 + 14 * 100 ^ 0
 // 3 set = 3 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2
 // 2 Two Pair = 2 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2
 // 1 One Pair = 1 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1
@@ -15,7 +15,9 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
   let score = 0
   let level = 0
   const sortedCards = getSortedCards(cards)
-  const pairOrSetOrQuadsCards = findPairOrSetOrQuadsCards(sortedCards)
+  const pairOrSetOrQuadsCards = getPairOrSetOrQuadsCards(sortedCards)
+  const flushCards = getFlushCards(sortedCards)
+  const straightCards = getStraightCards(sortedCards)
 
   if (pairOrSetOrQuadsCards.length) {
     for (const pairOrSetOrQuadsCard of pairOrSetOrQuadsCards) {
@@ -37,6 +39,13 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
     }
   }
 
+  if (straightCards.length) {
+    level = Math.max(level, 4)
+  }
+  if (flushCards.length) {
+    level = Math.max(level, 5)
+  }
+
   if (level === 0) {
     score = getHighCardScore(sortedCards)
   }
@@ -50,10 +59,10 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
     score = getSetScore(sortedCards, pairOrSetOrQuadsCards)
   }
   if (level === 4) {
-    score = getStraightScore(sortedCards)
+    score = getStraightScore(straightCards)
   }
-  if (level === 4) {
-    score = getFlushScore(sortedCards)
+  if (level === 5) {
+    score = getFlushScore(flushCards)
   }
   if (level === 6) {
     score = getFullHouseScore(sortedCards, pairOrSetOrQuadsCards)
@@ -103,12 +112,26 @@ const getFullHouseScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][
   )
 }
 
-const getFlushScore = (cards: TypeCard[]) => {
-  return 5 * Math.pow(100, 5) + getCardScoreWithLevel(cards[0], 4)
+const getFlushScore = (flushCards: TypeCard[]) => {
+  return (
+    5 * Math.pow(100, 5) +
+    getCardScoreWithLevel(flushCards[0], 4) +
+    getCardScoreWithLevel(flushCards[1], 3) +
+    getCardScoreWithLevel(flushCards[2], 2) +
+    getCardScoreWithLevel(flushCards[3], 1) +
+    getCardScoreWithLevel(flushCards[4], 0)
+  )
 }
 
-const getStraightScore = (cards: TypeCard[]) => {
-  return 4 * Math.pow(100, 5) + getCardScoreWithLevel(cards[0], 4)
+const getStraightScore = (straightCards: TypeCard[]) => {
+  return (
+    4 * Math.pow(100, 5) +
+    getCardScoreWithLevel(straightCards[0], 4) +
+    getCardScoreWithLevel(straightCards[1], 3) +
+    getCardScoreWithLevel(straightCards[2], 2) +
+    getCardScoreWithLevel(straightCards[3], 1) +
+    getCardScoreWithLevel(straightCards[4], 0)
+  )
 }
 
 const getSetScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]) => {
@@ -138,7 +161,7 @@ const getTwoPairScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][])
     2 * Math.pow(100, 5) +
     getCardScoreWithLevel(pairCards1[0], 4) +
     getCardScoreWithLevel(pairCards2[0], 3) +
-    getCardScoreWithLevel(restOfCards[1], 2)
+    getCardScoreWithLevel(restOfCards[0], 2)
   )
 }
 
@@ -193,13 +216,13 @@ const getSortedCards = (cards: TypeCard[]): TypeCard[] => {
   return sortedCards
 }
 
-const findPairOrSetOrQuadsCards = (cards: TypeCard[]): TypeCard[][] => {
+const getPairOrSetOrQuadsCards = (cards: TypeCard[]): TypeCard[][] => {
   const usedCards: TypeCard[] = []
   const pairOrSetOrQuadsCards: TypeCard[][] = []
 
   for (const targetCard of cards) {
     usedCards.push(targetCard)
-    const repeatedCards = [targetCard]
+    const sameNumberCards = [targetCard]
 
     for (const card of cards) {
       if (usedCards.find(uc => uc.type === card.type && uc.number === card.number)) {
@@ -207,15 +230,71 @@ const findPairOrSetOrQuadsCards = (cards: TypeCard[]): TypeCard[][] => {
       }
 
       if (card.number === targetCard.number) {
-        repeatedCards.push(card)
+        sameNumberCards.push(card)
         usedCards.push(card)
       }
     }
 
-    if (repeatedCards.length > 1) {
-      pairOrSetOrQuadsCards.push(repeatedCards)
+    if (sameNumberCards.length > 1) {
+      pairOrSetOrQuadsCards.push(sameNumberCards)
     }
   }
 
   return pairOrSetOrQuadsCards
+}
+
+const getStraightCards = (cards: TypeCard[]): TypeCard[] => {
+  const cardScores = cards.map(c => getCardScore(c))
+  if (cardScores.includes(14)) {
+    cardScores.push(1)
+  }
+
+  let straightCards: TypeCard[] = []
+
+  for (const cardScore of cardScores) {
+    const nextScore1 = cardScores.find(cs => cs === cardScore - 1)
+    const nextScore2 = cardScores.find(cs => cs === cardScore - 2)
+    const nextScore3 = cardScores.find(cs => cs === cardScore - 3)
+    const nextScore4 = cardScores.find(cs => cs === cardScore - 4)
+
+    if (nextScore1 && nextScore2 && nextScore3 && nextScore4) {
+      straightCards = [
+        cards.find(c => getCardScore(c) === cardScore),
+        cards.find(c => getCardScore(c) === cardScore),
+        cards.find(c => getCardScore(c) === cardScore),
+        cards.find(c => getCardScore(c) === cardScore),
+        cards.find(c => getCardScore(c) === cardScore),
+      ]
+      break
+    }
+  }
+
+  return straightCards
+}
+
+const getFlushCards = (cards: TypeCard[]): TypeCard[] => {
+  const usedCards: TypeCard[] = []
+  let flushCards: TypeCard[] = []
+
+  for (const targetCard of cards) {
+    usedCards.push(targetCard)
+    const sameTypeCards = [targetCard]
+
+    for (const card of cards) {
+      if (usedCards.find(uc => uc.type === card.type && uc.number === card.number)) {
+        continue
+      }
+
+      if (card.type === targetCard.type) {
+        sameTypeCards.push(card)
+        usedCards.push(card)
+      }
+    }
+
+    if (sameTypeCards.length > 4) {
+      flushCards = sameTypeCards
+    }
+  }
+
+  return flushCards
 }

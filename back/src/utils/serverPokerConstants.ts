@@ -7,7 +7,7 @@ import {
   TypeTablePhase,
   TypeTableType,
   TypeUser,
-} from 'src/utils/types'
+} from 'src/utils/serverPokerTypes'
 
 export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
   updateTables: 'server:update_tables',
@@ -127,6 +127,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.flop,
+    pot: 20,
     cards: [
       { type: CARD_TYPES.clubs, number: CARD_NUMBERS[7] },
       { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
@@ -163,6 +164,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
+    pot: 0,
     cards: [],
   },
 ]
