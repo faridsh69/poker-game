@@ -100,12 +100,20 @@ export const isUserWaitingTable = (table: TypeTable, username: string): boolean 
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
+export const isAtLeastTwoPlayers = (table: TypeTable): boolean => {
+  return table.seats.filter(s => s.user && !s.user.isFold && !s.user.isSeatout).length > 1
+}
+
+export const getOnlyPlayingSeatId = (table: TypeTable): number => {
+  return table.seats.find(s => s.user && !s.user.isFold && !s.user.isSeatout).id
+}
+
 export const isTimeToStartTable = (table: TypeTable): boolean => {
   const isWaitingOrShowPhase =
     table.phase === TABLE_PHASES.wait || table.phase === TABLE_PHASES.show
-  const atLeastTwpPlayers = table.seats.filter(s => s.user).length > 1
+  const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
 
-  return isWaitingOrShowPhase && atLeastTwpPlayers
+  return isWaitingOrShowPhase && atLeastTwoPlayers
 }
 
 export const isTimeToRestartTable = (tables: TypeTable[], tableId: number): boolean => {
@@ -168,6 +176,9 @@ export const getNextSeatId = (table: TypeTable, seatId: number): number => {
 }
 
 export const getIsPhaseFinished = (table: TypeTable) => {
+  const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
+  if (!atLeastTwoPlayers) return true
+
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
   if (table.phase === TABLE_PHASES.preflop) {
@@ -266,11 +277,13 @@ export const getUpdatedSeatWithFold = (table: TypeTable) => {
     seats: table.seats.map(s => {
       if (!s.user) return s
 
+      const isFold = currentGameTurnSeatId === s.id ? true : s.user.isFold
+
       return {
         ...s,
         user: {
           ...s.user,
-          isFold: currentGameTurnSeatId === s.id ? true : s.user.isFold,
+          isFold,
         },
       }
     }),
@@ -307,15 +320,26 @@ export const getUpdatedSeatWithRaiseOrCallAmount = (table: TypeTable, amount: nu
 export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished: boolean) => {
   if (!isPhaseFinished) return table
 
-  const tablePhase = getNextTablePhase(table.phase)
+  const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
+
+  let tablePhase = getNextTablePhase(table.phase)
   const tablePot = getTablePot(table)
 
   let scoreAndAchievements: TypeScoreAndAchivements = {}
   let winnerSeatIds: number[] = []
   let winnerReward = 0
+
   if (tablePhase === TABLE_PHASES.show) {
     scoreAndAchievements = getScoreAndAchievements(table)
     winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
+  }
+
+  if (!atLeastTwoPlayers) {
+    tablePhase = TABLE_PHASES.show
+    winnerSeatIds = [getOnlyPlayingSeatId(table)]
+  }
+
+  if (winnerSeatIds.length) {
     winnerReward = (tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100)
   }
 
