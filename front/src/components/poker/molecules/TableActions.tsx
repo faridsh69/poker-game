@@ -64,7 +64,7 @@ export const TableActions = (props: { table: TypeTable; username: string; socket
 
   return (
     <div className='home-runtable-main-body-actions'>
-      <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} />
+      {/* <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} /> */}
       {!callActionAmount && (
         <Button variant='contained' color='primary' onClick={() => handleCheckAction(table.id)}>
           Check

@@ -7,6 +7,8 @@ import {
   TypeTableType,
 } from 'src/interfaces/type-game'
 
+export const USER_ACTION_THINKING_TIMEOUT = 10
+
 export const SERVER_CHANNELS = {
   connect: 'connect',
   updateTables: 'server:update_tables',
@@ -27,8 +29,6 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   callAction: 'client:call_action',
   raiseAction: 'client:raise_action',
 }
-
-export const USER_ACTION_THINKING_TIMEOUT = 30
 
 export const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
   holdem: 'holdem',
