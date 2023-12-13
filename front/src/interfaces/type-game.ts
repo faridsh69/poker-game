@@ -2,6 +2,18 @@ import { Socket } from 'socket.io-client'
 
 export type TypeSocket = Socket
 
+export type TypeClientChannelKeys =
+  | 'joinTable'
+  | 'leaveTable'
+  | 'joinSeat'
+  | 'leaveSeat'
+  | 'joinGame'
+  | 'leaveGame'
+  | 'foldAction'
+  | 'checkAction'
+  | 'callAction'
+  | 'raiseAction'
+
 export type TypeClientChannels =
   | 'client:join_table'
   | 'client:leave_table'
@@ -72,6 +84,8 @@ export type TypeUser = {
   gameTurn: boolean
   isWinner: boolean
   achievement: string
+  isFold: boolean
+  isSeatout: boolean
   // hot: number
 }
 

@@ -1,7 +1,11 @@
 import { TypeTable } from 'src/interfaces/type-game'
 
 export const isUserSeatedTable = (table: TypeTable, username: string) => {
-  return !!table.seats.find(s => s.user?.username === username)
+  return !!table.seats.find(s => s.user?.username === username && !s.user.isSeatout)
+}
+
+export const isUserSeatoutTable = (table: TypeTable, username: string) => {
+  return !!table.seats.find(s => s.user?.username === username && s.user.isSeatout)
 }
 
 export const isUserWaitingTable = (table: TypeTable, username: string) => {
@@ -10,7 +14,7 @@ export const isUserWaitingTable = (table: TypeTable, username: string) => {
 
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] => {
   return allTables.filter(t => {
-    const isUserSeated = isUserSeatedTable(t, username)
+    const isUserSeated = isUserSeatedTable(t, username) || isUserSeatoutTable(t, username)
     const isUserWaited = isUserWaitingTable(t, username)
 
     return isUserSeated || isUserWaited

@@ -20,21 +20,21 @@ export const renderClientJoinTable = (
   username: string,
 ) => {
   return tablesState.map(t => {
-    return t.id !== tableId
-      ? t
-      : {
-          ...t,
-          waitingUsers:
-            isUserWaitingTable(t, username) || isUserSeatedTable(t, username)
-              ? t.waitingUsers
-              : [
-                  ...t.waitingUsers,
-                  {
-                    ...WAITING_USER,
-                    username,
-                  },
-                ],
-        }
+    if (t.id !== tableId) return t
+
+    return {
+      ...t,
+      waitingUsers:
+        isUserWaitingTable(t, username) || isUserSeatedTable(t, username)
+          ? t.waitingUsers
+          : [
+              ...t.waitingUsers,
+              {
+                ...WAITING_USER,
+                username,
+              },
+            ],
+    }
   })
 }
 
@@ -44,18 +44,18 @@ export const renderClientLeaveTable = (
   username: string,
 ) => {
   return tablesState.map(t => {
-    return t.id !== tableId
-      ? t
-      : {
-          ...t,
-          waitingUsers: t.waitingUsers.filter(u => u.username !== username),
-          seats: t.seats.map(s => {
-            return {
-              ...s,
-              user: s.user?.username === username ? null : s.user,
-            }
-          }),
+    if (t.id !== tableId) return t
+
+    return {
+      ...t,
+      waitingUsers: t.waitingUsers.filter(u => u.username !== username),
+      seats: t.seats.map(s => {
+        return {
+          ...s,
+          user: s.user?.username === username ? null : s.user,
         }
+      }),
+    }
   })
 }
 
@@ -67,30 +67,30 @@ export const renderClientJoinSeat = (
   username: string,
 ) => {
   return tablesState.map(t => {
-    return t.id !== tableId
-      ? t
-      : {
-          ...t,
-          waitingUsers: t.waitingUsers.filter(u => u.username !== username),
-          seats: isUserSeatedTable(t, username)
-            ? t.seats
-            : t.seats.map(s => {
-                return s.id !== seatId
-                  ? s
-                  : {
-                      id: seatId,
-                      user: {
-                        ...WAITING_USER,
-                        username,
-                        cash: {
-                          inBank: WAITING_USER.cash.inBank - buyinAmount,
-                          inPot: 0,
-                          inGame: buyinAmount,
-                        },
-                      },
-                    }
-              }),
-        }
+    if (t.id !== tableId) return t
+
+    return {
+      ...t,
+      waitingUsers: t.waitingUsers.filter(u => u.username !== username),
+      seats: isUserSeatedTable(t, username)
+        ? t.seats
+        : t.seats.map(s => {
+            if (s.id !== seatId) return s
+
+            return {
+              id: s.id,
+              user: {
+                ...WAITING_USER,
+                username,
+                cash: {
+                  inGame: buyinAmount,
+                  inBank: WAITING_USER.cash.inBank - buyinAmount,
+                  inPot: 0,
+                },
+              },
+            }
+          }),
+    }
   })
 }
 
@@ -123,7 +123,7 @@ export const renderClientLeaveSeat = (
   })
 }
 
-export const renderClientStartGame = (
+export const renderClientJoinGame = (
   tablesState: TypeTable[],
   tableId: number,
   username: string,
@@ -253,6 +253,7 @@ export const renderClientRaiseAction = (
 export const renderStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
+
     if (!isTimeToStartTable(t)) return t
 
     const tableCards = getRandomCards(5, [])

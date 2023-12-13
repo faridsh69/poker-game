@@ -1,6 +1,10 @@
 import { Button, Card, CardContent, CardMedia } from '@mui/material'
 import { CLIENT_CHANNELS, TABLE_TYPES } from 'src/configs/clientConstantsPoker'
-import { isUserSeatedTable, isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
+import {
+  isUserSeatedTable,
+  isUserSeatoutTable,
+  isUserWaitingTable,
+} from 'src/helpers/clientHelpersPoker'
 import { TypeSocket, TypeTable } from 'src/interfaces/type-game'
 import holdemImage from 'src/images/holdem.png'
 import omahaImage from 'src/images/omaha.png'
@@ -40,7 +44,11 @@ export const TablesList = (props: {
           <Button
             variant='contained'
             color='success'
-            disabled={isUserSeatedTable(table, username) || isUserWaitingTable(table, username)}
+            disabled={
+              isUserSeatedTable(table, username) ||
+              isUserWaitingTable(table, username) ||
+              isUserSeatoutTable(table, username)
+            }
             onClick={() => handleJoinTable(table.id)}
           >
             JOIN TABLE

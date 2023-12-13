@@ -19,13 +19,13 @@ import {
   renderClientCallAction,
   renderClientCheckAction,
   renderClientFoldAction,
+  renderClientJoinGame,
   renderClientJoinSeat,
   renderClientJoinTable,
   renderClientLeaveGame,
   renderClientLeaveSeat,
   renderClientLeaveTable,
   renderClientRaiseAction,
-  renderClientStartGame,
   renderStartTable,
 } from 'src/table/serverPokerControllers'
 import {
@@ -107,7 +107,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
       buyinAmount,
       username,
     )
-    this.tablesState = renderStartTable(this.tablesState, tableId)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sit on seat #${seatId}`,
@@ -127,9 +126,11 @@ export class ServerPokerGateway implements OnGatewayConnection {
     })
   }
 
-  @SubscribeMessage(CLIENT_CHANNELS.startGame)
-  handleClientStartGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
-    this.tablesState = renderClientStartGame(this.tablesState, tableId, username)
+  @SubscribeMessage(CLIENT_CHANNELS.joinGame)
+  handleClientJoinGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    this.tablesState = renderClientJoinGame(this.tablesState, tableId, username)
+
+    this.tablesState = renderStartTable(this.tablesState, tableId)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} sit out.`,

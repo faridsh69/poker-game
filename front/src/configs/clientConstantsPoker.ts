@@ -1,6 +1,7 @@
 import {
   TypeCardNumber,
   TypeCardType,
+  TypeClientChannelKeys,
   TypeClientChannels,
   TypeTablePhase,
   TypeTableType,
@@ -11,7 +12,7 @@ export const SERVER_CHANNELS = {
   updateTables: 'server:update_tables',
 }
 
-export const CLIENT_CHANNELS: { [key: string]: TypeClientChannels } = {
+export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChannels } = {
   joinTable: 'client:join_table',
   leaveTable: 'client:leave_table',
 

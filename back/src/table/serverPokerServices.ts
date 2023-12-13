@@ -105,7 +105,7 @@ export const isAtLeastTwoPlayers = (table: TypeTable): boolean => {
 }
 
 export const getOnlyPlayingSeatId = (table: TypeTable): number => {
-  return table.seats.find(s => s.user && !s.user.isFold && !s.user.isSeatout).id
+  return table.seats.find(s => s.user && !s.user.isFold && !s.user.isSeatout)?.id || -1
 }
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {

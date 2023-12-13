@@ -1,5 +1,17 @@
 export type TypeServerChannels = 'server:update_tables'
 
+export type TypeClientChannelKeys =
+  | 'joinTable'
+  | 'leaveTable'
+  | 'joinSeat'
+  | 'leaveSeat'
+  | 'joinGame'
+  | 'leaveGame'
+  | 'foldAction'
+  | 'checkAction'
+  | 'callAction'
+  | 'raiseAction'
+
 export type TypeClientChannels =
   | 'client:join_table'
   | 'client:leave_table'

@@ -1,6 +1,7 @@
 import {
   TypeCardNumber,
   TypeCardType,
+  TypeClientChannelKeys,
   TypeClientChannels,
   TypeServerChannels,
   TypeTable,
@@ -17,7 +18,7 @@ export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
   updateTables: 'server:update_tables',
 }
 
-export const CLIENT_CHANNELS: { [key: string]: TypeClientChannels } = {
+export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChannels } = {
   joinTable: 'client:join_table',
   leaveTable: 'client:leave_table',
 
@@ -84,7 +85,7 @@ export const WAITING_USER: TypeUser = {
   isWinner: false,
   achievement: '',
   isFold: false,
-  isSeatout: false,
+  isSeatout: true,
   // hot: null,
 }
 
