@@ -20,12 +20,17 @@ export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
 export const CLIENT_CHANNELS: { [key: string]: TypeClientChannels } = {
   joinTable: 'client:join_table',
   leaveTable: 'client:leave_table',
-  sitTable: 'client:sit_table',
-  sitoutTable: 'client:sitout_table',
+
+  joinSeat: 'client:join_seat',
+  leaveSeat: 'client:leave_seat',
+
+  joinGame: 'client:join_game',
+  leaveGame: 'client:leave_game',
+
+  foldAction: 'client:fold_action',
   checkAction: 'client:check_action',
   callAction: 'client:call_action',
   raiseAction: 'client:raise_action',
-  foldAction: 'client:fold_action',
 }
 
 const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
@@ -78,6 +83,8 @@ export const WAITING_USER: TypeUser = {
   gameTurn: false,
   isWinner: false,
   achievement: '',
+  isFold: false,
+  isSeatout: false,
   // hot: null,
 }
 
@@ -97,6 +104,8 @@ export const PLAYING_USER: TypeUser = {
   gameTurn: false,
   isWinner: false,
   achievement: '',
+  isFold: false,
+  isSeatout: false,
   // hot: 50,
 }
 

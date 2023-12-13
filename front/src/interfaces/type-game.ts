@@ -2,6 +2,18 @@ import { Socket } from 'socket.io-client'
 
 export type TypeSocket = Socket
 
+export type TypeClientChannels =
+  | 'client:join_table'
+  | 'client:leave_table'
+  | 'client:join_seat'
+  | 'client:leave_seat'
+  | 'client:join_game'
+  | 'client:leave_game'
+  | 'client:fold_action'
+  | 'client:check_action'
+  | 'client:call_action'
+  | 'client:raise_action'
+
 export type TypeServerChannelsUpdateTablesData = {
   tables: TypeTable[]
   message: string

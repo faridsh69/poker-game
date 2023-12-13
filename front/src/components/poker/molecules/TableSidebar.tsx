@@ -20,7 +20,7 @@ export const TableSidebar = (props: { table: TypeTable; username: string; socket
 
   const handleSitoutTable = useCallback(
     (tableId: number) => {
-      socket.emit(CLIENT_CHANNELS.sitoutTable, { tableId, username })
+      socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
     },
     [socket, username],
   )

@@ -22,7 +22,7 @@ export const BuyinModal = (props: {
 
   const handleSitTable = useCallback(
     (tableId: number, seatId: number, buyinAmount: number) => {
-      socket.emit(CLIENT_CHANNELS.sitTable, { tableId, seatId, buyinAmount, username })
+      socket.emit(CLIENT_CHANNELS.joinSeat, { tableId, seatId, buyinAmount, username })
       handleSitTableModal(0, 0)
     },
     [socket, username, handleSitTableModal],

@@ -18,11 +18,14 @@ import {
 import {
   renderClientCallAction,
   renderClientCheckAction,
+  renderClientFoldAction,
+  renderClientJoinSeat,
   renderClientJoinTable,
+  renderClientLeaveGame,
+  renderClientLeaveSeat,
   renderClientLeaveTable,
   renderClientRaiseAction,
-  renderClientSitTable,
-  renderClientSitoutTable,
+  renderClientStartGame,
   renderStartTable,
 } from 'src/table/serverPokerControllers'
 import {
@@ -91,13 +94,13 @@ export class ServerPokerGateway implements OnGatewayConnection {
     clientSocket.leave('' + tableId)
   }
 
-  @SubscribeMessage(CLIENT_CHANNELS.sitTable)
-  handleClientSitTable(
+  @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
+  handleClientJoinSeat(
     @MessageBody() { tableId, seatId, buyinAmount, username }: TypeHandleClientSitTable,
   ) {
     // Validations: check user is joined before as waiting user in this table, also he is not seated
 
-    this.tablesState = renderClientSitTable(
+    this.tablesState = renderClientJoinSeat(
       this.tablesState,
       tableId,
       seatId,
@@ -112,14 +115,46 @@ export class ServerPokerGateway implements OnGatewayConnection {
     })
   }
 
-  @SubscribeMessage(CLIENT_CHANNELS.sitoutTable)
-  handleClientSitoutTable(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  @SubscribeMessage(CLIENT_CHANNELS.leaveSeat)
+  handleClientLeaveSeat(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     // Validations: check user is seated beforein this table
 
-    this.tablesState = renderClientSitoutTable(this.tablesState, tableId, username)
+    this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sitout`,
+      tables: this.tablesState,
+    })
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.startGame)
+  handleClientStartGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    this.tablesState = renderClientStartGame(this.tablesState, tableId, username)
+
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+      message: `${username} sit out.`,
+      tables: this.tablesState,
+    })
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.leaveGame)
+  handleClientLeaveGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
+
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+      message: `${username} sit out.`,
+      tables: this.tablesState,
+    })
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.foldAction)
+  handleClientFoldAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    // Validations: check if user is able to fold, also is itt his tturn ....
+
+    this.tablesState = renderClientFoldAction(this.tablesState, tableId)
+
+    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+      message: `${username} fold.`,
       tables: this.tablesState,
     })
   }

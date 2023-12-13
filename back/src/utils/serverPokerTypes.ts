@@ -3,12 +3,14 @@ export type TypeServerChannels = 'server:update_tables'
 export type TypeClientChannels =
   | 'client:join_table'
   | 'client:leave_table'
-  | 'client:sit_table'
-  | 'client:sitout_table'
+  | 'client:join_seat'
+  | 'client:leave_seat'
+  | 'client:join_game'
+  | 'client:leave_game'
+  | 'client:fold_action'
   | 'client:check_action'
   | 'client:call_action'
   | 'client:raise_action'
-  | 'client:fold_action'
 
 type TypeBuyIn = {
   min: number
@@ -57,6 +59,8 @@ export type TypeUser = {
   gameTurn: boolean
   isWinner: boolean
   achievement: string
+  isFold: boolean
+  isSeatout: boolean
   // hot: number
 }
 

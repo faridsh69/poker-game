@@ -258,6 +258,25 @@ export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: b
   }
 }
 
+export const getUpdatedSeatWithFold = (table: TypeTable) => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          isFold: currentGameTurnSeatId === s.id ? true : s.user.isFold,
+        },
+      }
+    }),
+  }
+}
+
 export const getUpdatedSeatWithRaiseOrCallAmount = (table: TypeTable, amount: number) => {
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 

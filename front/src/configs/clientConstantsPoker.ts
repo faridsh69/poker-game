@@ -1,6 +1,7 @@
 import {
   TypeCardNumber,
   TypeCardType,
+  TypeClientChannels,
   TypeTablePhase,
   TypeTableType,
 } from 'src/interfaces/type-game'
@@ -10,14 +11,19 @@ export const SERVER_CHANNELS = {
   updateTables: 'server:update_tables',
 }
 
-export const CLIENT_CHANNELS = {
+export const CLIENT_CHANNELS: { [key: string]: TypeClientChannels } = {
   joinTable: 'client:join_table',
   leaveTable: 'client:leave_table',
-  sitTable: 'client:sit_table',
-  sitoutTable: 'client:sitout_table',
+
+  joinSeat: 'client:join_seat',
+  leaveSeat: 'client:leave_seat',
+
+  joinGame: 'client:join_game',
+  leaveGame: 'client:leave_game',
+
+  foldAction: 'client:fold_action',
   checkAction: 'client:check_action',
   callAction: 'client:call_action',
-  foldAction: 'client:fold_action',
   raiseAction: 'client:raise_action',
 }
 
