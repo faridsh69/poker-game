@@ -122,6 +122,13 @@ export const isTimeToRestartTable = (tables: TypeTable[], tableId: number): bool
   return table.phase === TABLE_PHASES.show
 }
 
+export const isCheckAllowed = (table: TypeTable) => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+  const maximumBetSeatIds = getMaximumBetSeatIds(table)
+
+  return maximumBetSeatIds.includes(currentGameTurnSeatId)
+}
+
 export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   const cards: TypeCard[] = []
   const updatedUsedCards = [...usedCards]

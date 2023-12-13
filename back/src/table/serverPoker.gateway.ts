@@ -26,7 +26,7 @@ import {
   renderClientLeaveSeat,
   renderClientLeaveTable,
   renderClientRaiseAction,
-  renderStartTable,
+  renderServerStartTable,
 } from 'src/table/serverPokerControllers'
 import {
   TypeHandleClientCallAction,
@@ -130,7 +130,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
   handleClientJoinGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     this.tablesState = renderClientJoinGame(this.tablesState, tableId, username)
 
-    this.tablesState = renderStartTable(this.tablesState, tableId)
+    this.tablesState = renderServerStartTable(this.tablesState, tableId)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} sit out.`,
@@ -158,6 +158,25 @@ export class ServerPokerGateway implements OnGatewayConnection {
       message: `${username} fold.`,
       tables: this.tablesState,
     })
+
+    if (isTimeToRestartTable(this.tablesState, tableId)) {
+      setTimeout(() => {
+        this.tablesState = renderServerStartTable(this.tablesState, tableId)
+        this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+          tables: this.tablesState,
+        })
+      }, START_NEW_ROUND_TIMEOUT)
+    }
+
+    // // handle stop in timere age ke actioni biad
+    // setTimeout(() => {
+    //   console.log('XXXXXXXXXX')
+    //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
+    //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+    //     message: `${username} thinking time finished.`,
+    //     tables: this.tablesState,
+    //   })
+    // }, USER_ACTION_THINKING_TIMEOUT)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.checkAction)
@@ -174,12 +193,22 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
     if (isTimeToRestartTable(this.tablesState, tableId)) {
       setTimeout(() => {
-        this.tablesState = renderStartTable(this.tablesState, tableId)
+        this.tablesState = renderServerStartTable(this.tablesState, tableId)
         this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
           tables: this.tablesState,
         })
       }, START_NEW_ROUND_TIMEOUT)
     }
+
+    // handle stop in timere age ke actioni biad
+    // setTimeout(() => {
+    //   console.log('XXXXXXXXXX')
+    //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
+    //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+    //     message: `${username} thinking time finished.`,
+    //     tables: this.tablesState,
+    //   })
+    // }, USER_ACTION_THINKING_TIMEOUT)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.callAction)
@@ -196,9 +225,19 @@ export class ServerPokerGateway implements OnGatewayConnection {
       tables: this.tablesState,
     })
 
+    // handle stop in timere age ke actioni biad
+    // setTimeout(() => {
+    //   console.log('XXXXXXXXXX')
+    //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
+    //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+    //     message: `${username} thinking time finished.`,
+    //     tables: this.tablesState,
+    //   })
+    // }, USER_ACTION_THINKING_TIMEOUT)
+
     if (isTimeToRestartTable(this.tablesState, tableId)) {
       setTimeout(() => {
-        this.tablesState = renderStartTable(this.tablesState, tableId)
+        this.tablesState = renderServerStartTable(this.tablesState, tableId)
         this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
           tables: this.tablesState,
         })
@@ -219,5 +258,15 @@ export class ServerPokerGateway implements OnGatewayConnection {
       message: `${username} raised ${raiseActionAmount}$.`,
       tables: this.tablesState,
     })
+
+    // handle stop in timere age ke actioni biad
+    // setTimeout(() => {
+    //   console.log('XXXXXXXXXX')
+    //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
+    //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+    //     message: `${username} thinking time finished.`,
+    //     tables: this.tablesState,
+    //   })
+    // }, USER_ACTION_THINKING_TIMEOUT)
   }
 }

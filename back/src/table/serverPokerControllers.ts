@@ -9,6 +9,7 @@ import {
   getUpdatedSeatWithRaiseOrCallAmount,
   getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
+  isCheckAllowed,
   isTimeToStartTable,
   isUserSeatedTable,
   isUserWaitingTable,
@@ -100,26 +101,26 @@ export const renderClientLeaveSeat = (
   username: string,
 ) => {
   return tablesState.map(t => {
-    return t.id !== tableId
-      ? t
-      : {
-          ...t,
-          waitingUsers: isUserWaitingTable(t, username)
-            ? t.waitingUsers
-            : [
-                ...t.waitingUsers,
-                {
-                  ...WAITING_USER,
-                  username,
-                },
-              ],
-          seats: t.seats.map(s => {
-            return {
-              ...s,
-              user: s.user?.username === username ? null : s.user,
-            }
-          }),
+    if (t.id !== tableId) return t
+
+    return {
+      ...t,
+      waitingUsers: isUserWaitingTable(t, username)
+        ? t.waitingUsers
+        : [
+            ...t.waitingUsers,
+            {
+              ...WAITING_USER,
+              username,
+            },
+          ],
+      seats: t.seats.map(s => {
+        return {
+          ...s,
+          user: s.user?.username === username ? null : s.user,
         }
+      }),
+    }
   })
 }
 
@@ -250,7 +251,7 @@ export const renderClientRaiseAction = (
   })
 }
 
-export const renderStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
+export const renderServerStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -299,4 +300,17 @@ export const renderStartTable = (tablesState: TypeTable[], tableId: number): Typ
       }),
     }
   })
+}
+
+export const renderServerAutoCheckFold = (
+  tablesState: TypeTable[],
+  tableId: number,
+): TypeTable[] => {
+  const table = tablesState.find(t => t.id === tableId)
+
+  if (isCheckAllowed(table)) {
+    return renderClientCheckAction(tablesState, tableId)
+  }
+
+  return renderClientFoldAction(tablesState, tableId)
 }
