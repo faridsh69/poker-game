@@ -448,3 +448,63 @@
     }
   }
 }
+
+.dragging {
+  z-index: 1;
+
+  * {
+    cursor: grabbing;
+  }
+
+  .dnd-window {
+    --box-shadow: -1px 0 15px 0 rgba(34, 33, 81, 0.01), 0px 15px 15px 0 rgba(34, 33, 81, 0.25);
+  }
+}
+
+.dnd {
+  position: relative;
+
+  &-window {
+    box-shadow: var(--box-shadow);
+    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(var(--scale, 1));
+    transition: box-shadow 300ms ease;
+
+    background-color: red;
+    width: 800px;
+    height: 589px;
+    border-radius: 10px;
+    overflow: hidden;
+
+    &-topbar {
+      background-color: #1b1b1d;
+      height: 40px;
+      width: 100%;
+      border-bottom: 2px solid #111111;
+
+      &-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 10px;
+
+        &-title {
+          color: white;
+          font-weight: bold;
+          font-size: 16px;
+          padding: 10px;
+        }
+      }
+    }
+
+    &-body {
+      border-top: 2px solid #232323;
+      &-table {
+        &-backgroundimg {
+          position: absolute;
+          max-width: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

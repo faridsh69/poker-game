@@ -3,14 +3,17 @@ import { toast } from 'react-toastify'
 import socketIO from 'socket.io-client'
 
 import { TypeServerChannelsUpdateTablesData, TypeSocket, TypeTable } from 'src/interfaces/type-game'
-import { PageLayout } from 'src/components/templates/PageLayout'
+import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
+import { PageLayout } from 'src/components/templates/PageLayout'
 import { getLocalstorage } from 'src/helpers/common'
 import { SOCKET_URL } from 'src/services/apis'
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
-import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { TablesList } from 'src/components/poker/molecules/TablesList'
 import { UserTable } from 'src/components/poker/molecules/UserTable'
+import { DndWindow } from '../organisms/dnd/DndWindow'
+import { IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 export const ClientPoker = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
@@ -68,7 +71,20 @@ export const ClientPoker = () => {
         <div className='home-runtables'>
           {userTables.map(userTable => {
             return (
-              <UserTable key={userTable.id} table={userTable} username={username} socket={socket} />
+              <DndWindow
+                key={userTable.id}
+                body={<UserTable table={userTable} username={username} socket={socket} />}
+                topbar={
+                  <div className='dnd-window-topbar-flex'>
+                    <div className='dnd-window-topbar-flex-title'>
+                      {userTable.id} - ${userTable.title}
+                    </div>
+                    <IconButton>
+                      <CloseIcon sx={{ color: 'white' }} />
+                    </IconButton>
+                  </div>
+                }
+              />
             )
           })}
         </div>

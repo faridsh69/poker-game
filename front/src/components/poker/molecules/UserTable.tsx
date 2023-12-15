@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader } from '@mui/material'
 
-import tableImage from 'src/images/table.jpg'
+import tableImage from 'src/images/table.png'
 import { BuyinModal } from 'src/components/poker/molecules/BuyinModal'
 import { TableSeats } from 'src/components/poker/molecules/TableSeats'
 import { TableActions } from 'src/components/poker/molecules/TableActions'
@@ -27,7 +27,8 @@ export const UserTable = (props: { table: TypeTable; username: string; socket: T
   }
 
   return (
-    <Card className='home-runtable' key={table.id}>
+    <Card className='dnd-window-body-table' key={table.id}>
+      <img className='dnd-window-body-table-backgroundimg' src={tableImage} alt='poker-table' />
       <BuyinModal
         table={table}
         username={username}
@@ -35,15 +36,10 @@ export const UserTable = (props: { table: TypeTable; username: string; socket: T
         seatModal={seatModal}
         handleSitTableModal={handleSitTableModal}
       />
-      <CardHeader
-        className='home-runtable-header'
-        title={`#${table.id} - ${table.type}`}
-        subheader={table.title}
-      />
+
       <CardContent className='home-runtable-main'>
         <TableSidebar table={table} username={username} socket={socket} />
         <div className='home-runtable-main-body'>
-          <img src={tableImage} alt='poker-table' className='home-runtable-main-body-mainimage' />
           <TableCards table={table} />
           {!!table.pot && <div className='home-runtable-main-body-tablepot'>${table.pot}</div>}
           <TableActions table={table} username={username} socket={socket} />
