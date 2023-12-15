@@ -1,3 +1,108 @@
+
++ click on fold will remove him from the pot
++ check if users length in round is less than 2 and finish it
+if user do not act 20 second auto fold/check
+animattions
+add sound preflop for shuffling cards
+add sound on bet and check
+create a draggable window
+authentication
+  create seperate pots when someone finished money
+
+1) use the gpoker table image
+2) use the gpoker reserved seat
+  show another image for empty seat
+3) use the gpoker fill seat
+  show username in top box
+  show user in game in bottom box
+4) use the gpoker user avatar 
+5) show dealer sign
+6) show total amount of money in table header
+  total shows user.cash.inpots + table pot
+  if there is no 2 active players: show a message `Waiting for 2 ready players`
+  NL Hold'em #72 - $0.01 / $0.02 top left side of table
+  use position fixed for all items in window
+  create topmenu for close cross button
+  create top menu button for leave seat
+  show checkbox for stradle
+  show checkbox for sitout next hand
+  show checkbox for sitout next blind
+  show box-shadow white for game turn with blink
+  15 seconds for each user to act, show a ye-gr bar will start reducing after 5 second
+  show plus 30 second for thinking buttton with red slider, image in pic 14
+  show user actions just like ggpoker
+  show fold buttton
+  show call buttton
+  show raise to button
+  show slider like buy-in start with min-raise and all of user moneys
+  show 4 buttons: 33%, 50%, 75%, 100%
+  show card svgs
+7) show `deal me in (join game)` button in the right below section
+  show `Sitting Out` instead of user cash in game
+  show rest of icons like smoke, wc, rest
+8) show a timer to waiting user that is already seated but not joined game
+  timer will start from 5 minutes
+9) when user clicked on (deal me in) show this modal
+  ask modal only before joinGame not on joinSeat
+  title: Add Chips + close buttton
+  Table header
+  USD Balance $7
+  Minimum $1 + slider + maximum 4$
+  input: Amount to add $1
+  timer: 30 seconds
+  OK + Cancel
+  - checkbox: Always add-on for max amount
+  - Chips will only be added if the  amount you wish to add and your 
+  - remaining stack totals to at least the minimum buy-in.
+10) show status `Post Small Blind` and `Post Big Blind` instead of username
+11) show coins for chips, kerem 0.01, lightG: 0.05, LightB: 0.25, gray: 1
+12) create animation for passing cards from dealer to user
+13) show `Wait for Blinds` checkbox when user is clicked deal me in
+14) show fold with red color as status to user
+  show raise with blue color
+  show check with lightt-yellow color
+  show call with yellow color
+  show All-In with red color instead of pot
+  show WIN for winner with animation 
+15) show 3 buttons for folder
+  show 1 card
+  show another card
+  show both cards
+  show the achievement of folder after game
+16) when user fold, if he hover his place show his cards with blur
+17) show checkbox of `Fold` and `Call $0.02` is somebody raised
+18) show checkbox of `Check/Fold` and `Check` all players are checked
+19) show a butttton open to show cards
+  show animation and show off cards
+20) after fold eveyone show flop, 3 rabit cards with animation
+
+Server:
+  get tables data from database
+  handle authentication (connect nest and laravel or useAth authJs ya nestAuth)
+  save tableStates in mysql each time
+  refetch latest tableStates after DC
+  after bet, call or win the game reduce or add money to users table
+  add caching for reading from database
+
+Security:
+  add validation before each action
+  add authorization before sending data to users
+  check if check action is ok
+  check if call price is expected
+  check if raise price is allowed
+  dont show table and other user cards on update_table
+  add iframe of game
+  https://lobbyl.ep2023.pro:8443?LoginName=hototic14&SessionKey=01521F1AC499CF660C94
+  check if user is trying to login he has session key
+
+Extra:
+  add option to rotate table
+  add option to make your hand invisible
+  handle Omaha 4 card and 5 card
+  show how hot is each user, by calculating the hits
+  add deal when they are all-in
+  give everybody in pot a price if royal on straght flush or sth
+
 + run nest
 + think about single user room (or better way)
 + think about sending api for reduced money after user bet
@@ -37,45 +142,131 @@
 + useEffecti bezar ke bade 10 second restart she
 + add money to winner
 + restart the game
-reduce 2% for kaniat
++ reduce 2% for kaniat
 
-click on fold will remove him from the pot
-check if users length in round is less than 2 and finish it
 
-add checkbox for check/fold
-if user do not act 20 second auto fold/check
-
-Questions:
-  user should be able to sit but onhold
-  if user is disconnected set 20 seconds timer for him, then sit him out
-  if users sitout and less than 2 players finish the game
-  
-Server:
-  get tables data from database
-  handle authentication (connect nest and laravel or useAth authJs ya nestAuth)
-  save tableStates in mysql each time
-  refetch latest tableStates after DC
-  after bet, call or win the game reduce or add money to users table
-  add caching for reading from database
-
-Details:
-  add sound preflop for shuffling cards
-  add sound on bet and check
-
-Security:
-  add validation before each action
-  add authorization before sending data to users
-  check if check action is ok
-  check if call price is expected
-  check if raise price is allowed
-  dont show table and other user cards on update_table
-
-Extra:
-  add option to rotate table
-  add option to make your hand invisible
-  show how hot is each user, by calculating the hits
-  add deal when they are all-in
-  create seperate pots when someone finished money
-  add all-in button
-  handle Omaha 4 card and 5 card
-
++ m1)
+  + create events list in left side bottom
+  + use the maven table image
+  + use the big circles for empty seat
+  + use the rectangular for fill seat
+  + show avatar of users
+  + show user name in top box
+  + show NL Hold'em in top left side of table 
++ m2)
+  + when user click on empty seat status changed to reserved
+  + modal of buy in just like maven
+  + header: Seat Available
+  + Select a buy-in amount and then click OK within 30 seconds 
+  + to accept a seat at 060 holdel #1k-2k
+  + show a timer seconds 27
+  + Your current balance: 100,000
+  + Minimum Buy-In: 40000
+  + Maximum Buy-In: 200000
+  + Other Buy-In: input
+  + Auto-rebuy to this amount
+  + Ok
+  + Cancel
++ m3)
+  + show status Post SB and Post BB
+  + show coins for chips
+  + show blue color for pots
+  + for left seats show chip and dealer sign just like beside box
++ m4)
+  + add checkbox `show on fold` 
+  + show check checkbox
+  + show check / fold checkbox
+  + show user cards exactly like mavan
+  + show checkbox fold to any bet
+  + show user that what you have now: you have a pair of Threes + J94
+  + show Fold checkbox
+  + show call any / check checkbox
+  + show Call 2000 
+  + show Call any
++ m5)
+  + total shows user.cash.inpots + table pot
++ m6) 
+  + show wait for BB in cash section of user
++ m7)
+  + show fold, check, bet buttton below
+  + show request 30 second time,
+  + show input of bet price
+  + show slider of bet 
+  + show 4 buttons: 33%, 50%, 75%, 100%
++ m8)
+  + show animation of waitting for a user witth gray and yello color
+  + show fold status instead o user cash
++ m9)
+  + add checkbox `show on fold` 
++ m10)
+  + show Fold checkbox
+  + show Call 2000 
+  + show Call any
++ m11) 
+  + when user fold, if he hover his place show his cards with blur
++ m12)
+  + when user sitouted show status of sitting out
++ m27)
+  + show ready buttton if user is sitting out
+  + if user clicks on ready ask for money
++ m28)
+  + show seat modal
+  + show status bet for user
++ m29)
+  + you do not have enough chips to play, click the menu button to add more chips
++ m30)
+  + show status All-in for user
++ m31)
+  + after add chips show wait for BB and ready
++ m34)
+  + show leave seat
+  + show leave table
+m35) 
+  show loby ring games:
+    ring game id
+    game type:
+    stakes
+    Buy In
+    Seats
+    Play
+    Wait
+m36)
+  show logins:
+    player
+    color
+    note
+    block
+    login time
+m37)
+  show lobby menu
+    logins: 167
+    Ring games: 167
+    Tournoment: 0
+    Default window size
+    Logout / Exit
+m38)
+  show Account
+  logout
+  show balance...
+m39)
+  opttions:
+  full screen toggle
+  arrange windows...
+  Display setttings
+  ttable Settttings
+  Sound effects
+  sttartt game
+  player search
+  player notes
+m40)
+  help
+  contact site administrator
+  view site news
+  view site FAQ
+  about poker mavens
+m42)
+  show filttters of tables
+m43)
+  show table information
+m44)
+  show players of each table
