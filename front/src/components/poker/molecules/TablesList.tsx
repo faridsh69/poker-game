@@ -29,9 +29,8 @@ export const TablesList = (props: {
       <Card className='home-tables-table' key={table.id}>
         <CardMedia
           className='home-tables-table-image'
-          component='img'
-          image={table.type === TABLE_TYPES.holdem ? holdemImage : omahaImage}
-          alt={table.type}
+          component='div'
+          children={<h1>{table.type}</h1>}
         />
         <CardContent className='home-tables-table-content'>
           <b>
