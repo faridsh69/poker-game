@@ -3,3 +3,9 @@ export type TypeSuspenderComponent = (props: {
   auth?: boolean
   guest?: boolean
 }) => JSX.Element
+
+export type TypeConfirmModalComponent = {
+  show: boolean
+  message?: string
+  onConfirm?: () => void
+}
