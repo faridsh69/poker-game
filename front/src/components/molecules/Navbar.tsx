@@ -5,16 +5,15 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import { useAuth } from 'src/hooks/useAuth'
 import { getToken } from 'src/helpers/auth'
 import { useState } from 'react'
-import { ThemeSwitcher } from '../molecules/ThemeSwitcher'
-import { LanguageSwitcher } from '../molecules/LanguageSwitcher'
+import { ThemeSwitcher } from './ThemeSwitcher'
+import { LanguageSwitcher } from './LanguageSwitcher'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
-import { getLocalstorage } from 'src/helpers/common'
-import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
+import { META_TAGS } from 'src/configs/constants'
 
 export const Navbar = () => {
-  const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
+  const { username } = useAuth()
   const navigate = useNavigate()
   const { handleLogout } = useAuth()
 
@@ -48,7 +47,7 @@ export const Navbar = () => {
           component='div'
           sx={{ display: { xs: 'none', sm: 'block' } }}
         >
-          POKER {username}
+          {META_TAGS.title} - {username ? username : 'Guest'}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <LanguageSwitcher />

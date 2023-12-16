@@ -15,7 +15,7 @@ import { ADMIN_SIDEBAR_ITEMS } from 'src/configs/constants'
 import { toFormalCase } from 'src/helpers/common'
 import { useCrud } from 'src/hooks/useCrud'
 
-const AdminSidebar = props => {
+const AdminSidebar = (props: { drawerWidth: number }) => {
   const { drawerWidth } = props
 
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -23,7 +23,7 @@ const AdminSidebar = props => {
   useCrud('category')
   useCrud('tag')
 
-  const handleNavigate = route => {
+  const handleNavigate = (route: string) => {
     navigate(route)
   }
 

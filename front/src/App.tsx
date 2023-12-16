@@ -12,11 +12,11 @@ import { useInternetConnection } from 'src/hooks/useInternetConnection'
 import { REACT_QUERY_CLIENT } from 'src/configs/service'
 import { MUI_LOCALES } from 'src/configs/locale'
 import { themeAtom } from 'src/contexts/themeAtom'
-import { MetaTags } from 'src/components/templates/MetaTags'
 import { THEMES } from 'src/configs/theme'
 import { Router } from 'src/configs/router'
 import 'src/configs/locale'
 import 'src/configs/styles'
+import { MetaTags } from './components/molecules/MetaTags'
 
 export const App = () => {
   const [theme] = useAtom(themeAtom)

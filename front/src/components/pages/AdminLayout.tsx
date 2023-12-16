@@ -1,8 +1,8 @@
 import { Box } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 
-import { PageLayout } from 'src/components/templates/PageLayout'
-import MemoAdminSidebar from 'src/components/templates/AdminSidebar'
+import { PageLayout } from 'src/components/molecules/PageLayout'
+import MemoAdminSidebar from 'src/components/organisms/admin/AdminSidebar'
 import { Breadcrumb } from '../molecules/Breadcrumb'
 
 const AdminLayout = () => {

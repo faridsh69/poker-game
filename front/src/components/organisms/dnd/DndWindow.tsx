@@ -24,7 +24,7 @@ export const DndWindow = (props: TypeDndWindowProps) => {
         })
       }}
     >
-      <DraggableWindow top={y} left={x} id='draggable-window' topbar={topbar} body={body} />
+      <DraggableWindow top={y} left={x} topbar={topbar} body={body} id='draggable-window' />
     </DndContext>
   )
 }

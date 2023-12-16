@@ -1,21 +1,24 @@
-import { SeatUserCards } from 'src/components/poker/molecules/SeatUserCards'
 import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
 import { TypeTable } from 'src/interfaces/type-game'
-import { SeatUserDealer } from '../atoms/SeatUserDealer'
-import { SeattUserAchievement } from '../atoms/SeattUserAchievement'
-import { SeatUserWinner } from '../atoms/SeatUserWinner'
-import { SeatUserCashIngame } from '../atoms/SeatUserCashIngame'
-import { SeatUserUsername } from '../atoms/SeatUserUsername'
-import { SeatUserAvatar } from '../atoms/SeatUserAvatar'
-import { SeatUserCashInpot } from '../atoms/SeatUserCashInpot'
+import { SeatUserDealer } from 'src/components/organisms/seat/SeatUserDealer'
+import { SeattUserAchievement } from 'src/components/organisms/seat/SeattUserAchievement'
+import { SeatUserWinner } from 'src/components/organisms/seat/SeatUserWinner'
+import { SeatUserCashIngame } from 'src/components/organisms/seat/SeatUserCashIngame'
+import { SeatUserUsername } from 'src/components/organisms/seat/SeatUserUsername'
+import { SeatUserAvatar } from 'src/components/organisms/seat/SeatUserAvatar'
+import { SeatUserCashInpot } from 'src/components/organisms/seat/SeatUserCashInpot'
+import emptySeatImage from 'src/images/seat-empty.png'
+import { useAuth } from 'src/hooks/useAuth'
+import { SeatUserCards } from 'src/components/organisms/seat/SeatUserCards'
 
 export const TableSeats = (props: {
   table: TypeTable
-  username: string
   handleSitTableModal: (tableId: number, seatId: number) => void
 }) => {
-  const { table, username, handleSitTableModal } = props
+  const { table, handleSitTableModal } = props
+
+  const { username } = useAuth()
 
   const isAuthUserWaitingTable = isUserWaitingTable(table, username)
 
@@ -30,7 +33,7 @@ export const TableSeats = (props: {
       >
         {!s.user && isAuthUserWaitingTable && (
           <div className='seat-user' onClick={() => handleSitTableModal(table.id, s.id)}>
-            Empty
+            <img src={emptySeatImage} alt='empty seat' />
           </div>
         )}
         {s.user && (

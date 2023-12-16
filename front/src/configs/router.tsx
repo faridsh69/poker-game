@@ -1,15 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import { Suspender } from 'src/components/organisms/Suspender'
+import { Suspender } from 'src/components/molecules/Suspender'
 import { ErrorPage } from 'src/components/molecules/ErrorPage'
 import { RoutesType } from 'src/interfaces'
-import { ClientPoker } from 'src/components/poker/ClientPoker'
+import { Home } from 'src/components/pages/Home'
 
 const ROUTES: RoutesType = [
   {
-    name: 'ClientPoker',
+    name: 'home',
     path: '/',
-    element: <ClientPoker />,
+    element: <Home />,
     errorElement: <ErrorPage />,
   },
   {

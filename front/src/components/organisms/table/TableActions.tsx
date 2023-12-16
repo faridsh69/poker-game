@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAtom } from 'jotai'
 import { Button, Slider } from '@mui/material'
 
 import { getCallActionAmount, isAuthUserGameTurn } from 'src/helpers/clientHelpersPoker'
-import { CountDownTimer } from 'src/components/poker/atoms/CountDownTimer'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import { TypeSocket, TypeTable } from 'src/interfaces/type-game'
+import { TypeTable } from 'src/interfaces/type-game'
+import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
+import { useAuth } from 'src/hooks/useAuth'
+import { socketAtom } from 'src/contexts/socketAtom'
 
-export const TableActions = (props: { table: TypeTable; username: string; socket: TypeSocket }) => {
-  const { table, username, socket } = props
+export const TableActions = (props: { table: TypeTable }) => {
+  const { table } = props
+
+  const { username } = useAuth()
+  const [socket] = useAtom(socketAtom)
 
   const [raiseActionAmount, setRaiseActionAmount] = useState<number>(0)
   const [raiseLimits, setRaiseLimits] = useState({
@@ -64,7 +70,7 @@ export const TableActions = (props: { table: TypeTable; username: string; socket
 
   return (
     <div className='home-runtable-main-body-actions'>
-      {/* <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} /> */}
+      <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} />
       {!callActionAmount && (
         <Button variant='contained' color='primary' onClick={() => handleCheckAction(table.id)}>
           Check

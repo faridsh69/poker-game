@@ -1,22 +1,21 @@
+import { useAtom } from 'jotai'
 import { useCallback, useEffect, useState } from 'react'
 import { Button, Modal, Slider } from '@mui/material'
 
+import { TypeHandleSitTableModal, TypeSeatModal, TypeTable } from 'src/interfaces/type-game'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import {
-  TypeHandleSitTableModal,
-  TypeSeatModal,
-  TypeSocket,
-  TypeTable,
-} from 'src/interfaces/type-game'
+import { socketAtom } from 'src/contexts/socketAtom'
+import { useAuth } from 'src/hooks/useAuth'
 
 export const BuyinModal = (props: {
   table: TypeTable
   seatModal: TypeSeatModal
-  username: string
-  socket: TypeSocket
   handleSitTableModal: TypeHandleSitTableModal
 }) => {
-  const { table, seatModal, username, socket, handleSitTableModal } = props
+  const { table, seatModal, handleSitTableModal } = props
+
+  const { username } = useAuth()
+  const [socket] = useAtom(socketAtom)
 
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
 

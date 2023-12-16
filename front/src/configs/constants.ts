@@ -10,11 +10,11 @@ export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'access_token'
 export const LOCAL_STORAGE_AUTH_USER_EMAIL = 'auth_email'
 
 export const META_TAGS = {
-  title: 'React Best Practices',
-  description: 'React Best Practices boilerplate',
+  title: 'Royal Poker',
+  description: 'Royal Poker is easy and safe',
   keywords: 'react, boilerplate',
   image: 'vite.svg',
-  author: 'Farid Shahidi',
+  author: 'who knows?',
   domain: 'www.test.com',
 }
 

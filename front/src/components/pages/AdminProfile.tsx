@@ -5,11 +5,11 @@ import { useCrud } from 'src/hooks/useCrud'
 import { getLocalstorage } from 'src/helpers/common'
 import { PROFILE_SCHEMA } from 'src/configs/schemas'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
-import { FormMui } from 'src/components/organisms/FormMui'
+import { FormMui } from 'src/components/organisms/admin/FormMui'
 import { Loading } from 'src/components/molecules/Loading'
-import { RadioController } from 'src/components/organisms/controllers/RadioController'
-import { DateController } from 'src/components/organisms/controllers/DateController'
-import { CheckBoxController } from 'src/components/organisms/controllers/CheckboxController'
+import { RadioController } from 'src/components/organisms/admin/controllers/RadioController'
+import { DateController } from 'src/components/organisms/admin/controllers/DateController'
+import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
 
 const AdminProfile = () => {
   const { t } = useTranslation()

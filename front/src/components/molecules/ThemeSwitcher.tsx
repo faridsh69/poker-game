@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { FormControlLabel, Switch, styled } from '@mui/material'
+import { Switch, styled } from '@mui/material'
 
 import { DARK_THEME_NAME, LIGHT_THEME_NAME } from 'src/configs/theme'
 import { themeAtom } from 'src/contexts/themeAtom'
