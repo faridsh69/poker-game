@@ -51,7 +51,12 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
               )}
               key={card.type + card.number}
             >
-              <div className='dnd-window-body-table-seats-seat-user-cards-card-number'>
+              <div
+                className='dnd-window-body-table-seats-seat-user-cards-card-number'
+                style={{
+                  color: card.type === 'diamonds' || card.type === 'hearts' ? '#CB1515' : '#000',
+                }}
+              >
                 {card.number}
               </div>
               <div className='dnd-window-body-table-seats-seat-user-cards-card-signsmall'>

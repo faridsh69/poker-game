@@ -1,24 +1,10 @@
 export const SignHearts = () => {
   return (
-    <svg
-      version='1.0'
-      xmlns='http://www.w3.org/2000/svg'
-      viewBox='0 0 544.000000 544.000000'
-      preserveAspectRatio='xMidYMid meet'
-    >
-      <g
-        transform='translate(0.000000,544.000000) scale(0.100000,-0.100000)'
-        fill='#000000'
-        stroke='none'
-      >
-        <path
-          fill='#CB1515'
-          d='M4415 5163 c-154 -32 -290 -132 -371 -271 l-37 -62 -36 61 c-78 132
--172 209 -310 254 -77 25 -272 17 -354 -14 -204 -79 -331 -301 -329 -576 1
--216 90 -443 261 -668 73 -95 527 -639 690 -824 79 -91 79 -91 125 -35 10 13
-159 189 331 390 424 499 500 602 581 789 176 408 32 861 -301 948 -54 14 -201
-19 -250 8z'
-        />
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'>
+      <g transform='rotate(45,300,300)' fill='#CB1515'>
+        <rect x='150' y='150' height='350' width='350' />
+        <circle cx='150' cy='325' r='175' />
+        <circle cx='325' cy='150' r='175' />
       </g>
     </svg>
   )
