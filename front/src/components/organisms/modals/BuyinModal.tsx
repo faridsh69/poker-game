@@ -20,7 +20,11 @@ export const BuyinModal = () => {
   if (!buyinModal.table || !buyinModal.show) return null
 
   return (
-    <Modal open={buyinModal.show} onClose={() => setBuyinModal({ show: false })}>
+    <Modal
+      open={buyinModal.show}
+      onClose={() => setBuyinModal({ show: false })}
+      sx={{ zIndex: 10003 }}
+    >
       <div className='modal'>
         <h3>Set Buy In for {buyinModal.table.title}</h3>
         <div>
