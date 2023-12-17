@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
 
 import { useCrud } from 'src/hooks/useCrud'
-import { TableMui } from 'src/components/organisms/TableMui'
+import { TableMui } from 'src/components/organisms/admin/TableMui'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 

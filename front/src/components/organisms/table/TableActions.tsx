@@ -1,13 +1,24 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAtom } from 'jotai'
 import { Button, Slider } from '@mui/material'
 
-import { getCallActionAmount, isAuthUserGameTurn } from 'src/helpers/clientHelpersPoker'
-import { CountDownTimer } from 'src/components/poker/atoms/CountDownTimer'
+import {
+  getCallActionAmount,
+  isAuthUserGameTurn,
+  isUserSeatoutTable,
+} from 'src/helpers/clientHelpersPoker'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import { TypeSocket, TypeTable } from 'src/interfaces/type-game'
+import { TypeTable } from 'src/interfaces/type-game'
+import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
+import { useAuth } from 'src/hooks/useAuth'
+import { socketAtom } from 'src/contexts/socketAtom'
+import { TableActionsJoinGame } from './actions/TableActionsJoinGame'
 
-export const TableActions = (props: { table: TypeTable; username: string; socket: TypeSocket }) => {
-  const { table, username, socket } = props
+export const TableActions = (props: { table: TypeTable }) => {
+  const { table } = props
+
+  const { username } = useAuth()
+  const [socket] = useAtom(socketAtom)
 
   const [raiseActionAmount, setRaiseActionAmount] = useState<number>(0)
   const [raiseLimits, setRaiseLimits] = useState({
@@ -34,7 +45,7 @@ export const TableActions = (props: { table: TypeTable; username: string; socket
   const handleCheckAction = useCallback(
     (tableId: number) => {
       // @TODO check if user is able to do check let him do check action
-      socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
+      // socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
     },
     [socket, username],
   )
@@ -60,11 +71,29 @@ export const TableActions = (props: { table: TypeTable; username: string; socket
     [socket, username],
   )
 
-  if (!isAuthUserGameTurn(table, username)) return null
+  // const handleLeaveSeat = useCallback(
+  //   (tableId: number) => {
+  //     socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
+  //   },
+  //   [socket, username],
+  // )
+
+  // const handleLeaveGame = useCallback(
+  //   (tableId: number) => {
+  //     socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
+  //   },
+  //   [socket, username],
+  // )
+
+  // if (!isAuthUserGameTurn(table, username)) return null
+
+  const authUserSeatoutTable = isUserSeatoutTable(table, username)
 
   return (
-    <div className='home-runtable-main-body-actions'>
-      {/* <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} /> */}
+    <div className='dnd-window-body-table-actions'>
+      {authUserSeatoutTable && <TableActionsJoinGame table={table} />}
+
+      <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} />
       {!callActionAmount && (
         <Button variant='contained' color='primary' onClick={() => handleCheckAction(table.id)}>
           Check

@@ -6,8 +6,8 @@ import ShareIcon from '@mui/icons-material/Share'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import { Typography, Card, IconButton, CardMedia, CardContent, CardActions } from '@mui/material'
 
-import { SkeletonBox } from 'src/components/organisms/SkeletonBox'
-import { PageLayout } from 'src/components/templates/PageLayout'
+import { SkeletonBox } from 'src/components/molecules/SkeletonBox'
+import { PageLayout } from 'src/components/molecules/PageLayout'
 import { useCrud } from 'src/hooks/useCrud'
 import { useTranslation } from 'react-i18next'
 

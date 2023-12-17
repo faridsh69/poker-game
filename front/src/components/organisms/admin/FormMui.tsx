@@ -5,7 +5,6 @@ import { Box, Button } from '@mui/material'
 
 import { InputController } from './controllers/InputController'
 
-// @ts-ignore
 export const FormMui = props => {
   const { inputs, defaultValues, schema, onSubmit, submitText } = props
 
@@ -16,7 +15,6 @@ export const FormMui = props => {
   })
 
   const onGeneralSubmit = useCallback(
-    // @ts-ignore
     data => {
       delete data.avatar
       delete data.name
@@ -39,7 +37,6 @@ export const FormMui = props => {
       onSubmit={handleSubmit(onGeneralSubmit)}
       sx={{ mt: 1, display: 'flex', flexDirection: 'column', minWidth: '333px' }}
     >
-      {/* @ts-ignore */}
       {inputs.map(input => {
         const { component: InputComponent = InputController, name, ...rest } = input
 

@@ -5,11 +5,12 @@ import { toast } from 'react-toastify'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 
 import { removeToken, setToken } from 'src/helpers/auth'
-import { setLocalsotrage } from 'src/helpers/common'
+import { getLocalstorage, setLocalsotrage } from 'src/helpers/common'
 import { postLogin } from 'src/services/apis'
 
 export const useAuth = () => {
   const navigate = useNavigate()
+  const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
 
   const loginMutation = useMutation(postLogin, {
     onSuccess: (response, payload) => {
@@ -26,6 +27,7 @@ export const useAuth = () => {
   }, [navigate])
 
   return {
+    username,
     loginMutation,
     handleLogout,
   }

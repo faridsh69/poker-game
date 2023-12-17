@@ -3,6 +3,7 @@ import { useRouteError } from 'react-router-dom'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { Alert, AlertTitle } from '@mui/material'
 import ErrorImg from 'src/images/errors/500.png'
+import { META_TAGS } from 'src/configs/constants'
 
 export const ErrorPage = () => {
   const error = useRouteError()
@@ -11,7 +12,7 @@ export const ErrorPage = () => {
 
   return (
     <Alert severity='error'>
-      <AlertTitle>Oops! Digital Menu</AlertTitle>
+      <AlertTitle>Oops! {META_TAGS.title}</AlertTitle>
       <strong>
         <Link to='/'>Retry</Link>
       </strong>

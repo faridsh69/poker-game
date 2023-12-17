@@ -5,9 +5,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { OAUTH_API_INFO } from 'src/configs/constants'
 import { LOGIN_SCHEMA } from 'src/configs/schemas'
 import { useAuth } from 'src/hooks/useAuth'
-import { PageLayout } from 'src/components/templates/PageLayout'
-import { CheckBoxController } from 'src/components/organisms/controllers/CheckboxController'
-import { FormMui } from 'src/components/organisms/FormMui'
+import { PageLayout } from 'src/components/molecules/PageLayout'
+import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
+import { FormMui } from 'src/components/organisms/admin/FormMui'
 
 export const Login = () => {
   const { t } = useTranslation()
