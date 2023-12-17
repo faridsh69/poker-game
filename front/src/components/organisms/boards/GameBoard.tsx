@@ -9,7 +9,8 @@ import { DndWindow } from 'src/components/organisms/dnd/DndWindow'
 import { TableWindow } from 'src/components/organisms/table/TableWindow'
 import { PageLayout } from 'src/components/molecules/PageLayout'
 import { WindowTopBar } from 'src/components/organisms/boards/WindowTopBar'
-import { ConfirmModal } from '../modals/ConfirmModal'
+import { ConfirmModal } from 'src/components/organisms/modals/ConfirmModal'
+import { BuyinModal } from 'src/components/organisms/modals/BuyinModal'
 
 export const GameBoard = () => {
   const { username } = useAuth()
@@ -23,6 +24,7 @@ export const GameBoard = () => {
     <PageLayout>
       <div className='home'>
         <ConfirmModal />
+        <BuyinModal />
         <div className='home-tables'>
           <TablesList />
         </div>

@@ -127,11 +127,11 @@ export const TABLES: TypeTable[] = [
     seats: [
       {
         id: 1,
-        user: PLAYING_USER,
+        user: null,
       },
       {
         id: 2,
-        user: PLAYING_USER,
+        user: null,
       },
       {
         id: 3,
@@ -139,6 +139,14 @@ export const TABLES: TypeTable[] = [
       },
       {
         id: 4,
+        user: null,
+      },
+      {
+        id: 5,
+        user: null,
+      },
+      {
+        id: 6,
         user: null,
       },
     ],
@@ -176,6 +184,26 @@ export const TABLES: TypeTable[] = [
       },
       {
         id: 4,
+        user: null,
+      },
+      {
+        id: 5,
+        user: null,
+      },
+      {
+        id: 6,
+        user: null,
+      },
+      {
+        id: 7,
+        user: null,
+      },
+      {
+        id: 8,
+        user: null,
+      },
+      {
+        id: 9,
         user: null,
       },
     ],

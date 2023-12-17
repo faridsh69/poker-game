@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import { useAtom } from 'jotai'
 import { Button } from '@mui/material'
 
-import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { isUserSeatedTable, isUserSeatoutTable } from 'src/helpers/clientHelpersPoker'
 import { TypeTable } from 'src/interfaces/type-game'
 import { useAuth } from 'src/hooks/useAuth'
@@ -16,27 +15,6 @@ export const TableSidebar = (props: { table: TypeTable }) => {
 
   const isAuthUserSeatedTable = isUserSeatedTable(table, username)
   const isAuthUserSeatedoutTable = isUserSeatoutTable(table, username)
-
-  const handleLeaveSeat = useCallback(
-    (tableId: number) => {
-      socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
-    },
-    [socket, username],
-  )
-
-  const handleJoinGame = useCallback(
-    (tableId: number) => {
-      socket.emit(CLIENT_CHANNELS.joinGame, { tableId, username })
-    },
-    [socket, username],
-  )
-
-  const handleLeaveGame = useCallback(
-    (tableId: number) => {
-      socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
-    },
-    [socket, username],
-  )
 
   return (
     <div className='home-runtable-main-sidebar'>

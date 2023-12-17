@@ -1,3 +1,5 @@
+import { TypeTable } from '.'
+
 export type TypeSuspenderComponent = (props: {
   pageName: string
   auth?: boolean
@@ -8,4 +10,10 @@ export type TypeConfirmModalComponent = {
   show: boolean
   message?: string
   onConfirm?: () => void
+}
+
+export type TypeBuyinModalComponent = {
+  show: boolean
+  table?: TypeTable
+  onBuyin?: (amount: number) => void
 }

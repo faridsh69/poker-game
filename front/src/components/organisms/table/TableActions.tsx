@@ -2,12 +2,17 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAtom } from 'jotai'
 import { Button, Slider } from '@mui/material'
 
-import { getCallActionAmount, isAuthUserGameTurn } from 'src/helpers/clientHelpersPoker'
+import {
+  getCallActionAmount,
+  isAuthUserGameTurn,
+  isUserSeatoutTable,
+} from 'src/helpers/clientHelpersPoker'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { TypeTable } from 'src/interfaces/type-game'
 import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
 import { useAuth } from 'src/hooks/useAuth'
 import { socketAtom } from 'src/contexts/socketAtom'
+import { TableActionsJoinGame } from './actions/TableActionsJoinGame'
 
 export const TableActions = (props: { table: TypeTable }) => {
   const { table } = props
@@ -40,7 +45,7 @@ export const TableActions = (props: { table: TypeTable }) => {
   const handleCheckAction = useCallback(
     (tableId: number) => {
       // @TODO check if user is able to do check let him do check action
-      socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
+      // socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
     },
     [socket, username],
   )
@@ -66,10 +71,28 @@ export const TableActions = (props: { table: TypeTable }) => {
     [socket, username],
   )
 
-  if (!isAuthUserGameTurn(table, username)) return null
+  // const handleLeaveSeat = useCallback(
+  //   (tableId: number) => {
+  //     socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
+  //   },
+  //   [socket, username],
+  // )
+
+  // const handleLeaveGame = useCallback(
+  //   (tableId: number) => {
+  //     socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
+  //   },
+  //   [socket, username],
+  // )
+
+  // if (!isAuthUserGameTurn(table, username)) return null
+
+  const authUserSeatoutTable = isUserSeatoutTable(table, username)
 
   return (
-    <div className='home-runtable-main-body-actions'>
+    <div className='dnd-window-body-table-actions'>
+      {authUserSeatoutTable && <TableActionsJoinGame table={table} />}
+
       <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} />
       {!callActionAmount && (
         <Button variant='contained' color='primary' onClick={() => handleCheckAction(table.id)}>

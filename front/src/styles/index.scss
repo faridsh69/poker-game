@@ -97,6 +97,8 @@
 }
 
 .home {
+  background-color: #777;
+  height: 100vh;
   display: flex;
   flex-direction: row;
   gap: 30px;
@@ -104,30 +106,9 @@
   &-tables {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 
     &-table {
-      display: flex;
-      flex-direction: row;
-      padding: 0px !important;
-      margin: 10px;
-      border: 1px solid #efefef;
-      padding: 20px;
-      border-radius: 2%;
-      display: flex;
-      flex-direction: column;
-      width: 180px !important;
-
-      &-image {
-        width: 180px !important;
-        height: 100px;
-      }
-
-      &-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
     }
   }
 
@@ -155,6 +136,7 @@
       background-color: rgb(201, 226, 205);
 
       &-sidebar {
+        display: none;
         &-waitinglist {
           overflow-y: auto;
           height: 100%;
@@ -450,7 +432,7 @@
 }
 
 .dragging {
-  z-index: 1;
+  z-index: 10001;
 
   * {
     cursor: grabbing;
@@ -463,6 +445,8 @@
 
 .dnd {
   position: relative;
+  z-index: 10000;
+  font-size: 12px;
 
   &-window {
     box-shadow: var(--box-shadow);
@@ -471,13 +455,12 @@
 
     background-color: red;
     width: 800px;
-    height: 589px;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 7px 7px 0px 0px;
 
     &-topbar {
+      border-radius: 5px 5px 0px 0px;
       background-color: #1b1b1d;
-      height: 40px;
+      height: 30px;
       width: 100%;
       border-bottom: 2px solid #111111;
       cursor: grab;
@@ -491,19 +474,150 @@
         &-title {
           color: white;
           font-weight: 400;
-          font-size: 14px;
-          padding: 10px;
+          font-size: 12px;
+          padding: 5px;
+          padding-left: 10px;
         }
       }
     }
 
     &-body {
+      line-height: 0px;
       border-top: 2px solid #232323;
+
       &-table {
+        position: relative;
+
         &-backgroundimg {
-          position: absolute;
           max-width: 100%;
           width: 100%;
+          min-width: 100%;
+        }
+
+        &-seats {
+          &-seat {
+            position: absolute;
+          }
+
+          &-emptyseat {
+            cursor: pointer;
+            display: flex;
+            user-select: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-color: rgba(10, 10, 10, 0.8);
+
+            &-circle {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              width: 80px;
+              height: 80px;
+              border-radius: 50%;
+              color: #f3f3f3;
+              border: 2px solid #323332;
+
+              img {
+                width: 26px;
+                min-width: 26px;
+                max-width: 26px;
+              }
+            }
+          }
+
+          .seats-seat-6-1 {
+            bottom: 12%;
+            left: calc(50% - 45px);
+          }
+
+          .seats-seat-6-2 {
+            bottom: 28%;
+            left: 5%;
+          }
+
+          .seats-seat-6-3 {
+            top: 12%;
+            left: 8%;
+          }
+
+          .seats-seat-6-4 {
+            top: 2%;
+            left: calc(50% - 45px);
+          }
+
+          .seats-seat-6-5 {
+            top: 12%;
+            right: 8%;
+          }
+
+          .seats-seat-6-6 {
+            bottom: 28%;
+            right: 5%;
+          }
+
+          .seats-seat-9-1 {
+            bottom: 12%;
+            left: calc(50% - 45px);
+          }
+
+          .seats-seat-9-2 {
+            bottom: 26%;
+            left: 14%;
+          }
+
+          .seats-seat-9-3 {
+            top: calc(40% - 45px);
+            left: 2%;
+          }
+
+          .seats-seat-9-4 {
+            top: 9%;
+            left: 12%;
+          }
+
+          .seats-seat-9-5 {
+            top: 2%;
+            left: calc(40% - 45px);
+          }
+
+          .seats-seat-9-6 {
+            top: 2%;
+            right: calc(40% - 45px);
+          }
+
+          .seats-seat-9-7 {
+            top: 9%;
+            right: 12%;
+          }
+
+          .seats-seat-9-8 {
+            top: calc(40% - 45px);
+            right: 2%;
+          }
+
+          .seats-seat-9-9 {
+            bottom: 26%;
+            right: 14%;
+          }
+        }
+
+        &-actions {
+          width: 100%;
+          height: 130px;
+          bottom: 0px;
+          position: absolute;
+
+          &-joingame {
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+          }
         }
       }
     }

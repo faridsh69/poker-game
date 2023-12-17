@@ -1,53 +1,34 @@
 import { useAtom } from 'jotai'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Modal, Slider } from '@mui/material'
 
-import { TypeHandleSitTableModal, TypeSeatModal, TypeTable } from 'src/interfaces/type-game'
-import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import { socketAtom } from 'src/contexts/socketAtom'
-import { useAuth } from 'src/hooks/useAuth'
+import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 
-export const BuyinModal = (props: {
-  table: TypeTable
-  seatModal: TypeSeatModal
-  handleSitTableModal: TypeHandleSitTableModal
-}) => {
-  const { table, seatModal, handleSitTableModal } = props
-
-  const { username } = useAuth()
-  const [socket] = useAtom(socketAtom)
+export const BuyinModal = () => {
+  const [buyinModal, setBuyinModal] = useAtom(buyinModalAtom)
 
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
 
-  const handleSitTable = useCallback(
-    (tableId: number, seatId: number, buyinAmount: number) => {
-      socket.emit(CLIENT_CHANNELS.joinSeat, { tableId, seatId, buyinAmount, username })
-      handleSitTableModal(0, 0)
-    },
-    [socket, username, handleSitTableModal],
-  )
-
   useEffect(() => {
-    if (!seatModal.tableId) return
+    if (!buyinModal.table || !buyinModal.show) return
 
-    const min = table.buyin.min
-    const max = table.buyin.max
+    const min = buyinModal.table.buyin.min
 
-    setBuyinAmount((max + min) / 2)
-  }, [seatModal, table.buyin.min, table.buyin.max])
+    setBuyinAmount(min)
+  }, [buyinModal])
 
-  if (!seatModal.tableId) return null
+  if (!buyinModal.table || !buyinModal.show) return null
 
   return (
-    <Modal open={!!seatModal.tableId} onClose={() => handleSitTableModal(0, 0)}>
+    <Modal open={buyinModal.show} onClose={() => setBuyinModal({ show: false })}>
       <div className='modal'>
-        <h3>Set Buy In for {table.title}</h3>
+        <h3>Set Buy In for {buyinModal.table.title}</h3>
         <div>
           <Slider
             value={buyinAmount}
-            min={table.buyin.min}
+            min={buyinModal.table.buyin.min}
             step={10}
-            max={table.buyin.max}
+            max={buyinModal.table.buyin.max}
             valueLabelFormat={val => '$' + val}
             onChange={(_, val) => setBuyinAmount(+val)}
             valueLabelDisplay='auto'
@@ -56,7 +37,7 @@ export const BuyinModal = (props: {
         <Button
           color='success'
           variant='contained'
-          onClick={() => handleSitTable(seatModal.tableId, seatModal.seatId, buyinAmount)}
+          onClick={() => buyinModal.onBuyin?.(buyinAmount)}
         >
           Seat with {buyinAmount}
         </Button>

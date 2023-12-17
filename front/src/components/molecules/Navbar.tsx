@@ -30,7 +30,10 @@ export const Navbar = () => {
   }
 
   return (
-    <AppBar position='static' sx={{ zIndex: 1201 }}>
+    <AppBar
+      position='static'
+      sx={{ zIndex: 1201, background: 'rgba(100, 100, 100, 0.2)', height: '50px' }}
+    >
       <Toolbar>
         <IconButton
           size='large'

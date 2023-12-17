@@ -95,18 +95,10 @@ export class ServerPokerGateway implements OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
-  handleClientJoinSeat(
-    @MessageBody() { tableId, seatId, buyinAmount, username }: TypeHandleClientSitTable,
-  ) {
+  handleClientJoinSeat(@MessageBody() { tableId, seatId, username }: TypeHandleClientSitTable) {
     // Validations: check user is joined before as waiting user in this table, also he is not seated
 
-    this.tablesState = renderClientJoinSeat(
-      this.tablesState,
-      tableId,
-      seatId,
-      buyinAmount,
-      username,
-    )
+    this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} has been sit on seat #${seatId}`,
@@ -127,13 +119,15 @@ export class ServerPokerGateway implements OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
-  handleClientJoinGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
-    this.tablesState = renderClientJoinGame(this.tablesState, tableId, username)
+  handleClientJoinGame(
+    @MessageBody() { tableId, username, buyinAmount }: TypeHandleClientSitTable,
+  ) {
+    this.tablesState = renderClientJoinGame(this.tablesState, tableId, username, buyinAmount)
 
     this.tablesState = renderServerStartTable(this.tablesState, tableId)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} sit out.`,
+      message: `${username}: Hello All.`,
       tables: this.tablesState,
     })
   }
