@@ -1,4 +1,4 @@
-import { SeattUserAchievement } from 'src/components/organisms/seat/SeattUserAchievement'
+import { SeattUserAchievement } from 'src/components/organisms/seat/SeatUserAchievement'
 import { SeatUserCashIngame } from 'src/components/organisms/seat/SeatUserCashIngame'
 import { isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
 import { SeatUserCashInpot } from 'src/components/organisms/seat/SeatUserCashInpot'
@@ -12,6 +12,7 @@ import { SeatEmpty } from 'src/components/organisms/seat/SeatEmpty'
 import { TypeTable } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
 import classNames from 'classnames'
+import { SeatUser } from '../seat/SeatUser'
 
 export const TableSeats = (props: { table: TypeTable }) => {
   const { table } = props
@@ -28,13 +29,14 @@ export const TableSeats = (props: { table: TypeTable }) => {
             key={s.id}
             className={classNames(
               'dnd-window-body-table-seats-seat',
-              `seats-seat-${table.seats.length}-${s.id}`,
+              `seat-${table.seats.length}-${s.id}`,
               s.user?.username === username && 'dnd-window-body-table-seats-authseat',
               s.user?.gameTurn && 'dnd-window-body-table-seats-turnseat',
             )}
           >
             {!s.user && isAuthUserWaitingTable && <SeatEmpty table={table} seat={s} />}
-            {s.user && (
+            {s.user && <SeatUser table={table} seat={s} />}
+            {/* {s.user && (
               <div className='seat-user'>
                 <SeatUserAvatar seat={s} />
                 <SeatUserUsername seat={s} />
@@ -49,7 +51,7 @@ export const TableSeats = (props: { table: TypeTable }) => {
                   showPhase={table.phase === TABLE_PHASES.show}
                 />
               </div>
-            )}
+            )} */}
           </div>
         )
       })}

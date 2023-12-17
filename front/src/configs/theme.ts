@@ -1,5 +1,12 @@
 export const LIGHT_THEME = {
   components: {
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          minHeight: '40px !important',
+        },
+      },
+    },
     MuiModal: {
       styleOverrides: {
         root: {},

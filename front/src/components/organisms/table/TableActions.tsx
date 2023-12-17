@@ -118,7 +118,7 @@ export const TableActions = (props: { table: TypeTable }) => {
       >
         RAISE {raiseActionAmount}$
       </Button>
-      <Slider
+      {/* <Slider
         value={raiseActionAmount}
         min={raiseLimits.min}
         step={raiseLimits.step}
@@ -126,7 +126,7 @@ export const TableActions = (props: { table: TypeTable }) => {
         valueLabelFormat={val => '$' + val}
         onChange={(_, val) => setRaiseActionAmount(+val)}
         valueLabelDisplay='auto'
-      />
+      /> */}
     </div>
   )
 }

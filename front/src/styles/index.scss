@@ -497,111 +497,245 @@
         &-seats {
           &-seat {
             position: absolute;
-          }
 
-          &-emptyseat {
-            cursor: pointer;
-            display: flex;
-            user-select: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background-color: rgba(10, 10, 10, 0.8);
+            &-user {
+              &-avatar {
+                overflow: hidden;
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                padding: 2px;
+                background-image: repeating-linear-gradient(#dcdddc, #919091c1 10%, #919091c1 100%);
 
-            &-circle {
+                &-image {
+                  width: 86px;
+                  height: 86px;
+                  border-radius: 50%;
+                  background-repeat: no-repeat;
+                  background-size: 520px;
+                }
+
+                .avatar-1 {
+                  background-position: -4px -5px;
+                }
+
+                .avatar-2 {
+                  background-position: -110px -5px;
+                }
+              }
+
+              &-box {
+                border-top: 2px solid #2b2b2b;
+                position: absolute;
+                z-index: 10;
+                top: 80px;
+                left: -10px;
+
+                img {
+                  width: 110px;
+                }
+              }
+
+              &-username {
+                position: absolute;
+                top: 93px;
+                left: 0px;
+                z-index: 11;
+                text-align: center;
+                width: 100%;
+                color: #fd9700; // #f6ad01;
+                font-size: 14px;
+                font-weight: 500;
+              }
+
+              &-cash {
+                position: absolute;
+                top: 107px;
+                font-size: 14px;
+                left: 0px;
+                z-index: 11;
+                text-align: center;
+                width: 100%;
+                color: #71c2f3;
+                font-weight: 500;
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                  font-size: 18px;
+                  margin-right: -5px;
+                }
+              }
+
+              &-hot {
+              }
+
+              &-country {
+              }
+
+              &-cards {
+                position: absolute;
+                top: 0px;
+
+                left: 0px;
+                z-index: 1;
+                width: 200px;
+                height: 100px;
+                background-color: yellow;
+
+                &-card {
+                  width: 70px;
+                  height: 100px;
+                  border-radius: 5px;
+                  position: absolute;
+                  top: -30px;
+                  padding: 5px;
+                  background: linear-gradient(135deg, #fefefe, #d5d2d5);
+
+                  &-number {
+                    font-size: 20px;
+                  }
+
+                  &-signsmall {
+                    svg {
+                      width: 40px;
+                    }
+                  }
+
+                  &-signbig {
+                    svg {
+                      width: 90px;
+                    }
+                  }
+                }
+
+                .card-1 {
+                  left: 10px;
+                }
+
+                .card-2 {
+                  left: 90px;
+                }
+
+                .card-3 {
+                  left: 180px;
+                }
+
+                .card-4 {
+                  left: 280px;
+                }
+              }
+              &-status {
+              }
+            }
+
+            &-empty {
+              cursor: pointer;
               display: flex;
+              user-select: none;
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              text-align: center;
-              width: 80px;
-              height: 80px;
+              width: 90px;
+              height: 90px;
               border-radius: 50%;
-              color: #f3f3f3;
-              border: 2px solid #323332;
+              background-color: rgba(10, 10, 10, 0.8);
 
-              img {
-                width: 26px;
-                min-width: 26px;
-                max-width: 26px;
+              &-circle {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                color: #f3f3f3;
+                border: 2px solid #323332;
+
+                img {
+                  width: 26px;
+                  min-width: 26px;
+                  max-width: 26px;
+                }
               }
             }
           }
 
-          .seats-seat-6-1 {
+          .seat-6-1 {
             bottom: 12%;
             left: calc(50% - 45px);
           }
 
-          .seats-seat-6-2 {
+          .seat-6-2 {
             bottom: 28%;
             left: 5%;
           }
 
-          .seats-seat-6-3 {
+          .seat-6-3 {
             top: 12%;
             left: 8%;
           }
 
-          .seats-seat-6-4 {
+          .seat-6-4 {
             top: 2%;
             left: calc(50% - 45px);
           }
 
-          .seats-seat-6-5 {
+          .seat-6-5 {
             top: 12%;
             right: 8%;
           }
 
-          .seats-seat-6-6 {
+          .seat-6-6 {
             bottom: 28%;
             right: 5%;
           }
 
-          .seats-seat-9-1 {
+          .seat-9-1 {
             bottom: 12%;
             left: calc(50% - 45px);
           }
 
-          .seats-seat-9-2 {
+          .seat-9-2 {
             bottom: 26%;
             left: 14%;
           }
 
-          .seats-seat-9-3 {
+          .seat-9-3 {
             top: calc(40% - 45px);
             left: 2%;
           }
 
-          .seats-seat-9-4 {
+          .seat-9-4 {
             top: 9%;
             left: 12%;
           }
 
-          .seats-seat-9-5 {
+          .seat-9-5 {
             top: 2%;
             left: calc(40% - 45px);
           }
 
-          .seats-seat-9-6 {
+          .seat-9-6 {
             top: 2%;
             right: calc(40% - 45px);
           }
 
-          .seats-seat-9-7 {
+          .seat-9-7 {
             top: 9%;
             right: 12%;
           }
 
-          .seats-seat-9-8 {
+          .seat-9-8 {
             top: calc(40% - 45px);
             right: 2%;
           }
 
-          .seats-seat-9-9 {
+          .seat-9-9 {
             bottom: 26%;
             right: 14%;
           }

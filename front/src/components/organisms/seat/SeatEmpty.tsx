@@ -22,10 +22,10 @@ export const SeatEmpty = (props: { table: TypeTable; seat: TypeSeat }) => {
 
   return (
     <div
-      className='dnd-window-body-table-seats-emptyseat'
+      className='dnd-window-body-table-seats-seat-empty'
       onClick={() => handleJoinSeat(table.id, seat.id)}
     >
-      <div className='dnd-window-body-table-seats-emptyseat-circle'>
+      <div className='dnd-window-body-table-seats-seat-empty-circle'>
         <img src={emptySeatFleshImage} />
         <p>Take Seat</p>
       </div>

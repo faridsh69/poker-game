@@ -75,7 +75,7 @@ export const CARD_NUMBERS: { [key in TypeCardNumber]: TypeCardNumber } = {
 
 export const WAITING_USER: TypeUser = {
   username: 'W8 player',
-  avatar: '/avatar.webp',
+  avatar: '1',
   cash: {
     inBank: 10000,
     inGame: 0,
@@ -93,15 +93,17 @@ export const WAITING_USER: TypeUser = {
 
 export const PLAYING_USER: TypeUser = {
   username: 'Active Player',
-  avatar: '/avatar.webp',
+  avatar: '2',
   cash: {
     inBank: 7500,
     inGame: 2000,
     inPot: 500,
   },
   cards: [
-    { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.q },
-    { type: CARD_TYPES.hearts, number: CARD_NUMBERS.j },
+    { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.k },
+    { type: CARD_TYPES.hearts, number: CARD_NUMBERS[2] },
+    { type: CARD_TYPES.spades, number: CARD_NUMBERS[10] },
+    { type: CARD_TYPES.clubs, number: CARD_NUMBERS.a },
   ],
   isDealer: false,
   gameTurn: false,
@@ -127,19 +129,19 @@ export const TABLES: TypeTable[] = [
     seats: [
       {
         id: 1,
-        user: null,
+        user: PLAYING_USER,
       },
       {
         id: 2,
-        user: null,
+        user: PLAYING_USER,
       },
       {
         id: 3,
-        user: null,
+        user: PLAYING_USER,
       },
       {
         id: 4,
-        user: null,
+        user: PLAYING_USER,
       },
       {
         id: 5,
