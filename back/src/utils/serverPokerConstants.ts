@@ -155,9 +155,9 @@ export const TABLES: TypeTable[] = [
     phase: TABLE_PHASES.flop,
     pot: 20,
     cards: [
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[7] },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS[9] },
+      { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[10] },
+      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.j },
+      { type: CARD_TYPES.hearts, number: CARD_NUMBERS.q },
     ],
   },
   {

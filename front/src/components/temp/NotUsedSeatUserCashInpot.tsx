@@ -1,6 +1,6 @@
 import { TypeSeat } from 'src/interfaces/type-game'
 
-export const SeatUserCashInpot = (props: { seat: TypeSeat }) => {
+export const NotUsedSeatUserCashInpot = (props: { seat: TypeSeat }) => {
   const { seat } = props
 
   if (!seat.user.cash.inPot) return null

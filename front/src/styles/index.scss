@@ -97,338 +97,329 @@
 }
 
 .home {
-  background-color: #777;
+  background-color: #222;
   height: 100vh;
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  gap: 10px;
 
   &-tables {
     display: flex;
     flex-direction: column;
     gap: 10px;
-
-    &-table {
-    }
   }
+  // &-runtable {
+  //   margin-top: 15px;
+  //   border: 1px solid #efefef;
+  //   padding: 10px;
+  //   border-radius: 2%;
 
-  &-runtables {
-    display: flex;
-    flex-direction: column;
-  }
+  //   &-header {
+  //     display: flex;
+  //     flex-direction: row;
+  //     gap: 30px;
+  //   }
 
-  &-runtable {
-    margin-top: 15px;
-    border: 1px solid #efefef;
-    padding: 10px;
-    border-radius: 2%;
+  //   &-main {
+  //     display: flex;
+  //     flex-direction: row;
+  //     gap: 30px;
+  //     background-color: rgb(201, 226, 205);
 
-    &-header {
-      display: flex;
-      flex-direction: row;
-      gap: 30px;
-    }
+  //     &-sidebar {
+  //       display: none;
+  //       &-waitinglist {
+  //         overflow-y: auto;
+  //         height: 100%;
+  //         max-height: 100%;
+  //         border: 1px solid rgb(102, 162, 112);
+  //         border-radius: 5px;
+  //         padding: 20px;
+  //       }
+  //     }
 
-    &-main {
-      display: flex;
-      flex-direction: row;
-      gap: 30px;
-      background-color: rgb(201, 226, 205);
+  //     &-body {
+  //       position: relative;
 
-      &-sidebar {
-        display: none;
-        &-waitinglist {
-          overflow-y: auto;
-          height: 100%;
-          max-height: 100%;
-          border: 1px solid rgb(102, 162, 112);
-          border-radius: 5px;
-          padding: 20px;
-        }
-      }
+  //       // &-mainimage {
+  //       //   width: 600px;
+  //       //   max-width: 600px;
+  //       //   min-width: 600px;
+  //       // }
 
-      &-body {
-        position: relative;
+  //       // &-tablepot {
+  //       //   position: absolute;
+  //       //   left: 265px;
+  //       //   top: 230px;
+  //       //   color: white;
+  //       //   font-size: 20px;
+  //       // }
 
-        &-mainimage {
-          width: 600px;
-          max-width: 600px;
-          min-width: 600px;
-        }
+  //       // &-tablecards {
+  //       //   position: absolute;
+  //       //   display: flex;
+  //       //   flex-direction: row;
+  //       //   gap: 5px;
+  //       //   height: 80px;
+  //       //   left: 165px;
+  //       //   top: 130px;
 
-        &-tablepot {
-          position: absolute;
-          left: 265px;
-          top: 230px;
-          color: white;
-          font-size: 20px;
-        }
+  //       //   &-card {
+  //       //     display: flex;
+  //       //     flex-direction: column;
+  //       //     align-items: center;
+  //       //     width: 50px;
+  //       //     min-width: 50px;
+  //       //     max-width: 50px;
+  //       //     padding: 1px;
+  //       //     background-color: white;
+  //       //     text-align: center;
+  //       //     border-radius: 10px;
+  //       //     box-shadow: -2px -2px 3px #777;
+  //       //     cursor: default;
+  //       //     user-select: none;
 
-        &-tablecards {
-          position: absolute;
-          display: flex;
-          flex-direction: row;
-          gap: 5px;
-          height: 80px;
-          left: 165px;
-          top: 130px;
+  //       //     &-number {
+  //       //       font-size: 20px;
+  //       //       font-weight: 700;
+  //       //       color: #000;
+  //       //       text-transform: uppercase;
+  //       //     }
 
-          &-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 50px;
-            min-width: 50px;
-            max-width: 50px;
-            padding: 1px;
-            background-color: white;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: -2px -2px 3px #777;
-            cursor: default;
-            user-select: none;
+  //       //     &-type {
+  //       //       width: 30px;
+  //       //       min-width: 30px;
+  //       //       max-width: 30px;
+  //       //     }
+  //       //   }
+  //       // }
 
-            &-number {
-              font-size: 20px;
-              font-weight: 700;
-              color: #000;
-              text-transform: uppercase;
-            }
+  //       // @keyframes blink {
+  //       //   0% {
+  //       //     border-color: rgb(255, 0, 191);
+  //       //   }
+  //       //   50% {
+  //       //     border-color: rgb(214, 233, 51);
+  //       //   }
+  //       //   100% {
+  //       //     border-color: rgb(255, 0, 81);
+  //       //   }
+  //       // }
 
-            &-type {
-              width: 30px;
-              min-width: 30px;
-              max-width: 30px;
-            }
-          }
-        }
+  //       // &-actions {
+  //       //   display: flex;
+  //       //   flex-direction: row;
+  //       //   justify-content: space-between;
+  //       //   border: 4px solid #efefef;
+  //       //   border-radius: 10px;
+  //       //   padding: 25px;
+  //       //   gap: 15px;
+  //       //   animation: blink 1s infinite alternate;
+  //       //   background-color: #ebe8c8;
 
-        @keyframes blink {
-          0% {
-            border-color: rgb(255, 0, 191);
-          }
-          50% {
-            border-color: rgb(214, 233, 51);
-          }
-          100% {
-            border-color: rgb(255, 0, 81);
-          }
-        }
+  //       //   .MuiSlider-root {
+  //       //     width: 100px;
+  //       //   }
+  //       // }
 
-        &-actions {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          border: 4px solid #efefef;
-          border-radius: 10px;
-          padding: 25px;
-          gap: 15px;
-          animation: blink 1s infinite alternate;
-          background-color: #ebe8c8;
+  //       // &-seat {
+  //       //   width: 100px;
+  //       //   height: 100px;
+  //       //   background-color: #acdaafb5;
+  //       //   position: absolute;
+  //       //   border-radius: 50%;
+  //       //   border: 3px solid #33773a;
+  //       //   cursor: pointer;
 
-          .MuiSlider-root {
-            width: 100px;
-          }
-        }
+  //       //   .seat-user {
+  //       //     display: flex;
+  //       //     flex-direction: column;
+  //       //     align-items: center;
+  //       //     justify-content: center;
+  //       //     height: 100%;
+  //       //     user-select: none;
 
-        &-seat {
-          width: 100px;
-          height: 100px;
-          background-color: #acdaafb5;
-          position: absolute;
-          border-radius: 50%;
-          border: 3px solid #33773a;
-          cursor: pointer;
+  //       //     &-avatar {
+  //       //       width: 50px;
+  //       //       min-width: 50px;
+  //       //     }
 
-          .seat-user {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            user-select: none;
+  //       //     &-username {
+  //       //       font-size: 10px;
+  //       //     }
 
-            &-avatar {
-              width: 50px;
-              min-width: 50px;
-            }
+  //       //     &-cash {
+  //       //       font-weight: bold;
+  //       //     }
 
-            &-username {
-              font-size: 10px;
-            }
+  //       //     &-isdealer {
+  //       //       position: absolute;
 
-            &-cash {
-              font-weight: bold;
-            }
+  //       //       &-img {
+  //       //         width: 50px;
+  //       //       }
+  //       //     }
 
-            &-isdealer {
-              position: absolute;
+  //       //     &-inpot {
+  //       //       width: 50px;
+  //       //       text-align: center;
+  //       //       position: absolute;
+  //       //       color: white;
+  //       //     }
 
-              &-img {
-                width: 50px;
-              }
-            }
+  //       //     &-winner {
+  //       //       position: absolute;
+  //       //       background-color: white;
+  //       //     }
 
-            &-inpot {
-              width: 50px;
-              text-align: center;
-              position: absolute;
-              color: white;
-            }
+  //       //     &-achievement {
+  //       //       text-wrap: wrap;
+  //       //       position: absolute;
+  //       //       background-color: white;
+  //       //       z-index: 2;
+  //       //       left: -190px;
+  //       //       width: 200px;
+  //       //       overflow: hidden;
+  //       //       padding: 3px;
+  //       //       border: 1px solid gray;
+  //       //       word-break: break-all;
+  //       //     }
 
-            &-winner {
-              position: absolute;
-              background-color: white;
-            }
+  //       //     &-cards {
+  //       //       position: absolute;
+  //       //       display: flex;
+  //       //       flex-direction: row;
+  //       //       gap: 3px;
+  //       //       height: 74px;
+  //       //       cursor: default;
+  //       //       user-select: none;
 
-            &-achievement {
-              text-wrap: wrap;
-              position: absolute;
-              background-color: white;
-              z-index: 2;
-              left: -190px;
-              width: 200px;
-              overflow: hidden;
-              padding: 3px;
-              border: 1px solid gray;
-              word-break: break-all;
-            }
+  //       //       &-card {
+  //       //         width: 50px;
+  //       //         min-width: 50px;
+  //       //         max-width: 50px;
+  //       //         padding: 1px;
+  //       //         background-color: white;
+  //       //         text-align: center;
+  //       //         border-radius: 8px;
+  //       //         box-shadow: -2px -2px 5px #928b8b;
 
-            &-cards {
-              position: absolute;
-              display: flex;
-              flex-direction: row;
-              gap: 3px;
-              height: 74px;
-              cursor: default;
-              user-select: none;
+  //       //         &-number {
+  //       //           font-size: 20px;
+  //       //           font-weight: 700;
+  //       //           color: #000;
+  //       //           text-transform: uppercase;
+  //       //         }
 
-              &-card {
-                width: 50px;
-                min-width: 50px;
-                max-width: 50px;
-                padding: 1px;
-                background-color: white;
-                text-align: center;
-                border-radius: 8px;
-                box-shadow: -2px -2px 5px #928b8b;
+  //       //         &-type {
+  //       //           width: 25px;
+  //       //           min-width: 25px;
+  //       //           max-width: 25px;
+  //       //         }
+  //       //       }
 
-                &-number {
-                  font-size: 20px;
-                  font-weight: 700;
-                  color: #000;
-                  text-transform: uppercase;
-                }
+  //       //       .hide-card {
+  //       //         padding: 2px;
+  //       //         overflow: hidden;
 
-                &-type {
-                  width: 25px;
-                  min-width: 25px;
-                  max-width: 25px;
-                }
-              }
+  //       //         img {
+  //       //           max-width: 100%;
+  //       //         }
+  //       //       }
+  //       //     }
+  //       //   }
+  //       // }
 
-              .hide-card {
-                padding: 2px;
-                overflow: hidden;
+  //       // .seat-auth {
+  //       //   border: 5px solid blueviolet;
+  //       // }
 
-                img {
-                  max-width: 100%;
-                }
-              }
-            }
-          }
-        }
+  //       // .seat-turn {
+  //       //   animation: blink 1s infinite alternate;
+  //       // }
 
-        .seat-auth {
-          border: 5px solid blueviolet;
-        }
+  //       // .seat-1 {
+  //       //   top: 0px;
+  //       //   left: 500px;
 
-        .seat-turn {
-          animation: blink 1s infinite alternate;
-        }
+  //       //   .seat-user-cards {
+  //       //     top: 5px;
+  //       //     right: 105px;
+  //       //   }
 
-        .seat-1 {
-          top: 0px;
-          left: 500px;
+  //       //   .seat-user-isdealer {
+  //       //     bottom: -50px;
+  //       //     left: -35px;
+  //       //   }
 
-          .seat-user-cards {
-            top: 5px;
-            right: 105px;
-          }
+  //       //   .seat-user-inpot {
+  //       //     bottom: -60px;
+  //       //     left: -35px;
+  //       //   }
+  //       // }
 
-          .seat-user-isdealer {
-            bottom: -50px;
-            left: -35px;
-          }
+  //       // .seat-2 {
+  //       //   top: 290px;
+  //       //   left: 500px;
 
-          .seat-user-inpot {
-            bottom: -60px;
-            left: -35px;
-          }
-        }
+  //       //   .seat-user-cards {
+  //       //     top: 5px;
+  //       //     right: 105px;
+  //       //   }
 
-        .seat-2 {
-          top: 290px;
-          left: 500px;
+  //       //   .seat-user-isdealer {
+  //       //     top: -45px;
+  //       //     left: -35px;
+  //       //   }
 
-          .seat-user-cards {
-            top: 5px;
-            right: 105px;
-          }
+  //       //   .seat-user-inpot {
+  //       //     top: -65px;
+  //       //     left: -35px;
+  //       //   }
+  //       // }
 
-          .seat-user-isdealer {
-            top: -45px;
-            left: -35px;
-          }
+  //       // .seat-3 {
+  //       //   top: 290px;
+  //       //   left: 0px;
 
-          .seat-user-inpot {
-            top: -65px;
-            left: -35px;
-          }
-        }
+  //       //   .seat-user-cards {
+  //       //     top: 5px;
+  //       //     left: 100px;
+  //       //   }
 
-        .seat-3 {
-          top: 290px;
-          left: 0px;
+  //       //   .seat-user-isdealer {
+  //       //     top: -45px;
+  //       //     right: -35px;
+  //       //   }
 
-          .seat-user-cards {
-            top: 5px;
-            left: 100px;
-          }
+  //       //   .seat-user-inpot {
+  //       //     top: -65px;
+  //       //     right: -35px;
+  //       //   }
+  //       // }
 
-          .seat-user-isdealer {
-            top: -45px;
-            right: -35px;
-          }
+  //       // .seat-4 {
+  //       //   top: 0px;
+  //       //   left: 0px;
 
-          .seat-user-inpot {
-            top: -65px;
-            right: -35px;
-          }
-        }
+  //       //   .seat-user-cards {
+  //       //     top: 5px;
+  //       //     left: 100px;
+  //       //   }
 
-        .seat-4 {
-          top: 0px;
-          left: 0px;
+  //       //   .seat-user-isdealer {
+  //       //     bottom: -50px;
+  //       //     right: -35px;
+  //       //   }
 
-          .seat-user-cards {
-            top: 5px;
-            left: 100px;
-          }
-
-          .seat-user-isdealer {
-            bottom: -50px;
-            right: -35px;
-          }
-
-          .seat-user-inpot {
-            bottom: -60px;
-            right: -35px;
-          }
-        }
-      }
-    }
-  }
+  //       //   .seat-user-inpot {
+  //       //     bottom: -60px;
+  //       //     right: -35px;
+  //       //   }
+  //       // }
+  //     }
+  //   }
+  // }
 }
 
 .dragging {
@@ -494,6 +485,34 @@
           min-width: 100%;
         }
 
+        &-cards {
+          position: absolute;
+          left: 265px;
+          top: 230px;
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+        }
+
+        &-actions {
+          width: 100%;
+          height: 130px;
+          bottom: 0px;
+          position: absolute;
+
+          &-joingame {
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+          }
+        }
+
+        &-pot {
+        }
+
+        &-total {
+        }
+
         &-seats {
           &-seat {
             position: absolute;
@@ -530,6 +549,7 @@
                 z-index: 10;
                 top: 80px;
                 left: -10px;
+                box-shadow: 0 -2px 2px -2px #ddd;
 
                 img {
                   width: 110px;
@@ -578,56 +598,14 @@
 
               &-cards {
                 position: absolute;
-                top: 3px;
+                top: 5px;
                 left: 0px;
-
                 z-index: 1;
                 width: 200px;
                 height: 100px;
 
-                &-card {
-                  width: 57px;
-                  height: 81px;
-                  user-select: none;
+                .gamecard {
                   position: absolute;
-                  border-radius: 5px;
-                  top: 0px;
-                  padding-top: 5px;
-                  padding-left: 1px;
-                  background: linear-gradient(135deg, #fefefe, #d5d2d5);
-                  box-shadow: 0px 0px 5px #666;
-
-                  &-number {
-                    text-align: center;
-                    width: 20px;
-                    line-height: 20px;
-                    font-size: 20px;
-                    font-weight: 900;
-                    text-transform: uppercase;
-                    font-stretch: condensed;
-                    letter-spacing: -3px;
-                    transform: scale(1, 1.4);
-                  }
-
-                  &-signsmall {
-                    position: absolute;
-                    top: 28px;
-                    left: 2px;
-
-                    svg {
-                      width: 20px;
-                    }
-                  }
-
-                  &-signbig {
-                    position: absolute;
-                    top: 43px;
-                    left: 20px;
-
-                    svg {
-                      width: 33px;
-                    }
-                  }
                 }
 
                 .card-1 {
@@ -760,20 +738,51 @@
             right: 14%;
           }
         }
-
-        &-actions {
-          width: 100%;
-          height: 130px;
-          bottom: 0px;
-          position: absolute;
-
-          &-joingame {
-            position: absolute;
-            bottom: 60px;
-            right: 20px;
-          }
-        }
       }
+    }
+  }
+}
+
+.gamecard {
+  position: relative;
+  width: 57px;
+  height: 81px;
+  user-select: none;
+  border-radius: 5px;
+  padding-top: 5px;
+  padding-left: 1px;
+  background: linear-gradient(135deg, #fefefe, #d5d2d5);
+  box-shadow: 0px 0px 5px #666;
+
+  &-number {
+    text-align: center;
+    width: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-stretch: condensed;
+    letter-spacing: -3px;
+    transform: scale(1, 1.4);
+  }
+
+  &-smallsign {
+    position: absolute;
+    top: 28px;
+    left: 2px;
+
+    svg {
+      width: 20px;
+    }
+  }
+
+  &-bigsign {
+    position: absolute;
+    top: 43px;
+    left: 20px;
+
+    svg {
+      width: 33px;
     }
   }
 }

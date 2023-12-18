@@ -1,17 +1,9 @@
-import { SeattUserAchievement } from 'src/components/organisms/seat/SeatUserAchievement'
-import { SeatUserCashIngame } from 'src/components/organisms/seat/SeatUserCashIngame'
+import classNames from 'classnames'
+
 import { isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
-import { SeatUserCashInpot } from 'src/components/organisms/seat/SeatUserCashInpot'
-import { SeatUserUsername } from 'src/components/organisms/seat/SeatUserUsername'
-import { SeatUserDealer } from 'src/components/organisms/seat/SeatUserDealer'
-import { SeatUserAvatar } from 'src/components/organisms/seat/SeatUserAvatar'
-import { SeatUserWinner } from 'src/components/organisms/seat/SeatUserWinner'
-import { SeatUserCards } from 'src/components/organisms/seat/SeatUserCards'
-import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { SeatEmpty } from 'src/components/organisms/seat/SeatEmpty'
 import { TypeTable } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
-import classNames from 'classnames'
 import { SeatUser } from '../seat/SeatUser'
 
 export const TableSeats = (props: { table: TypeTable }) => {
@@ -36,22 +28,6 @@ export const TableSeats = (props: { table: TypeTable }) => {
           >
             {!s.user && isAuthUserWaitingTable && <SeatEmpty table={table} seat={s} />}
             {s.user && <SeatUser table={table} seat={s} />}
-            {/* {s.user && (
-              <div className='seat-user'>
-                <SeatUserAvatar seat={s} />
-                <SeatUserUsername seat={s} />
-                <SeatUserCashIngame seat={s} />
-                <SeatUserCashInpot seat={s} />
-                <SeatUserWinner seat={s} />
-                <SeattUserAchievement seat={s} />
-                <SeatUserDealer seat={s} />
-                <SeatUserCards
-                  cards={s.user.cards}
-                  isAuthSeat={s.user.username === username}
-                  showPhase={table.phase === TABLE_PHASES.show}
-                />
-              </div>
-            )} */}
           </div>
         )
       })}

@@ -12,7 +12,7 @@ import { TypeTable } from 'src/interfaces/type-game'
 import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
 import { useAuth } from 'src/hooks/useAuth'
 import { socketAtom } from 'src/contexts/socketAtom'
-import { TableActionsJoinGame } from './actions/TableActionsJoinGame'
+import { TableActionsJoinGame } from '../actions/TableActionsJoinGame'
 
 export const TableActions = (props: { table: TypeTable }) => {
   const { table } = props

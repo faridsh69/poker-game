@@ -1,6 +1,6 @@
 import { TypeSeat } from 'src/interfaces/type-game'
 
-export const SeattUserAchievement = (props: { seat: TypeSeat }) => {
+export const NotUsedSeattUserAchievement = (props: { seat: TypeSeat }) => {
   const { seat } = props
 
   if (!seat.user.achievement) return null

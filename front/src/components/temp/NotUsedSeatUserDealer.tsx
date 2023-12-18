@@ -1,6 +1,6 @@
 import { TypeSeat } from 'src/interfaces/type-game'
 
-export const SeatUserDealer = (props: { seat: TypeSeat }) => {
+export const NotUsedSeatUserDealer = (props: { seat: TypeSeat }) => {
   const { seat } = props
 
   if (!seat.user.isDealer) return null

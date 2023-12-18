@@ -1,7 +1,7 @@
-import { TypeSeat } from 'src/interfaces/type-game'
+import { TypeSeat } from 'src/interfaces'
 
 export const SeatUserUsername = (props: { seat: TypeSeat }) => {
   const { seat } = props
 
-  return <div className='seat-user-username'>{seat.user.username}</div>
+  return <div className='dnd-window-body-table-seats-seat-user-username'>{seat.user.username}</div>
 }
