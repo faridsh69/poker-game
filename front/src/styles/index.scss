@@ -397,6 +397,24 @@
             }
           }
 
+          &-authseat {
+          }
+
+          &-turnseat {
+            @keyframes turnAnimation {
+              40% {
+                box-shadow: 0px 0px 6px 4px white;
+              }
+              60% {
+                box-shadow: 0px 0px 6px 4px white;
+              }
+            }
+
+            .dnd-window-body-table-seats-seat-user-box {
+              animation: turnAnimation 2s ease-in-out infinite;
+            }
+          }
+
           .seat-6-1 {
             bottom: 12%;
             left: calc(50% - 45px);
