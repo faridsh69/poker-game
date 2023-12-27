@@ -4,6 +4,7 @@ import { SeatUserBox } from './SeatUserBox'
 import { SeatUserUsername } from './SeatUserUsername'
 import { SeatUserCash } from './SeatUserCash'
 import { SeatUserCards } from './SeatUserCards'
+import { SeatDealer } from './SeatDealer'
 
 export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
   const { seat } = props
@@ -15,13 +16,13 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserUsername seat={seat} />
       <SeatUserCash seat={seat} />
       <SeatUserCards seat={seat} />
-      <div className='dnd-window-body-table-seats-seat-user-status'></div>
+      <SeatDealer seat={seat} />
+      {/* <div className='dnd-window-body-table-seats-seat-user-status'></div>
       <div className='dnd-window-body-table-seats-seat-user-hot'></div>
       <div className='dnd-window-body-table-seats-seat-user-country'></div>
-      <div className='dnd-window-body-table-seats-seat-dealer'></div>
       <div className='dnd-window-body-table-seats-seat-pot'></div>
       <div className='dnd-window-body-table-seats-seat-winner'></div>
-      <div className='dnd-window-body-table-seats-seat-achievement'></div>
+      <div className='dnd-window-body-table-seats-seat-achievement'></div> */}
     </div>
   )
 }

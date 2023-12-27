@@ -1,8 +1,8 @@
-import { TypeSeat } from 'src/interfaces'
+import { TypeSeatProps } from 'src/interfaces'
 
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 
-export const SeatUserCards = (props: { seat: TypeSeat }) => {
+export const SeatUserCards = (props: TypeSeatProps) => {
   const { seat } = props
 
   return (

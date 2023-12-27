@@ -1,7 +1,7 @@
-import { TypeSeat } from 'src/interfaces'
+import { TypeSeatProps } from 'src/interfaces'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 
-export const SeatUserCash = (props: { seat: TypeSeat }) => {
+export const SeatUserCash = (props: TypeSeatProps) => {
   const { seat } = props
 
   return (

@@ -1,4 +1,4 @@
-import { TypeTable } from '.'
+import { TypeSeat, TypeTable } from '.'
 
 export type TypeSuspenderComponent = (props: {
   pageName: string
@@ -16,4 +16,12 @@ export type TypeBuyinModalComponent = {
   show: boolean
   table?: TypeTable
   onBuyin?: (amount: number) => void
+}
+
+export type TypeSeatProps = {
+  seat: TypeSeat
+}
+
+export type TypeTableProps = {
+  table: TypeTable
 }

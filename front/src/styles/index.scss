@@ -108,318 +108,6 @@
     flex-direction: column;
     gap: 10px;
   }
-  // &-runtable {
-  //   margin-top: 15px;
-  //   border: 1px solid #efefef;
-  //   padding: 10px;
-  //   border-radius: 2%;
-
-  //   &-header {
-  //     display: flex;
-  //     flex-direction: row;
-  //     gap: 30px;
-  //   }
-
-  //   &-main {
-  //     display: flex;
-  //     flex-direction: row;
-  //     gap: 30px;
-  //     background-color: rgb(201, 226, 205);
-
-  //     &-sidebar {
-  //       display: none;
-  //       &-waitinglist {
-  //         overflow-y: auto;
-  //         height: 100%;
-  //         max-height: 100%;
-  //         border: 1px solid rgb(102, 162, 112);
-  //         border-radius: 5px;
-  //         padding: 20px;
-  //       }
-  //     }
-
-  //     &-body {
-  //       position: relative;
-
-  //       // &-mainimage {
-  //       //   width: 600px;
-  //       //   max-width: 600px;
-  //       //   min-width: 600px;
-  //       // }
-
-  //       // &-tablepot {
-  //       //   position: absolute;
-  //       //   left: 265px;
-  //       //   top: 230px;
-  //       //   color: white;
-  //       //   font-size: 20px;
-  //       // }
-
-  //       // &-tablecards {
-  //       //   position: absolute;
-  //       //   display: flex;
-  //       //   flex-direction: row;
-  //       //   gap: 5px;
-  //       //   height: 80px;
-  //       //   left: 165px;
-  //       //   top: 130px;
-
-  //       //   &-card {
-  //       //     display: flex;
-  //       //     flex-direction: column;
-  //       //     align-items: center;
-  //       //     width: 50px;
-  //       //     min-width: 50px;
-  //       //     max-width: 50px;
-  //       //     padding: 1px;
-  //       //     background-color: white;
-  //       //     text-align: center;
-  //       //     border-radius: 10px;
-  //       //     box-shadow: -2px -2px 3px #777;
-  //       //     cursor: default;
-  //       //     user-select: none;
-
-  //       //     &-number {
-  //       //       font-size: 20px;
-  //       //       font-weight: 700;
-  //       //       color: #000;
-  //       //       text-transform: uppercase;
-  //       //     }
-
-  //       //     &-type {
-  //       //       width: 30px;
-  //       //       min-width: 30px;
-  //       //       max-width: 30px;
-  //       //     }
-  //       //   }
-  //       // }
-
-  //       // @keyframes blink {
-  //       //   0% {
-  //       //     border-color: rgb(255, 0, 191);
-  //       //   }
-  //       //   50% {
-  //       //     border-color: rgb(214, 233, 51);
-  //       //   }
-  //       //   100% {
-  //       //     border-color: rgb(255, 0, 81);
-  //       //   }
-  //       // }
-
-  //       // &-actions {
-  //       //   display: flex;
-  //       //   flex-direction: row;
-  //       //   justify-content: space-between;
-  //       //   border: 4px solid #efefef;
-  //       //   border-radius: 10px;
-  //       //   padding: 25px;
-  //       //   gap: 15px;
-  //       //   animation: blink 1s infinite alternate;
-  //       //   background-color: #ebe8c8;
-
-  //       //   .MuiSlider-root {
-  //       //     width: 100px;
-  //       //   }
-  //       // }
-
-  //       // &-seat {
-  //       //   width: 100px;
-  //       //   height: 100px;
-  //       //   background-color: #acdaafb5;
-  //       //   position: absolute;
-  //       //   border-radius: 50%;
-  //       //   border: 3px solid #33773a;
-  //       //   cursor: pointer;
-
-  //       //   .seat-user {
-  //       //     display: flex;
-  //       //     flex-direction: column;
-  //       //     align-items: center;
-  //       //     justify-content: center;
-  //       //     height: 100%;
-  //       //     user-select: none;
-
-  //       //     &-avatar {
-  //       //       width: 50px;
-  //       //       min-width: 50px;
-  //       //     }
-
-  //       //     &-username {
-  //       //       font-size: 10px;
-  //       //     }
-
-  //       //     &-cash {
-  //       //       font-weight: bold;
-  //       //     }
-
-  //       //     &-isdealer {
-  //       //       position: absolute;
-
-  //       //       &-img {
-  //       //         width: 50px;
-  //       //       }
-  //       //     }
-
-  //       //     &-inpot {
-  //       //       width: 50px;
-  //       //       text-align: center;
-  //       //       position: absolute;
-  //       //       color: white;
-  //       //     }
-
-  //       //     &-winner {
-  //       //       position: absolute;
-  //       //       background-color: white;
-  //       //     }
-
-  //       //     &-achievement {
-  //       //       text-wrap: wrap;
-  //       //       position: absolute;
-  //       //       background-color: white;
-  //       //       z-index: 2;
-  //       //       left: -190px;
-  //       //       width: 200px;
-  //       //       overflow: hidden;
-  //       //       padding: 3px;
-  //       //       border: 1px solid gray;
-  //       //       word-break: break-all;
-  //       //     }
-
-  //       //     &-cards {
-  //       //       position: absolute;
-  //       //       display: flex;
-  //       //       flex-direction: row;
-  //       //       gap: 3px;
-  //       //       height: 74px;
-  //       //       cursor: default;
-  //       //       user-select: none;
-
-  //       //       &-card {
-  //       //         width: 50px;
-  //       //         min-width: 50px;
-  //       //         max-width: 50px;
-  //       //         padding: 1px;
-  //       //         background-color: white;
-  //       //         text-align: center;
-  //       //         border-radius: 8px;
-  //       //         box-shadow: -2px -2px 5px #928b8b;
-
-  //       //         &-number {
-  //       //           font-size: 20px;
-  //       //           font-weight: 700;
-  //       //           color: #000;
-  //       //           text-transform: uppercase;
-  //       //         }
-
-  //       //         &-type {
-  //       //           width: 25px;
-  //       //           min-width: 25px;
-  //       //           max-width: 25px;
-  //       //         }
-  //       //       }
-
-  //       //       .hide-card {
-  //       //         padding: 2px;
-  //       //         overflow: hidden;
-
-  //       //         img {
-  //       //           max-width: 100%;
-  //       //         }
-  //       //       }
-  //       //     }
-  //       //   }
-  //       // }
-
-  //       // .seat-auth {
-  //       //   border: 5px solid blueviolet;
-  //       // }
-
-  //       // .seat-turn {
-  //       //   animation: blink 1s infinite alternate;
-  //       // }
-
-  //       // .seat-1 {
-  //       //   top: 0px;
-  //       //   left: 500px;
-
-  //       //   .seat-user-cards {
-  //       //     top: 5px;
-  //       //     right: 105px;
-  //       //   }
-
-  //       //   .seat-user-isdealer {
-  //       //     bottom: -50px;
-  //       //     left: -35px;
-  //       //   }
-
-  //       //   .seat-user-inpot {
-  //       //     bottom: -60px;
-  //       //     left: -35px;
-  //       //   }
-  //       // }
-
-  //       // .seat-2 {
-  //       //   top: 290px;
-  //       //   left: 500px;
-
-  //       //   .seat-user-cards {
-  //       //     top: 5px;
-  //       //     right: 105px;
-  //       //   }
-
-  //       //   .seat-user-isdealer {
-  //       //     top: -45px;
-  //       //     left: -35px;
-  //       //   }
-
-  //       //   .seat-user-inpot {
-  //       //     top: -65px;
-  //       //     left: -35px;
-  //       //   }
-  //       // }
-
-  //       // .seat-3 {
-  //       //   top: 290px;
-  //       //   left: 0px;
-
-  //       //   .seat-user-cards {
-  //       //     top: 5px;
-  //       //     left: 100px;
-  //       //   }
-
-  //       //   .seat-user-isdealer {
-  //       //     top: -45px;
-  //       //     right: -35px;
-  //       //   }
-
-  //       //   .seat-user-inpot {
-  //       //     top: -65px;
-  //       //     right: -35px;
-  //       //   }
-  //       // }
-
-  //       // .seat-4 {
-  //       //   top: 0px;
-  //       //   left: 0px;
-
-  //       //   .seat-user-cards {
-  //       //     top: 5px;
-  //       //     left: 100px;
-  //       //   }
-
-  //       //   .seat-user-isdealer {
-  //       //     bottom: -50px;
-  //       //     right: -35px;
-  //       //   }
-
-  //       //   .seat-user-inpot {
-  //       //     bottom: -60px;
-  //       //     right: -35px;
-  //       //   }
-  //       // }
-  //     }
-  //   }
-  // }
 }
 
 .dragging {
@@ -485,13 +173,39 @@
           min-width: 100%;
         }
 
+        &-total {
+          font-size: 14px;
+          font-weight: 400;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          position: absolute;
+          left: 355px;
+          top: 200px;
+          width: 150px;
+          height: 20px;
+          line-height: 20px;
+          border-radius: 10px;
+          text-align: center;
+          color: #fcc933;
+          background-color: rgba($color: #000000, $alpha: 0.3);
+
+          .money-icon {
+            margin-top: 2px;
+            svg {
+              font-size: 14px;
+              margin-right: -3px;
+            }
+          }
+        }
+
         &-cards {
           position: absolute;
           left: 265px;
           top: 230px;
           display: flex;
           flex-direction: row;
-          gap: 5px;
+          gap: 8px;
         }
 
         &-actions {
@@ -508,9 +222,6 @@
         }
 
         &-pot {
-        }
-
-        &-total {
         }
 
         &-seats {
@@ -557,15 +268,19 @@
               }
 
               &-username {
-                position: absolute;
-                top: 93px;
+                top: 81px;
                 left: 0px;
+                width: 92px;
+                height: 20px;
+                line-height: 20px;
+                position: absolute;
                 z-index: 11;
                 text-align: center;
-                width: 100%;
-                color: #fd9700; // #f6ad01;
+                color: #f6ad01;
                 font-size: 14px;
                 font-weight: 500;
+                overflow: hidden;
+                white-space: nowrap;
               }
 
               &-cash {
@@ -588,12 +303,6 @@
                   font-size: 18px;
                   margin-right: -5px;
                 }
-              }
-
-              &-hot {
-              }
-
-              &-country {
               }
 
               &-cards {
@@ -626,7 +335,32 @@
                 //   left: 280px;
                 // }
               }
+
+              &-dealer {
+                position: absolute;
+
+                img {
+                  width: 20px;
+                  height: 15px;
+                }
+              }
+
               &-status {
+              }
+
+              &-hot {
+              }
+
+              &-country {
+              }
+
+              &-pot {
+              }
+
+              &-winner {
+              }
+
+              &-achievement {
               }
             }
 
@@ -666,76 +400,151 @@
           .seat-6-1 {
             bottom: 12%;
             left: calc(50% - 45px);
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: -20px;
+              left: -20px;
+            }
           }
 
           .seat-6-2 {
             bottom: 28%;
             left: 5%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 43px;
+              right: -45px;
+            }
           }
 
           .seat-6-3 {
             top: 12%;
             left: 8%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 103px;
+              right: -40px;
+            }
           }
 
           .seat-6-4 {
             top: 2%;
             left: calc(50% - 45px);
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 135px;
+              left: 10px;
+            }
           }
 
           .seat-6-5 {
             top: 12%;
             right: 8%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 103px;
+              left: -40px;
+            }
           }
 
           .seat-6-6 {
             bottom: 28%;
             right: 5%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 43px;
+              left: -40px;
+            }
           }
 
           .seat-9-1 {
             bottom: 12%;
             left: calc(50% - 45px);
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: -20px;
+              left: -20px;
+            }
           }
 
           .seat-9-2 {
             bottom: 26%;
             left: 14%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 50px;
+              right: -40px;
+            }
           }
 
           .seat-9-3 {
             top: calc(40% - 45px);
             left: 2%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 110px;
+              right: -30px;
+            }
           }
 
           .seat-9-4 {
             top: 9%;
             left: 12%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 133px;
+              right: 10px;
+            }
           }
 
           .seat-9-5 {
             top: 2%;
             left: calc(40% - 45px);
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 133px;
+              left: 20px;
+            }
           }
 
           .seat-9-6 {
             top: 2%;
             right: calc(40% - 45px);
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 133px;
+              right: 20px;
+            }
           }
 
           .seat-9-7 {
             top: 9%;
             right: 12%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 133px;
+              left: 10px;
+            }
           }
 
           .seat-9-8 {
             top: calc(40% - 45px);
             right: 2%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 110px;
+              left: -30px;
+            }
           }
 
           .seat-9-9 {
             bottom: 26%;
             right: 14%;
+
+            .dnd-window-body-table-seats-seat-user-dealer {
+              top: 50px;
+              left: -40px;
+            }
           }
         }
       }
@@ -748,11 +557,11 @@
   width: 57px;
   height: 81px;
   user-select: none;
-  border-radius: 5px;
+  border-radius: 8px;
   padding-top: 5px;
   padding-left: 1px;
   background: linear-gradient(135deg, #fefefe, #d5d2d5);
-  box-shadow: 0px 0px 5px #666;
+  box-shadow: 0px 3px 2px rgba($color: #222, $alpha: 0.4);
 
   &-number {
     text-align: center;
@@ -768,7 +577,7 @@
 
   &-smallsign {
     position: absolute;
-    top: 28px;
+    top: 30px;
     left: 2px;
 
     svg {
@@ -779,7 +588,7 @@
   &-bigsign {
     position: absolute;
     top: 43px;
-    left: 20px;
+    left: 18px;
 
     svg {
       width: 33px;

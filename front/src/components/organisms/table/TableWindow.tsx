@@ -4,6 +4,7 @@ import { TableActions } from 'src/components/organisms/table/TableActions'
 import { TableCards } from 'src/components/organisms/table/TableCards'
 import { TableBackground } from './TableBackground'
 import { TablePot } from './TablePot'
+import { TableTotalPot } from './TableTotalPot'
 
 export const TableWindow = (props: { table: TypeTable }) => {
   const { table } = props
@@ -11,11 +12,11 @@ export const TableWindow = (props: { table: TypeTable }) => {
   return (
     <div className='dnd-window-body-table' key={table.id}>
       <TableBackground />
+      <TableTotalPot table={table} />
       <TableCards table={table} />
-      <TableActions table={table} />
       <TablePot table={table} />
       <TableSeats table={table} />
-      <div className='dnd-window-body-table-total'></div>
+      <TableActions table={table} />
     </div>
   )
 }

@@ -2,11 +2,11 @@ import classNames from 'classnames'
 
 import { isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
 import { SeatEmpty } from 'src/components/organisms/seat/SeatEmpty'
-import { TypeTable } from 'src/interfaces'
+import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
 import { SeatUser } from '../seat/SeatUser'
 
-export const TableSeats = (props: { table: TypeTable }) => {
+export const TableSeats = (props: TypeTableProps) => {
   const { table } = props
 
   const { username } = useAuth()

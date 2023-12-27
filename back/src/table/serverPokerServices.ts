@@ -160,7 +160,11 @@ export const getCurrentDealerSeatId = (table: TypeTable): number => {
   const userSeats = table.seats.filter(s => s.user)
   const dealerSeat = userSeats.find(s => s.user.isDealer)
 
-  return dealerSeat?.id || userSeats[0].id
+  if (dealerSeat) return dealerSeat?.id
+
+  const randomSeatIndex = Math.floor(Math.random() * userSeats.length)
+
+  return userSeats[randomSeatIndex].id
 }
 
 export const getNextSeatId = (table: TypeTable, seatId: number): number => {

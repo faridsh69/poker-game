@@ -142,19 +142,19 @@ export const TABLES: TypeTable[] = [
     seats: [
       {
         id: 1,
-        user: PLAYING_USER,
+        user: null,
       },
       {
         id: 2,
-        user: PLAYING_USER,
+        user: null,
       },
       {
         id: 3,
-        user: PLAYING_USER,
+        user: null,
       },
       {
         id: 4,
-        user: PLAYING_USER,
+        user: null,
       },
       {
         id: 5,
@@ -165,7 +165,7 @@ export const TABLES: TypeTable[] = [
         user: null,
       },
     ],
-    phase: TABLE_PHASES.flop,
+    phase: TABLE_PHASES.wait,
     pot: 20,
     cards: [
       { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[10] },

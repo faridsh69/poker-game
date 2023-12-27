@@ -1,8 +1,8 @@
-import { TypeTable } from 'src/interfaces/type-game'
 import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { GameCard } from 'src/components/organisms/cards/GameCard'
+import { TypeTableProps } from 'src/interfaces'
 
-export const TableCards = (props: { table: TypeTable }) => {
+export const TableCards = (props: TypeTableProps) => {
   const { table } = props
 
   return (
