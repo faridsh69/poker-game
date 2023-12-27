@@ -1,5 +1,5 @@
 import { TypeCard, TypeScoreAndAchivement } from 'src/utils/serverPokerTypes'
-import { CARD_NUMBERS } from 'src/utils/serverPokerConstants'
+import { CARD_NUMBERS, WINNER_LEVELS } from 'src/utils/serverPokerConstants'
 
 // 9 Royal Flush = 9 * 100 ^ 5
 // 8 Straight Flush = 8 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1 + 14 * 100 ^ 0
@@ -13,7 +13,7 @@ import { CARD_NUMBERS } from 'src/utils/serverPokerConstants'
 // 0 High Card = 0 & 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1 + 14 * 100 ^ 0
 export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchivement => {
   let score = 0
-  let level = 0
+  let level = WINNER_LEVELS.highCard
   const sortedCards = getSortedCards(cards)
   const pairOrSetOrQuadsCards = getPairOrSetOrQuadsCards(sortedCards)
   const flushCards = getFlushCards(sortedCards)
@@ -23,64 +23,70 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
   if (pairOrSetOrQuadsCards.length) {
     for (const pairOrSetOrQuadsCard of pairOrSetOrQuadsCards) {
       if (pairOrSetOrQuadsCard.length === 4) {
-        level = Math.max(level, 7)
+        level = Math.max(level, WINNER_LEVELS.quads)
       }
       if (pairOrSetOrQuadsCard.length === 3) {
-        level = Math.max(level, 3)
+        if (level === WINNER_LEVELS.onePair) {
+          level = Math.max(level, WINNER_LEVELS.fullHouse)
+        }
+        level = Math.max(level, WINNER_LEVELS.set)
       }
       if (pairOrSetOrQuadsCard.length === 2) {
-        if (level === 3) {
-          level = Math.max(level, 6)
+        if (level === WINNER_LEVELS.set) {
+          level = Math.max(level, WINNER_LEVELS.fullHouse)
         }
-        if (level === 1) {
-          level = Math.max(level, 2)
+        if (level === WINNER_LEVELS.onePair) {
+          level = Math.max(level, WINNER_LEVELS.twoPair)
         }
-        level = Math.max(level, 1)
+        level = Math.max(level, WINNER_LEVELS.onePair)
       }
     }
   }
 
   if (straightCards.length) {
-    level = Math.max(level, 4)
+    level = Math.max(level, WINNER_LEVELS.straight)
   }
   if (flushCards.length) {
-    level = Math.max(level, 5)
+    level = Math.max(level, WINNER_LEVELS.flush)
   }
   if (straightFlushCards.length) {
-    level = Math.max(level, 8)
+    level = Math.max(level, WINNER_LEVELS.straightFlush)
   }
-  if (straightFlushCards.length && getCardScore(straightFlushCards[0]) === 14) {
-    level = Math.max(level, 9)
+  if (
+    straightFlushCards.length &&
+    getCardScore(straightFlushCards[0]) === getCardScore({ number: CARD_NUMBERS.a, type: 'hearts' })
+  ) {
+    level = Math.max(level, WINNER_LEVELS.royalFlush)
   }
 
-  if (level === 0) {
+  if (level === WINNER_LEVELS.highCard) {
     score = getHighCardScore(sortedCards)
   }
-  if (level === 1) {
+  if (level === WINNER_LEVELS.onePair) {
     score = getPairScore(sortedCards, pairOrSetOrQuadsCards)
   }
-  if (level === 2) {
+  if (level === WINNER_LEVELS.twoPair) {
     score = getTwoPairScore(sortedCards, pairOrSetOrQuadsCards)
   }
-  if (level === 3) {
+  if (level === WINNER_LEVELS.set) {
     score = getSetScore(sortedCards, pairOrSetOrQuadsCards)
   }
-  if (level === 4) {
+  if (level === WINNER_LEVELS.straight) {
     score = getStraightScore(straightCards)
   }
-  if (level === 5) {
+  if (level === WINNER_LEVELS.flush) {
     score = getFlushScore(flushCards)
   }
-  if (level === 6) {
+  if (level === WINNER_LEVELS.fullHouse) {
     score = getFullHouseScore(sortedCards, pairOrSetOrQuadsCards)
   }
-  if (level === 7) {
+  if (level === WINNER_LEVELS.quads) {
     score = getQuadsScore(sortedCards, pairOrSetOrQuadsCards)
   }
-  if (level === 8) {
+  if (level === WINNER_LEVELS.straightFlush) {
     score = getStraightFlushScore(straightFlushCards)
   }
-  if (level === 9) {
+  if (level === WINNER_LEVELS.royalFlush) {
     score = getRoyalFlushScore()
   }
 
@@ -88,11 +94,13 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
 }
 
 const getRoyalFlushScore = () => {
-  return 9 * Math.pow(100, 5)
+  return WINNER_LEVELS.royalFlush * Math.pow(100, 5)
 }
 
 const getStraightFlushScore = (straightFlushCards: TypeCard[]) => {
-  return 8 * Math.pow(100, 5) + getCardScoreWithLevel(straightFlushCards[0], 4)
+  return (
+    WINNER_LEVELS.straightFlush * Math.pow(100, 5) + getCardScoreWithLevel(straightFlushCards[0], 4)
+  )
 }
 
 const getQuadsScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]) => {
@@ -102,7 +110,7 @@ const getQuadsScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]) =
   )
 
   return (
-    7 * Math.pow(100, 5) +
+    WINNER_LEVELS.quads * Math.pow(100, 5) +
     getCardScoreWithLevel(quadsCards[0], 4) +
     getCardScoreWithLevel(restOfCards[0], 3)
   )
@@ -113,7 +121,7 @@ const getFullHouseScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][
   const pairCards = pairOrSetOrQuadsCards[1]
 
   return (
-    6 * Math.pow(100, 5) +
+    WINNER_LEVELS.fullHouse * Math.pow(100, 5) +
     getCardScoreWithLevel(setCards[0], 4) +
     getCardScoreWithLevel(pairCards[0], 3)
   )
@@ -121,7 +129,7 @@ const getFullHouseScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][
 
 const getFlushScore = (flushCards: TypeCard[]) => {
   return (
-    5 * Math.pow(100, 5) +
+    WINNER_LEVELS.flush * Math.pow(100, 5) +
     getCardScoreWithLevel(flushCards[0], 4) +
     getCardScoreWithLevel(flushCards[1], 3) +
     getCardScoreWithLevel(flushCards[2], 2) +
@@ -132,7 +140,7 @@ const getFlushScore = (flushCards: TypeCard[]) => {
 
 const getStraightScore = (straightCards: TypeCard[]) => {
   return (
-    4 * Math.pow(100, 5) +
+    WINNER_LEVELS.straight * Math.pow(100, 5) +
     getCardScoreWithLevel(straightCards[0], 4) +
     getCardScoreWithLevel(straightCards[1], 3) +
     getCardScoreWithLevel(straightCards[2], 2) +
@@ -148,7 +156,7 @@ const getSetScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]) => 
   )
 
   return (
-    3 * Math.pow(100, 5) +
+    WINNER_LEVELS.set * Math.pow(100, 5) +
     getCardScoreWithLevel(setCards[0], 4) +
     getCardScoreWithLevel(restOfCards[0], 3) +
     getCardScoreWithLevel(restOfCards[1], 2)
@@ -165,7 +173,7 @@ const getTwoPairScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][])
   )
 
   return (
-    2 * Math.pow(100, 5) +
+    WINNER_LEVELS.twoPair * Math.pow(100, 5) +
     getCardScoreWithLevel(pairCards1[0], 4) +
     getCardScoreWithLevel(pairCards2[0], 3) +
     getCardScoreWithLevel(restOfCards[0], 2)
@@ -179,7 +187,7 @@ const getPairScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]): n
   )
 
   return (
-    1 * Math.pow(100, 5) +
+    WINNER_LEVELS.onePair * Math.pow(100, 5) +
     getCardScoreWithLevel(pairCards[0], 4) +
     getCardScoreWithLevel(restOfCards[0], 3) +
     getCardScoreWithLevel(restOfCards[1], 2) +
@@ -189,7 +197,7 @@ const getPairScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]): n
 
 const getHighCardScore = (cards: TypeCard[]) => {
   const highCardScore =
-    0 * Math.pow(100, 5) +
+    WINNER_LEVELS.highCard * Math.pow(100, 5) +
     getCardScoreWithLevel(cards[0], 4) +
     getCardScoreWithLevel(cards[1], 3) +
     getCardScoreWithLevel(cards[2], 2) +
@@ -207,7 +215,7 @@ const getCardScoreWithLevel = (card: TypeCard, level: number) => {
 }
 
 const getCardScore = (card: TypeCard) => {
-  return Object.values(CARD_NUMBERS).findIndex(n => n === card.number) + 2
+  return Object.keys(CARD_NUMBERS).findIndex(n => n === card.number) + 2
 }
 
 const getSortedCards = (cards: TypeCard[]): TypeCard[] => {

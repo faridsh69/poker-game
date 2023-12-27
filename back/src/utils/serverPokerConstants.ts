@@ -73,6 +73,19 @@ export const CARD_NUMBERS: { [key in TypeCardNumber]: TypeCardNumber } = {
   a: 'a',
 }
 
+export const WINNER_LEVELS = {
+  highCard: 0,
+  onePair: 1,
+  twoPair: 2,
+  set: 3,
+  straight: 4,
+  flush: 5,
+  fullHouse: 6,
+  quads: 7,
+  straightFlush: 8,
+  royalFlush: 9,
+}
+
 export const WAITING_USER: TypeUser = {
   username: 'W8 player',
   avatar: '1',
