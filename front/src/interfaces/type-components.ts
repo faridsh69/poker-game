@@ -25,3 +25,8 @@ export type TypeSeatProps = {
 export type TypeTableProps = {
   table: TypeTable
 }
+
+export type TypeSeatAndShowPhaseProps = {
+  seat: TypeSeat
+  isShowPhase: boolean
+}

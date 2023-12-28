@@ -1,4 +1,5 @@
-import { TypeTable } from 'src/interfaces/type-game'
+import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import { TypeSeat, TypeTable } from 'src/interfaces/type-game'
 
 export const isUserSeatedTable = (table: TypeTable, username: string) => {
   return !!table.seats.find(s => s.user?.username === username && !s.user.isSeatout)
@@ -46,3 +47,7 @@ export const getCallActionAmount = (table: TypeTable, username: string) => {
 
   return maximumBet - userSeat.user.cash.inPot
 }
+
+export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
+
+export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show

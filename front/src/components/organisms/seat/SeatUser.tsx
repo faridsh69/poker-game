@@ -5,9 +5,10 @@ import { SeatUserUsername } from './SeatUserUsername'
 import { SeatUserCash } from './SeatUserCash'
 import { SeatUserCards } from './SeatUserCards'
 import { SeatDealer } from './SeatDealer'
+import { isShowPhase } from 'src/helpers/clientHelpersPoker'
 
 export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
-  const { seat } = props
+  const { seat, table } = props
 
   return (
     <div className='dnd-window-body-table-seats-seat-user'>
@@ -15,7 +16,7 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserBox />
       <SeatUserUsername seat={seat} />
       <SeatUserCash seat={seat} />
-      <SeatUserCards seat={seat} />
+      <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
       <SeatDealer seat={seat} />
       {/* <div className='dnd-window-body-table-seats-seat-user-status'></div>
       <div className='dnd-window-body-table-seats-seat-user-hot'></div>
