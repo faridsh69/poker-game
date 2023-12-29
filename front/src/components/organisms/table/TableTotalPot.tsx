@@ -1,18 +1,16 @@
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import { Money } from 'src/components/molecules/Money'
 
 import { TypeTableProps } from 'src/interfaces'
 
 export const TableTotalPot = (props: TypeTableProps) => {
   const { table } = props
 
-  console.log('1 table', table)
+  const total = table.seats.filter(s => s.user).reduce((sum, s) => sum + s.user.cash.inPot, 0)
+
   return (
     <div className='dnd-window-body-table-total'>
-      <div>Total Pot :</div>
-      <div className='money-icon'>
-        <AttachMoneyIcon />
-      </div>
-      <div>{table.pot}</div>
+      <span>Total Pot :</span>
+      <Money money={total + table.pot} />
     </div>
   )
 }

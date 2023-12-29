@@ -174,29 +174,22 @@
         }
 
         &-total {
+          left: 355px;
+          top: 200px;
           font-size: 14px;
           font-weight: 400;
           display: flex;
           flex-direction: row;
           justify-content: center;
+          align-items: center;
           position: absolute;
-          left: 355px;
-          top: 200px;
           width: 150px;
-          height: 20px;
+          height: 23px;
           line-height: 20px;
           border-radius: 10px;
           text-align: center;
           color: #fcc933;
           background-color: rgba($color: #000000, $alpha: 0.3);
-
-          .money-icon {
-            margin-top: 2px;
-            svg {
-              font-size: 14px;
-              margin-right: -3px;
-            }
-          }
         }
 
         &-cards {
@@ -206,6 +199,26 @@
           display: flex;
           flex-direction: row;
           gap: 8px;
+        }
+
+        &-pot {
+          position: absolute;
+          left: 395px;
+          top: 320px;
+          font-size: 14px;
+          font-weight: 400;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          height: 20px;
+          line-height: 20px;
+          border-radius: 10px;
+          text-align: center;
+          color: white;
+          background-color: rgba($color: #000000, $alpha: 0.3);
+          padding: 0px 5px;
         }
 
         &-actions {
@@ -219,9 +232,65 @@
             bottom: 60px;
             right: 20px;
           }
-        }
 
-        &-pot {
+          &-gameturn {
+            position: absolute;
+            bottom: 7px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            &-raisebuttons {
+              display: flex;
+              flex-direction: row;
+              gap: 10px;
+
+              &-percentactions {
+                display: flex;
+                flex-direction: row;
+                gap: 4px;
+
+                button {
+                  height: 25px;
+                  padding: 0px 2px;
+                  background-color: #444647;
+                  color: #b4b4b4;
+                  outline: none;
+                  border: 1px solid black;
+                  border-radius: 3px;
+                  cursor: pointer;
+
+                  &:hover {
+                    background-color: #343637;
+                  }
+                }
+              }
+
+              &-price {
+                font-size: 16px;
+                background-color: #171717;
+                border-top: 7px solid #0b0b0b;
+                width: 50px;
+                height: 23px;
+                color: white;
+                line-height: 20px;
+                text-align: center;
+                display: flex;
+                flex-direction: row;
+              }
+
+              &-slider {
+                width: 70px !important;
+              }
+            }
+
+            &-callfold {
+              display: flex;
+              flex-direction: row;
+              gap: 7px;
+            }
+          }
         }
 
         &-seats {
@@ -285,7 +354,7 @@
 
               &-cash {
                 position: absolute;
-                top: 107px;
+                top: 116px;
                 font-size: 14px;
                 left: 0px;
                 z-index: 11;
@@ -298,11 +367,6 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-
-                svg {
-                  font-size: 18px;
-                  margin-right: -5px;
-                }
               }
 
               &-cards {
@@ -310,11 +374,21 @@
                 top: 5px;
                 left: 0px;
                 z-index: 1;
-                width: 200px;
+                width: 90px;
                 height: 100px;
 
                 .gamecard {
                   position: absolute;
+                  top: 0px;
+                }
+
+                .backcard {
+                  padding: 0px;
+                  top: 10px;
+
+                  img {
+                    width: 57px;
+                  }
                 }
 
                 .card-1 {
@@ -345,6 +419,23 @@
                 }
               }
 
+              &-pot {
+                font-size: 14px;
+                font-weight: 400;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                height: 20px;
+                line-height: 20px;
+                border-radius: 10px;
+                text-align: center;
+                color: white;
+                background-color: rgba($color: #000000, $alpha: 0.3);
+                padding: 0px 5px;
+              }
+
               &-status {
               }
 
@@ -352,9 +443,6 @@
               }
 
               &-country {
-              }
-
-              &-pot {
               }
 
               &-winner {
@@ -411,7 +499,7 @@
             }
 
             .dnd-window-body-table-seats-seat-user-box {
-              animation: turnAnimation 2s ease-in-out infinite;
+              animation: turnAnimation 1.6s ease-in-out infinite;
             }
           }
 
@@ -422,6 +510,11 @@
             .dnd-window-body-table-seats-seat-user-dealer {
               top: -20px;
               left: -20px;
+            }
+
+            .dnd-window-body-table-seats-seat-user-pot {
+              top: -34px;
+              left: 30px;
             }
           }
 
@@ -442,6 +535,11 @@
             .dnd-window-body-table-seats-seat-user-dealer {
               top: 103px;
               right: -40px;
+            }
+
+            .dnd-window-body-table-seats-seat-user-pot {
+              top: 130px;
+              right: -50px;
             }
           }
 

@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'src/styles/index.scss'
+import 'src/styles/action-button.scss'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'

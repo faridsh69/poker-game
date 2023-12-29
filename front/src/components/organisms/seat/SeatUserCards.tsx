@@ -1,8 +1,9 @@
-import { TypeSeatAndShowPhaseProps, TypeSeatProps } from 'src/interfaces'
+import { TypeSeatAndShowPhaseProps } from 'src/interfaces'
 
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { isAuthSeat } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
+import BackCardImage from 'src/components/organisms/cards/back/back4.svg'
 
 export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   const { seat, isShowPhase } = props
@@ -13,12 +14,12 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
 
   if (!isAuth && seat.user.cards.length && !isShowPhase) {
     return (
-      <div className='dnd-window-body-table-seats-seat-user-cards hidden-card'>
-        <div className='gamecard card-1'>
-          <img src='/hide-card.png' alt='hidden card' />
+      <div className='dnd-window-body-table-seats-seat-user-cards'>
+        <div className='gamecard card-1 backcard'>
+          <img src={BackCardImage} alt='hidden card' />
         </div>
-        <div className='gamecard card-2'>
-          <img src='/hide-card.png' alt='hidden card' />
+        <div className='gamecard card-2 backcard'>
+          <img src={BackCardImage} alt='hidden card' />
         </div>
       </div>
     )

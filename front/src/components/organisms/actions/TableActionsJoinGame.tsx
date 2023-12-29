@@ -4,6 +4,7 @@ import { useAtom } from 'jotai'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { socketAtom } from 'src/contexts/socketAtom'
+import { isUserSeatoutTable } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeTable } from 'src/interfaces'
 
@@ -26,6 +27,8 @@ export const TableActionsJoinGame = (props: { table: TypeTable }) => {
       onBuyin: buyinAmount => handleJoinGame(buyinAmount),
     })
   }
+
+  if (!isUserSeatoutTable(table, username)) return null
 
   return (
     <div className='dnd-window-body-table-actions-joingame'>

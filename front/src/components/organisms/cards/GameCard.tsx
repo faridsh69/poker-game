@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 
-import { SignClubs } from './SignClubs'
-import { SignDiamonds } from './SignDiamonds'
-import { SignSpades } from './SignSpades'
-import { SignHearts } from './SignHearts'
+import { SignClubs } from './signs/SignClubs'
+import { SignDiamonds } from './signs/SignDiamonds'
+import { SignSpades } from './signs/SignSpades'
+import { SignHearts } from './signs/SignHearts'
 import { TypeCard } from 'src/interfaces'
 
 export const GameCard = (props: { card: TypeCard; className: string }) => {

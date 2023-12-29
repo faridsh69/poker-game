@@ -1,11 +1,12 @@
 import { TypeSeat, TypeTable } from 'src/interfaces'
-import { SeatUserAvatar } from './SeatUserAvatar'
-import { SeatUserBox } from './SeatUserBox'
-import { SeatUserUsername } from './SeatUserUsername'
-import { SeatUserCash } from './SeatUserCash'
-import { SeatUserCards } from './SeatUserCards'
-import { SeatDealer } from './SeatDealer'
+import { SeatUserAvatar } from 'src/components/organisms/seat/SeatUserAvatar'
+import { SeatUserBox } from 'src/components/organisms/seat/SeatUserBox'
+import { SeatUserUsername } from 'src/components/organisms/seat/SeatUserUsername'
+import { SeatUserCash } from 'src/components/organisms/seat/SeatUserCash'
+import { SeatUserCards } from 'src/components/organisms/seat/SeatUserCards'
+import { SeatDealer } from 'src/components/organisms/seat/SeatDealer'
 import { isShowPhase } from 'src/helpers/clientHelpersPoker'
+import { SeatUserPot } from 'src/components/organisms/seat/SeatUserPot'
 
 export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
   const { seat, table } = props
@@ -17,11 +18,12 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserUsername seat={seat} />
       <SeatUserCash seat={seat} />
       <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
+      <SeatUserPot seat={seat} />
       <SeatDealer seat={seat} />
+
       {/* <div className='dnd-window-body-table-seats-seat-user-status'></div>
       <div className='dnd-window-body-table-seats-seat-user-hot'></div>
       <div className='dnd-window-body-table-seats-seat-user-country'></div>
-      <div className='dnd-window-body-table-seats-seat-pot'></div>
       <div className='dnd-window-body-table-seats-seat-winner'></div>
       <div className='dnd-window-body-table-seats-seat-achievement'></div> */}
     </div>
