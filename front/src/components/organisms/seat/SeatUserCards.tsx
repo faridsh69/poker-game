@@ -28,7 +28,9 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   return (
     <div className='dnd-window-body-table-seats-seat-user-cards'>
       {seat.user.cards.map((card, cardIndex) => {
-        return <GameCard card={card} className={`card-${cardIndex + 1}`} />
+        return (
+          <GameCard key={card.type + card.number} card={card} className={`card-${cardIndex + 1}`} />
+        )
       })}
     </div>
   )

@@ -7,6 +7,7 @@ import { SeatUserCards } from 'src/components/organisms/seat/SeatUserCards'
 import { SeatDealer } from 'src/components/organisms/seat/SeatDealer'
 import { isShowPhase } from 'src/helpers/clientHelpersPoker'
 import { SeatUserPot } from 'src/components/organisms/seat/SeatUserPot'
+import { SeatUserStatus } from 'src/components/organisms/seat/SeatUserStatus'
 
 export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
   const { seat, table } = props
@@ -18,10 +19,11 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserUsername seat={seat} />
       <SeatUserCash seat={seat} />
       <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
+      <SeatUserStatus seat={seat} tableId={table.id} />
       <SeatUserPot seat={seat} />
       <SeatDealer seat={seat} />
 
-      {/* <div className='dnd-window-body-table-seats-seat-user-status'></div>
+      {/* 
       <div className='dnd-window-body-table-seats-seat-user-hot'></div>
       <div className='dnd-window-body-table-seats-seat-user-country'></div>
       <div className='dnd-window-body-table-seats-seat-winner'></div>

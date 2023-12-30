@@ -166,7 +166,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
-    pot: 20,
+    pot: 0,
     cards: [
       { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[10] },
       { type: CARD_TYPES.clubs, number: CARD_NUMBERS.j },

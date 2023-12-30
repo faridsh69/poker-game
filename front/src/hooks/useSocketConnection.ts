@@ -11,6 +11,7 @@ import { findUserTables } from 'src/helpers/clientHelpersPoker'
 import { getLocalstorage } from 'src/helpers/common'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
+import { lastActionAtom } from 'src/contexts/lastActionAtom'
 
 export const useSocketConnection = () => {
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
@@ -19,6 +20,7 @@ export const useSocketConnection = () => {
 
   const [, setSocket] = useAtom(socketAtom)
   const [, setAllTables] = useAtom(allTablesAtom)
+  const [, setLastAction] = useAtom(lastActionAtom)
 
   useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
@@ -27,7 +29,8 @@ export const useSocketConnection = () => {
 
     socketInstance.on(
       SERVER_CHANNELS.updateTables,
-      ({ tables, message, checkJoinTabls }: TypeServerChannelsUpdateTablesData) => {
+      ({ tables, message, checkJoinTabls, lastAction }: TypeServerChannelsUpdateTablesData) => {
+        setLastAction(lastAction)
         setAllTables(tables)
         toast.info(message)
         console.log('1 tables', tables)

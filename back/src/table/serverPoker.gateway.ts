@@ -151,6 +151,10 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} fold.`,
       tables: this.tablesState,
+      lastAction: {
+        username,
+        action: 'Fold',
+      },
     })
 
     if (isTimeToRestartTable(this.tablesState, tableId)) {
@@ -183,6 +187,11 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} checked.`,
       tables: this.tablesState,
+      lastAction: {
+        username,
+        action: 'Check',
+        tableId,
+      },
     })
 
     if (isTimeToRestartTable(this.tablesState, tableId)) {
@@ -217,6 +226,11 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} called ${callActionAmount}$.`,
       tables: this.tablesState,
+      lastAction: {
+        username,
+        action: 'Call',
+        tableId,
+      },
     })
 
     // handle stop in timere age ke actioni biad
@@ -251,6 +265,11 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       message: `${username} raised ${raiseActionAmount}$.`,
       tables: this.tablesState,
+      lastAction: {
+        username,
+        action: 'Raise',
+        tableId,
+      },
     })
 
     // handle stop in timere age ke actioni biad

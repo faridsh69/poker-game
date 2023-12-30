@@ -437,6 +437,37 @@
               }
 
               &-status {
+                &-user-status-box {
+                  font-weight: bold;
+                  font-size: 18px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  position: absolute;
+                  z-index: 11;
+                  background-color: rgba($color: #000000, $alpha: 0.8);
+                  top: 53px;
+                  left: 10px;
+                  width: 70px;
+                  height: 30px;
+                  text-align: center;
+
+                  &-Fold {
+                    color: red;
+                  }
+
+                  &-Call {
+                    color: yellow;
+                  }
+
+                  &-Check {
+                    color: orange;
+                  }
+
+                  &-Raise {
+                    color: blue;
+                  }
+                }
               }
 
               &-hot {

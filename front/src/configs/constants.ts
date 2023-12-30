@@ -5,7 +5,7 @@ import HomeIcon from '@mui/icons-material/Home'
 
 const { VITE_CLIENT_ID, VITE_CLIENT_SECRET } = import.meta.env
 
-export const LOCAL_STORAGE_APP_KEY = 'APPLICATION'
+export const LOCAL_STORAGE_APP_KEY = 'PER'
 export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'access_token'
 export const LOCAL_STORAGE_AUTH_USER_EMAIL = 'auth_email'
 

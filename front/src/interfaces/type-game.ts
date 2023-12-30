@@ -30,6 +30,7 @@ export type TypeServerChannelsUpdateTablesData = {
   tables: TypeTable[]
   message: string
   checkJoinTabls: boolean
+  TypeLastAction: TypeLastAction
 }
 
 export type TypeSeatModal = {
@@ -108,3 +109,9 @@ export type TypeTable = {
 }
 
 export type TypeHandleSitTableModal = (tableId: number, seatId: number) => void
+
+export type TypeLastAction = {
+  username: string
+  action: string
+  tableId: number
+}
