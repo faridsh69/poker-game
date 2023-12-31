@@ -1,0 +1,239 @@
+.dnd-window-body-table-seats {
+  .seat-6-1 {
+    bottom: 12%;
+    left: calc(50% - 45px);
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: -20px;
+      left: -20px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: -34px;
+      left: 30px;
+    }
+  }
+
+  .seat-6-2 {
+    bottom: 28%;
+    left: 5%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 43px;
+      right: -40px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 43px;
+      right: -75px;
+    }
+
+    @keyframes passCard-6-2-1 {
+      from {
+        top: -100px;
+        left: 300px;
+        opacity: 0;
+      }
+      to {
+        top: 10px;
+        left: -6px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes passCard-6-2-2 {
+      from {
+        top: -100px;
+        left: 300px;
+        opacity: 0;
+      }
+      to {
+        top: 10px;
+        left: 38px;
+        opacity: 1;
+      }
+    }
+
+    .animation-pass-card-1 {
+      animation: passCard-6-2-1 1s ease-out;
+    }
+
+    .animation-pass-card-2 {
+      animation: passCard-6-2-2 1s ease-out;
+    }
+  }
+
+  .seat-6-3 {
+    top: 12%;
+    left: 8%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 103px;
+      right: -40px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 130px;
+      right: -50px;
+    }
+
+    @keyframes passCard-6-3-1 {
+      from {
+        top: 200px;
+        left: 300px;
+        opacity: 0;
+      }
+      to {
+        top: 10px;
+        left: -6px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes passCard-6-3-2 {
+      from {
+        top: 200px;
+        left: 300px;
+        opacity: 0;
+      }
+      to {
+        top: 10px;
+        left: 38px;
+        opacity: 1;
+      }
+    }
+
+    .animation-pass-card-1 {
+      animation: passCard-6-3-1 1s ease-out;
+    }
+
+    .animation-pass-card-2 {
+      animation: passCard-6-3-2 1s ease-out;
+    }
+  }
+
+  .seat-6-4 {
+    top: 2%;
+    left: calc(50% - 45px);
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 135px;
+      left: 10px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 150px;
+      right: 25px;
+    }
+  }
+
+  .seat-6-5 {
+    top: 12%;
+    right: 8%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 103px;
+      left: -40px;
+    }
+  }
+
+  .seat-6-6 {
+    bottom: 28%;
+    right: 5%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 43px;
+      left: -40px;
+    }
+  }
+
+  .seat-9-1 {
+    bottom: 12%;
+    left: calc(50% - 45px);
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: -20px;
+      left: -20px;
+    }
+  }
+
+  .seat-9-2 {
+    bottom: 26%;
+    left: 14%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 50px;
+      right: -40px;
+    }
+  }
+
+  .seat-9-3 {
+    top: calc(40% - 45px);
+    left: 2%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 110px;
+      right: -30px;
+    }
+  }
+
+  .seat-9-4 {
+    top: 9%;
+    left: 12%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 133px;
+      right: 10px;
+    }
+  }
+
+  .seat-9-5 {
+    top: 2%;
+    left: calc(40% - 45px);
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 133px;
+      left: 20px;
+    }
+  }
+
+  .seat-9-6 {
+    top: 2%;
+    right: calc(40% - 45px);
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 133px;
+      right: 20px;
+    }
+  }
+
+  .seat-9-7 {
+    top: 9%;
+    right: 12%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 133px;
+      left: 10px;
+    }
+  }
+
+  .seat-9-8 {
+    top: calc(40% - 45px);
+    right: 2%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 110px;
+      left: -30px;
+    }
+  }
+
+  .seat-9-9 {
+    bottom: 26%;
+    right: 14%;
+
+    .dnd-window-body-table-seats-seat-user-dealer {
+      top: 50px;
+      left: -40px;
+    }
+  }
+}
