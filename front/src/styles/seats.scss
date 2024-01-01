@@ -1,3 +1,5 @@
+$dealCardTimeout: 0.5s;
+
 .dnd-window-body-table-seats {
   .seat-6-1 {
     bottom: 12%;
@@ -55,11 +57,11 @@
     }
 
     .animation-pass-card-1 {
-      animation: passCard-6-2-1 1s ease-out;
+      animation: passCard-6-2-1 $dealCardTimeout ease-out;
     }
 
     .animation-pass-card-2 {
-      animation: passCard-6-2-2 1s ease-out;
+      animation: passCard-6-2-2 $dealCardTimeout ease-out;
     }
   }
 
@@ -104,11 +106,11 @@
     }
 
     .animation-pass-card-1 {
-      animation: passCard-6-3-1 1s ease-out;
+      animation: passCard-6-3-1 $dealCardTimeout ease-out;
     }
 
     .animation-pass-card-2 {
-      animation: passCard-6-3-2 1s ease-out;
+      animation: passCard-6-3-2 $dealCardTimeout ease-out;
     }
   }
 

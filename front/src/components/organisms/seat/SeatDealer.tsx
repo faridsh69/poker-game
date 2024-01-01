@@ -1,4 +1,4 @@
-import SeatDealerImage from 'src/images/dealer.png'
+import SeatDealerImage from 'src/images/game/dealer.png'
 import { TypeSeatProps } from 'src/interfaces'
 
 export const SeatDealer = (props: TypeSeatProps) => {

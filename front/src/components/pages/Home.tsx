@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { Alert } from '@mui/material'
+import { Alert, AlertTitle } from '@mui/material'
 
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { socketAtom } from 'src/contexts/socketAtom'
@@ -8,6 +8,8 @@ import { useSocketConnection } from 'src/hooks/useSocketConnection'
 import { PageLayout } from 'src/components/molecules/PageLayout'
 import { GameBoard } from 'src/components/organisms/boards/GameBoard'
 import { Loading } from 'src/components/molecules/Loading'
+import { setLocalsotrage } from 'src/helpers/common'
+import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 
 export const Home = () => {
   const { username } = useAuth()
@@ -19,7 +21,15 @@ export const Home = () => {
   if (!username) {
     return (
       <PageLayout>
-        <Alert severity='info' variant='outlined' sx={{ m: 3 }}>
+        <Alert
+          severity='info'
+          variant='outlined'
+          sx={{ m: 3 }}
+          onClose={() => {
+            setLocalsotrage(LOCAL_STORAGE_AUTH_USER_EMAIL, Math.random())
+          }}
+        >
+          <AlertTitle>You are not logged in</AlertTitle>
           Please login before start
         </Alert>
       </PageLayout>
@@ -30,6 +40,7 @@ export const Home = () => {
     return (
       <PageLayout>
         <Alert severity='warning' variant='outlined' color='warning' sx={{ m: 3 }}>
+          <AlertTitle>Internet connection failed</AlertTitle>
           Please check your internet connection
         </Alert>
       </PageLayout>

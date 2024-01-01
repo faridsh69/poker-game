@@ -168,12 +168,14 @@
         position: relative;
 
         &-backgroundimg {
+          user-select: none;
           max-width: 100%;
           width: 100%;
           min-width: 100%;
         }
 
         &-total {
+          user-select: none;
           left: 340px;
           top: 200px;
           font-size: 14px;
@@ -353,6 +355,7 @@
               }
 
               &-cash {
+                user-select: none;
                 line-height: 20px;
                 border-top: 2px solid #444;
                 position: absolute;
@@ -365,11 +368,20 @@
                 height: 20px;
                 color: #71c2f3;
                 font-weight: 500;
-
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
+
+                .sitting-out {
+                  font-weight: bold;
+                  color: #575757;
+                }
+
+                .all-in {
+                  font-weight: bold;
+                  color: #e63030;
+                }
               }
 
               &-cards {
@@ -447,35 +459,38 @@
               }
 
               &-status {
-                &-user-status-box {
+                position: absolute;
+                z-index: 11;
+                top: 50px;
+                left: 10px;
+
+                .user-status-box {
+                  width: 70px;
+                  height: 27px;
                   font-weight: bold;
-                  font-size: 18px;
+                  font-size: 14px;
                   display: flex;
                   align-items: center;
                   justify-content: center;
-                  position: absolute;
-                  z-index: 11;
                   background-color: rgba($color: #000000, $alpha: 0.8);
-                  top: 53px;
-                  left: 10px;
-                  width: 70px;
-                  height: 30px;
                   text-align: center;
+                  box-shadow: 0px 0px 3px 2px currentColor;
+                  border-radius: 3px;
 
                   &-Fold {
-                    color: red;
+                    color: #e22d2c;
                   }
 
                   &-Call {
-                    color: yellow;
+                    color: #eabc60;
                   }
 
                   &-Check {
-                    color: orange;
+                    color: #f5c31f;
                   }
 
                   &-Raise {
-                    color: blue;
+                    color: #21c7d4;
                   }
                 }
               }
@@ -517,10 +532,24 @@
                 color: #f3f3f3;
                 border: 2px solid #323332;
 
-                img {
-                  width: 26px;
-                  min-width: 26px;
-                  max-width: 26px;
+                p {
+                  margin-top: 5px;
+                }
+
+                .arrow-bottom {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+
+                  &-triangle-small {
+                    width: 10px;
+                    fill: #777;
+                  }
+
+                  &-triangle-big {
+                    width: 15px;
+                    fill: #777;
+                  }
                 }
               }
             }

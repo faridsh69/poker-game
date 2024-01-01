@@ -154,6 +154,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
       lastAction: {
         username,
         action: 'Fold',
+        tableId,
       },
     })
 

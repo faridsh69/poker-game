@@ -21,6 +21,22 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   // 3) 1200 ms ham karte 2 sh az hiddeni dar miad
   // 4) class hae animationi ham hamegi from tto daran, yek fasele zamani
 
+  // const playSound = () => {
+  //     const sound = document.createElement("audio");
+  //     sound.src = src;
+  //     sound.setAttribute("preload", "auto");
+  //     sound.setAttribute("controls", "none");
+  //     sound.style.display = "none";
+  //     document.body.appendChild(sound);
+
+  //     play = function(){
+  //       sound.play();
+  //     }
+  //     stop = function(){
+  //       sound.pause();
+  //     }
+
+  // }
   useEffect(() => {
     if (!seat.user.cards.length) {
       setCard1IsHidden(true)
@@ -30,13 +46,13 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
 
     setTimeout(() => {
       setCard1IsHidden(false)
-    }, seat.id * 250)
+    }, seat.id * 125)
 
     setTimeout(
       () => {
         setCard2IsHidden(false)
       },
-      seat.id * 250 + 1000,
+      seat.id * 125 + 250,
     )
   }, [seat.user.cards, seat.id])
 

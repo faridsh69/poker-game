@@ -1,11 +1,11 @@
 import { useAtom } from 'jotai'
 
 import { TypeSeat, TypeTable } from 'src/interfaces'
-import EmptySeatFleshImage from 'src/images/seat-empty-flesh.png'
 import { useCallback } from 'react'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { useAuth } from 'src/hooks/useAuth'
+import { ArrowBottom } from 'src/components/molecules/ArrowBottom'
 
 export const SeatEmpty = (props: { table: TypeTable; seat: TypeSeat }) => {
   const { table, seat } = props
@@ -26,7 +26,7 @@ export const SeatEmpty = (props: { table: TypeTable; seat: TypeSeat }) => {
       onClick={() => handleJoinSeat(table.id, seat.id)}
     >
       <div className='dnd-window-body-table-seats-seat-empty-circle'>
-        <img src={EmptySeatFleshImage} alt='empty seat' />
+        <ArrowBottom />
         <p>Take Seat</p>
       </div>
     </div>
