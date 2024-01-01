@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import classNames from 'classnames'
+import useSound from 'use-sound'
 
+import passCardSound from 'src/images/game/sounds/pass-card1.mp3'
 import { TypeSeatAndShowPhaseProps } from 'src/interfaces'
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { isAuthSeat } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
-import classNames from 'classnames'
 
 export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   const { seat, isShowPhase } = props
@@ -21,22 +23,8 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   // 3) 1200 ms ham karte 2 sh az hiddeni dar miad
   // 4) class hae animationi ham hamegi from tto daran, yek fasele zamani
 
-  // const playSound = () => {
-  //     const sound = document.createElement("audio");
-  //     sound.src = src;
-  //     sound.setAttribute("preload", "auto");
-  //     sound.setAttribute("controls", "none");
-  //     sound.style.display = "none";
-  //     document.body.appendChild(sound);
+  const [play] = useSound(passCardSound)
 
-  //     play = function(){
-  //       sound.play();
-  //     }
-  //     stop = function(){
-  //       sound.pause();
-  //     }
-
-  // }
   useEffect(() => {
     if (!seat.user.cards.length) {
       setCard1IsHidden(true)
@@ -44,17 +32,26 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
       return
     }
 
-    setTimeout(() => {
-      setCard1IsHidden(false)
-    }, seat.id * 125)
+    if (!card1IsHidden || !card2IsHidden || !play) return
 
-    setTimeout(
+    const card1Timeout = setTimeout(() => {
+      setCard1IsHidden(false)
+      play()
+    }, seat.id * 500)
+
+    const card2Timeout = setTimeout(
       () => {
         setCard2IsHidden(false)
+        play()
       },
-      seat.id * 125 + 250,
+      seat.id * 500 + 750,
     )
-  }, [seat.user.cards, seat.id])
+
+    return () => {
+      clearTimeout(card1Timeout)
+      clearTimeout(card2Timeout)
+    }
+  }, [seat.user.cards.length, seat.id, play])
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-cards'>

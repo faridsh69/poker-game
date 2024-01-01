@@ -7,8 +7,8 @@ import { SignHearts } from './signs/SignHearts'
 import { TypeCard } from 'src/interfaces'
 import BackCardImage from 'src/components/organisms/cards/back/back4.svg'
 
-export const GameCard = (props: { card: TypeCard; className: string; backcard: boolean }) => {
-  const { card, className, backcard = false } = props
+export const GameCard = (props: { card: TypeCard; className?: string; backcard?: boolean }) => {
+  const { card, className = '', backcard = false } = props
 
   const cardSignComponent =
     card.type === 'clubs' ? (

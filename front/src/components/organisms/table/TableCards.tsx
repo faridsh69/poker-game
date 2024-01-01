@@ -16,7 +16,7 @@ export const TableCards = (props: TypeTableProps) => {
           return null
         }
 
-        return <GameCard card={card} className='' />
+        return <GameCard card={card} key={card.type + card.number} />
       })}
     </div>
   )
