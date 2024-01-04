@@ -255,6 +255,10 @@ const getPairOrSetOrQuadsCards = (cards: TypeCard[]): TypeCard[][] => {
     }
   }
 
+  pairOrSetOrQuadsCards.sort(function (p1, p2) {
+    return p2.length - p1.length
+  })
+
   return pairOrSetOrQuadsCards
 }
 
