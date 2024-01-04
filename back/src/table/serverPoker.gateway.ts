@@ -39,7 +39,7 @@ import { isTimeToRestartTable } from 'src/table/serverPokerServices'
 
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:2000', 'https://admin.socket.io'],
+    origin: ['http://localhost:2000', 'https://admin.socket.io', 'http://85.215.241.88/'],
     credentials: true,
   },
 })
