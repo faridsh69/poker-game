@@ -12,6 +12,16 @@ import {
   TypeTablePhase,
 } from 'src/utils/serverPokerTypes'
 
+const activeSeats = (table: TypeTable) => {
+  return table.seats.filter(
+    s =>
+      s.user &&
+      !s.user.isSeatout &&
+      !s.user.isFold &&
+      (table.phase === TABLE_PHASES.wait || s.user.cards.length),
+  )
+}
+
 const getCurrentSmallSeatId = (table: TypeTable): number => {
   const currentDealerSeatId = getCurrentDealerSeatId(table)
 
@@ -26,10 +36,9 @@ const getCurrentBigSeatId = (table: TypeTable) => {
 
 const getMaximumBet = (table: TypeTable) => {
   let maximumBet = -1
+  const seats = activeSeats(table)
 
-  for (const seat of table.seats) {
-    if (!seat.user) continue
-
+  for (const seat of seats) {
     if (seat.user.cash.inPot > maximumBet) {
       maximumBet = seat.user.cash.inPot
     }
@@ -41,10 +50,9 @@ const getMaximumBet = (table: TypeTable) => {
 const getMaximumBetSeatIds = (table: TypeTable): number[] => {
   const maximumBet = getMaximumBet(table)
   const maximumBetSeatIds: number[] = []
+  const seats = activeSeats(table)
 
-  for (const seat of table.seats) {
-    if (!seat.user) continue
-
+  for (const seat of seats) {
     if (seat.user.cash.inPot === maximumBet) {
       maximumBetSeatIds.push(seat.id)
     }
@@ -86,8 +94,8 @@ const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number 
 
 const getTablePot = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
-  const userSeats = table.seats.filter(s => s.user)
-  const tablePot = table.pot + maximumBet * userSeats.length
+  const seats = activeSeats(table)
+  const tablePot = table.pot + maximumBet * seats.length
 
   return tablePot
 }
@@ -101,7 +109,9 @@ export const isUserWaitingTable = (table: TypeTable, username: string): boolean 
 }
 
 export const isAtLeastTwoPlayers = (table: TypeTable): boolean => {
-  return table.seats.filter(s => s.user && !s.user.isFold && !s.user.isSeatout).length > 1
+  const seats = activeSeats(table)
+
+  return seats.length > 1
 }
 
 export const getOnlyPlayingSeatId = (table: TypeTable): number => {
@@ -157,28 +167,35 @@ export const getCurrentGameTurnSeatId = (table: TypeTable) => {
 }
 
 export const getCurrentDealerSeatId = (table: TypeTable): number => {
-  const userSeats = table.seats.filter(s => s.user)
-  const dealerSeat = userSeats.find(s => s.user.isDealer)
+  const dealerSeat = table.seats.find(s => s.user?.isDealer)
 
   if (dealerSeat) return dealerSeat?.id
 
-  const randomSeatIndex = Math.floor(Math.random() * userSeats.length)
+  const seats = activeSeats(table)
+  const randomSeatIndex = Math.floor(Math.random() * seats.length)
 
-  return userSeats[randomSeatIndex].id
+  return seats[randomSeatIndex].id
+}
+
+export const isGameHeadsUp = (table: TypeTable): boolean => {
+  const seats = activeSeats(table)
+
+  return seats.length === 2
 }
 
 export const getNextSeatId = (table: TypeTable, seatId: number): number => {
-  const playerSeats = table.seats.filter(s => s.user)
-  let nextSeatId = playerSeats[0].id
+  const seats = activeSeats(table)
+
+  let nextSeatId = seats[0].id
   let foundSeat = false
 
-  for (const playerSeat of playerSeats) {
+  for (const seat of seats) {
     if (foundSeat) {
-      nextSeatId = playerSeat.id
+      nextSeatId = seat.id
       break
     }
 
-    if (playerSeat.id === seatId) {
+    if (seat.id === seatId) {
       foundSeat = true
     }
   }
@@ -228,10 +245,9 @@ export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase 
 export const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
   const tableCards = table.cards
   const scoreAndAchivements: TypeScoreAndAchivements = {}
+  const seats = activeSeats(table)
 
-  for (const seat of table.seats) {
-    if (!seat.user) continue
-
+  for (const seat of seats) {
     const userCards = seat.user.cards
     const tableAndUserCards = [...tableCards, ...userCards]
     scoreAndAchivements[seat.id] = getCardsScoreAndAchivement(tableAndUserCards)

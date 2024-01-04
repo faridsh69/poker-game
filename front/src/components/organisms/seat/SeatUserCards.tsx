@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
-import useSound from 'use-sound'
+// import useSound from 'use-sound'
 
-import passCardSound from 'src/images/game/sounds/pass-card1.mp3'
+// import passCardSound from 'src/images/game/sounds/pass-card1.mp3'
 import { TypeSeatAndShowPhaseProps } from 'src/interfaces'
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { isAuthSeat } from 'src/helpers/clientHelpersPoker'
@@ -23,7 +23,7 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   // 3) 1200 ms ham karte 2 sh az hiddeni dar miad
   // 4) class hae animationi ham hamegi from tto daran, yek fasele zamani
 
-  const [play] = useSound(passCardSound)
+  // const [play] = useSound(passCardSound)
 
   useEffect(() => {
     if (!seat.user.cards.length) {
@@ -32,17 +32,22 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
       return
     }
 
-    if (!card1IsHidden || !card2IsHidden || !play) return
+    if (
+      !card1IsHidden ||
+      !card2IsHidden
+      // || !play
+    )
+      return
 
     const card1Timeout = setTimeout(() => {
       setCard1IsHidden(false)
-      play()
+      // play()
     }, seat.id * 500)
 
     const card2Timeout = setTimeout(
       () => {
         setCard2IsHidden(false)
-        play()
+        // play()
       },
       seat.id * 500 + 750,
     )
@@ -51,7 +56,11 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
       clearTimeout(card1Timeout)
       clearTimeout(card2Timeout)
     }
-  }, [seat.user.cards.length, seat.id, play])
+  }, [
+    seat.user.cards.length,
+    seat.id,
+    // play
+  ])
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-cards'>

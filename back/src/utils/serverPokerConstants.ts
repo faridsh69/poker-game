@@ -109,12 +109,12 @@ export const PLAYING_USER: TypeUser = {
   avatar: '2',
   cash: {
     inBank: 7500,
-    inGame: 2000,
-    inPot: 500,
+    inGame: 2500,
+    inPot: 0,
   },
   cards: [
-    { type: CARD_TYPES.spades, number: CARD_NUMBERS.k },
-    { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
+    // { type: CARD_TYPES.spades, number: CARD_NUMBERS.k },
+    // { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
     // { type: CARD_TYPES.spades, number: CARD_NUMBERS[10] },
     // { type: CARD_TYPES.clubs, number: CARD_NUMBERS.a },
   ],

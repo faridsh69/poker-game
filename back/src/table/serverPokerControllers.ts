@@ -10,6 +10,7 @@ import {
   getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
   isCheckAllowed,
+  isGameHeadsUp,
   isTimeToStartTable,
   isUserSeatedTable,
   isUserWaitingTable,
@@ -260,7 +261,7 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
 
     const currentDealerSeatId = getCurrentDealerSeatId(t)
     const newDealerSeatId = getNextSeatId(t, currentDealerSeatId)
-    const newSmallSeatId = getNextSeatId(t, newDealerSeatId)
+    const newSmallSeatId = isGameHeadsUp(t) ? newDealerSeatId : getNextSeatId(t, newDealerSeatId)
     const newBigSeatId = getNextSeatId(t, newSmallSeatId)
     const newGameTurnSeatId = getNextSeatId(t, newBigSeatId)
 
@@ -270,7 +271,7 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
       pot: 0,
       cards: tableCards,
       seats: t.seats.map(s => {
-        if (!s.user) return s
+        if (!s.user || s.user.isSeatout) return s
 
         const userCards = getRandomCards(2, usedCards)
         usedCards = [...usedCards, ...userCards]
