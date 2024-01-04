@@ -106,6 +106,7 @@ export type TypeTable = {
   phase: TypeTablePhase
   cards: TypeCard[]
   pot: number
+  total: number
 }
 
 export type TypeHandleSitTableModal = (tableId: number, seatId: number) => void

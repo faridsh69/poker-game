@@ -90,8 +90,9 @@ export type TypeTable = {
   waitingUsers: TypeUser[]
   seats: TypeSeat[]
   phase: TypeTablePhase
-  cards: TypeCard[]
   pot: number
+  total: number
+  cards: TypeCard[]
 }
 
 export type TypeHandleClientJoinTable = {

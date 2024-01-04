@@ -12,13 +12,19 @@ import {
   TypeTablePhase,
 } from 'src/utils/serverPokerTypes'
 
+export const roundNumber = (number: number, digits = 2): number => {
+  return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
+}
+
 const activeSeats = (table: TypeTable) => {
   return table.seats.filter(
     s =>
       s.user &&
       !s.user.isSeatout &&
       !s.user.isFold &&
-      (table.phase === TABLE_PHASES.wait || s.user.cards.length),
+      (table.phase === TABLE_PHASES.wait ||
+        table.phase === TABLE_PHASES.show ||
+        s.user.cards.length),
   )
 }
 
@@ -98,6 +104,12 @@ const getTablePot = (table: TypeTable) => {
   const tablePot = table.pot + maximumBet * seats.length
 
   return tablePot
+}
+
+const getTableTotal = (table: TypeTable) => {
+  const total = table.seats.filter(s => s.user).reduce((sum, s) => sum + s.user.cash.inPot, 0)
+
+  return total + table.pot
 }
 
 export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
@@ -282,6 +294,7 @@ export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: b
 
   return {
     ...table,
+    total: getTableTotal(table),
     seats: table.seats.map(s => {
       if (!s.user) return s
 
@@ -327,7 +340,7 @@ export const getUpdatedSeatWithRaiseOrCallAmount = (table: TypeTable, amount: nu
 
       const addedToPot = currentGameTurnSeatId === s.id ? amount : 0
       const inPot = s.user.cash.inPot + addedToPot
-      const inGame = s.user.cash.inGame - addedToPot
+      const inGame = roundNumber(s.user.cash.inGame - addedToPot)
 
       return {
         ...s,

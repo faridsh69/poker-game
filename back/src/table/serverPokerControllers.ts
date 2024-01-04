@@ -10,10 +10,11 @@ import {
   getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
   isCheckAllowed,
-  isGameHeadsUp,
+  // isGameHeadsUp,
   isTimeToStartTable,
   isUserSeatedTable,
   isUserWaitingTable,
+  roundNumber,
 } from 'src/table/serverPokerServices'
 
 export const renderClientJoinTable = (
@@ -261,7 +262,8 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
 
     const currentDealerSeatId = getCurrentDealerSeatId(t)
     const newDealerSeatId = getNextSeatId(t, currentDealerSeatId)
-    const newSmallSeatId = isGameHeadsUp(t) ? newDealerSeatId : getNextSeatId(t, newDealerSeatId)
+    // const newSmallSeatId = isGameHeadsUp(t) ? newDealerSeatId : getNextSeatId(t, newDealerSeatId)
+    const newSmallSeatId = getNextSeatId(t, newDealerSeatId)
     const newBigSeatId = getNextSeatId(t, newSmallSeatId)
     const newGameTurnSeatId = getNextSeatId(t, newBigSeatId)
 
@@ -269,6 +271,7 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
       ...t,
       phase: TABLE_PHASES.preflop,
       pot: 0,
+      total: t.small + t.big,
       cards: tableCards,
       seats: t.seats.map(s => {
         if (!s.user || s.user.isSeatout) return s
@@ -278,7 +281,7 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
 
         const addedToPot = newSmallSeatId === s.id ? t.small : newBigSeatId === s.id ? t.big : 0
         const inPot = addedToPot
-        const inGame = s.user.cash.inGame - addedToPot
+        const inGame = roundNumber(s.user.cash.inGame - addedToPot)
 
         return {
           ...s,

@@ -1,8 +1,12 @@
 import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { TypeSeat, TypeTable } from 'src/interfaces/type-game'
 
-export const roundNumber = (number: number, digits: number = 2): number => {
+export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
+}
+
+export const getUserSeat = (table: TypeTable, username: string) => {
+  return table.seats.find(s => s.user?.username === username)
 }
 
 export const isUserSeatedTable = (table: TypeTable, username: string) => {
@@ -17,6 +21,14 @@ export const isUserWaitingTable = (table: TypeTable, username: string) => {
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
+export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
+  return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
+}
+
+export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
+
+export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
+
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] => {
   return allTables.filter(t => {
     const isUserSeated = isUserSeatedTable(t, username) || isUserSeatoutTable(t, username)
@@ -24,10 +36,6 @@ export const findUserTables = (allTables: TypeTable[], username: string): TypeTa
 
     return isUserSeated || isUserWaited
   })
-}
-
-export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
-  return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
 }
 
 const getMaximumBet = (table: TypeTable) => {
@@ -49,6 +57,7 @@ const getPrevMaximumBet = (table: TypeTable) => {
   for (const seat of table.seats) {
     if (!seat.user) continue
     if (maximumBet === seat.user.cash.inPot) continue
+    if (table.small === seat.user.cash.inPot) continue
 
     if (seat.user.cash.inPot > prevMaximumBet) {
       prevMaximumBet = seat.user.cash.inPot
@@ -58,41 +67,59 @@ const getPrevMaximumBet = (table: TypeTable) => {
   return prevMaximumBet
 }
 
-export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
-
-export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
-
 export const getCallActionAmount = (table: TypeTable, username: string) => {
   const maximumBet = getMaximumBet(table)
-  const userSeat = table.seats.find(s => s.user?.username === username)
+  const userSeat = getUserSeat(table, username)
 
-  if (!userSeat) return 1001
+  if (!userSeat) return -1
 
   const callActionAmount = maximumBet - userSeat.user.cash.inPot
 
-  return callActionAmount
+  return Math.min(callActionAmount, userSeat.user.cash.inGame)
 }
 
 export const getMinimumRaiseAmount = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
   const prevMaximumBet = getPrevMaximumBet(table)
+  const minimumRaise = 2 * maximumBet - prevMaximumBet
 
-  return 2 * maximumBet - prevMaximumBet
+  return Math.max(table.big, minimumRaise)
 }
 
 export const getStepRaiseAmount = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
   const prevMaximumBet = getPrevMaximumBet(table)
+  const stepRaise = maximumBet - prevMaximumBet
 
-  return maximumBet - prevMaximumBet
+  return Math.max(table.big, stepRaise)
 }
 
 export const getMaximumRaiseAmount = (table: TypeTable, username: string): number => {
-  const userSeat = table.seats.find(s => s.user?.username === username)
+  const userSeat = getUserSeat(table, username)
 
-  if (!userSeat) return 0
+  if (!userSeat) return -1
 
-  const maximumRaise = userSeat.user.cash.inGame - userSeat.user.cash.inPot
+  return userSeat.user.cash.inGame
+}
 
-  return roundNumber(maximumRaise)
+export const getRaiseLimits = (table: TypeTable, username: string) => {
+  const min = getMinimumRaiseAmount(table)
+  const step = getStepRaiseAmount(table)
+  const max = getMaximumRaiseAmount(table, username)
+
+  return {
+    min: Math.min(min, max),
+    step,
+    max,
+  }
+}
+
+export const getRaiseActionAmount = (table: TypeTable, username: string, raise: number) => {
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return -1
+
+  const raiseActionAmount = roundNumber(raise - userSeat.user.cash.inPot)
+
+  return raiseActionAmount
 }
