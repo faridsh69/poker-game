@@ -12,7 +12,7 @@ import {
 
 export const KANIAT_PERCENT = 5
 
-export const START_NEW_ROUND_TIMEOUT = 15000
+export const START_NEW_ROUND_TIMEOUT = 8000
 
 export const USER_ACTION_THINKING_TIMEOUT = 10000
 

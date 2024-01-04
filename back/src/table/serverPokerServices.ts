@@ -118,6 +118,12 @@ export const isAtLeastTwoPlayers = (table: TypeTable): boolean => {
   return seats.length > 1
 }
 
+export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
+  const seats = table.seats.filter(s => s.user && !s.user.isSeatout)
+
+  return seats.length > 1
+}
+
 export const getOnlyPlayingSeatId = (table: TypeTable): number => {
   return table.seats.find(s => s.user && !s.user.isFold && !s.user.isSeatout)?.id || -1
 }
@@ -125,7 +131,7 @@ export const getOnlyPlayingSeatId = (table: TypeTable): number => {
 export const isTimeToStartTable = (table: TypeTable): boolean => {
   const isWaitingOrShowPhase =
     table.phase === TABLE_PHASES.wait || table.phase === TABLE_PHASES.show
-  const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
+  const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
 
   return isWaitingOrShowPhase && atLeastTwoPlayers
 }
@@ -372,7 +378,7 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
   }
 
   if (winnerSeatIds.length) {
-    winnerReward = (tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100)
+    winnerReward = roundNumber((tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
   }
 
   return {

@@ -113,6 +113,6 @@ export type TypeHandleSitTableModal = (tableId: number, seatId: number) => void
 
 export type TypeLastAction = {
   username: string
-  action: string
   tableId: number
+  action: 'Call' | 'Check' | 'Fold' | 'Raise' | 'All-In'
 }
