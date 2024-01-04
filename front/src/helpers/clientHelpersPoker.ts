@@ -27,6 +27,8 @@ export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
 
 export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
 
+export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold
+
 export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
 
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] => {

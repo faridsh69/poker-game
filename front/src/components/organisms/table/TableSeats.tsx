@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { isAuthSeat, isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
+import { isAuthSeat, isFoldSeat, isUserWaitingTable } from 'src/helpers/clientHelpersPoker'
 import { SeatEmpty } from 'src/components/organisms/seat/SeatEmpty'
 import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
@@ -23,6 +23,7 @@ export const TableSeats = (props: TypeTableProps) => {
               'dnd-window-body-table-seats-seat',
               `seat-${table.seats.length}-${s.id}`,
               isAuthSeat(s, username) && 'dnd-window-body-table-seats-authseat',
+              isFoldSeat(s) && 'dnd-window-body-table-seats-foldSeat',
               s.user?.gameTurn && 'dnd-window-body-table-seats-turnseat',
             )}
           >

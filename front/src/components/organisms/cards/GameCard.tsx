@@ -26,8 +26,8 @@ export const GameCard = (props: TypeGameCardProps) => {
     !backcard && (card.type === CARD_TYPES.diamonds || card.type === CARD_TYPES.hearts)
 
   const allClassNames = classNames(
-    'gamecard',
-    backcard && 'backcard',
+    'card-game',
+    backcard && 'card-back',
     cardIsRed && 'card-red',
     `card-${cardIndex + 1}`,
     className,
@@ -43,9 +43,9 @@ export const GameCard = (props: TypeGameCardProps) => {
 
   return (
     <div className={allClassNames}>
-      <div className='gamecard-number'>{card.number}</div>
-      <div className='gamecard-smallsign'>{cardSignComponent}</div>
-      <div className='gamecard-bigsign'>{cardSignComponent}</div>
+      <div className='card-game-number'>{card.number}</div>
+      <div className='card-game-smallsign'>{cardSignComponent}</div>
+      <div className='card-game-bigsign'>{cardSignComponent}</div>
     </div>
   )
 }

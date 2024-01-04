@@ -291,6 +291,7 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
             isDealer: newDealerSeatId === s.id,
             gameTurn: newGameTurnSeatId === s.id,
             isWinner: false,
+            isFold: false,
             achievement: '',
             cash: {
               ...s.user.cash,

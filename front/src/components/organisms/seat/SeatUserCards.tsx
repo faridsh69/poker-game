@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
-// import useSound from 'use-sound'
+import useSound from 'use-sound'
 
-// import passCardSound from 'src/images/game/sounds/pass-card1.mp3'
+import passCardSound from 'src/images/game/sounds/pass-card1.mp3'
 import { TypeSeatAndShowPhaseProps } from 'src/interfaces'
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { showBackcard } from 'src/helpers/clientHelpersPoker'
@@ -15,58 +15,56 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
 
   const backcard = showBackcard(seat, username, isShowPhase)
 
-  const cardClasses = {
-    hide: 'hide',
-    show: 'show',
-    animate1: 'animation-pass-card-1',
-    animate2: 'animation-pass-card-2',
-  }
-
-  const [cardClassNames, setCardClassNames] = useState([cardClasses.hide, cardClasses.hide])
+  const [play] = useSound(passCardSound)
 
   // 1) aval dealer o peida mikonim, badesh nafare badi bayad 1 bashe badi 2 ...
   // 2) bad be oni ke 1 hast bade 200ms cart 1 esh az hiddeni dar miad
   // 3) 1200 ms ham karte 2 sh az hiddeni dar miad
   // 4) class hae animationi ham hamegi from tto daran, yek fasele zamani
 
-  // const [play] = useSound(passCardSound)
+  const cardClasses = {
+    hide: 'card-hide',
+    show: 'card-show',
+    animate1: 'card-pass-1',
+    animate2: 'card-pass-2',
+  }
 
-  // useEffect(() => {
-  //   if (!seat.user.cards.length) {
-  //     setCard1IsHidden(true)
-  //     setCard2IsHidden(true)
-  //     return
-  //   }
+  const [cardClassNames, setCardClassNames] = useState({
+    0: cardClasses.hide,
+    1: cardClasses.hide,
+  })
 
-  //   if (
-  //     !card1IsHidden ||
-  //     !card2IsHidden
-  //     // || !play
-  //   )
-  //     return
+  useEffect(() => {
+    const timeouts = []
+    for (const cardIndex of [0, 1]) {
+      timeouts.push(
+        setTimeout(
+          () => {
+            setCardClassNames(prev => ({
+              ...prev,
+              [cardIndex]: cardIndex ? cardClasses.animate2 : cardClasses.animate1,
+            }))
+          },
+          seat.id * 100 + 800 * cardIndex,
+        ),
+      )
 
-  //   const card1Timeout = setTimeout(() => {
-  //     setCard1IsHidden(false)
-  //     // play()
-  //   }, seat.id * 150)
+      timeouts.push(
+        setTimeout(() => {
+          setCardClassNames(prev => ({
+            ...prev,
+            [cardIndex]: cardClasses.show,
+          }))
+        }, 5000),
+      )
+    }
+    play()
+    setTimeout(() => {
+      play()
+    }, 400)
 
-  //   const card2Timeout = setTimeout(
-  //     () => {
-  //       setCard2IsHidden(false)
-  //       // play()
-  //     },
-  //     seat.id * 150 + 900,
-  //   )
-
-  //   return () => {
-  //     clearTimeout(card1Timeout)
-  //     clearTimeout(card2Timeout)
-  //   }
-  // }, [
-  //   seat.user.cards.length,
-  //   seat.id,
-  //   // play
-  // ])
+    // return () => clearTimeout(timeouts)
+  }, [])
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-cards'>

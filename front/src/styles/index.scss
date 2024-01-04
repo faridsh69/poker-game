@@ -208,6 +208,7 @@
         }
 
         &-pot {
+          user-select: none;
           position: absolute;
           left: 395px;
           top: 320px;
@@ -346,6 +347,7 @@
               }
 
               &-username {
+                user-select: none;
                 color: #bbb;
                 top: 81px;
                 left: 0px;
@@ -399,18 +401,22 @@
                 width: 90px;
                 height: 100px;
 
-                .gamecard {
+                .card-game {
                   position: absolute;
                   top: 3px;
                   transition: all 2s;
                 }
 
-                .backcard {
+                .card-back {
                   padding: 0px;
 
                   img {
                     width: 57px;
                   }
+                }
+
+                .card-hide {
+                  display: none;
                 }
 
                 .card-red {
@@ -437,6 +443,7 @@
               }
 
               &-dealer {
+                user-select: none;
                 position: absolute;
 
                 img {
@@ -446,6 +453,7 @@
               }
 
               &-pot {
+                user-select: none;
                 font-size: 14px;
                 font-weight: 400;
                 display: flex;
@@ -463,6 +471,7 @@
               }
 
               &-status {
+                user-select: none;
                 position: absolute;
                 z-index: 11;
                 top: 50px;
@@ -563,6 +572,23 @@
             .dnd-window-body-table-seats-seat-user-username {
               color: #f6ad01;
             }
+
+            .dnd-window-body-table-seats-seat-user-cards {
+              display: block !important;
+
+              &:hover {
+                opacity: 1;
+                filter: brightness(70%);
+              }
+            }
+          }
+
+          &-foldSeat {
+            .dnd-window-body-table-seats-seat-user-cards {
+              display: none;
+              filter: brightness(40%);
+              opacity: 0.8;
+            }
           }
 
           &-turnseat {
@@ -585,7 +611,7 @@
   }
 }
 
-.gamecard {
+.card-game {
   position: relative;
   width: 57px;
   height: 81px;

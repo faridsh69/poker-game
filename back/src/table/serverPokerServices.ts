@@ -98,14 +98,6 @@ const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number 
   return maximumScore
 }
 
-const getTablePot = (table: TypeTable) => {
-  const maximumBet = getMaximumBet(table)
-  const seats = activeSeats(table)
-  const tablePot = table.pot + maximumBet * seats.length
-
-  return tablePot
-}
-
 const getTableTotal = (table: TypeTable) => {
   const total = table.seats.filter(s => s.user).reduce((sum, s) => sum + s.user.cash.inPot, 0)
 
@@ -363,7 +355,7 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
   const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
 
   let tablePhase = getNextTablePhase(table.phase)
-  const tablePot = getTablePot(table)
+  const tablePot = getTableTotal(table)
 
   let scoreAndAchievements: TypeScoreAndAchivements = {}
   let winnerSeatIds: number[] = []
