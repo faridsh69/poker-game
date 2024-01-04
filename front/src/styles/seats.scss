@@ -14,6 +14,41 @@ $dealCardTimeout: 0.5s;
       top: -34px;
       left: 30px;
     }
+
+    @keyframes passCard-6-1-1 {
+      from {
+        top: -200px;
+        left: 0px;
+        opacity: 0;
+      }
+
+      to {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes passCard-6-1-2 {
+      from {
+        top: -200px;
+        left: 0px;
+        opacity: 0;
+      }
+      to {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+    }
+
+    .animation-pass-card-1 {
+      animation: passCard-6-1-1 $dealCardTimeout ease-out;
+    }
+
+    .animation-pass-card-2 {
+      animation: passCard-6-1-2 $dealCardTimeout ease-out;
+    }
   }
 
   .seat-6-2 {
@@ -37,7 +72,7 @@ $dealCardTimeout: 0.5s;
         opacity: 0;
       }
       to {
-        top: 10px;
+        top: 3px;
         left: -6px;
         opacity: 1;
       }
@@ -50,7 +85,7 @@ $dealCardTimeout: 0.5s;
         opacity: 0;
       }
       to {
-        top: 10px;
+        top: 3px;
         left: 38px;
         opacity: 1;
       }
@@ -86,7 +121,7 @@ $dealCardTimeout: 0.5s;
         opacity: 0;
       }
       to {
-        top: 10px;
+        top: 3px;
         left: -6px;
         opacity: 1;
       }
@@ -99,7 +134,7 @@ $dealCardTimeout: 0.5s;
         opacity: 0;
       }
       to {
-        top: 10px;
+        top: 3px;
         left: 38px;
         opacity: 1;
       }
@@ -127,6 +162,41 @@ $dealCardTimeout: 0.5s;
       top: 150px;
       right: 25px;
     }
+
+    @keyframes passCard-6-4-1 {
+      from {
+        top: 200px;
+        left: 0px;
+        opacity: 0;
+      }
+
+      to {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes passCard-6-4-2 {
+      from {
+        top: 200px;
+        left: 0px;
+        opacity: 0;
+      }
+      to {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+    }
+
+    .animation-pass-card-1 {
+      animation: passCard-6-4-1 $dealCardTimeout ease-out;
+    }
+
+    .animation-pass-card-2 {
+      animation: passCard-6-4-2 $dealCardTimeout ease-out;
+    }
   }
 
   .seat-6-5 {
@@ -142,6 +212,41 @@ $dealCardTimeout: 0.5s;
       top: 115px;
       left: -70px;
     }
+
+    @keyframes passCard-6-5-1 {
+      from {
+        top: 100px;
+        left: -300px;
+        opacity: 0;
+      }
+
+      to {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes passCard-6-5-2 {
+      from {
+        top: 100px;
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+    }
+
+    .animation-pass-card-1 {
+      animation: passCard-6-5-1 $dealCardTimeout ease-out;
+    }
+
+    .animation-pass-card-2 {
+      animation: passCard-6-5-2 $dealCardTimeout ease-out;
+    }
   }
 
   .seat-6-6 {
@@ -156,6 +261,41 @@ $dealCardTimeout: 0.5s;
     .dnd-window-body-table-seats-seat-user-pot {
       top: 25px;
       left: -70px;
+    }
+
+    @keyframes passCard-6-6-1 {
+      from {
+        top: -100px;
+        left: -300px;
+        opacity: 0;
+      }
+
+      to {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes passCard-6-6-2 {
+      from {
+        top: -100px;
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+    }
+
+    .animation-pass-card-1 {
+      animation: passCard-6-6-1 $dealCardTimeout ease-out;
+    }
+
+    .animation-pass-card-2 {
+      animation: passCard-6-6-2 $dealCardTimeout ease-out;
     }
   }
 

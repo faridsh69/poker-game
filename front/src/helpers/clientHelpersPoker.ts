@@ -38,6 +38,10 @@ export const findUserTables = (allTables: TypeTable[], username: string): TypeTa
   })
 }
 
+export const showBackcard = (seat: TypeSeat, username: string, isShowPhase: boolean) => {
+  return !isAuthSeat(seat, username) && !!seat.user.cards.length && !isShowPhase
+}
+
 const getMaximumBet = (table: TypeTable) => {
   let maximumBet = 0
   for (const seat of table.seats) {

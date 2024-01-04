@@ -1,4 +1,4 @@
-import { TypeSeat, TypeTable } from '.'
+import { TypeCard, TypeSeat, TypeTable } from '.'
 
 export type TypeSuspenderComponent = (props: {
   pageName: string
@@ -29,4 +29,11 @@ export type TypeTableProps = {
 export type TypeSeatAndShowPhaseProps = {
   seat: TypeSeat
   isShowPhase: boolean
+}
+
+export type TypeGameCardProps = {
+  card: TypeCard
+  cardIndex: number
+  className: string
+  backcard: boolean
 }
