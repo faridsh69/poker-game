@@ -32,7 +32,7 @@ export const WindowTopBar = (props: { table: TypeTable }) => {
   return (
     <div className='dnd-window-topbar-flex'>
       <div className='dnd-window-topbar-flex-title'>
-        #{table.id} - ${table.title}
+        NL Hold'em #{table.id} - ${table.small} / ${table.big} - Buy-In ${table.buyin.min} - ${table.buyin.max}
       </div>
       <IconButton onMouseDown={handleConfirmLeaveTable} sx={{ zIndex: 99999999 }}>
         <CloseIcon sx={{ color: 'white' }} />

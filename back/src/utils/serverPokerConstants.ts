@@ -138,7 +138,7 @@ export const TABLES: TypeTable[] = [
       min: 100,
       max: 1000,
     },
-    waitingUsers: [WAITING_USER],
+    waitingUsers: [],
     seats: [
       {
         id: 1,

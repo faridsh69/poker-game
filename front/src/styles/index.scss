@@ -175,8 +175,11 @@
         }
 
         &-total {
+          padding: 0px 10px;
+          min-width: 150px;
           user-select: none;
-          left: 340px;
+          left: 50%;
+          transform: translate(-50%, -50%);
           top: 200px;
           font-size: 14px;
           font-weight: 400;
@@ -185,8 +188,7 @@
           justify-content: center;
           align-items: center;
           position: absolute;
-          width: 150px;
-          height: 23px;
+          height: 25px;
           line-height: 20px;
           border-radius: 10px;
           text-align: center;

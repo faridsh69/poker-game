@@ -31,6 +31,8 @@ export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold
 
 export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
 
+export const isWaitPhase = (table: TypeTable) => table.phase === TABLE_PHASES.wait
+
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] => {
   return allTables.filter(t => {
     const isUserSeated = isUserSeatedTable(t, username) || isUserSeatoutTable(t, username)
