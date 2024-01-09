@@ -1,18 +1,31 @@
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
-import { Button, IconButton, Modal, Slider, TextField } from '@mui/material'
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  Modal,
+  OutlinedInput,
+  Slider,
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { Money } from 'src/components/molecules/Money'
+import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
 
 export const BuyinModal = () => {
   const { username } = useAuth()
   const [buyinModal, setBuyinModal] = useAtom(buyinModalAtom)
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
   const [inputValue, setInputValue] = useState<number>(0)
+
+  const closeModel = () => {
+    setBuyinModal({ show: false })
+  }
 
   useEffect(() => {
     if (!buyinModal.table || !buyinModal.show) return
@@ -24,36 +37,30 @@ export const BuyinModal = () => {
 
   useEffect(() => {
     if (!buyinModal.table || !buyinModal.show) return
-
-    let value = Math.max(inputValue, buyinModal.table.buyin.min)
-    value = Math.min(inputValue, buyinModal.table.buyin.max)
-
-    setBuyinAmount(value)
-  }, [buyinModal, inputValue])
-
-  useEffect(() => {
     if (buyinAmount === inputValue) return
 
     setInputValue(buyinAmount)
-  }, [buyinAmount, inputValue])
+  }, [buyinAmount])
+
+  useEffect(() => {
+    if (!buyinModal.table || !buyinModal.show) return
+    if (buyinAmount === inputValue) return
+    if (inputValue < buyinModal.table.buyin.min) return
+    if (inputValue > buyinModal.table.buyin.max) return
+
+    setBuyinAmount(inputValue)
+  }, [inputValue])
 
   if (!buyinModal.table || !buyinModal.show) return null
 
   const authSeat = getUserSeat(buyinModal.table, username)
 
   return (
-    <Modal
-      open={buyinModal.show}
-      onClose={() => setBuyinModal({ show: false })}
-      className='buyin-modal'
-    >
+    <Modal open={buyinModal.show} onClose={closeModel} className='buyin-modal'>
       <div className='buyin-modal-container'>
         <div className='buyin-modal-container-header'>
           <div className='buyin-modal-container-header-title'>Buy-in Option</div>
-          <IconButton
-            // onMouseDown={handleConfirmLeaveTable}
-            className='buyin-modal-container-header-close'
-          >
+          <IconButton onClick={closeModel} className='buyin-modal-container-header-close'>
             <CloseIcon />
           </IconButton>
         </div>
@@ -70,7 +77,10 @@ export const BuyinModal = () => {
             </div>
           </div>
           <div className='buyin-modal-container-body-slider'>
-            <div className='buyin-modal-container-body-slider-min'>
+            <div
+              className='buyin-modal-container-body-slider-min'
+              onClick={() => setBuyinAmount(buyinModal.table?.buyin.min || 0)}
+            >
               <div className='buyin-modal-container-body-slider-min-label'>Minimum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
                 <Money money={buyinModal.table.buyin.min} />
@@ -87,7 +97,10 @@ export const BuyinModal = () => {
                 valueLabelDisplay='auto'
               />
             </div>
-            <div className='buyin-modal-container-body-slider-min'>
+            <div
+              className='buyin-modal-container-body-slider-min'
+              onClick={() => setBuyinAmount(buyinModal.table?.buyin.max || 0)}
+            >
               <div className='buyin-modal-container-body-slider-min-label'>Maximum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
                 <Money money={buyinModal.table.buyin.max} />
@@ -95,10 +108,20 @@ export const BuyinModal = () => {
             </div>
           </div>
           <div className='buyin-modal-container-body-input'>
-            Buy-in Amount{' '}
-            <TextField value={inputValue} onChange={e => setInputValue(+e.target.value)} />
+            Buy-in Amount
+            <FormControl>
+              <OutlinedInput
+                value={inputValue}
+                onChange={e => setInputValue(+e.target.value || 0)}
+                size='small'
+                startAdornment={<InputAdornment position='start'>$</InputAdornment>}
+              />
+            </FormControl>
           </div>
-          <div className='buyin-modal-container-body-timer'></div>
+          <div className='buyin-modal-container-body-timer'>
+            <CountDownTimer timeout={30} onFinishTimer={closeModel} />
+            Second(s) left.
+          </div>
           <div className='buyin-modal-container-body-actions'>
             <Button
               color='success'
@@ -107,7 +130,7 @@ export const BuyinModal = () => {
             >
               Ok
             </Button>
-            <Button color='success' variant='contained'>
+            <Button color='secondary' variant='contained' onClick={closeModel}>
               Cancel
             </Button>
           </div>

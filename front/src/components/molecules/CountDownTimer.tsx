@@ -3,11 +3,10 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
-import { USER_ACTION_THINKING_TIMEOUT } from 'src/configs/clientConstantsPoker'
+export const CountDownTimer = (props: { timeout: number; onFinishTimer: () => void }) => {
+  const { timeout = 30, onFinishTimer } = props
 
-export const CountDownTimer = (props: { onFinishTimer: () => void }) => {
-  const { onFinishTimer } = props
-  const [progress, setProgress] = useState(USER_ACTION_THINKING_TIMEOUT)
+  const [progress, setProgress] = useState(timeout)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,10 +24,7 @@ export const CountDownTimer = (props: { onFinishTimer: () => void }) => {
 
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress
-        variant='determinate'
-        value={(progress * 100) / USER_ACTION_THINKING_TIMEOUT}
-      />
+      <CircularProgress variant='determinate' value={(progress * 100) / timeout} />
       <Box
         sx={{
           top: 0,

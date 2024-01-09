@@ -1,3 +1,5 @@
+import { grey } from '@mui/material/colors'
+
 export const LIGHT_THEME = {
   components: {
     MuiToolbar: {
@@ -91,9 +93,7 @@ export const LIGHT_THEME = {
     // primary: {
     //   main: '#f00',
     // },
-    // secondary: {
-    //   main: '#0f0',
-    // },
+    secondary: grey,
   },
 }
 

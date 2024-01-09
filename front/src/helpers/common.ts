@@ -152,13 +152,13 @@ export function debounceMethodWithPromise(funcx, debounceTime = 500) {
   }
 }
 
-export function debounceMethod(funcx, debounceTime = 500) {
+export function debounceMethod(func, debounceTime = 500) {
   let timer
 
   return (...args) => {
     clearTimeout(timer)
     timer = setTimeout(() => {
-      funcx.apply(this, args)
+      func.apply(this, args)
     }, debounceTime)
   }
 }
