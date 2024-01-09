@@ -6,11 +6,13 @@ import CloseIcon from '@mui/icons-material/Close'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
+import { Money } from 'src/components/molecules/Money'
 
 export const BuyinModal = () => {
   const { username } = useAuth()
   const [buyinModal, setBuyinModal] = useAtom(buyinModalAtom)
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
+  const [inputValue, setInputValue] = useState<number>(0)
 
   useEffect(() => {
     if (!buyinModal.table || !buyinModal.show) return
@@ -20,9 +22,22 @@ export const BuyinModal = () => {
     setBuyinAmount(min)
   }, [buyinModal])
 
-  if (!buyinModal.table || !buyinModal.show) return null
+  useEffect(() => {
+    if (!buyinModal.table || !buyinModal.show) return
 
-  console.log('1 buyinModal', buyinModal)
+    let value = Math.max(inputValue, buyinModal.table.buyin.min)
+    value = Math.min(inputValue, buyinModal.table.buyin.max)
+
+    setBuyinAmount(value)
+  }, [buyinModal, inputValue])
+
+  useEffect(() => {
+    if (buyinAmount === inputValue) return
+
+    setInputValue(buyinAmount)
+  }, [buyinAmount, inputValue])
+
+  if (!buyinModal.table || !buyinModal.show) return null
 
   const authSeat = getUserSeat(buyinModal.table, username)
 
@@ -37,26 +52,28 @@ export const BuyinModal = () => {
           <div className='buyin-modal-container-header-title'>Buy-in Option</div>
           <IconButton
             // onMouseDown={handleConfirmLeaveTable}
-            className='buyin-modal-container-header-title-close'
+            className='buyin-modal-container-header-close'
           >
             <CloseIcon />
           </IconButton>
         </div>
         <div className='buyin-modal-container-body'>
           <div className='buyin-modal-container-body-title'>
-            ${buyinModal.table.small} / ${buyinModal.table.big} NL Hold'em #{buyinModal.table.id}
+            <Money money={buyinModal.table.blinds.small} /> /{' '}
+            <Money money={buyinModal.table.blinds.big} />
+            {` NL Hold'em #${buyinModal.table.id}`}
           </div>
           <div className='buyin-modal-container-body-balance'>
             <div className='buyin-modal-container-body-balance-label'>Balance</div>
             <div className='buyin-modal-container-body-balance-value'>
-              ${authSeat?.user.cash.inBank}
+              <Money money={authSeat?.user.cash.inBank || 0} />
             </div>
           </div>
           <div className='buyin-modal-container-body-slider'>
             <div className='buyin-modal-container-body-slider-min'>
               <div className='buyin-modal-container-body-slider-min-label'>Minimum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
-                ${buyinModal.table.buyin.min}
+                <Money money={buyinModal.table.buyin.min} />
               </div>
             </div>
             <div className='buyin-modal-container-body-slider-main'>
@@ -73,12 +90,13 @@ export const BuyinModal = () => {
             <div className='buyin-modal-container-body-slider-min'>
               <div className='buyin-modal-container-body-slider-min-label'>Maximum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
-                ${buyinModal.table.buyin.max}
+                <Money money={buyinModal.table.buyin.max} />
               </div>
             </div>
           </div>
           <div className='buyin-modal-container-body-input'>
-            Buy-in Amount <TextField />
+            Buy-in Amount{' '}
+            <TextField value={inputValue} onChange={e => setInputValue(+e.target.value)} />
           </div>
           <div className='buyin-modal-container-body-timer'></div>
           <div className='buyin-modal-container-body-actions'>
@@ -87,7 +105,10 @@ export const BuyinModal = () => {
               variant='contained'
               onClick={() => buyinModal.onBuyin?.(buyinAmount)}
             >
-              Seat with {buyinAmount}
+              Ok
+            </Button>
+            <Button color='success' variant='contained'>
+              Cancel
             </Button>
           </div>
         </div>

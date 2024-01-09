@@ -12,6 +12,7 @@ import { useAtom } from 'jotai'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { socketAtom } from 'src/contexts/socketAtom'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+import { Money } from 'src/components/molecules/Money'
 
 export const TablesList = () => {
   const { username } = useAuth()
@@ -33,10 +34,10 @@ export const TablesList = () => {
             {table.type}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color='text.secondary'>
-            Blinds: ${table.small} - ${table.big}
+            Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
           </Typography>
           <Typography fontSize={12}>
-            Buy-In: ${table.buyin.min} - ${table.buyin.max}
+            Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
           </Typography>
           <Typography fontSize={12}>
             Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length}

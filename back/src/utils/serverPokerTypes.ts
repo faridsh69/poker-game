@@ -29,6 +29,11 @@ type TypeBuyIn = {
   max: number
 }
 
+type TypeBlinds = {
+  small: number
+  big: number
+}
+
 type TypeSeat = {
   id: number
   user: TypeUser
@@ -84,8 +89,7 @@ export type TypeTable = {
   id: number
   title: string
   type: TypeTableType
-  small: number
-  big: number
+  blinds: TypeBlinds
   buyin: TypeBuyIn
   waitingUsers: TypeUser[]
   seats: TypeSeat[]

@@ -220,7 +220,7 @@ export const getIsPhaseFinished = (table: TypeTable) => {
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
   if (table.phase === TABLE_PHASES.preflop) {
-    if (getMaximumBet(table) === table.big) {
+    if (getMaximumBet(table) === table.blinds.big) {
       const currentBigSeatId = getCurrentBigSeatId(table)
 
       return currentBigSeatId === currentGameTurnSeatId

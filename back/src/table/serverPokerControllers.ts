@@ -271,7 +271,7 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
       ...t,
       phase: TABLE_PHASES.preflop,
       pot: 0,
-      total: t.small + t.big,
+      total: t.blinds.small + t.blinds.big,
       cards: tableCards,
       seats: t.seats.map(s => {
         if (!s.user || s.user.isSeatout) return s
@@ -279,7 +279,8 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
         const userCards = getRandomCards(2, usedCards)
         usedCards = [...usedCards, ...userCards]
 
-        const addedToPot = newSmallSeatId === s.id ? t.small : newBigSeatId === s.id ? t.big : 0
+        const addedToPot =
+          newSmallSeatId === s.id ? t.blinds.small : newBigSeatId === s.id ? t.blinds.big : 0
         const inPot = addedToPot
         const inGame = roundNumber(s.user.cash.inGame - addedToPot)
 

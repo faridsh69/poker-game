@@ -1,10 +1,11 @@
-// import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
-
-export const Money = props => {
+export const Money = (props: { money: number }) => {
   const { money } = props
-  return (
-    <span>
-      {/* <AttachMoneyIcon /> */}${money}
-    </span>
-  )
+
+  const formattedMoney = money.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 2,
+  })
+
+  return <span className='money'>{formattedMoney}</span>
 }

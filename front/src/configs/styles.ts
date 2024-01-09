@@ -8,3 +8,8 @@ import 'src/styles/game.scss'
 import 'src/styles/action-button.scss'
 import 'src/styles/seats.scss'
 import 'src/styles/card-game.scss'
+
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'

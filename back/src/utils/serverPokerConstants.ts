@@ -132,8 +132,10 @@ export const TABLES: TypeTable[] = [
     id: 1,
     title: 'Holdem 1$ 2$, Buy in: 100$ - 1K$',
     type: TABLE_TYPES.holdem,
-    small: 1,
-    big: 2,
+    blinds: {
+      small: 1,
+      big: 2,
+    },
     buyin: {
       min: 100,
       max: 1000,
@@ -178,8 +180,10 @@ export const TABLES: TypeTable[] = [
     id: 2,
     title: 'Holdem 5$ 10$, Buy in: 500$ - 5K$',
     type: TABLE_TYPES.holdem,
-    small: 5,
-    big: 10,
+    blinds: {
+      small: 5,
+      big: 10,
+    },
     buyin: {
       min: 500,
       max: 5000,

@@ -65,7 +65,7 @@ const getPrevMaximumBet = (table: TypeTable) => {
   for (const seat of table.seats) {
     if (!seat.user) continue
     if (maximumBet === seat.user.cash.inPot) continue
-    if (table.small === seat.user.cash.inPot) continue
+    if (table.blinds.small === seat.user.cash.inPot) continue
 
     if (seat.user.cash.inPot > prevMaximumBet) {
       prevMaximumBet = seat.user.cash.inPot
@@ -91,7 +91,7 @@ export const getMinimumRaiseAmount = (table: TypeTable) => {
   const prevMaximumBet = getPrevMaximumBet(table)
   const minimumRaise = 2 * maximumBet - prevMaximumBet
 
-  return Math.max(table.big, minimumRaise)
+  return Math.max(table.blinds.big, minimumRaise)
 }
 
 export const getStepRaiseAmount = (table: TypeTable) => {
@@ -99,7 +99,7 @@ export const getStepRaiseAmount = (table: TypeTable) => {
   const prevMaximumBet = getPrevMaximumBet(table)
   const stepRaise = maximumBet - prevMaximumBet
 
-  return Math.max(table.big, stepRaise)
+  return Math.max(table.blinds.big, stepRaise)
 }
 
 export const getMaximumRaiseAmount = (table: TypeTable, username: string): number => {

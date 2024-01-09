@@ -8,6 +8,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useAtom } from 'jotai'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { confirmModalAtom } from 'src/contexts/confirmModalAtom'
+import { Money } from 'src/components/molecules/Money'
 
 export const WindowTopBar = (props: { table: TypeTable }) => {
   const { table } = props
@@ -32,8 +33,9 @@ export const WindowTopBar = (props: { table: TypeTable }) => {
   return (
     <div className='dnd-window-topbar-flex'>
       <div className='dnd-window-topbar-flex-title'>
-        NL Hold'em #{table.id} - ${table.small} / ${table.big} - Buy-In ${table.buyin.min} - $
-        {table.buyin.max}
+        NL Hold'em #{table.id} - <Money money={table.blinds.small} /> /{' '}
+        <Money money={table.blinds.big} /> - Buy-In <Money money={table.buyin.min} /> -{' '}
+        <Money money={table.buyin.max} />
       </div>
       <IconButton onMouseDown={handleConfirmLeaveTable} className='dnd-window-topbar-flex-close'>
         <CloseIcon />
