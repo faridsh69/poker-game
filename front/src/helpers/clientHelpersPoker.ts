@@ -25,6 +25,14 @@ export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
   return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
 }
 
+const getActiveSeats = (table: TypeTable) => {
+  return table.seats.filter(s => s.user && !s.user.isSeatout && !s.user.isFold)
+}
+
+export const isGameRoundFinished = (table: TypeTable) => {
+  return getActiveSeats(table).length < 2
+}
+
 export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
 
 export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold

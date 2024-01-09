@@ -1,0 +1,70 @@
+.confirm-modal {
+  z-index: 1202 !important;
+
+  &-container {
+    width: 400px;
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #111111;
+
+    &-header {
+      background-color: #1b1b1d;
+      height: 30px;
+      width: 100%;
+      border-bottom: 2px solid #111111;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 10px;
+
+      &-title {
+        color: white;
+        user-select: none;
+        font-weight: 400;
+        font-size: 12px;
+        padding: 5px;
+        padding-left: 10px;
+      }
+
+      &-close {
+        padding: 3px !important;
+
+        &:hover {
+          svg {
+            fill: #ccc;
+          }
+        }
+        svg {
+          fill: white;
+          width: 24px;
+        }
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 15px;
+      background-color: #171717;
+      border-top: 2px solid #232323;
+      color: white;
+
+      &-title {
+        text-align: center;
+      }
+
+      &-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

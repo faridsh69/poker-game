@@ -1,7 +1,7 @@
 import { TableActionsJoinGame } from '../actions/TableActionsJoinGame'
 import { TypeTableProps } from 'src/interfaces'
 import { TableActionsGameTurn } from 'src/components/organisms/actions/TableActionsGameTurn'
-import { TableActionsGeneral } from '../actions/TableActionsPlaying'
+import { TableActionsGeneral } from '../actions/TableActionsGeneral'
 
 export const TableActions = (props: TypeTableProps) => {
   const { table } = props

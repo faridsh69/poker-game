@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai'
-import { Button, Modal } from '@mui/material'
+import { Button, IconButton, Modal } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { confirmModalAtom } from 'src/contexts/confirmModalAtom'
 
@@ -13,15 +14,25 @@ export const ConfirmModal = () => {
   if (!confirmModal.show) return null
 
   return (
-    <Modal open={confirmModal.show} onClose={closeConfirmModal} sx={{ zIndex: 10003 }}>
-      <div className='modal'>
-        <h3>{confirmModal.message}</h3>
-        <Button color='success' variant='contained' onClick={confirmModal.onConfirm}>
-          Confirm
-        </Button>
-        <Button color='error' variant='contained' onClick={closeConfirmModal}>
-          Cancel
-        </Button>
+    <Modal open={confirmModal.show} onClose={closeConfirmModal} className='confirm-modal'>
+      <div className='confirm-modal-container'>
+        <div className='confirm-modal-container-header'>
+          <div className='confirm-modal-container-header-title'>Confirm</div>
+          <IconButton onClick={closeConfirmModal} className='confirm-modal-container-header-close'>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        <div className='confirm-modal-container-body'>
+          <div className='confirm-modal-container-body-title'>{confirmModal.message}</div>
+          <div className='confirm-modal-container-body-actions'>
+            <Button color='success' variant='contained' onClick={confirmModal.onConfirm}>
+              Ok
+            </Button>
+            <Button color='secondary' variant='contained' onClick={closeConfirmModal}>
+              Cancel
+            </Button>
+          </div>
+        </div>
       </div>
     </Modal>
   )
