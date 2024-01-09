@@ -1,0 +1,43 @@
+.card-game {
+  position: relative;
+  width: 57px;
+  height: 81px;
+  user-select: none;
+  border-radius: 8px;
+  padding-top: 5px;
+  padding-left: 1px;
+  background: linear-gradient(135deg, #fefefe, #d5d2d5);
+  box-shadow: 0px 3px 2px rgba($color: #222, $alpha: 0.4);
+
+  &-number {
+    text-align: center;
+    width: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-stretch: condensed;
+    letter-spacing: -3px;
+    transform: scale(1, 1.4);
+  }
+
+  &-smallsign {
+    position: absolute;
+    top: 30px;
+    left: 2px;
+
+    svg {
+      width: 20px;
+    }
+  }
+
+  &-bigsign {
+    position: absolute;
+    top: 43px;
+    left: 18px;
+
+    svg {
+      width: 33px;
+    }
+  }
+}

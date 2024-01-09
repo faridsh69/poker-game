@@ -2,13 +2,9 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import 'react-quill/dist/quill.snow.css'
 
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'src/styles/index.scss'
+import 'src/styles/cms.scss'
+import 'src/styles/modal.scss'
+import 'src/styles/game.scss'
 import 'src/styles/action-button.scss'
 import 'src/styles/seats.scss'
-
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
+import 'src/styles/card-game.scss'
