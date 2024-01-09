@@ -11,7 +11,7 @@ import { Loading } from 'src/components/molecules/Loading'
 import { setLocalsotrage } from 'src/helpers/common'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 
-export const Home = () => {
+const Home = () => {
   const { username } = useAuth()
   const [socket] = useAtom(socketAtom)
   const [allTables] = useAtom(allTablesAtom)
@@ -56,3 +56,5 @@ export const Home = () => {
 
   return <GameBoard />
 }
+
+export default Home

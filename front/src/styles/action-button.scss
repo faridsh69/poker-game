@@ -1,5 +1,7 @@
 .action-button {
   &-front {
+    width: 100%;
+    min-width: 90px;
     font-size: 18px !important;
     font-weight: 300;
     display: flex;
@@ -24,7 +26,6 @@
     }
 
     padding: 8px;
-    width: 90px;
     height: 55px;
     position: relative;
     border-radius: 12px;

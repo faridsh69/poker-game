@@ -3,13 +3,12 @@ import { createBrowserRouter } from 'react-router-dom'
 import { Suspender } from 'src/components/molecules/Suspender'
 import { ErrorPage } from 'src/components/molecules/ErrorPage'
 import { RoutesType } from 'src/interfaces'
-import { Home } from 'src/components/pages/Home'
 
 const ROUTES: RoutesType = [
   {
     name: 'home',
     path: '/',
-    element: <Home />,
+    element: <Suspender pageName='Home' />,
     errorElement: <ErrorPage />,
   },
   {

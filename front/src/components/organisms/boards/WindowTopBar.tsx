@@ -19,7 +19,7 @@ export const WindowTopBar = (props: { table: TypeTable }) => {
   const handleLeaveTable = useCallback(() => {
     socket.emit(CLIENT_CHANNELS.leaveTable, { tableId: table.id, username })
     setConfirmModal({ show: false })
-  }, [socket, table, username])
+  }, [socket, table, username, setConfirmModal])
 
   const handleConfirmLeaveTable = () => {
     setConfirmModal({
@@ -32,10 +32,11 @@ export const WindowTopBar = (props: { table: TypeTable }) => {
   return (
     <div className='dnd-window-topbar-flex'>
       <div className='dnd-window-topbar-flex-title'>
-        NL Hold'em #{table.id} - ${table.small} / ${table.big} - Buy-In ${table.buyin.min} - ${table.buyin.max}
+        NL Hold'em #{table.id} - ${table.small} / ${table.big} - Buy-In ${table.buyin.min} - $
+        {table.buyin.max}
       </div>
-      <IconButton onMouseDown={handleConfirmLeaveTable} sx={{ zIndex: 99999999 }}>
-        <CloseIcon sx={{ color: 'white' }} />
+      <IconButton onMouseDown={handleConfirmLeaveTable} className='dnd-window-topbar-flex-close'>
+        <CloseIcon />
       </IconButton>
     </div>
   )

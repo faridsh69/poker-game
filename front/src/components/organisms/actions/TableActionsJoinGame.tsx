@@ -1,4 +1,3 @@
-import { Button } from '@mui/material'
 import { useAtom } from 'jotai'
 
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
@@ -7,6 +6,7 @@ import { socketAtom } from 'src/contexts/socketAtom'
 import { isUserSeatoutTable } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeTable } from 'src/interfaces'
+import { ActionButton } from './ActionButton'
 
 export const TableActionsJoinGame = (props: { table: TypeTable }) => {
   const { table } = props
@@ -32,9 +32,7 @@ export const TableActionsJoinGame = (props: { table: TypeTable }) => {
 
   return (
     <div className='dnd-window-body-table-actions-joingame'>
-      <Button color='error' variant='contained' onClick={handleConfirmJoinGame}>
-        Deal Me In
-      </Button>
+      <ActionButton label={'Deal Me In'} onClick={handleConfirmJoinGame} />
     </div>
   )
 }

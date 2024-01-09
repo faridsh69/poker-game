@@ -26,7 +26,9 @@ export const LIGHT_THEME = {
     },
     MuiFormControlLabel: {
       styleOverrides: {
-        label: {},
+        label: {
+          color: 'white',
+        },
       },
     },
     MuiInputBase: {
@@ -45,6 +47,12 @@ export const LIGHT_THEME = {
       },
     },
     MuiButton: {
+      styleOverrides: {
+        root: {},
+        outlined: {},
+      },
+    },
+    MuiCheckbox: {
       styleOverrides: {
         root: {},
         outlined: {},
