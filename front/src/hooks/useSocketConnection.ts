@@ -32,7 +32,7 @@ export const useSocketConnection = () => {
       ({ tables, message, checkJoinTabls, lastAction }: TypeServerChannelsUpdateTablesData) => {
         setLastAction(lastAction)
         setAllTables(tables)
-        toast.info(message)
+        // toast.info(message)
         console.log('1 tables', tables)
 
         if (checkJoinTabls) {

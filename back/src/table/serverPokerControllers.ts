@@ -1,6 +1,7 @@
 import { TypeTable } from 'src/utils/serverPokerTypes'
 import { TABLE_PHASES, WAITING_USER } from 'src/utils/serverPokerConstants'
 import {
+  clearTable,
   getCurrentDealerSeatId,
   getIsPhaseFinished,
   getNextSeatId,
@@ -255,7 +256,9 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    if (!isTimeToStartTable(t)) return t
+    if (!isTimeToStartTable(t)) {
+      return clearTable(t)
+    }
 
     const tableCards = getRandomCards(5, [])
     let usedCards = [...tableCards]

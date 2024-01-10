@@ -6,12 +6,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useAtom } from 'jotai'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import {
-  getUserSeat,
-  isGameRoundFinished,
-  isShowPhase,
-  isWaitPhase,
-} from 'src/helpers/clientHelpersPoker'
+import { getUserSeat, isTimeToStartTable } from 'src/helpers/clientHelpersPoker'
 import { TypeTable } from 'src/interfaces'
 
 export const TableActionsGeneral = (props: { table: TypeTable }) => {
@@ -36,12 +31,12 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
     socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
   }, [socket, username, tableId])
 
-  const canSeeSitoutCheckboxes = authSeat?.user.isSeatout
+  const isUserInGame = authSeat && !authSeat?.user.isSeatout
 
   useEffect(() => {
     if (!sitoutChecked) return
-    if (!authSeat?.user.cards.length || authSeat?.user.isSeatout) return
-    if (!isShowPhase(table) && !isWaitPhase(table) && !isGameRoundFinished(table)) return
+    if (!authSeat?.user.cards.length || !isUserInGame) return
+    if (!isTimeToStartTable(table)) return
 
     setTimeout(() => {
       handleLeaveGame()
@@ -49,7 +44,7 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
     }, 1000)
   }, [sitoutChecked, table, handleLeaveGame])
 
-  if (canSeeSitoutCheckboxes) return null
+  if (!isUserInGame) return null
 
   return (
     <div className='dnd-window-body-table-actions-general'>

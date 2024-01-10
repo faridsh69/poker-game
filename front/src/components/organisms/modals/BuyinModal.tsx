@@ -39,7 +39,11 @@ export const BuyinModal = () => {
     if (!buyinModal.table || !buyinModal.show) return
     if (buyinAmount === inputValue) return
 
-    setInputValue(buyinAmount)
+    const timeout = setTimeout(() => {
+      setInputValue(buyinAmount)
+    }, 200)
+
+    return () => clearTimeout(timeout)
   }, [buyinAmount])
 
   useEffect(() => {

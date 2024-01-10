@@ -25,12 +25,26 @@ export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
   return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
 }
 
-const getActiveSeats = (table: TypeTable) => {
-  return table.seats.filter(s => s.user && !s.user.isSeatout && !s.user.isFold)
+// const getActiveSeats = (table: TypeTable) => {
+//   return table.seats.filter(s => s.user && !s.user.isSeatout && !s.user.isFold)
+// }
+
+// export const isNotAciveSeatsEnough = (table: TypeTable) => {
+//   return getActiveSeats(table).length < 2
+// }
+
+export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
+  const seats = table.seats.filter(s => s.user && !s.user.isSeatout)
+
+  return seats.length > 1
 }
 
-export const isGameRoundFinished = (table: TypeTable) => {
-  return getActiveSeats(table).length < 2
+export const isTimeToStartTable = (table: TypeTable): boolean => {
+  const isWaitingOrShowPhase =
+    table.phase === TABLE_PHASES.wait || table.phase === TABLE_PHASES.show
+  const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
+
+  return isWaitingOrShowPhase && atLeastTwoPlayers
 }
 
 export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
@@ -115,7 +129,7 @@ export const getMaximumRaiseAmount = (table: TypeTable, username: string): numbe
 
   if (!userSeat) return -1
 
-  return userSeat.user.cash.inGame
+  return userSeat.user.cash.inGame + userSeat.user.cash.inPot
 }
 
 export const getRaiseLimits = (table: TypeTable, username: string) => {

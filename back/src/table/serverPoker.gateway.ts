@@ -169,7 +169,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
     // // handle stop in timere age ke actioni biad
     // setTimeout(() => {
-    //   console.log('XXXXXXXXXX')
     //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
     //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
     //     message: `${username} thinking time finished.`,
@@ -206,7 +205,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
     // handle stop in timere age ke actioni biad
     // setTimeout(() => {
-    //   console.log('XXXXXXXXXX')
     //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
     //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
     //     message: `${username} thinking time finished.`,
@@ -236,7 +234,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
     // handle stop in timere age ke actioni biad
     // setTimeout(() => {
-    //   console.log('XXXXXXXXXX')
     //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
     //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
     //     message: `${username} thinking time finished.`,
@@ -275,7 +272,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
     // handle stop in timere age ke actioni biad
     // setTimeout(() => {
-    //   console.log('XXXXXXXXXX')
     //   this.tablesState = renderServerAutoCheckFold(this.tablesState, tableId)
     //   this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
     //     message: `${username} thinking time finished.`,

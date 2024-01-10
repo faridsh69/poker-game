@@ -171,65 +171,65 @@ export const TABLES: TypeTable[] = [
     pot: 0,
     total: 0,
     cards: [
-      { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[10] },
-      { type: CARD_TYPES.clubs, number: CARD_NUMBERS.j },
-      { type: CARD_TYPES.hearts, number: CARD_NUMBERS.q },
+      // { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[10] },
+      // { type: CARD_TYPES.clubs, number: CARD_NUMBERS.j },
+      // { type: CARD_TYPES.hearts, number: CARD_NUMBERS.q },
     ],
   },
-  {
-    id: 2,
-    title: 'Holdem 5$ 10$, Buy in: 500$ - 5K$',
-    type: TABLE_TYPES.holdem,
-    blinds: {
-      small: 5,
-      big: 10,
-    },
-    buyin: {
-      min: 500,
-      max: 5000,
-    },
-    waitingUsers: [],
-    seats: [
-      {
-        id: 1,
-        user: null,
-      },
-      {
-        id: 2,
-        user: null,
-      },
-      {
-        id: 3,
-        user: null,
-      },
-      {
-        id: 4,
-        user: null,
-      },
-      {
-        id: 5,
-        user: null,
-      },
-      {
-        id: 6,
-        user: null,
-      },
-      {
-        id: 7,
-        user: null,
-      },
-      {
-        id: 8,
-        user: null,
-      },
-      {
-        id: 9,
-        user: null,
-      },
-    ],
-    phase: TABLE_PHASES.wait,
-    pot: 0,
-    total: 0,
-    cards: [],
-  },
+  // {
+  //   id: 2,
+  //   title: 'Holdem 5$ 10$, Buy in: 500$ - 5K$',
+  //   type: TABLE_TYPES.holdem,
+  //   blinds: {
+  //     small: 5,
+  //     big: 10,
+  //   },
+  //   buyin: {
+  //     min: 500,
+  //     max: 5000,
+  //   },
+  //   waitingUsers: [],
+  //   seats: [
+  //     {
+  //       id: 1,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 2,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 3,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 4,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 5,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 6,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 7,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 8,
+  //       user: null,
+  //     },
+  //     {
+  //       id: 9,
+  //       user: null,
+  //     },
+  //   ],
+  //   phase: TABLE_PHASES.wait,
+  //   pot: 0,
+  //   total: 0,
+  //   cards: [],
+  // },
 ]

@@ -28,6 +28,17 @@ const activeSeats = (table: TypeTable) => {
   )
 }
 
+const activeSeatsWithFolders = (table: TypeTable) => {
+  return table.seats.filter(
+    s =>
+      s.user &&
+      !s.user.isSeatout &&
+      (table.phase === TABLE_PHASES.wait ||
+        table.phase === TABLE_PHASES.show ||
+        s.user.cards.length),
+  )
+}
+
 const getCurrentSmallSeatId = (table: TypeTable): number => {
   const currentDealerSeatId = getCurrentDealerSeatId(table)
 
@@ -181,7 +192,7 @@ export const getCurrentDealerSeatId = (table: TypeTable): number => {
 
   if (dealerSeat) return dealerSeat?.id
 
-  const seats = activeSeats(table)
+  const seats = activeSeatsWithFolders(table)
   const randomSeatIndex = Math.floor(Math.random() * seats.length)
 
   return seats[randomSeatIndex].id
@@ -402,6 +413,31 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
           achievement: scoreAndAchievements[s.id]?.achievement,
           isWinner,
           gameTurn: false,
+        },
+      }
+    }),
+  }
+}
+
+export const clearTable = (table: TypeTable): TypeTable => {
+  return {
+    ...table,
+    phase: TABLE_PHASES.wait,
+    pot: 0,
+    total: 0,
+    cards: [],
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          cards: [],
+          gameTurn: false,
+          isWinner: false,
+          achievement: '',
+          isFold: false,
         },
       }
     }),
