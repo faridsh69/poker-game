@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel } from '@mui/material'
 import TaskAltIcon from '@mui/icons-material/TaskAlt'
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
+import SquareRoundedIcon from '@mui/icons-material/SquareRounded'
 
 export const CheckboxAction = (props: {
   label: string | JSX.Element
@@ -10,16 +10,18 @@ export const CheckboxAction = (props: {
   const { label, checked, onClick } = props
 
   return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={checked}
-          onClick={onClick}
-          icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<TaskAltIcon />}
-        />
-      }
-      label={label}
-    />
+    <div className='checkbox-action'>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={checked}
+            onClick={onClick}
+            icon={<SquareRoundedIcon />}
+            checkedIcon={<TaskAltIcon />}
+          />
+        }
+        label={label}
+      />
+    </div>
   )
 }

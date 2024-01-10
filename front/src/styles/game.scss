@@ -162,40 +162,56 @@
           bottom: 0px;
 
           &-joingame {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            gap: 10px;
+
             position: absolute;
             bottom: 20px;
             right: 20px;
+
+            img {
+              height: 40px;
+            }
+
+            &-timer {
+              display: flex;
+              flex-direction: row;
+              gap: 10px;
+              background: rgba($color: #000000, $alpha: 0.7);
+              border-radius: 8px;
+              position: absolute;
+              top: -240px;
+              left: -170px;
+              padding: 20px;
+
+              .timer-action-text {
+                color: white !important;
+              }
+
+              .timer-action-circle {
+                color: #d19b2b !important;
+              }
+            }
           }
 
           &-leavegame {
-            display: flex;
-            flex-direction: column;
-            gap: 0px;
             position: absolute;
             bottom: 20px;
             left: 20px;
-
-            .MuiFormControlLabel-root {
-              .MuiButtonBase-root {
-                padding: 3px;
-              }
-            }
-
-            svg {
-              fill: #d19b2b;
-              width: 20px;
-            }
-
-            .MuiFormControlLabel-label {
-              font-size: 12px;
-              font-weight: normal;
-            }
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
           }
 
           &-preturn {
             position: absolute;
             bottom: 20px;
             right: 70px;
+            display: flex;
+            flex-direction: row;
+            gap: 0px;
           }
 
           &-gameturn {
@@ -522,10 +538,22 @@
                 }
               }
 
-              &-hot {
+              &-country {
+                position: absolute;
+                z-index: 10;
+                top: 50px;
+                right: -15px;
               }
 
-              &-country {
+              &-hot {
+                position: absolute;
+                z-index: 10;
+                top: 50px;
+                left: -15px;
+
+                img {
+                  width: 20px;
+                }
               }
 
               &-achievement {

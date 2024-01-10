@@ -6,16 +6,18 @@ export const RadioAction = (props: { label: string; checked: boolean; onClick: (
   const { label, checked, onClick } = props
 
   return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={checked}
-          onClick={onClick}
-          icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<TaskAltIcon />}
-        />
-      }
-      label={label}
-    />
+    <div className='radio-action'>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={checked}
+            onClick={onClick}
+            icon={<RadioButtonUncheckedIcon />}
+            checkedIcon={<TaskAltIcon />}
+          />
+        }
+        label={label}
+      />
+    </div>
   )
 }

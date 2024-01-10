@@ -99,3 +99,73 @@
     }
   }
 }
+
+.radio-action {
+  .MuiFormControlLabel-root {
+    .MuiButtonBase-root {
+      padding: 3px;
+    }
+  }
+
+  .MuiFormControlLabel-label {
+    font-size: 12px;
+    font-weight: normal;
+    color: #a6a6a6 !important;
+  }
+
+  svg {
+    width: 20px;
+    fill: #222222;
+  }
+
+  .Mui-checked {
+    svg {
+      fill: #d19b2b;
+    }
+  }
+}
+
+.checkbox-action {
+  .MuiFormControlLabel-root {
+    border: 2px solid #080808;
+    border-radius: 8px;
+    background-color: #0f0f0f;
+  }
+
+  .MuiFormControlLabel-label {
+    font-size: 12px;
+    font-weight: normal;
+    color: #a6a6a6 !important;
+    padding-right: 10px;
+  }
+
+  svg {
+    width: 20px;
+    fill: #222222;
+  }
+
+  .Mui-checked {
+    svg {
+      fill: #d19b2b;
+    }
+  }
+}
+
+.timer-action {
+  position: relative;
+
+  &-circle {
+    color: #d19b2b;
+  }
+
+  &-text {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

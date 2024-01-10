@@ -48,6 +48,11 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
   return (
     <div className='dnd-window-body-table-actions-leavegame'>
       <RadioAction
+        checked={sitoutChecked === 'stradle'}
+        onClick={() => handleChangeCheckbox('stradle')}
+        label='Stradle'
+      />
+      <RadioAction
         checked={sitoutChecked === 'hand'}
         onClick={() => handleChangeCheckbox('hand')}
         label='Sit out next hand'
