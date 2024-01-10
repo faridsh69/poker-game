@@ -1,4 +1,5 @@
-import { Checkbox, FormControlLabel } from '@mui/material'
+import { useCallback, useMemo, useState } from 'react'
+
 import {
   getCallActionAmount,
   isAtLeastTwoNotSeatOutPlayers,
@@ -6,11 +7,9 @@ import {
   isUserSeatoutTable,
 } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
-import TaskAltIcon from '@mui/icons-material/TaskAlt'
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import { TypeTableProps } from 'src/interfaces'
-import { useCallback, useMemo, useState } from 'react'
 import { Money } from 'src/components/molecules/Money'
+import { CheckboxAction } from './details/CheckboxAction'
 
 export const TableActionsPreTurn = (props: TypeTableProps) => {
   const { table } = props
@@ -37,27 +36,15 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
   if (!callActionAmount) {
     return (
       <div className='dnd-window-body-table-actions-preturn'>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={premoveChecked === 'check/fold'}
-              onClick={() => handleChangeCheckbox('check/fold')}
-              icon={<RadioButtonUncheckedIcon />}
-              checkedIcon={<TaskAltIcon />}
-            />
-          }
+        <CheckboxAction
           label='Check / Fold'
+          checked={premoveChecked === 'Check / Fold'}
+          onClick={() => handleChangeCheckbox('Check / Fold')}
         />
-        <FormControlLabel
-          control={
-            <Checkbox
-              // checked={sitoutChecked === 'hand'}
-              // onClick={() => handleChangeCheckbox('hand')}
-              icon={<RadioButtonUncheckedIcon />}
-              checkedIcon={<TaskAltIcon />}
-            />
-          }
-          label='Check '
+        <CheckboxAction
+          label='Check'
+          checked={premoveChecked === 'Check'}
+          onClick={() => handleChangeCheckbox('Check')}
         />
       </div>
     )
@@ -65,31 +52,19 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
 
   return (
     <div className='dnd-window-body-table-actions-preturn'>
-      <FormControlLabel
-        control={
-          <Checkbox
-            // checked={sitoutChecked === 'hand'}
-            // onClick={() => handleChangeCheckbox('hand')}
-            icon={<RadioButtonUncheckedIcon />}
-            checkedIcon={<TaskAltIcon />}
-          />
-        }
+      <CheckboxAction
         label='Fold'
+        checked={premoveChecked === 'Fold'}
+        onClick={() => handleChangeCheckbox('Fold')}
       />
-      <FormControlLabel
-        control={
-          <Checkbox
-            // checked={sitoutChecked === 'hand'}
-            // onClick={() => handleChangeCheckbox('hand')}
-            icon={<RadioButtonUncheckedIcon />}
-            checkedIcon={<TaskAltIcon />}
-          />
-        }
+      <CheckboxAction
         label={
           <div>
             Call <Money money={callActionAmount} />
           </div>
         }
+        checked={premoveChecked === 'Call'}
+        onClick={() => handleChangeCheckbox('Call')}
       />
     </div>
   )

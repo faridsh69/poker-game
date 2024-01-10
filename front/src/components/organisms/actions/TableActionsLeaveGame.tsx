@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
-import { Checkbox, FormControlLabel } from '@mui/material'
-import TaskAltIcon from '@mui/icons-material/TaskAlt'
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 
 import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
 import { socketAtom } from 'src/contexts/socketAtom'
-import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
+import { CLIENT_CHANNELS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { getUserSeat, isTimeToStartTable } from 'src/helpers/clientHelpersPoker'
+import { RadioAction } from './details/RadioAction'
 
 export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const { table } = props
@@ -21,6 +19,8 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
 
   const authSeat = getUserSeat(table, username)
 
+  const isUserInGame = authSeat && !authSeat?.user.isSeatout && table.phase !== TABLE_PHASES.wait
+
   const handleChangeCheckbox = useCallback(
     (sitout: string) => {
       setSitoutChecked(sitoutChecked === sitout ? '' : sitout)
@@ -31,8 +31,6 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const handleLeaveGame = useCallback(() => {
     socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
   }, [socket, username, tableId])
-
-  const isUserInGame = authSeat && !authSeat?.user.isSeatout
 
   useEffect(() => {
     if (!sitoutChecked) return
@@ -49,26 +47,14 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
 
   return (
     <div className='dnd-window-body-table-actions-leavegame'>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={sitoutChecked === 'hand'}
-            onClick={() => handleChangeCheckbox('hand')}
-            icon={<RadioButtonUncheckedIcon />}
-            checkedIcon={<TaskAltIcon />}
-          />
-        }
+      <RadioAction
+        checked={sitoutChecked === 'hand'}
+        onClick={() => handleChangeCheckbox('hand')}
         label='Sit out next hand'
       />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={sitoutChecked === 'blind'}
-            onClick={() => handleChangeCheckbox('blind')}
-            icon={<RadioButtonUncheckedIcon />}
-            checkedIcon={<TaskAltIcon />}
-          />
-        }
+      <RadioAction
+        checked={sitoutChecked === 'blind'}
+        onClick={() => handleChangeCheckbox('blind')}
         label='Sit out next blind'
       />
     </div>
