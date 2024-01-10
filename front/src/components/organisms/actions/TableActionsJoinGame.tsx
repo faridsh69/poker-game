@@ -5,10 +5,10 @@ import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { isUserSeatoutTable } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
-import { TypeTable } from 'src/interfaces'
-import { ActionButton } from './ActionButton'
+import { TypeTableProps } from 'src/interfaces'
+import { ActionButton } from 'src/components/organisms/actions/ActionButton'
 
-export const TableActionsJoinGame = (props: { table: TypeTable }) => {
+export const TableActionsJoinGame = (props: TypeTableProps) => {
   const { table } = props
 
   const { username } = useAuth()

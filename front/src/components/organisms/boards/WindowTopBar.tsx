@@ -1,16 +1,17 @@
 import { IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-import { TypeTable } from 'src/interfaces'
 import { useCallback } from 'react'
+import { useAtom } from 'jotai'
+
+import { TypeTableProps } from 'src/interfaces'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { useAuth } from 'src/hooks/useAuth'
-import { useAtom } from 'jotai'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { confirmModalAtom } from 'src/contexts/confirmModalAtom'
 import { Money } from 'src/components/molecules/Money'
 
-export const WindowTopBar = (props: { table: TypeTable }) => {
+export const WindowTopBar = (props: TypeTableProps) => {
   const { table } = props
 
   const { username } = useAuth()

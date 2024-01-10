@@ -120,3 +120,9 @@ export type TypeLastAction = {
   tableId: number
   action: 'Call' | 'Check' | 'Fold' | 'Raise' | 'All-In'
 }
+
+export type TypeRaiseLimits = {
+  min: number
+  step: number
+  max: number
+}

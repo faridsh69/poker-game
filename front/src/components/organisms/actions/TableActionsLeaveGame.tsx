@@ -1,15 +1,16 @@
+import { useCallback, useEffect, useState } from 'react'
+import { useAtom } from 'jotai'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import TaskAltIcon from '@mui/icons-material/TaskAlt'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
-import { useCallback, useEffect, useState } from 'react'
+
+import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
-import { useAtom } from 'jotai'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { getUserSeat, isTimeToStartTable } from 'src/helpers/clientHelpersPoker'
-import { TypeTable } from 'src/interfaces'
 
-export const TableActionsGeneral = (props: { table: TypeTable }) => {
+export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const { table } = props
   const tableId = table.id
 
@@ -47,7 +48,7 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
   if (!isUserInGame) return null
 
   return (
-    <div className='dnd-window-body-table-actions-general'>
+    <div className='dnd-window-body-table-actions-leavegame'>
       <FormControlLabel
         control={
           <Checkbox
@@ -59,7 +60,7 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
         }
         label='Sit out next hand'
       />
-      {/* <FormControlLabel
+      <FormControlLabel
         control={
           <Checkbox
             checked={sitoutChecked === 'blind'}
@@ -69,7 +70,7 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
           />
         }
         label='Sit out next blind'
-      /> */}
+      />
     </div>
   )
 }

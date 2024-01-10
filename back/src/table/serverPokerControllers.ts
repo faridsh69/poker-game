@@ -60,6 +60,17 @@ export const renderClientLeaveTable = (
         }
       }),
     }
+
+    // const updatedSeatsWithFold = getUpdatedSeatWithFold(t)
+    // const isPhaseFinished = getIsPhaseFinished(updatedSeatsWithFold)
+    // const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
+    //   updatedSeatsWithFold,
+    //   isPhaseFinished,
+    // )
+    // const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+    //   updatedTableIfPhaseFinished,
+    //   isPhaseFinished,
+    // )
   })
 }
 

@@ -1,5 +1,9 @@
 import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
-import { TypeSeat, TypeTable } from 'src/interfaces/type-game'
+import { TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
+
+export const renderNumber = (value: string) => {
+  return isNaN(+value) ? 0 : +value
+}
 
 export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
@@ -132,7 +136,7 @@ export const getMaximumRaiseAmount = (table: TypeTable, username: string): numbe
   return userSeat.user.cash.inGame + userSeat.user.cash.inPot
 }
 
-export const getRaiseLimits = (table: TypeTable, username: string) => {
+export const getRaiseLimits = (table: TypeTable, username: string): TypeRaiseLimits => {
   const min = getMinimumRaiseAmount(table)
   const step = getStepRaiseAmount(table)
   const max = getMaximumRaiseAmount(table, username)
