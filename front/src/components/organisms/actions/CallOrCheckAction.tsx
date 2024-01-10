@@ -3,8 +3,8 @@ import { useMemo } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeTableProps } from 'src/interfaces'
 import { getCallActionAmount } from 'src/helpers/clientHelpersPoker'
-import { CheckAction } from './CheckAction'
-import { CallAction } from './CallAction'
+import { CheckAction } from './details/CheckAction'
+import { CallAction } from './details/CallAction'
 
 export const CallOrCheckAction = (props: TypeTableProps) => {
   const { table } = props

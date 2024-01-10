@@ -6,7 +6,7 @@ import { socketAtom } from 'src/contexts/socketAtom'
 import { isUserSeatoutTable } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeTableProps } from 'src/interfaces'
-import { ActionButton } from 'src/components/organisms/actions/ActionButton'
+import { ActionButton } from 'src/components/organisms/actions/details/ActionButton'
 
 export const TableActionsJoinGame = (props: TypeTableProps) => {
   const { table } = props
