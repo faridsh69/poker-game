@@ -16,23 +16,12 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
-const activeSeats = (table: TypeTable) => {
+const activeSeats = (table: TypeTable, includeFolders = false) => {
   return table.seats.filter(
     s =>
       s.user &&
       !s.user.isSeatout &&
-      !s.user.isFold &&
-      (table.phase === TABLE_PHASES.wait ||
-        table.phase === TABLE_PHASES.show ||
-        s.user.cards.length),
-  )
-}
-
-const activeSeatsWithFolders = (table: TypeTable) => {
-  return table.seats.filter(
-    s =>
-      s.user &&
-      !s.user.isSeatout &&
+      (!s.user.isFold || includeFolders) &&
       (table.phase === TABLE_PHASES.wait ||
         table.phase === TABLE_PHASES.show ||
         s.user.cards.length),
@@ -192,7 +181,7 @@ export const getCurrentDealerSeatId = (table: TypeTable): number => {
 
   if (dealerSeat) return dealerSeat?.id
 
-  const seats = activeSeatsWithFolders(table)
+  const seats = activeSeats(table, true)
   const randomSeatIndex = Math.floor(Math.random() * seats.length)
 
   return seats[randomSeatIndex].id
@@ -204,8 +193,8 @@ export const isGameHeadsUp = (table: TypeTable): boolean => {
   return seats.length === 2
 }
 
-export const getNextSeatId = (table: TypeTable, seatId: number): number => {
-  const seats = activeSeats(table)
+export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders = false): number => {
+  const seats = activeSeats(table, includeFolders)
 
   let nextSeatId = seats[0].id
   let foundSeat = false

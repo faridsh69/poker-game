@@ -264,11 +264,11 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
     let usedCards = [...tableCards]
 
     const currentDealerSeatId = getCurrentDealerSeatId(t)
-    const newDealerSeatId = getNextSeatId(t, currentDealerSeatId)
+    const newDealerSeatId = getNextSeatId(t, currentDealerSeatId, true)
     // const newSmallSeatId = isGameHeadsUp(t) ? newDealerSeatId : getNextSeatId(t, newDealerSeatId)
-    const newSmallSeatId = getNextSeatId(t, newDealerSeatId)
-    const newBigSeatId = getNextSeatId(t, newSmallSeatId)
-    const newGameTurnSeatId = getNextSeatId(t, newBigSeatId)
+    const newSmallSeatId = getNextSeatId(t, newDealerSeatId, true)
+    const newBigSeatId = getNextSeatId(t, newSmallSeatId, true)
+    const newGameTurnSeatId = getNextSeatId(t, newBigSeatId, true)
 
     return {
       ...t,

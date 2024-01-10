@@ -41,7 +41,7 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
     setTimeout(() => {
       handleLeaveGame()
       setSitoutChecked('')
-    }, 1000)
+    }, 6000)
   }, [sitoutChecked, table, handleLeaveGame])
 
   if (!isUserInGame) return null
@@ -59,7 +59,7 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
         }
         label='Sit out next hand'
       />
-      <FormControlLabel
+      {/* <FormControlLabel
         control={
           <Checkbox
             checked={sitoutChecked === 'blind'}
@@ -69,7 +69,7 @@ export const TableActionsGeneral = (props: { table: TypeTable }) => {
           />
         }
         label='Sit out next blind'
-      />
+      /> */}
     </div>
   )
 }
