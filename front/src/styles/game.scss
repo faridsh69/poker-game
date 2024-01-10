@@ -198,7 +198,7 @@
 
           &-leavegame {
             position: absolute;
-            bottom: 20px;
+            bottom: 10px;
             left: 20px;
             display: flex;
             flex-direction: column;
@@ -554,6 +554,13 @@
                 img {
                   width: 20px;
                 }
+              }
+
+              &-timeout {
+                position: absolute;
+                top: 129px;
+                left: -6px;
+                z-index: 10;
               }
 
               &-achievement {

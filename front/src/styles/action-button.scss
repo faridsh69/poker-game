@@ -158,6 +158,15 @@
     color: #d19b2b;
   }
 
+  &-line {
+    width: 100px;
+    background-color: #222222 !important;
+
+    .MuiLinearProgress-bar {
+      background-image: linear-gradient(to right, #e1f638, #2da821);
+    }
+  }
+
   &-text {
     position: absolute;
     top: 0px;

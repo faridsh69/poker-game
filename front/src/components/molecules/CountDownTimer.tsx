@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
+import { LinearProgress } from '@mui/material'
 
-export const CountDownTimer = (props: { timeout: number; onFinishTimer: () => void }) => {
-  const { timeout = 30, onFinishTimer } = props
+export const CountDownTimer = (props: {
+  timeout: number
+  onFinishTimer: () => void
+  circle?: boolean
+  showText?: boolean
+}) => {
+  const { timeout = 30, onFinishTimer, circle = true, showText = true } = props
 
   const [progress, setProgress] = useState(timeout)
 
@@ -24,12 +28,20 @@ export const CountDownTimer = (props: { timeout: number; onFinishTimer: () => vo
 
   return (
     <div className='timer-action'>
-      <CircularProgress
-        className='timer-action-circle'
-        variant='determinate'
-        value={(progress * 100) / timeout}
-      />
-      <div className='timer-action-text'>{Math.round(progress)}</div>
+      {circle ? (
+        <CircularProgress
+          className='timer-action-circle'
+          variant='determinate'
+          value={(progress * 100) / timeout}
+        />
+      ) : (
+        <LinearProgress
+          className='timer-action-line'
+          variant='determinate'
+          value={(progress * 100) / timeout}
+        />
+      )}
+      {!!showText && <div className='timer-action-text'>{Math.round(progress)}</div>}
     </div>
   )
 }

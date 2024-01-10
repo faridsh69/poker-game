@@ -11,6 +11,7 @@ import { SeatUserStatus } from 'src/components/organisms/seat/SeatUserStatus'
 import { SeatWinner } from './SeatWinner'
 import { SeatUserCountry } from './SeatUserCountry'
 import { SeatUserHot } from './SeatUserHot'
+import { SeatUserTimer } from './SeatUserTimer'
 
 export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
   const { seat, table } = props
@@ -20,14 +21,15 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserAvatar seat={seat} />
       <SeatUserBox />
       <SeatUserUsername seat={seat} />
-      <SeatUserCash seat={seat} />
-      <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
-      <SeatUserStatus seat={seat} tableId={table.id} />
-      <SeatUserPot seat={seat} />
-      <SeatDealer seat={seat} />
-      <SeatWinner seat={seat} />
       <SeatUserCountry />
       <SeatUserHot />
+      <SeatUserCash seat={seat} />
+      <SeatUserTimer seat={seat} />
+      <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
+      <SeatUserStatus seat={seat} tableId={table.id} />
+      <SeatWinner seat={seat} />
+      <SeatUserPot seat={seat} />
+      <SeatDealer seat={seat} />
       {/* 
       
       <div className='dnd-window-body-table-seats-seat-achievement'></div> */}
