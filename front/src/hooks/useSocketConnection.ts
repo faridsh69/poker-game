@@ -1,7 +1,6 @@
 import { useAtom } from 'jotai'
 import { useCallback, useEffect, useState } from 'react'
 import socketIO from 'socket.io-client'
-import { toast } from 'react-toastify'
 
 import { TypeServerChannelsUpdateTablesData, TypeSocket, TypeTable } from 'src/interfaces'
 import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPoker'
@@ -29,7 +28,7 @@ export const useSocketConnection = () => {
 
     socketInstance.on(
       SERVER_CHANNELS.updateTables,
-      ({ tables, message, checkJoinTabls, lastAction }: TypeServerChannelsUpdateTablesData) => {
+      ({ tables, checkJoinTabls, lastAction }: TypeServerChannelsUpdateTablesData) => {
         setLastAction(lastAction)
         setAllTables(tables)
         // toast.info(message)
