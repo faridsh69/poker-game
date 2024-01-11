@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { useAtom } from 'jotai'
 
-import { SEAT_STATUS_DURATION } from 'src/configs/clientConstantsPoker'
+import { SEAT_STATUS_DURATION_MILLISECOND } from 'src/configs/clientConstantsPoker'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
 import { TypeSeat } from 'src/interfaces'
 
@@ -42,7 +42,7 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
 
     setTimeout(() => {
       setUserLastAction('')
-    }, SEAT_STATUS_DURATION)
+    }, SEAT_STATUS_DURATION_MILLISECOND)
   }, [lastAction, tableId, seat.user.username])
 
   if (!userLastAction) return null

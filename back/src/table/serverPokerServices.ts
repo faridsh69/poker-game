@@ -142,6 +142,12 @@ export const isShowPhase = (tables: TypeTable[], tableId: number): boolean => {
   return table.phase === TABLE_PHASES.show
 }
 
+export const isWaitPhase = (tables: TypeTable[], tableId: number): boolean => {
+  const table = tables.find(t => t.id === tableId)
+
+  return table.phase === TABLE_PHASES.wait
+}
+
 export const isCheckAllowed = (table: TypeTable) => {
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
   const maximumBetSeatIds = getMaximumBetSeatIds(table)

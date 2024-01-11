@@ -5,7 +5,7 @@ import {
   SERVER_CHANNELS,
   START_NEW_ROUND_TIMEOUT,
   TABLE_PHASES,
-  USER_ACTION_THINKING_TIMEOUT,
+  USER_ACTION_THINKING_TIMEOUT_MILISECONDS,
   WAITING_USER,
 } from 'src/utils/serverPokerConstants'
 import {
@@ -387,7 +387,7 @@ export const renderGeneralClientActions = (
       null,
       username,
     )
-  }, USER_ACTION_THINKING_TIMEOUT)
+  }, USER_ACTION_THINKING_TIMEOUT_MILISECONDS)
 
   tableTimeouts[tableId] = timeout
 }

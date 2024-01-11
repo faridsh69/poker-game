@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
 
-import { CLIENT_CHANNELS, SITOUT_TIMEOUT } from 'src/configs/clientConstantsPoker'
+import { CLIENT_CHANNELS, SITOUT_TIMEOUT_SECONDS } from 'src/configs/clientConstantsPoker'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { isUserSeatoutTable } from 'src/helpers/clientHelpersPoker'
@@ -41,7 +41,7 @@ export const TableActionsJoinGame = (props: TypeTableProps) => {
     <div className='dnd-window-body-table-actions-joingame'>
       <div className='dnd-window-body-table-actions-joingame-timer'>
         <img src={timerImage} alt='timer' />
-        <CountDownTimer timeout={SITOUT_TIMEOUT} onFinishTimer={() => handleLeaveSeat} />
+        <CountDownTimer timeout={SITOUT_TIMEOUT_SECONDS} onFinishTimer={() => handleLeaveSeat} />
       </div>
       <img src={sitoutImage} alt='smoke - wc' />
 

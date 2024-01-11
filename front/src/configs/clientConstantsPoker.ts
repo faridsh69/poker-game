@@ -7,9 +7,11 @@ import {
   TypeTableType,
 } from 'src/interfaces/type-game'
 
-export const USER_ACTION_THINKING_TIMEOUT = 10
-export const SITOUT_TIMEOUT = 1000
-export const SEAT_STATUS_DURATION = 3000
+export const USER_ACTION_THINKING_TIMEOUT_SECONDS = 15
+export const SITOUT_TIMEOUT_SECONDS = 5 * 60
+
+export const BUY_IN_MODAL_TIME_OUT_SECONDS = 30
+export const SEAT_STATUS_DURATION_MILLISECOND = 3000
 
 export const SERVER_CHANNELS = {
   connect: 'connect',
