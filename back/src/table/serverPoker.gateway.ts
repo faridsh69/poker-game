@@ -149,7 +149,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
   @SubscribeMessage(CLIENT_CHANNELS.foldAction)
   handleClientFoldAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     // Validations: check if user is able to fold, also is itt his tturn ....
-    clearTimeout(this.tableTimeouts[tableId])
+
     this.tablesState = renderClientFoldAction(this.tablesState, tableId)
     const message = `${username} fold.`
     const lastAction = {

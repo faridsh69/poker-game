@@ -219,6 +219,16 @@ export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders =
   return nextSeatId
 }
 
+export const getNextNotFoldedSeatId = (table: TypeTable, seatId: number) => {
+  let nextGameTurnSeatId = getNextSeatId(table, seatId, true)
+
+  while (table.seats.find(s => s.id === nextGameTurnSeatId).user.isFold) {
+    nextGameTurnSeatId = getNextSeatId(table, seatId, true)
+  }
+
+  return nextGameTurnSeatId
+}
+
 export const getIsPhaseFinished = (table: TypeTable) => {
   const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
   if (!atLeastTwoPlayers) return true
@@ -290,7 +300,7 @@ export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: b
   if (table.phase === TABLE_PHASES.show) return table
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-  let nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId)
+  let nextGameTurnSeatId = getNextNotFoldedSeatId(table, currentGameTurnSeatId)
 
   if (isPhaseFinished) {
     nextGameTurnSeatId = getCurrentSmallSeatId(table)
