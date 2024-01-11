@@ -126,3 +126,9 @@ export type TypeHandleClientRaiseAction = {
 export type TypeScoreAndAchivement = { score: number; achievement: string }
 
 export type TypeScoreAndAchivements = { [key: string]: TypeScoreAndAchivement }
+
+export type TypeLastAction = {
+  username: string
+  tableId: number
+  action: string
+}

@@ -136,7 +136,7 @@ export const isTimeToStartTable = (table: TypeTable): boolean => {
   return isWaitingOrShowPhase && atLeastTwoPlayers
 }
 
-export const isTimeToRestartTable = (tables: TypeTable[], tableId: number): boolean => {
+export const isShowPhase = (tables: TypeTable[], tableId: number): boolean => {
   const table = tables.find(t => t.id === tableId)
 
   return table.phase === TABLE_PHASES.show

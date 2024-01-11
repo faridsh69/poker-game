@@ -14,7 +14,7 @@ export const KANIAT_PERCENT = 5
 
 export const START_NEW_ROUND_TIMEOUT = 8000
 
-export const USER_ACTION_THINKING_TIMEOUT = 10000
+export const USER_ACTION_THINKING_TIMEOUT = 5000
 
 export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
   updateTables: 'server:update_tables',

@@ -8,7 +8,7 @@ import {
 } from 'src/interfaces/type-game'
 
 export const USER_ACTION_THINKING_TIMEOUT = 10
-
+export const SITOUT_TIMEOUT = 1000
 export const SEAT_STATUS_DURATION = 3000
 
 export const SERVER_CHANNELS = {

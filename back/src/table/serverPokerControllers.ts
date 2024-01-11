@@ -1,5 +1,13 @@
-import { TypeTable } from 'src/utils/serverPokerTypes'
-import { TABLE_PHASES, WAITING_USER } from 'src/utils/serverPokerConstants'
+import { Server } from 'socket.io'
+
+import { TypeLastAction, TypeTable } from 'src/utils/serverPokerTypes'
+import {
+  SERVER_CHANNELS,
+  START_NEW_ROUND_TIMEOUT,
+  TABLE_PHASES,
+  USER_ACTION_THINKING_TIMEOUT,
+  WAITING_USER,
+} from 'src/utils/serverPokerConstants'
 import {
   clearTable,
   getCurrentDealerSeatId,
@@ -11,6 +19,8 @@ import {
   getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
   isCheckAllowed,
+  isShowPhase,
+
   // isGameHeadsUp,
   isTimeToStartTable,
   isUserSeatedTable,
@@ -331,4 +341,53 @@ export const renderServerAutoCheckFold = (
   }
 
   return renderClientFoldAction(tablesState, tableId)
+}
+
+export const renderGeneralClientActions = (
+  server: Server,
+  tablesState: TypeTable[],
+  updateTablesState: (tables: TypeTable[]) => void,
+  tableTimeouts: object,
+  tableId: number,
+  message: string,
+  lastAction: TypeLastAction,
+  username: string,
+) => {
+  clearTimeout(tableTimeouts[tableId])
+
+  server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+    message,
+    tables: tablesState,
+    lastAction,
+  })
+
+  if (isShowPhase(tablesState, tableId)) {
+    setTimeout(() => {
+      tablesState = renderServerStartTable(tablesState, tableId)
+      updateTablesState(tablesState)
+      server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+        tables: tablesState,
+      })
+    }, START_NEW_ROUND_TIMEOUT)
+
+    return
+  }
+
+  const timeout = setTimeout(() => {
+    tablesState = renderServerAutoCheckFold(tablesState, tableId)
+    updateTablesState(tablesState)
+
+    renderGeneralClientActions(
+      server,
+      tablesState,
+      updateTablesState,
+      tableTimeouts,
+      tableId,
+      null,
+      null,
+      username,
+    )
+  }, USER_ACTION_THINKING_TIMEOUT)
+
+  tableTimeouts[tableId] = timeout
 }
