@@ -227,7 +227,7 @@ export const getIsPhaseFinished = (table: TypeTable) => {
     }
   }
 
-  const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId)
+  const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, true)
   const raiserSeatId = getRaiserSeatId(table)
 
   return raiserSeatId === nextGameTurnSeatId
