@@ -1,0 +1,1 @@
+import{j as r}from"./index-d43581e0.js";import{P as o}from"./PageLayout-0a120cf1.js";import"./Select-1d63d061.js";import"./FormControl-237812c6.js";import"./MenuItem-864a22de.js";import"./Toolbar-b1f99d7d.js";const n=()=>r.jsx(o,{children:r.jsx("div",{children:"qwe"})});export{n as Menu};
