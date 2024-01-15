@@ -1,27 +1,21 @@
-import { useCallback, useMemo } from 'react'
-import { useAtom } from 'jotai'
+import { useMemo } from 'react'
 
 import { Money } from 'src/components/molecules/Money'
 import { useAuth } from 'src/hooks/useAuth'
-import { socketAtom } from 'src/contexts/socketAtom'
 import { ActionButton } from 'src/components/organisms/actions/details/ActionButton'
 import { TypeTableProps } from 'src/interfaces'
-import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { getCallActionAmount } from 'src/helpers/clientHelpersPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
 
 export const CallAction = (props: TypeTableProps) => {
   const { table } = props
 
   const { username } = useAuth()
-  const [socket] = useAtom(socketAtom)
+  const { handleCallAction } = useSocketActions(table.id)
 
   const callActionAmount = useMemo(() => {
     return getCallActionAmount(table, username)
   }, [table, username])
-
-  const handleCallAction = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.callAction, { tableId: table.id, callActionAmount, username })
-  }, [socket, username, callActionAmount, table.id])
 
   return (
     <ActionButton
@@ -33,7 +27,7 @@ export const CallAction = (props: TypeTableProps) => {
           </p>
         </div>
       }
-      onClick={handleCallAction}
+      onClick={() => handleCallAction(callActionAmount)}
     />
   )
 }

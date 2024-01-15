@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
   getCallActionAmount,
@@ -10,6 +10,8 @@ import { useAuth } from 'src/hooks/useAuth'
 import { TypeTableProps } from 'src/interfaces'
 import { Money } from 'src/components/molecules/Money'
 import { CheckboxAction } from './details/CheckboxAction'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import { PRE_MOVED_VALUES } from 'src/configs/clientConstantsPoker'
 
 export const TableActionsPreTurn = (props: TypeTableProps) => {
   const { table } = props
@@ -25,9 +27,36 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
     [premoveChecked],
   )
 
+  const { handleCheckAction, handleFoldAction, handleCallAction } = useSocketActions(table.id)
+
   const callActionAmount = useMemo(() => {
     return getCallActionAmount(table, username)
   }, [table, username])
+
+  useEffect(() => {
+    if (!isAtLeastTwoNotSeatOutPlayers(table)) return
+    if (isUserSeatoutTable(table, username)) return
+    if (!isAuthUserGameTurn(table, username)) return
+
+    if (premoveChecked === PRE_MOVED_VALUES.fold) {
+      handleFoldAction()
+    }
+    if (premoveChecked === PRE_MOVED_VALUES.call && callActionAmount) {
+      handleCallAction(callActionAmount)
+    }
+    if (premoveChecked === PRE_MOVED_VALUES.check && !callActionAmount) {
+      handleCheckAction()
+    }
+
+    if (premoveChecked === PRE_MOVED_VALUES.checkFold) {
+      if (callActionAmount) {
+        handleFoldAction()
+      } else {
+        handleCheckAction()
+      }
+    }
+    handleChangeCheckbox('')
+  }, [table])
 
   if (!isAtLeastTwoNotSeatOutPlayers(table)) return null
   if (isUserSeatoutTable(table, username)) return null
@@ -37,14 +66,14 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
     return (
       <div className='dnd-window-body-table-actions-preturn'>
         <CheckboxAction
-          label='Check / Fold'
-          checked={premoveChecked === 'Check / Fold'}
-          onClick={() => handleChangeCheckbox('Check / Fold')}
+          label={PRE_MOVED_VALUES.checkFold}
+          checked={premoveChecked === PRE_MOVED_VALUES.checkFold}
+          onClick={() => handleChangeCheckbox(PRE_MOVED_VALUES.checkFold)}
         />
         <CheckboxAction
-          label='Check'
-          checked={premoveChecked === 'Check'}
-          onClick={() => handleChangeCheckbox('Check')}
+          label={PRE_MOVED_VALUES.check}
+          checked={premoveChecked === PRE_MOVED_VALUES.check}
+          onClick={() => handleChangeCheckbox(PRE_MOVED_VALUES.check)}
         />
       </div>
     )
@@ -53,18 +82,14 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
   return (
     <div className='dnd-window-body-table-actions-preturn'>
       <CheckboxAction
-        label='Fold'
-        checked={premoveChecked === 'Fold'}
-        onClick={() => handleChangeCheckbox('Fold')}
+        label={PRE_MOVED_VALUES.fold}
+        checked={premoveChecked === PRE_MOVED_VALUES.fold}
+        onClick={() => handleChangeCheckbox(PRE_MOVED_VALUES.fold)}
       />
       <CheckboxAction
-        label={
-          <div>
-            Call <Money money={callActionAmount} />
-          </div>
-        }
-        checked={premoveChecked === 'Call'}
-        onClick={() => handleChangeCheckbox('Call')}
+        label={<div>{`${PRE_MOVED_VALUES.call} ${(<Money money={callActionAmount} />)}`}</div>}
+        checked={premoveChecked === PRE_MOVED_VALUES.call}
+        onClick={() => handleChangeCheckbox(PRE_MOVED_VALUES.call)}
       />
     </div>
   )

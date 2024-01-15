@@ -1,7 +1,7 @@
 import { TypeTableProps } from 'src/interfaces'
 import { FoldAction } from 'src/components/organisms/actions/details/FoldAction'
 import { CallOrCheckAction } from 'src/components/organisms/actions/CallOrCheckAction'
-import { useRaiseActions } from 'src/hooks/useRaiseActions'
+import { useRaiseActions } from 'src/hooks/game/useRaiseActions'
 import { RaiseActionFirstRow } from 'src/components/organisms/actions/details/RaiseActionFirstRow'
 import { RaiseAction } from 'src/components/organisms/actions/details/RaiseAction'
 
@@ -25,4 +25,3 @@ export const RaiseOrFoldOrCallActions = (props: TypeTableProps) => {
     </div>
   )
 }
-/* <CountDownTimer onFinishTimer={() => handleCheckAction(table.id)} />*/

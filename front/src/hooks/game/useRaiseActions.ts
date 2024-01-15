@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useAuth } from './useAuth'
+import { useAuth } from '../useAuth'
 import { useAtom } from 'jotai'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { getRaiseActionAmount, getRaiseLimits } from 'src/helpers/clientHelpersPoker'

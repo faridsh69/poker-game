@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export const useScrollBottom = (containerId, dependencies = [], timeout = 0) => {
+export const useScrollBottom = (containerId: string, dependencies = [], timeout = 0) => {
   useEffect(() => {
     const container = document.getElementById(containerId)
     if (container) {

@@ -70,3 +70,10 @@ export const CARD_NUMBERS: { [key in TypeCardNumber]: TypeCardNumber } = {
   k: 'k',
   a: 'a',
 }
+
+export const PRE_MOVED_VALUES = {
+  checkFold: 'Check / Fold',
+  check: 'Check',
+  fold: 'Fold',
+  call: 'Call',
+}
