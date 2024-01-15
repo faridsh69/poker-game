@@ -87,7 +87,11 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
         onClick={() => handleChangeCheckbox(PRE_MOVED_VALUES.fold)}
       />
       <CheckboxAction
-        label={<div>{`${PRE_MOVED_VALUES.call} ${(<Money money={callActionAmount} />)}`}</div>}
+        label={
+          <div>
+            ${PRE_MOVED_VALUES.call} <Money money={callActionAmount} />
+          </div>
+        }
         checked={premoveChecked === PRE_MOVED_VALUES.call}
         onClick={() => handleChangeCheckbox(PRE_MOVED_VALUES.call)}
       />

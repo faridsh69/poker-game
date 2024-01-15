@@ -7,7 +7,7 @@ export const TablePot = (props: TypeTableProps) => {
   return (
     table.pot && (
       <div className='dnd-window-body-table-pot'>
-        <Money money={table.pot} />
+        <Money money={table.pot} showChips />
       </div>
     )
   )

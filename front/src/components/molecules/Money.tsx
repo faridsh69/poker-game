@@ -1,7 +1,7 @@
 import { Chips } from './Chips'
 
-export const Money = (props: { money: number; withChips?: boolean }) => {
-  const { money, withChips = true } = props
+export const Money = (props: { money: number; showChips?: boolean }) => {
+  const { money, showChips = false } = props
 
   const formattedMoney = money.toLocaleString('en-US', {
     style: 'currency',
@@ -10,9 +10,9 @@ export const Money = (props: { money: number; withChips?: boolean }) => {
   })
 
   return (
-    <span className='money-with-chips'>
-      <div className='money-with-chips-chips'>{withChips && <Chips money={money} />}</div>
-      <div className='money-with-chips-money'>{formattedMoney}</div>
-    </span>
+    <div className='cash'>
+      {showChips && <Chips money={money} />}
+      <div className='cash-money'>{formattedMoney}</div>
+    </div>
   )
 }

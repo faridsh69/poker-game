@@ -10,7 +10,7 @@ export const SeatUserPot = (props: TypeSeatProps) => {
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-pot'>
-      <Money money={inPot} />
+      <Money money={inPot} showChips />
     </div>
   )
 }
