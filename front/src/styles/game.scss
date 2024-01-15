@@ -39,23 +39,16 @@
     flex-direction: row;
     position: absolute;
     gap: 3px;
-    top: -45px;
-    height: 30px;
+    top: -15px;
 
     &-column {
       display: flex;
       flex-direction: column-reverse;
-      height: 30px;
 
       &-chip {
-        height: 4px;
-
-        svg {
-          border-radius: 50%;
-          background-color: currentColor;
-          width: 20px;
-          transform: scaleY(0.6);
-        }
+        margin-top: -15px;
+        height: 19px;
+        width: 23px;
       }
     }
   }
