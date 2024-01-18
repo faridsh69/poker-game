@@ -1,5 +1,28 @@
 export type TypeServerChannels = 'server:update_tables'
 
+export type TypeTableType = 'holdem' | 'omaha'
+
+export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show' | 'finish'
+
+export type TypeLastActionAction = 'Check' | 'Call' | 'Raise' | 'Fold' | 'All-In'
+
+export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
+
+export type TypeCardNumber =
+  | '2'
+  | '3'
+  | '4'
+  | '5'
+  | '6'
+  | '7'
+  | '8'
+  | '9'
+  | '10'
+  | 'j'
+  | 'q'
+  | 'k'
+  | 'a'
+
 export type TypeClientChannelKeys =
   | 'joinTable'
   | 'leaveTable'
@@ -39,23 +62,6 @@ type TypeSeat = {
   user: TypeUser
 }
 
-export type TypeCardNumber =
-  | '2'
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | '10'
-  | 'j'
-  | 'q'
-  | 'k'
-  | 'a'
-
-export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
-
 export type TypeCard = {
   type: TypeCardType
   number: TypeCardNumber
@@ -80,10 +86,6 @@ export type TypeUser = {
   isSeatout: boolean
   // hot: number
 }
-
-export type TypeTableType = 'holdem' | 'omaha'
-
-export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show' | 'finish'
 
 export type TypeTable = {
   id: number
@@ -130,5 +132,5 @@ export type TypeScoreAndAchivements = { [key: string]: TypeScoreAndAchivement }
 export type TypeLastAction = {
   username: string
   tableId: number
-  action: string
+  action: TypeLastActionAction
 }

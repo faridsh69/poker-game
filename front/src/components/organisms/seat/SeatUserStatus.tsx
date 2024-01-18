@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { useAtom } from 'jotai'
 
-import { SEAT_STATUS_DURATION_MILLISECOND } from 'src/configs/clientConstantsPoker'
+import {
+  LAST_ACTION_ACTIONS,
+  SEAT_STATUS_DURATION_MILLISECOND,
+} from 'src/configs/clientConstantsPoker'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
 import { TypeSeat } from 'src/interfaces'
 
@@ -12,11 +15,11 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
   const [lastAction] = useAtom(lastActionAtom)
   const [userLastAction, setUserLastAction] = useState('')
 
-  const [raiseSound] = useState(new Audio('/sounds/raise-sound.mp3'))
-  const [checkSound] = useState(new Audio('/sounds/check-sound.mp3'))
-  const [callsound] = useState(new Audio('/sounds/call-sound.mp3'))
-  const [foldSound] = useState(new Audio('/sounds/fold-sound.mp3'))
-  const [allinSound] = useState(new Audio('/sounds/allin-sound.mp3'))
+  const [checkSound] = useState(new Audio('/sounds/check.mp3'))
+  const [callsound] = useState(new Audio('/sounds/call.mp3'))
+  const [raiseSound] = useState(new Audio('/sounds/raise.mp3'))
+  const [foldSound] = useState(new Audio('/sounds/fold.mp3'))
+  const [allinSound] = useState(new Audio('/sounds/allin.mp3'))
 
   useEffect(() => {
     if (!lastAction || seat.user.username !== lastAction.username || tableId !== lastAction.tableId)
@@ -24,19 +27,19 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
 
     setUserLastAction(lastAction.action)
 
-    if (lastAction.action === 'Call') {
+    if (lastAction.action === LAST_ACTION_ACTIONS.Call) {
       callsound.play()
     }
-    if (lastAction.action === 'Check') {
+    if (lastAction.action === LAST_ACTION_ACTIONS.Check) {
       checkSound.play()
     }
-    if (lastAction.action === 'Raise') {
+    if (lastAction.action === LAST_ACTION_ACTIONS.Raise) {
       raiseSound.play()
     }
-    if (lastAction.action === 'Fold') {
+    if (lastAction.action === LAST_ACTION_ACTIONS.Fold) {
       foldSound.play()
     }
-    if (lastAction.action === 'All-In') {
+    if (lastAction.action === LAST_ACTION_ACTIONS['All-In']) {
       allinSound.play()
     }
 

@@ -132,3 +132,5 @@ export type ChipColumnProp = {
   count: number
   backgroundPosition: string
 }
+
+export type TypeLastActionAction = 'Check' | 'Call' | 'Raise' | 'Fold' | 'All-In'

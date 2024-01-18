@@ -10,7 +10,7 @@ export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'access_token'
 export const LOCAL_STORAGE_AUTH_USER_EMAIL = 'auth_email'
 
 export const META_TAGS = {
-  title: 'Royal Poker V 0.61',
+  title: 'Royal Poker V 0.73',
   description: 'Royal Poker is easy and safe',
   keywords: 'react, boilerplate',
   image: 'vite.svg',

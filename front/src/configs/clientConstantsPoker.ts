@@ -3,6 +3,7 @@ import {
   TypeCardType,
   TypeClientChannelKeys,
   TypeClientChannels,
+  TypeLastActionAction,
   TypeTablePhase,
   TypeTableType,
 } from 'src/interfaces/type-game'
@@ -77,4 +78,12 @@ export const PRE_MOVED_VALUES = {
   check: 'Check',
   fold: 'Fold',
   call: 'Call',
+}
+
+export const LAST_ACTION_ACTIONS: { [key in TypeLastActionAction]: TypeLastActionAction } = {
+  Check: 'Check',
+  Call: 'Call',
+  Raise: 'Raise',
+  Fold: 'Fold',
+  ['All-In']: 'All-In',
 }

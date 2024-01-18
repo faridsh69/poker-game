@@ -3,6 +3,7 @@ import {
   TypeCardType,
   TypeClientChannelKeys,
   TypeClientChannels,
+  TypeLastActionAction,
   TypeServerChannels,
   TypeTable,
   TypeTablePhase,
@@ -12,7 +13,7 @@ import {
 
 export const KANIAT_PERCENT = 5
 
-export const START_NEW_ROUND_TIMEOUT = 999998000
+export const START_NEW_ROUND_TIMEOUT = 7000
 
 export const USER_ACTION_THINKING_TIMEOUT_MILISECONDS = 15000
 
@@ -39,6 +40,14 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
 const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
   holdem: 'holdem',
   omaha: 'omaha',
+}
+
+export const LAST_ACTION_ACTIONS: { [key in TypeLastActionAction]: TypeLastActionAction } = {
+  Check: 'Check',
+  Call: 'Call',
+  Raise: 'Raise',
+  Fold: 'Fold',
+  ['All-In']: 'All-In',
 }
 
 export const TABLE_PHASES: { [key in TypeTablePhase]: TypeTablePhase } = {

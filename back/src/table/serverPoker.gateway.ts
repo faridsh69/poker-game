@@ -9,7 +9,12 @@ import {
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import { CLIENT_CHANNELS, SERVER_CHANNELS, TABLES } from 'src/utils/serverPokerConstants'
+import {
+  CLIENT_CHANNELS,
+  LAST_ACTION_ACTIONS,
+  SERVER_CHANNELS,
+  TABLES,
+} from 'src/utils/serverPokerConstants'
 import {
   renderClientCallAction,
   renderClientCheckAction,
@@ -155,7 +160,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     const message = `${username} fold.`
     const lastAction = {
       username,
-      action: 'Fold',
+      action: LAST_ACTION_ACTIONS.Fold,
       tableId,
     }
 
@@ -180,7 +185,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     const message = `${username} checked.`
     const lastAction = {
       username,
-      action: 'Check',
+      action: LAST_ACTION_ACTIONS.Check,
       tableId,
     }
 
@@ -207,7 +212,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     const message = `${username} called ${callActionAmount}$.`
     const lastAction = {
       username,
-      action: 'Call',
+      action: LAST_ACTION_ACTIONS.Call,
       tableId,
     }
 
@@ -233,7 +238,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     const message = `${username} raised ${raiseActionAmount}$.`
     const lastAction = {
       username,
-      action: 'Raise',
+      action: LAST_ACTION_ACTIONS.Raise,
       tableId,
     }
 

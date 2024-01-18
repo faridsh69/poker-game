@@ -13,7 +13,7 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
 
   const backcard = showBackcard(seat, username, isShowPhase)
 
-  const [cardSound] = useState(new Audio('/sounds/card-sound.mp3'))
+  const [cardSound] = useState(new Audio('/sounds/card.mp3'))
 
   // 1) aval dealer o peida mikonim, badesh nafare badi bayad 1 bashe badi 2 ...
   // 2) bad be oni ke 1 hast bade 200ms cart 1 esh az hiddeni dar miad
