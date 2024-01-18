@@ -174,3 +174,7 @@ export const toFormalCase = (string?: string): string => {
 export const toBool = value => !!value
 
 export const convertNullToEmptyString = value => (value === null ? '' : value)
+
+export const capitalize = (string: strin) => {
+  return string[0].toUpperCase() + string.slice(1)
+}

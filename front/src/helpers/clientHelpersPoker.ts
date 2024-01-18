@@ -1,10 +1,6 @@
 import { LAST_ACTION_ACTIONS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
-import {
-  TypeLastActionAction,
-  TypeRaiseLimits,
-  TypeSeat,
-  TypeTable,
-} from 'src/interfaces/type-game'
+import { TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
+import { capitalize } from './common'
 
 export const renderNumber = (value: string) => {
   return isNaN(+value) ? 0 : +value
@@ -166,11 +162,14 @@ export const getRaiseActionAmount = (table: TypeTable, username: string, raise: 
   return raiseActionAmount
 }
 
-export const checkIfLastActionIsAllIn = (action: TypeLastActionAction, seat: TypeSeat) => {
-  console.log('1 seat', seat)
+export const checkIfLastActionIsAllIn = (action: string, seat: TypeSeat) => {
   if (seat.user.cash.inGame <= 0) {
     return LAST_ACTION_ACTIONS['All-In']
   }
 
-  return action
+  if (action === 'checkfold') {
+    return seat.user.isFold ? LAST_ACTION_ACTIONS.Fold : LAST_ACTION_ACTIONS.Check
+  }
+
+  return capitalize(action)
 }

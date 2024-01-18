@@ -115,10 +115,12 @@ export type TypeTable = {
 
 export type TypeHandleSitTableModal = (tableId: number, seatId: number) => void
 
+export type TypeAction = 'Check' | 'Call' | 'Raise' | 'Fold' | 'All-In'
+
 export type TypeLastAction = {
   username: string
   tableId: number
-  action: 'Call' | 'Check' | 'Fold' | 'Raise' | 'All-In'
+  action: string
 }
 
 export type TypeRaiseLimits = {
@@ -132,5 +134,3 @@ export type ChipColumnProp = {
   count: number
   backgroundPosition: string
 }
-
-export type TypeLastActionAction = 'Check' | 'Call' | 'Raise' | 'Fold' | 'All-In'

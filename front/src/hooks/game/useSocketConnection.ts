@@ -10,7 +10,7 @@ import { findUserTables } from 'src/helpers/clientHelpersPoker'
 
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
-import { useAuth } from './useAuth'
+import { useAuth } from '../useAuth'
 
 export const useSocketConnection = () => {
   const { username } = useAuth()
@@ -34,7 +34,6 @@ export const useSocketConnection = () => {
         setAllTables(tables)
 
         console.log('1 tables', tables)
-        // toast.info(message)
 
         if (checkJoinTabls) {
           handleAutoJoinTable(tables, socketInstance)
