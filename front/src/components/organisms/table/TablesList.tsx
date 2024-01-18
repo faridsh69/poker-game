@@ -30,23 +30,19 @@ export const TablesList = () => {
     return (
       <Card className='home-tables-table' key={table.id}>
         <CardContent>
-          <Typography variant='h5' component='div' sx={{ textTransform: 'uppercase' }}>
-            {table.type}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color='text.secondary'>
+          <div>{table.type}</div>
+          <div>
             Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
-          </Typography>
-          <Typography fontSize={12}>
+          </div>
+          <div>
             Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
-          </Typography>
-          <Typography fontSize={12}>
+          </div>
+          <div>
             Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length}
-          </Typography>
-          <Typography fontSize={12}>Waiting Users: {table.waitingUsers.length}</Typography>
+          </div>
+          <div>Waiting Users: {table.waitingUsers.length}</div>
 
-          <Typography fontSize={12} sx={{ textTransform: 'uppercase' }}>
-            Game Phase: {table.phase}
-          </Typography>
+          <div>Game Phase: {table.phase}</div>
         </CardContent>
         <CardActions>
           <Button

@@ -15,7 +15,7 @@ export const TableTotalPot = (props: TypeTableProps) => {
 
   return (
     <div className='dnd-window-body-table-total'>
-      <span>Total Pot :</span>
+      <div className='dnd-window-body-table-total-label'>Total Pot: </div>
       <Money money={table.total} />
     </div>
   )

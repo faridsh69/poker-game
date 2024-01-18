@@ -23,6 +23,7 @@ export const useSocketConnection = () => {
 
   useEffect(() => {
     const socketInstance = socketIO(SOCKET_URL)
+
     setSocket(socketInstance)
     socketInstance.on(SERVER_CHANNELS.connect, () => setIsConnected(true))
 

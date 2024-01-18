@@ -126,3 +126,9 @@ export type TypeRaiseLimits = {
   step: number
   max: number
 }
+
+export type ChipColumnProp = {
+  value: number
+  count: number
+  backgroundPosition: string
+}
