@@ -513,60 +513,6 @@
                 }
               }
 
-              @keyframes winner {
-                from {
-                  transform: rotateY(90deg);
-                }
-                to {
-                  transform: rotateY(0deg);
-                }
-              }
-
-              &-winner {
-                animation-name: winner;
-                animation-duration: 0.5s;
-                animation-timing-function: ease-in-out;
-
-                user-select: none;
-                position: absolute;
-                z-index: 11;
-                top: 60px;
-                left: -10px;
-                height: 50px;
-                background: radial-gradient(ellipse at center, #44350170 0%, #000000 100%);
-                padding: 25px 5px;
-
-                span {
-                  font-size: 50px;
-                  font-weight: normal;
-                  font-family: 'Playfair Display', serif !important;
-                  background: linear-gradient(
-                    to bottom,
-                    #cfc09f 22%,
-                    #634f2c 24%,
-                    #cfc09f 26%,
-                    #cfc09f 27%,
-                    #ffecb3 40%,
-                    #3a2c0f 78%
-                  );
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;
-
-                  &:after {
-                    content: attr(data-heading);
-                    position: absolute;
-                    top: 25px;
-                    left: 5px;
-                    z-index: -1;
-                    text-shadow:
-                      -1px 0 1px #c6bb9f,
-                      0 1px 1px #c6bb9f,
-                      5px 5px 10px rgba(0, 0, 0, 0.4),
-                      -5px -5px 10px rgba(0, 0, 0, 0.4);
-                  }
-                }
-              }
-
               &-country {
                 position: absolute;
                 z-index: 10;

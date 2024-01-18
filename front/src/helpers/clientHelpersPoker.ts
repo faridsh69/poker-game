@@ -13,9 +13,17 @@ export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.usern
 
 export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold
 
+export const isWaitPhase = (table: TypeTable) => table.phase === TABLE_PHASES.wait
+
+export const isPreflopPhase = (table: TypeTable) => table.phase === TABLE_PHASES.preflop
+
+export const isFlopPhase = (table: TypeTable) => table.phase === TABLE_PHASES.flop
+
+export const isTurnPhase = (table: TypeTable) => table.phase === TABLE_PHASES.turn
+
 export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
 
-export const isWaitPhase = (table: TypeTable) => table.phase === TABLE_PHASES.wait
+export const isFinishPhase = (table: TypeTable) => table.phase === TABLE_PHASES.finish
 
 export const getUserSeat = (table: TypeTable, username: string) => {
   return table.seats.find(s => s.user?.username === username)

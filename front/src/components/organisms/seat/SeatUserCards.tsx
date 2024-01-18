@@ -35,7 +35,7 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   useEffect(() => {
     if (!seat.user.cards.length) return
 
-    const timeouts = []
+    const timeouts: ReturnType<typeof setTimeout>[] = []
     for (const cardIndex of [0, 1]) {
       timeouts.push(
         setTimeout(
@@ -62,7 +62,11 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
       )
     }
 
-    // return () => clearTimeout(timeouts)
+    return () => {
+      for (const timeout of timeouts) {
+        clearTimeout(timeout)
+      }
+    }
   }, [seat.user.cards.length])
 
   return (
@@ -74,6 +78,7 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
             card={card}
             cardIndex={cardIndex}
             backcard={backcard}
+            // @ts-ignore
             className={classNames(`${cardClassNames[cardIndex]}`)}
           />
         )

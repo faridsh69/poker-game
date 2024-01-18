@@ -33,7 +33,7 @@ export type TypeSeatAndShowPhaseProps = {
 
 export type TypeGameCardProps = {
   card: TypeCard
-  cardIndex: number
-  className: string
+  cardIndex?: number
+  className?: string
   backcard: boolean
 }

@@ -9,7 +9,7 @@ import BackCardImage from 'src/components/organisms/cards/back/back4.svg'
 import { CARD_TYPES } from 'src/configs/clientConstantsPoker'
 
 export const GameCard = (props: TypeGameCardProps) => {
-  const { card, cardIndex, className = '', backcard = false } = props
+  const { card, cardIndex = -1, className = '', backcard = false } = props
 
   const cardSignComponent =
     card.type === CARD_TYPES.clubs ? (
