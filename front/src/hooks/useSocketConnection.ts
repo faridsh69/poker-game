@@ -7,13 +7,13 @@ import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPok
 import { socketAtom } from 'src/contexts/socketAtom'
 import { SOCKET_URL } from 'src/services/apis'
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
-import { getLocalstorage } from 'src/helpers/common'
-import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
+
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
+import { useAuth } from './useAuth'
 
 export const useSocketConnection = () => {
-  const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
+  const { username } = useAuth()
 
   const [isConnected, setIsConnected] = useState<boolean>(false)
 
@@ -32,8 +32,9 @@ export const useSocketConnection = () => {
       ({ tables, checkJoinTabls, lastAction }: TypeServerChannelsUpdateTablesData) => {
         setLastAction(lastAction)
         setAllTables(tables)
-        // toast.info(message)
+
         console.log('1 tables', tables)
+        // toast.info(message)
 
         if (checkJoinTabls) {
           handleAutoJoinTable(tables, socketInstance)

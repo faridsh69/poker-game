@@ -8,6 +8,7 @@ import {
 } from 'src/configs/clientConstantsPoker'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
 import { TypeSeat } from 'src/interfaces'
+import { checkIfLastActionIsAllIn } from 'src/helpers/clientHelpersPoker'
 
 export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
   const { seat, tableId } = props
@@ -25,21 +26,23 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
     if (!lastAction || seat.user.username !== lastAction.username || tableId !== lastAction.tableId)
       return
 
-    setUserLastAction(lastAction.action)
+    const action = checkIfLastActionIsAllIn(lastAction.action, seat)
 
-    if (lastAction.action === LAST_ACTION_ACTIONS.Call) {
+    setUserLastAction(action)
+
+    if (action === LAST_ACTION_ACTIONS.Call) {
       callsound.play()
     }
-    if (lastAction.action === LAST_ACTION_ACTIONS.Check) {
+    if (action === LAST_ACTION_ACTIONS.Check) {
       checkSound.play()
     }
-    if (lastAction.action === LAST_ACTION_ACTIONS.Raise) {
+    if (action === LAST_ACTION_ACTIONS.Raise) {
       raiseSound.play()
     }
-    if (lastAction.action === LAST_ACTION_ACTIONS.Fold) {
+    if (action === LAST_ACTION_ACTIONS.Fold) {
       foldSound.play()
     }
-    if (lastAction.action === LAST_ACTION_ACTIONS['All-In']) {
+    if (action === LAST_ACTION_ACTIONS['All-In']) {
       allinSound.play()
     }
 

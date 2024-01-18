@@ -1,9 +1,16 @@
 import {
+  renderClientCallAction,
+  renderClientCheckAction,
+  renderClientFoldAction,
+  renderClientRaiseAction,
+  renderServerAutoCheckFold,
+} from 'src/table/serverPokerControllers'
+import {
+  TypeAction,
   TypeCardNumber,
   TypeCardType,
   TypeClientChannelKeys,
   TypeClientChannels,
-  TypeLastActionAction,
   TypeServerChannels,
   TypeTable,
   TypeTablePhase,
@@ -42,12 +49,22 @@ const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
   omaha: 'omaha',
 }
 
-export const LAST_ACTION_ACTIONS: { [key in TypeLastActionAction]: TypeLastActionAction } = {
-  Check: 'Check',
-  Call: 'Call',
-  Raise: 'Raise',
-  Fold: 'Fold',
-  ['All-In']: 'All-In',
+export const ACTION_NAMES: { [key in TypeAction]: TypeAction } = {
+  fold: 'fold',
+  check: 'check',
+  checkfold: 'checkfold',
+  call: 'call',
+  raise: 'raise',
+}
+
+export const ACTIONS: {
+  [key in TypeAction]: (tablesState: TypeTable[], tableId: number, amount?: number) => TypeTable[]
+} = {
+  fold: renderClientFoldAction,
+  check: renderClientCheckAction,
+  checkfold: renderServerAutoCheckFold,
+  call: renderClientCallAction,
+  raise: renderClientRaiseAction,
 }
 
 export const TABLE_PHASES: { [key in TypeTablePhase]: TypeTablePhase } = {

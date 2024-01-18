@@ -1,7 +1,9 @@
 import { Server } from 'socket.io'
 
-import { TypeLastAction, TypeTable } from 'src/utils/serverPokerTypes'
+import { TypeAction, TypeTable } from 'src/utils/serverPokerTypes'
 import {
+  ACTIONS,
+  ACTION_NAMES,
   SERVER_CHANNELS,
   START_NEW_ROUND_TIMEOUT,
   TABLE_PHASES,
@@ -353,16 +355,24 @@ export const renderGeneralClientActions = (
   updateTablesState: (tables: TypeTable[]) => void,
   tableTimeouts: object,
   tableId: number,
-  message: string,
-  lastAction: TypeLastAction,
   username: string,
+  action: TypeAction,
+  amount?: number,
 ) => {
   clearTimeout(tableTimeouts[tableId])
 
+  const renderMethod = ACTIONS[action]
+  tablesState = renderMethod(tablesState, tableId, amount)
+  updateTablesState(tablesState)
+
   server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-    message,
     tables: tablesState,
-    lastAction,
+    lastAction: {
+      username,
+      action,
+      tableId,
+      amount,
+    },
   })
 
   const table = getTable(tablesState, tableId)
@@ -379,18 +389,14 @@ export const renderGeneralClientActions = (
   }
 
   const timeout = setTimeout(() => {
-    tablesState = renderServerAutoCheckFold(tablesState, tableId)
-    updateTablesState(tablesState)
-
     renderGeneralClientActions(
       server,
       tablesState,
       updateTablesState,
       tableTimeouts,
       tableId,
-      null,
-      null,
       username,
+      ACTION_NAMES.checkfold,
     )
   }, USER_ACTION_THINKING_TIMEOUT_MILISECONDS)
 

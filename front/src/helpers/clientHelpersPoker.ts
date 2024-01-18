@@ -1,5 +1,10 @@
-import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
-import { TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
+import { LAST_ACTION_ACTIONS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import {
+  TypeLastActionAction,
+  TypeRaiseLimits,
+  TypeSeat,
+  TypeTable,
+} from 'src/interfaces/type-game'
 
 export const renderNumber = (value: string) => {
   return isNaN(+value) ? 0 : +value
@@ -159,4 +164,13 @@ export const getRaiseActionAmount = (table: TypeTable, username: string, raise: 
   const raiseActionAmount = roundNumber(raise - userSeat.user.cash.inPot)
 
   return raiseActionAmount
+}
+
+export const checkIfLastActionIsAllIn = (action: TypeLastActionAction, seat: TypeSeat) => {
+  console.log('1 seat', seat)
+  if (seat.user.cash.inGame <= 0) {
+    return LAST_ACTION_ACTIONS['All-In']
+  }
+
+  return action
 }

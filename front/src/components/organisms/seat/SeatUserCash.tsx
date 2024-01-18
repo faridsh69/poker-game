@@ -12,7 +12,7 @@ export const SeatUserCash = (props: TypeSeatProps) => {
     )
   }
 
-  if (!seat.user.cash.inGame) {
+  if (seat.user.cash.inGame <= 0) {
     return (
       <div className='dnd-window-body-table-seats-seat-user-cash '>
         <span className='all-in'>All-In</span>

@@ -4,7 +4,7 @@ export type TypeTableType = 'holdem' | 'omaha'
 
 export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show' | 'finish'
 
-export type TypeLastActionAction = 'Check' | 'Call' | 'Raise' | 'Fold' | 'All-In'
+export type TypeAction = 'check' | 'call' | 'raise' | 'fold' | 'checkfold'
 
 export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 
@@ -132,5 +132,5 @@ export type TypeScoreAndAchivements = { [key: string]: TypeScoreAndAchivement }
 export type TypeLastAction = {
   username: string
   tableId: number
-  action: TypeLastActionAction
+  action: TypeAction
 }

@@ -10,22 +10,18 @@ import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
 import {
+  ACTION_NAMES,
   CLIENT_CHANNELS,
-  LAST_ACTION_ACTIONS,
   SERVER_CHANNELS,
   TABLES,
 } from 'src/utils/serverPokerConstants'
 import {
-  renderClientCallAction,
-  renderClientCheckAction,
-  renderClientFoldAction,
   renderClientJoinGame,
   renderClientJoinSeat,
   renderClientJoinTable,
   renderClientLeaveGame,
   renderClientLeaveSeat,
   renderClientLeaveTable,
-  renderClientRaiseAction,
   renderGeneralClientActions,
   renderServerStartTable,
 } from 'src/table/serverPokerControllers'
@@ -95,7 +91,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} has left table #${tableId}`,
       tables: this.tablesState,
     })
     clientSocket.leave('' + tableId)
@@ -108,7 +103,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} has been sit on seat #${seatId}`,
       tables: this.tablesState,
     })
   }
@@ -120,7 +114,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} has been sitout`,
       tables: this.tablesState,
     })
   }
@@ -137,7 +130,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     }
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username}: Hello All.`,
       tables: this.tablesState,
     })
   }
@@ -147,7 +139,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      message: `${username} sit out.`,
       tables: this.tablesState,
     })
   }
@@ -156,23 +147,14 @@ export class ServerPokerGateway implements OnGatewayConnection {
   handleClientFoldAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     // Validations: check if user is able to fold, also is itt his tturn ....
 
-    this.tablesState = renderClientFoldAction(this.tablesState, tableId)
-    const message = `${username} fold.`
-    const lastAction = {
-      username,
-      action: LAST_ACTION_ACTIONS.Fold,
-      tableId,
-    }
-
     renderGeneralClientActions(
       this.server,
       this.tablesState,
       this.updateTablesState,
       this.tableTimeouts,
       tableId,
-      message,
-      lastAction,
       username,
+      ACTION_NAMES.fold,
     )
   }
 
@@ -181,23 +163,14 @@ export class ServerPokerGateway implements OnGatewayConnection {
     // Validations: check user can do check or he should call/fold, also is it user turn
     // check two person are seating in table, check table phase is not waiting
 
-    this.tablesState = renderClientCheckAction(this.tablesState, tableId)
-    const message = `${username} checked.`
-    const lastAction = {
-      username,
-      action: LAST_ACTION_ACTIONS.Check,
-      tableId,
-    }
-
     renderGeneralClientActions(
       this.server,
       this.tablesState,
       this.updateTablesState,
       this.tableTimeouts,
       tableId,
-      message,
-      lastAction,
       username,
+      ACTION_NAMES.check,
     )
   }
 
@@ -208,23 +181,15 @@ export class ServerPokerGateway implements OnGatewayConnection {
     // Validations: check user can call this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
 
-    this.tablesState = renderClientCallAction(this.tablesState, tableId, callActionAmount)
-    const message = `${username} called ${callActionAmount}$.`
-    const lastAction = {
-      username,
-      action: LAST_ACTION_ACTIONS.Call,
-      tableId,
-    }
-
     renderGeneralClientActions(
       this.server,
       this.tablesState,
       this.updateTablesState,
       this.tableTimeouts,
       tableId,
-      message,
-      lastAction,
       username,
+      ACTION_NAMES.call,
+      callActionAmount,
     )
   }
 
@@ -234,13 +199,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
   ) {
     // Validations: check user can raise this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
-    this.tablesState = renderClientRaiseAction(this.tablesState, tableId, raiseActionAmount)
-    const message = `${username} raised ${raiseActionAmount}$.`
-    const lastAction = {
-      username,
-      action: LAST_ACTION_ACTIONS.Raise,
-      tableId,
-    }
 
     renderGeneralClientActions(
       this.server,
@@ -248,9 +206,9 @@ export class ServerPokerGateway implements OnGatewayConnection {
       this.updateTablesState,
       this.tableTimeouts,
       tableId,
-      message,
-      lastAction,
       username,
+      ACTION_NAMES.raise,
+      raiseActionAmount,
     )
   }
 }
