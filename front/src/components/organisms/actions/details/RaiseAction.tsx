@@ -1,8 +1,12 @@
 import { Money } from 'src/components/molecules/Money'
 import { ActionButton } from './ActionButton'
 
-export const RaiseAction = (props: { raise: number; handleRaiseAction: () => void }) => {
-  const { raise, handleRaiseAction } = props
+export const RaiseAction = (props: {
+  raise: number
+  handleRaiseAction: (raise: number) => void
+  realRestOfRaise: number
+}) => {
+  const { raise, realRestOfRaise, handleRaiseAction } = props
 
   return (
     <ActionButton
@@ -14,7 +18,7 @@ export const RaiseAction = (props: { raise: number; handleRaiseAction: () => voi
           </p>
         </div>
       }
-      onClick={handleRaiseAction}
+      onClick={() => handleRaiseAction(realRestOfRaise)}
     />
   )
 }

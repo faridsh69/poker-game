@@ -4,6 +4,7 @@ import {
   getCallActionAmount,
   isAtLeastTwoNotSeatOutPlayers,
   isAuthUserGameTurn,
+  isUserHasCashInGame,
   isUserSeatoutTable,
 } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
@@ -33,10 +34,17 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
     return getCallActionAmount(table, username)
   }, [table, username])
 
+  const hideCheckboxes = useMemo(() => {
+    return (
+      !isAtLeastTwoNotSeatOutPlayers(table) ||
+      isAuthUserGameTurn(table, username) ||
+      !isUserHasCashInGame(table, username) ||
+      isUserSeatoutTable(table, username)
+    )
+  }, [table, username])
+
   useEffect(() => {
-    if (!isAtLeastTwoNotSeatOutPlayers(table)) return
-    if (isUserSeatoutTable(table, username)) return
-    if (!isAuthUserGameTurn(table, username)) return
+    if (hideCheckboxes) return
 
     if (premoveChecked === PRE_MOVED_VALUES.fold) {
       handleFoldAction()
@@ -58,9 +66,7 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
     handleChangeCheckbox('')
   }, [table])
 
-  if (!isAtLeastTwoNotSeatOutPlayers(table)) return null
-  if (isUserSeatoutTable(table, username)) return null
-  if (isAuthUserGameTurn(table, username)) return null
+  if (hideCheckboxes) return null
 
   if (!callActionAmount) {
     return (

@@ -19,6 +19,17 @@ export const useSocketActions = (tableId: number) => {
     [socket, username, tableId],
   )
 
+  const handleRaiseAction = useCallback(
+    (raiseActionAmount: number) => {
+      socket.emit(CLIENT_CHANNELS.raiseAction, {
+        tableId,
+        raiseActionAmount,
+        username,
+      })
+    },
+    [socket, username, tableId],
+  )
+
   const handleFoldAction = useCallback(() => {
     socket.emit(CLIENT_CHANNELS.foldAction, { tableId, username })
   }, [socket, username, tableId])
@@ -26,6 +37,7 @@ export const useSocketActions = (tableId: number) => {
   return {
     handleCheckAction,
     handleCallAction,
+    handleRaiseAction,
     handleFoldAction,
   }
 }

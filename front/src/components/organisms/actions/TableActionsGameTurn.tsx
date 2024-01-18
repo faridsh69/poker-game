@@ -1,4 +1,4 @@
-import { isAuthUserGameTurn } from 'src/helpers/clientHelpersPoker'
+import { isAuthUserGameTurn, isUserHasCashInGame } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeTableProps } from 'src/interfaces'
 import { RaiseOrFoldOrCallActions } from 'src/components/organisms/actions/RaiseOrFoldOrCallActions'
@@ -8,6 +8,7 @@ export const TableActionsGameTurn = (props: TypeTableProps) => {
 
   const { username } = useAuth()
 
+  if (!isUserHasCashInGame(table, username)) return null
   if (!isAuthUserGameTurn(table, username)) return null
 
   return <RaiseOrFoldOrCallActions table={table} />
