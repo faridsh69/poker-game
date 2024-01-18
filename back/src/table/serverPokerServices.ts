@@ -40,11 +40,12 @@ export const isShowOrFinishPhase = (table: TypeTable) => {
   return isShowPhase(table) || isFinishPhase(table)
 }
 
-const getActiveSeats = (table: TypeTable, includeFolders = false) => {
+const getActiveSeats = (table: TypeTable, includeFolders = false, includeAllIns = false) => {
   return table.seats.filter(
     s =>
       s.user &&
       !s.user.isSeatout &&
+      (s.user.cash.inGame || includeAllIns) &&
       (!s.user.isFold || includeFolders) &&
       (isWaitPhase(table) || s.user.cards.length),
   )
@@ -140,8 +141,19 @@ const isAtLeastTwoPlayers = (table: TypeTable): boolean => {
   return seats.length > 1
 }
 
+const isAllPlayersAllIn = (table: TypeTable): boolean => {
+  const inGameSeats = table.seats.filter(
+    s =>
+      s.user && !s.user.isSeatout && !s.user.isFold && (isWaitPhase(table) || s.user.cards.length),
+  )
+
+  if (inGameSeats.length < 2) return false
+
+  return inGameSeats.filter(s => s.user.cash.inGame).length < 2
+}
+
 const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
-  const seats = table.seats.filter(s => s.user && !s.user.isSeatout)
+  const seats = table.seats.filter(s => s.user && !s.user.isSeatout && s.user.cash.inGame)
 
   return seats.length > 1
 }
@@ -192,6 +204,10 @@ const getCurrentGameTurnSeatId = (table: TypeTable) => {
   return table.seats.find(s => s.user?.gameTurn)?.id || -1
 }
 
+export const getCurrentGameTurnUsername = (table: TypeTable) => {
+  return table.seats.find(s => s.user?.gameTurn)?.user?.username || 'No Username'
+}
+
 export const getCurrentDealerSeatId = (table: TypeTable): number => {
   const dealerSeat = table.seats.find(s => s.user?.isDealer)
 
@@ -229,10 +245,16 @@ export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders =
   return nextSeatId
 }
 
+const userIsFoldOrAllIn = (table: TypeTable, nextGameTurnSeatId: number) => {
+  const seat = table.seats.find(s => s.id === nextGameTurnSeatId)
+
+  return seat.user.isFold || seat.user.cash.inGame <= 0
+}
+
 const getNextNotFoldedSeatId = (table: TypeTable, seatId: number) => {
   let nextGameTurnSeatId = getNextSeatId(table, seatId, true)
 
-  while (table.seats.find(s => s.id === nextGameTurnSeatId).user.isFold) {
+  while (userIsFoldOrAllIn(table, nextGameTurnSeatId)) {
     nextGameTurnSeatId = getNextSeatId(table, seatId, true)
   }
 
@@ -281,7 +303,7 @@ const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
 const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
   const tableCards = table.cards
   const scoreAndAchivements: TypeScoreAndAchivements = {}
-  const seats = getActiveSeats(table)
+  const seats = getActiveSeats(table, false, true)
 
   for (const seat of seats) {
     const userCards = seat.user.cards
@@ -384,8 +406,6 @@ export const getUpdatedSeatWithRaiseOrCallAmount = (table: TypeTable, amount: nu
 export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished: boolean) => {
   if (!isPhaseFinished) return table
 
-  const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
-
   let tablePhase = getNextTablePhase(table.phase)
   const tablePot = getTableTotal(table)
 
@@ -398,9 +418,19 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
     winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
   }
 
+  const atLeastTwoPlayers = isAtLeastTwoPlayers(table)
+
   if (!atLeastTwoPlayers) {
     tablePhase = TABLE_PHASES.finish
     winnerSeatIds = [getOnlyPlayingSeatId(table)]
+  }
+
+  const allPlayersAllIn = isAllPlayersAllIn(table)
+
+  if (allPlayersAllIn) {
+    tablePhase = TABLE_PHASES.show
+    scoreAndAchievements = getScoreAndAchievements(table)
+    winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
   }
 
   if (winnerSeatIds.length) {
@@ -448,6 +478,7 @@ export const clearTable = (table: TypeTable): TypeTable => {
         ...s,
         user: {
           ...s.user,
+          isSeatout: s.user.cash.inGame <= 0 ? true : s.user.isSeatout,
           cards: [],
           gameTurn: false,
           isWinner: false,

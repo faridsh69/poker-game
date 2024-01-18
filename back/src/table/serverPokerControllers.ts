@@ -13,6 +13,7 @@ import {
 import {
   clearTable,
   getCurrentDealerSeatId,
+  getCurrentGameTurnUsername,
   getIsPhaseFinished,
   getNextSeatId,
   getRandomCards,
@@ -395,7 +396,7 @@ export const renderGeneralClientActions = (
       updateTablesState,
       tableTimeouts,
       tableId,
-      username,
+      getCurrentGameTurnUsername(table),
       ACTION_NAMES.checkfold,
     )
   }, USER_ACTION_THINKING_TIMEOUT_MILISECONDS)
