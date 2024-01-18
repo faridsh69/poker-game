@@ -374,6 +374,7 @@ export const renderGeneralClientActions = (
   }
 
   const timeout = setTimeout(() => {
+    console.log('1 user thinkings timeout')
     tablesState = renderServerAutoCheckFold(tablesState, tableId)
     updateTablesState(tablesState)
 

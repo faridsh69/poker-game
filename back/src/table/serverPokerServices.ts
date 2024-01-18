@@ -28,6 +28,12 @@ const activeSeats = (table: TypeTable, includeFolders = false) => {
   )
 }
 
+const activeSeatsWithCards = (table: TypeTable) => {
+  return table.seats.filter(
+    s => s.user && !s.user.isSeatout && !s.user.isFold && s.user.cards.length,
+  )
+}
+
 const getCurrentSmallSeatId = (table: TypeTable): number => {
   const currentDealerSeatId = getCurrentDealerSeatId(table)
 
@@ -271,7 +277,7 @@ export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase 
 export const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
   const tableCards = table.cards
   const scoreAndAchivements: TypeScoreAndAchivements = {}
-  const seats = activeSeats(table)
+  const seats = activeSeatsWithCards(table)
 
   for (const seat of seats) {
     const userCards = seat.user.cards
