@@ -16,21 +16,37 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
-const activeSeats = (table: TypeTable, includeFolders = false) => {
+export const getTable = (tables: TypeTable[], tableId: number) => {
+  return tables.find(t => t.id === tableId)
+}
+
+export const isWaitPhase = (table: TypeTable) => {
+  return table.phase === TABLE_PHASES.wait
+}
+
+const isPreflopPhase = (table: TypeTable) => {
+  return table.phase === TABLE_PHASES.preflop
+}
+
+const isShowPhase = (table: TypeTable) => {
+  return table.phase === TABLE_PHASES.show
+}
+
+const isFinishPhase = (table: TypeTable) => {
+  return table.phase === TABLE_PHASES.finish
+}
+
+export const isShowOrFinishPhase = (table: TypeTable) => {
+  return isShowPhase(table) || isFinishPhase(table)
+}
+
+const getActiveSeats = (table: TypeTable, includeFolders = false) => {
   return table.seats.filter(
     s =>
       s.user &&
       !s.user.isSeatout &&
       (!s.user.isFold || includeFolders) &&
-      (table.phase === TABLE_PHASES.wait ||
-        table.phase === TABLE_PHASES.show ||
-        s.user.cards.length),
-  )
-}
-
-const activeSeatsWithCards = (table: TypeTable) => {
-  return table.seats.filter(
-    s => s.user && !s.user.isSeatout && !s.user.isFold && s.user.cards.length,
+      (isWaitPhase(table) || s.user.cards.length),
   )
 }
 
@@ -48,7 +64,7 @@ const getCurrentBigSeatId = (table: TypeTable) => {
 
 const getMaximumBet = (table: TypeTable) => {
   let maximumBet = -1
-  const seats = activeSeats(table)
+  const seats = getActiveSeats(table)
 
   for (const seat of seats) {
     if (seat.user.cash.inPot > maximumBet) {
@@ -62,7 +78,7 @@ const getMaximumBet = (table: TypeTable) => {
 const getMaximumBetSeatIds = (table: TypeTable): number[] => {
   const maximumBet = getMaximumBet(table)
   const maximumBetSeatIds: number[] = []
-  const seats = activeSeats(table)
+  const seats = getActiveSeats(table)
 
   for (const seat of seats) {
     if (seat.user.cash.inPot === maximumBet) {
@@ -118,40 +134,28 @@ export const isUserWaitingTable = (table: TypeTable, username: string): boolean 
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
-export const isAtLeastTwoPlayers = (table: TypeTable): boolean => {
-  const seats = activeSeats(table)
+const isAtLeastTwoPlayers = (table: TypeTable): boolean => {
+  const seats = getActiveSeats(table)
 
   return seats.length > 1
 }
 
-export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
+const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
   const seats = table.seats.filter(s => s.user && !s.user.isSeatout)
 
   return seats.length > 1
 }
 
-export const getOnlyPlayingSeatId = (table: TypeTable): number => {
+const getOnlyPlayingSeatId = (table: TypeTable): number => {
   return table.seats.find(s => s.user && !s.user.isFold && !s.user.isSeatout)?.id || -1
 }
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {
-  const isWaitingOrShowPhase =
-    table.phase === TABLE_PHASES.wait || table.phase === TABLE_PHASES.show
+  const isWaitingOrFinishPhase = isWaitPhase(table) || isShowOrFinishPhase(table)
+
   const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
 
-  return isWaitingOrShowPhase && atLeastTwoPlayers
-}
-
-export const isShowPhase = (tables: TypeTable[], tableId: number): boolean => {
-  const table = tables.find(t => t.id === tableId)
-
-  return table.phase === TABLE_PHASES.show
-}
-
-export const isWaitPhase = (tables: TypeTable[], tableId: number): boolean => {
-  const table = tables.find(t => t.id === tableId)
-
-  return table.phase === TABLE_PHASES.wait
+  return isWaitingOrFinishPhase && atLeastTwoPlayers
 }
 
 export const isCheckAllowed = (table: TypeTable) => {
@@ -184,7 +188,7 @@ export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   return cards
 }
 
-export const getCurrentGameTurnSeatId = (table: TypeTable) => {
+const getCurrentGameTurnSeatId = (table: TypeTable) => {
   return table.seats.find(s => s.user?.gameTurn)?.id || -1
 }
 
@@ -193,20 +197,20 @@ export const getCurrentDealerSeatId = (table: TypeTable): number => {
 
   if (dealerSeat) return dealerSeat?.id
 
-  const seats = activeSeats(table, true)
+  const seats = getActiveSeats(table, true)
   const randomSeatIndex = Math.floor(Math.random() * seats.length)
 
   return seats[randomSeatIndex].id
 }
 
 export const isGameHeadsUp = (table: TypeTable): boolean => {
-  const seats = activeSeats(table)
+  const seats = getActiveSeats(table)
 
   return seats.length === 2
 }
 
 export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders = false): number => {
-  const seats = activeSeats(table, includeFolders)
+  const seats = getActiveSeats(table, includeFolders)
 
   let nextSeatId = seats[0].id
   let foundSeat = false
@@ -225,7 +229,7 @@ export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders =
   return nextSeatId
 }
 
-export const getNextNotFoldedSeatId = (table: TypeTable, seatId: number) => {
+const getNextNotFoldedSeatId = (table: TypeTable, seatId: number) => {
   let nextGameTurnSeatId = getNextSeatId(table, seatId, true)
 
   while (table.seats.find(s => s.id === nextGameTurnSeatId).user.isFold) {
@@ -241,7 +245,7 @@ export const getIsPhaseFinished = (table: TypeTable) => {
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
-  if (table.phase === TABLE_PHASES.preflop) {
+  if (isPreflopPhase(table)) {
     if (getMaximumBet(table) === table.blinds.big) {
       const currentBigSeatId = getCurrentBigSeatId(table)
 
@@ -255,7 +259,7 @@ export const getIsPhaseFinished = (table: TypeTable) => {
   return raiserSeatId === nextGameTurnSeatId
 }
 
-export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
+const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
   const tablePhases = Object.values(TABLE_PHASES)
   let nextPhase = tablePhases[0]
   let foundPhase = false
@@ -274,10 +278,10 @@ export const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase 
   return nextPhase
 }
 
-export const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
+const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
   const tableCards = table.cards
   const scoreAndAchivements: TypeScoreAndAchivements = {}
-  const seats = activeSeatsWithCards(table)
+  const seats = getActiveSeats(table)
 
   for (const seat of seats) {
     const userCards = seat.user.cards
@@ -288,7 +292,7 @@ export const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivemen
   return scoreAndAchivements
 }
 
-export const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements) => {
+const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements) => {
   const seatIds = Object.keys(scoreAndAchievements)
   const maximumScore = getMaximumScore(scoreAndAchievements)
   const winnerSeatIds: number[] = []
@@ -303,7 +307,7 @@ export const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements) 
 }
 
 export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: boolean) => {
-  if (table.phase === TABLE_PHASES.show) return table
+  if (isShowOrFinishPhase(table)) return table
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
   let nextGameTurnSeatId = getNextNotFoldedSeatId(table, currentGameTurnSeatId)
@@ -395,7 +399,7 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
   }
 
   if (!atLeastTwoPlayers) {
-    tablePhase = TABLE_PHASES.show
+    tablePhase = TABLE_PHASES.finish
     winnerSeatIds = [getOnlyPlayingSeatId(table)]
   }
 

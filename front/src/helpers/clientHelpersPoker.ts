@@ -9,6 +9,14 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
+export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
+
+export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold
+
+export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
+
+export const isWaitPhase = (table: TypeTable) => table.phase === TABLE_PHASES.wait
+
 export const getUserSeat = (table: TypeTable, username: string) => {
   return table.seats.find(s => s.user?.username === username)
 }
@@ -29,14 +37,6 @@ export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
   return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
 }
 
-// const getActiveSeats = (table: TypeTable) => {
-//   return table.seats.filter(s => s.user && !s.user.isSeatout && !s.user.isFold)
-// }
-
-// export const isNotAciveSeatsEnough = (table: TypeTable) => {
-//   return getActiveSeats(table).length < 2
-// }
-
 export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
   const seats = table.seats.filter(s => s.user && !s.user.isSeatout)
 
@@ -44,20 +44,11 @@ export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
 }
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {
-  const isWaitingOrShowPhase =
-    table.phase === TABLE_PHASES.wait || table.phase === TABLE_PHASES.show
+  const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table)
   const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
 
   return isWaitingOrShowPhase && atLeastTwoPlayers
 }
-
-export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
-
-export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold
-
-export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
-
-export const isWaitPhase = (table: TypeTable) => table.phase === TABLE_PHASES.wait
 
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] => {
   return allTables.filter(t => {

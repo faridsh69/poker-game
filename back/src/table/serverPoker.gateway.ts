@@ -31,7 +31,7 @@ import {
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/utils/serverPokerTypes'
-import { isWaitPhase } from './serverPokerServices'
+import { getTable, isWaitPhase } from './serverPokerServices'
 
 @WebSocketGateway({
   cors: {
@@ -126,7 +126,8 @@ export class ServerPokerGateway implements OnGatewayConnection {
   ) {
     this.tablesState = renderClientJoinGame(this.tablesState, tableId, username, buyinAmount)
 
-    if (isWaitPhase(this.tablesState, tableId)) {
+    const table = getTable(this.tablesState, tableId)
+    if (isWaitPhase(table)) {
       this.tablesState = renderServerStartTable(this.tablesState, tableId)
     }
 

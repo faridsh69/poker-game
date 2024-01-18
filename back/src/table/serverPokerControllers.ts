@@ -14,12 +14,13 @@ import {
   getIsPhaseFinished,
   getNextSeatId,
   getRandomCards,
+  getTable,
   getUpdatedSeatWithFold,
   getUpdatedSeatWithRaiseOrCallAmount,
   getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
   isCheckAllowed,
-  isShowPhase,
+  isShowOrFinishPhase,
 
   // isGameHeadsUp,
   isTimeToStartTable,
@@ -206,11 +207,14 @@ export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number
     if (t.id !== tableId) return t
 
     const updatedSeatsWithFold = getUpdatedSeatWithFold(t)
+
     const isPhaseFinished = getIsPhaseFinished(updatedSeatsWithFold)
+
     const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
       updatedSeatsWithFold,
       isPhaseFinished,
     )
+
     const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
       updatedTableIfPhaseFinished,
       isPhaseFinished,
@@ -361,7 +365,8 @@ export const renderGeneralClientActions = (
     lastAction,
   })
 
-  if (isShowPhase(tablesState, tableId)) {
+  const table = getTable(tablesState, tableId)
+  if (isShowOrFinishPhase(table)) {
     setTimeout(() => {
       tablesState = renderServerStartTable(tablesState, tableId)
       updateTablesState(tablesState)
@@ -374,7 +379,6 @@ export const renderGeneralClientActions = (
   }
 
   const timeout = setTimeout(() => {
-    console.log('1 user thinkings timeout')
     tablesState = renderServerAutoCheckFold(tablesState, tableId)
     updateTablesState(tablesState)
 

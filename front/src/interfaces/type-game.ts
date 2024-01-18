@@ -97,7 +97,7 @@ export type TypeUser = {
 
 export type TypeTableType = 'holdem' | 'omaha'
 
-export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show'
+export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show' | 'finish'
 
 export type TypeTable = {
   id: number

@@ -46,6 +46,7 @@ export const TABLE_PHASES: { [key in TypeTablePhase]: TypeTablePhase } = {
   turn: 'turn',
   river: 'river',
   show: 'show',
+  finish: 'finish',
 }
 
 export const CARD_TYPES: { [key in TypeCardType]: TypeCardType } = {
