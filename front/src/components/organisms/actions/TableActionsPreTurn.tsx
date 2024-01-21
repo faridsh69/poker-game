@@ -37,7 +37,6 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
   const hideCheckboxes = useMemo(() => {
     return (
       !isAtLeastTwoNotSeatOutPlayers(table) ||
-      isAuthUserGameTurn(table, username) ||
       !isUserHasCashInGame(table, username) ||
       isUserSeatoutTable(table, username)
     )
@@ -66,7 +65,7 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
     handleChangeCheckbox('')
   }, [table])
 
-  if (hideCheckboxes) return null
+  if (hideCheckboxes || isAuthUserGameTurn(table, username)) return null
 
   if (!callActionAmount) {
     return (
