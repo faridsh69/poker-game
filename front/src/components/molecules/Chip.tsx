@@ -1,7 +1,7 @@
 // import { ChipSvg } from './ChipSvg'
 import ChipsImage from 'src/images/game/chips.png'
 
-export const Chip = props => {
+export const Chip = (props: { backgroundPosition: string; chipIndex: number }) => {
   const { backgroundPosition, chipIndex } = props
 
   return (

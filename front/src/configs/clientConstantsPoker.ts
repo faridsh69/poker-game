@@ -87,3 +87,54 @@ export const LAST_ACTION_ACTIONS: { [key in TypeAction]: TypeAction } = {
   Fold: 'Fold',
   ['All-In']: 'All-In',
 }
+
+export const CHIP_UNITS = [
+  {
+    backgroundPosition: '-283px 0px',
+    value: 25000000,
+  },
+  {
+    backgroundPosition: '-259px 0px',
+    value: 5000000,
+  },
+  {
+    backgroundPosition: '-235px 0px',
+    value: 1000000,
+  },
+  {
+    backgroundPosition: '-211px 0px',
+    value: 250000,
+  },
+  {
+    backgroundPosition: '-187px 0px',
+    value: 50000,
+  },
+  {
+    backgroundPosition: '-161px 0px',
+    value: 10000,
+  },
+  {
+    backgroundPosition: '-139px 0px',
+    value: 2500,
+  },
+  {
+    backgroundPosition: '-115px 0px',
+    value: 500,
+  },
+  {
+    backgroundPosition: '-91px 0px',
+    value: 100,
+  },
+  {
+    backgroundPosition: '-69px 0px',
+    value: 25,
+  },
+  {
+    backgroundPosition: '-46px 0px',
+    value: 5,
+  },
+  {
+    backgroundPosition: '-23px 0px',
+    value: 1,
+  },
+]
