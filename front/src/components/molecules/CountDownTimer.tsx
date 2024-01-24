@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import { LinearProgress } from '@mui/material'
+import { getMinutes, getSeconds } from 'src/helpers/common'
+
+type TypeTimer = 'text' | 'circle' | 'line'
 
 export const CountDownTimer = (props: {
-  timeout: number
+  remainingSeconds: number
   onFinishTimer: () => void
-  circle?: boolean
-  showText?: boolean
+  type: TypeTimer
 }) => {
-  const { timeout = 30, onFinishTimer, circle = true, showText = true } = props
+  const { remainingSeconds = 30, onFinishTimer, type = 'circle' } = props
 
-  const [progress, setProgress] = useState(timeout)
+  const [progress, setProgress] = useState(remainingSeconds)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,20 +30,30 @@ export const CountDownTimer = (props: {
 
   return (
     <div className='timer-action'>
-      {circle ? (
-        <CircularProgress
-          className='timer-action-circle'
-          variant='determinate'
-          value={(progress * 100) / timeout}
-        />
-      ) : (
+      {type === 'circle' && (
+        <>
+          <CircularProgress
+            className='timer-action-circle'
+            variant='determinate'
+            value={(progress * 100) / remainingSeconds}
+          />
+          <div className='timer-action-text'>{Math.round(progress)}</div>
+        </>
+      )}
+
+      {type === 'line' && (
         <LinearProgress
           className='timer-action-line'
           variant='determinate'
-          value={(progress * 100) / timeout}
+          value={(progress * 100) / remainingSeconds}
         />
       )}
-      {!!showText && <div className='timer-action-text'>{Math.round(progress)}</div>}
+
+      {type === 'text' && (
+        <div className='timer-text'>
+          {getMinutes(progress)}:{getSeconds(progress)}
+        </div>
+      )}
     </div>
   )
 }

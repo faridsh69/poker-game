@@ -5,9 +5,9 @@ import {
   ACTIONS,
   ACTION_NAMES,
   SERVER_CHANNELS,
-  START_NEW_ROUND_TIMEOUT,
+  SERVER_TIMEOUT_ACTION,
+  SERVER_TIMEOUT_RESTART,
   TABLE_PHASES,
-  USER_ACTION_THINKING_TIMEOUT_MILISECONDS,
   WAITING_USER,
 } from 'src/utils/serverPokerConstants'
 import {
@@ -386,7 +386,7 @@ export const renderGeneralClientActions = (
       server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
         tables: tablesState,
       })
-    }, START_NEW_ROUND_TIMEOUT)
+    }, SERVER_TIMEOUT_RESTART * 1000)
     tableTimeouts[tableId] = winTimeout
 
     return
@@ -403,7 +403,7 @@ export const renderGeneralClientActions = (
         getCurrentGameTurnUsername(table),
         ACTION_NAMES.checkfold,
       )
-    }, USER_ACTION_THINKING_TIMEOUT_MILISECONDS)
+    }, SERVER_TIMEOUT_ACTION * 1000)
 
     tableTimeouts[tableId] = timeout
   }

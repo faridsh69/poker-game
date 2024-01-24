@@ -34,6 +34,17 @@ export const useSocketActions = (tableId: number) => {
     socket.emit(CLIENT_CHANNELS.foldAction, { tableId, username })
   }, [socket, username, tableId])
 
+  const handleLeaveSeat = useCallback(() => {
+    socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
+  }, [socket, tableId, username])
+
+  const handleJoinGame = useCallback(
+    (buyinAmount: number) => {
+      socket.emit(CLIENT_CHANNELS.joinGame, { tableId, username, buyinAmount })
+    },
+    [socket, username, tableId],
+  )
+
   const handleLeaveGame = useCallback(() => {
     socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
   }, [socket, username, tableId])
@@ -43,6 +54,8 @@ export const useSocketActions = (tableId: number) => {
     handleCallAction,
     handleRaiseAction,
     handleFoldAction,
+    handleJoinGame,
     handleLeaveGame,
+    handleLeaveSeat,
   }
 }

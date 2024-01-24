@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { useAtom } from 'jotai'
 
-import { SEAT_STATUS_DURATION_MILLISECOND } from 'src/configs/clientConstantsPoker'
+import { CLIENT_TIMEOUT_STATUS } from 'src/configs/clientConstantsPoker'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
 import { TypeSeat } from 'src/interfaces'
 import { checkIfLastActionIsAllIn } from 'src/helpers/clientHelpersPoker'
@@ -29,7 +29,7 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
 
     setTimeout(() => {
       setCorrectLastAction('')
-    }, SEAT_STATUS_DURATION_MILLISECOND)
+    }, CLIENT_TIMEOUT_STATUS * 1000)
   }, [showAction])
 
   if (!correctLastAction) return null

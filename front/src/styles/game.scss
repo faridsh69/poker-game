@@ -212,11 +212,14 @@
               border-radius: 8px;
               position: absolute;
               top: -240px;
-              left: -170px;
-              padding: 20px;
+              left: -190px;
+              padding: 10px 30px;
+              align-items: center;
 
-              .timer-action-text {
+              .timer-text {
                 color: white !important;
+                font-size: 20px;
+                font-weight: bold;
               }
 
               .timer-action-circle {

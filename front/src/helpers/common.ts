@@ -185,10 +185,21 @@ export const lowerize = (string: strin) => {
 
 export const playSound = (action: string) => {
   const correctAction = lowerize(action)
-  console.log('1 correctAction', correctAction)
   const sound = document.getElementById(`${correctAction}-sound-id`)
   if (!sound) return
 
   sound.muted = false
   sound.play()
+}
+
+export const getMinutes = second => {
+  const minutes = Math.floor(second / 60) + ''
+
+  return minutes.padStart(2, '0')
+}
+
+export const getSeconds = second => {
+  const seconds = Math.floor(second % 60) + ''
+
+  return seconds.padStart(2, '0')
 }

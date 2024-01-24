@@ -13,7 +13,7 @@ import {
   ACTION_NAMES,
   CLIENT_CHANNELS,
   SERVER_CHANNELS,
-  START_NEW_ROUND_TIMEOUT,
+  SERVER_TIMEOUT_RESTART,
   TABLES,
 } from 'src/utils/serverPokerConstants'
 import {
@@ -109,7 +109,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
         this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
           tables: this.tablesState,
         })
-      }, START_NEW_ROUND_TIMEOUT / 3)
+      }, SERVER_TIMEOUT_RESTART * 1000)
       this.tableTimeouts[tableId] = winTimeout
     }
   }
@@ -167,7 +167,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
         this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
           tables: this.tablesState,
         })
-      }, START_NEW_ROUND_TIMEOUT / 3)
+      }, SERVER_TIMEOUT_RESTART * 1000)
       this.tableTimeouts[tableId] = winTimeout
     }
   }

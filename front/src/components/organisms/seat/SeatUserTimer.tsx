@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
-import {
-  TABLE_PHASES,
-  USER_ACTION_THINKING_TIMEOUT_SECONDS,
-} from 'src/configs/clientConstantsPoker'
+import { TABLE_PHASES, CLIENT_TIMEOUT_ACTION } from 'src/configs/clientConstantsPoker'
 import { TypeSeatProps, TypeTablePhase } from 'src/interfaces'
 
 export const SeatUserTimer = (props: TypeSeatProps & { tablePhase: TypeTablePhase }) => {
@@ -25,10 +22,9 @@ export const SeatUserTimer = (props: TypeSeatProps & { tablePhase: TypeTablePhas
   return (
     <div className='dnd-window-body-table-seats-seat-user-timeout'>
       <CountDownTimer
-        timeout={USER_ACTION_THINKING_TIMEOUT_SECONDS}
+        remainingSeconds={CLIENT_TIMEOUT_ACTION}
         onFinishTimer={() => {}}
-        circle={false}
-        showText={false}
+        type='line'
       />
     </div>
   )

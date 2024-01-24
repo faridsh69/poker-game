@@ -16,7 +16,10 @@ import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { Money } from 'src/components/molecules/Money'
 import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
-import { BUY_IN_MODAL_TIME_OUT_SECONDS } from 'src/configs/clientConstantsPoker'
+import {
+  BUY_IN_MODAL_TIME_OUT_SECONDS,
+  CLIENT_TIMEOUT_BUYIN,
+} from 'src/configs/clientConstantsPoker'
 
 export const BuyinModal = () => {
   const { username } = useAuth()
@@ -42,7 +45,7 @@ export const BuyinModal = () => {
 
     const timeout = setTimeout(() => {
       setInputValue(buyinAmount)
-    }, 200)
+    }, 300)
 
     return () => clearTimeout(timeout)
   }, [buyinAmount])
@@ -124,7 +127,11 @@ export const BuyinModal = () => {
             </FormControl>
           </div>
           <div className='buyin-modal-container-body-timer'>
-            <CountDownTimer timeout={BUY_IN_MODAL_TIME_OUT_SECONDS} onFinishTimer={closeModel} />
+            <CountDownTimer
+              remainingSeconds={CLIENT_TIMEOUT_BUYIN}
+              onFinishTimer={closeModel}
+              type='circle'
+            />
             Second(s) left.
           </div>
           <div className='buyin-modal-container-body-actions'>

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
-import { USER_SITOUT_NEXT_BLIND_TIMEOUT_SECONDS } from 'src/configs/clientConstantsPoker'
+import { CLIENT_TIMEOUT_QUIT } from 'src/configs/clientConstantsPoker'
 import { isTimeToStartTable, isUserPlayingGame } from 'src/helpers/clientHelpersPoker'
 import { RadioAction } from './details/RadioAction'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
@@ -28,7 +28,7 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
     setTimeout(() => {
       handleLeaveGame()
       setSitoutChecked(false)
-    }, USER_SITOUT_NEXT_BLIND_TIMEOUT_SECONDS)
+    }, CLIENT_TIMEOUT_QUIT * 1000)
   }, [forceUserToSeatOut, handleLeaveGame])
 
   if (!userIsPlayingGame) return null
