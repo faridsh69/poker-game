@@ -130,6 +130,7 @@ export const WAITING_USER: TypeUser = {
   achievement: '',
   isFold: false,
   isSeatout: true,
+  timer: null,
   // hot: null,
 }
 
@@ -153,6 +154,7 @@ export const PLAYING_USER: TypeUser = {
   achievement: '',
   isFold: false,
   isSeatout: false,
+  timer: null,
   // hot: 50,
 }
 

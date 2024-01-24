@@ -73,6 +73,12 @@ type TypeCash = {
   inPot: number
 }
 
+type TypeTimer = {
+  deadline: number
+  action: string
+  extra?: number
+}
+
 export type TypeUser = {
   username: string
   avatar: string
@@ -84,6 +90,7 @@ export type TypeUser = {
   achievement: string
   isFold: boolean
   isSeatout: boolean
+  timer: TypeTimer | null
   // hot: number
 }
 

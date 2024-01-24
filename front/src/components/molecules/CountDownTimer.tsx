@@ -16,7 +16,7 @@ export const CountDownTimer = (props: {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setProgress(prevProgress => (prevProgress ? prevProgress - 1 : 0))
+      setProgress(prevProgress => (prevProgress >= 1 ? Math.floor(prevProgress - 1) : 0))
     }, 1000)
 
     return () => clearInterval(timer)
