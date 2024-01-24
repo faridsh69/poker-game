@@ -117,7 +117,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
   @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
   handleClientJoinSeat(@MessageBody() { tableId, seatId, username }: TypeHandleClientSitTable) {
     // Validations: check user is joined before as waiting user in this table, also he is not seated
-
     this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {

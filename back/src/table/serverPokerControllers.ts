@@ -7,6 +7,7 @@ import {
   SERVER_CHANNELS,
   SERVER_TIMEOUT_ACTION,
   SERVER_TIMEOUT_RESTART,
+  SERVER_TIMEOUT_SEATOUT,
   TABLE_PHASES,
   WAITING_USER,
 } from 'src/utils/serverPokerConstants'
@@ -111,6 +112,10 @@ export const renderClientJoinSeat = (
               user: {
                 ...WAITING_USER,
                 username,
+                timer: {
+                  deadline: new Date().valueOf() + SERVER_TIMEOUT_SEATOUT * 1000,
+                  action: 'leaveSeat',
+                },
               },
             }
           }),

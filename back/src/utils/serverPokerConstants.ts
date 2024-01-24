@@ -22,6 +22,8 @@ export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
 export const SERVER_TIMEOUT_ACTION = 15
+export const SERVER_TIMEOUT_SEATOUT = 20 //120
+
 export const SERVER_TIMEOUT_RESTART = 7
 
 export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
