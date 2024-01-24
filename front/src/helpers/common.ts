@@ -178,3 +178,17 @@ export const convertNullToEmptyString = value => (value === null ? '' : value)
 export const capitalize = (string: strin) => {
   return string[0].toUpperCase() + string.slice(1)
 }
+
+export const lowerize = (string: strin) => {
+  return string[0].toLowerCase() + string.slice(1)
+}
+
+export const playSound = (action: string) => {
+  const correctAction = lowerize(action)
+  console.log('1 correctAction', correctAction)
+  const sound = document.getElementById(`${correctAction}-sound-id`)
+  if (!sound) return
+
+  sound.muted = false
+  sound.play()
+}

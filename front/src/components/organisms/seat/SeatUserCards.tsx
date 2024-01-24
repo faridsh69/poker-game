@@ -5,6 +5,7 @@ import { TypeSeatAndShowPhaseProps } from 'src/interfaces'
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { showBackcard } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
+import { playSound } from 'src/helpers/common'
 
 export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   const { seat, isShowPhase } = props
@@ -12,8 +13,6 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   const { username } = useAuth()
 
   const backcard = showBackcard(seat, username, isShowPhase)
-
-  const [cardSound] = useState(new Audio('/sounds/card.mp3'))
 
   // 1) aval dealer o peida mikonim, badesh nafare badi bayad 1 bashe badi 2 ...
   // 2) bad be oni ke 1 hast bade 200ms cart 1 esh az hiddeni dar miad
@@ -41,7 +40,7 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
         setTimeout(
           () => {
             if (cardIndex === 0) {
-              cardSound.play()
+              playSound('card')
             }
             setCardClassNames(prev => ({
               ...prev,

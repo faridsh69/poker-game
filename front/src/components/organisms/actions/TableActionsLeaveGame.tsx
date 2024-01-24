@@ -20,14 +20,16 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const userIsPlayingGame = isUserPlayingGame(table, username)
   const tableWillRestart = isTimeToStartTable(table)
 
+  const forceUserToSeatOut = sitoutChecked && userIsPlayingGame && tableWillRestart
+
   useEffect(() => {
-    if (!sitoutChecked || !userIsPlayingGame || !tableWillRestart) return
+    if (!forceUserToSeatOut) return
 
     setTimeout(() => {
       handleLeaveGame()
       setSitoutChecked(false)
     }, USER_SITOUT_NEXT_BLIND_TIMEOUT_SECONDS)
-  }, [sitoutChecked, userIsPlayingGame, handleLeaveGame, tableWillRestart])
+  }, [forceUserToSeatOut, handleLeaveGame])
 
   if (!userIsPlayingGame) return null
 
