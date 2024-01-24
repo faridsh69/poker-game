@@ -152,7 +152,7 @@ const isAllPlayersAllIn = (table: TypeTable): boolean => {
   return inGameSeats.filter(s => s.user.cash.inGame).length < 2
 }
 
-const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
+export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
   const seats = table.seats.filter(s => s.user && !s.user.isSeatout && s.user.cash.inGame)
 
   return seats.length > 1
@@ -248,7 +248,7 @@ export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders =
 const userIsFoldOrAllIn = (table: TypeTable, nextGameTurnSeatId: number) => {
   const seat = table.seats.find(s => s.id === nextGameTurnSeatId)
 
-  return seat.user.isFold || seat.user.cash.inGame <= 0
+  return seat.user.isFold || seat.user.cash.inGame === 0
 }
 
 const getNextNotFoldedSeatId = (table: TypeTable, seatId: number) => {
@@ -478,12 +478,17 @@ export const clearTable = (table: TypeTable): TypeTable => {
         ...s,
         user: {
           ...s.user,
-          isSeatout: s.user.cash.inGame <= 0 ? true : s.user.isSeatout,
+          isSeatout: s.user.cash.inGame === 0 ? true : s.user.isSeatout,
           cards: [],
           gameTurn: false,
           isWinner: false,
           achievement: '',
           isFold: false,
+          cash: {
+            ...s.user.cash,
+            inPot: 0,
+            inGame: s.user.cash.inGame + table.total,
+          },
         },
       }
     }),

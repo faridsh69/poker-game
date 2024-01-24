@@ -21,12 +21,7 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const tableWillRestart = isTimeToStartTable(table)
 
   useEffect(() => {
-    console.log('1 sitoutChecked', sitoutChecked)
-    console.log('2 userIsPlayingGame', userIsPlayingGame)
-    console.log('3 tableWillRestart', tableWillRestart)
-
     if (!sitoutChecked || !userIsPlayingGame || !tableWillRestart) return
-    console.log('DONE')
 
     setTimeout(() => {
       handleLeaveGame()

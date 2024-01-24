@@ -39,7 +39,7 @@ export const isUserSeatoutTable = (table: TypeTable, username: string) => {
 }
 
 export const isUserHasCashInGame = (table: TypeTable, username: string) => {
-  return !table.seats.find(s => s.user?.username === username && s.user.cash.inGame <= 0)
+  return !table.seats.find(s => s.user?.username === username && s.user.cash.inGame === 0)
 }
 
 export const isUserWaitingTable = (table: TypeTable, username: string) => {
@@ -163,7 +163,7 @@ export const getRaiseActionAmount = (table: TypeTable, username: string, raise: 
 }
 
 export const checkIfLastActionIsAllIn = (action: string, seat: TypeSeat) => {
-  if (seat.user.cash.inGame <= 0) {
+  if (seat.user.cash.inGame === 0) {
     return LAST_ACTION_ACTIONS['All-In']
   }
 

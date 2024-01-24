@@ -29,6 +29,7 @@ import {
   isTimeToStartTable,
   isUserSeatedTable,
   isUserWaitingTable,
+  isWaitPhase,
   roundNumber,
 } from 'src/table/serverPokerServices'
 
@@ -209,15 +210,12 @@ export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatsWithFold = getUpdatedSeatWithFold(t)
-
-    const isPhaseFinished = getIsPhaseFinished(updatedSeatsWithFold)
-
+    const updatedSeatWithFold = getUpdatedSeatWithFold(t)
+    const isPhaseFinished = getIsPhaseFinished(updatedSeatWithFold)
     const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
-      updatedSeatsWithFold,
+      updatedSeatWithFold,
       isPhaseFinished,
     )
-
     const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
       updatedTableIfPhaseFinished,
       isPhaseFinished,
@@ -242,6 +240,19 @@ export const renderClientCheckAction = (tablesState: TypeTable[], tableId: numbe
   })
 }
 
+export const renderServerAutoCheckFold = (
+  tablesState: TypeTable[],
+  tableId: number,
+): TypeTable[] => {
+  const table = getTable(tablesState, tableId)
+
+  if (isCheckAllowed(table)) {
+    return renderClientCheckAction(tablesState, tableId)
+  }
+
+  return renderClientFoldAction(tablesState, tableId)
+}
+
 export const renderClientCallAction = (
   tablesState: TypeTable[],
   tableId: number,
@@ -250,10 +261,10 @@ export const renderClientCallAction = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatsWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, callActionAmount)
+    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, callActionAmount)
     const isPhaseFinished = getIsPhaseFinished(t)
     const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
-      updatedSeatsWithAmount,
+      updatedSeatWithAmount,
       isPhaseFinished,
     )
     const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
@@ -273,8 +284,12 @@ export const renderClientRaiseAction = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatsWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, raiseActionAmount)
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(updatedSeatsWithAmount, false)
+    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, raiseActionAmount)
+    const isPhaseFinished = false
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+      updatedSeatWithAmount,
+      isPhaseFinished,
+    )
 
     return updatedTableNextGameTurn
   })
@@ -337,19 +352,6 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
   })
 }
 
-export const renderServerAutoCheckFold = (
-  tablesState: TypeTable[],
-  tableId: number,
-): TypeTable[] => {
-  const table = tablesState.find(t => t.id === tableId)
-
-  if (isCheckAllowed(table)) {
-    return renderClientCheckAction(tablesState, tableId)
-  }
-
-  return renderClientFoldAction(tablesState, tableId)
-}
-
 export const renderGeneralClientActions = (
   server: Server,
   tablesState: TypeTable[],
@@ -378,28 +380,31 @@ export const renderGeneralClientActions = (
 
   const table = getTable(tablesState, tableId)
   if (isShowOrFinishPhase(table)) {
-    setTimeout(() => {
+    const winTimeout = setTimeout(() => {
       tablesState = renderServerStartTable(tablesState, tableId)
       updateTablesState(tablesState)
       server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
         tables: tablesState,
       })
     }, START_NEW_ROUND_TIMEOUT)
+    tableTimeouts[tableId] = winTimeout
 
     return
+  } else {
+    if (isWaitPhase(table)) return
+
+    const timeout = setTimeout(() => {
+      renderGeneralClientActions(
+        server,
+        tablesState,
+        updateTablesState,
+        tableTimeouts,
+        tableId,
+        getCurrentGameTurnUsername(table),
+        ACTION_NAMES.checkfold,
+      )
+    }, USER_ACTION_THINKING_TIMEOUT_MILISECONDS)
+
+    tableTimeouts[tableId] = timeout
   }
-
-  const timeout = setTimeout(() => {
-    renderGeneralClientActions(
-      server,
-      tablesState,
-      updateTablesState,
-      tableTimeouts,
-      tableId,
-      getCurrentGameTurnUsername(table),
-      ACTION_NAMES.checkfold,
-    )
-  }, USER_ACTION_THINKING_TIMEOUT_MILISECONDS)
-
-  tableTimeouts[tableId] = timeout
 }

@@ -13,6 +13,7 @@ import {
   ACTION_NAMES,
   CLIENT_CHANNELS,
   SERVER_CHANNELS,
+  START_NEW_ROUND_TIMEOUT,
   TABLES,
 } from 'src/utils/serverPokerConstants'
 import {
@@ -26,13 +27,19 @@ import {
   renderServerStartTable,
 } from 'src/table/serverPokerControllers'
 import {
+  TypeAction,
   TypeHandleClientCallAction,
   TypeHandleClientJoinTable,
   TypeHandleClientRaiseAction,
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/utils/serverPokerTypes'
-import { getTable, isWaitPhase } from './serverPokerServices'
+import {
+  getTable,
+  isAtLeastTwoNotSeatOutPlayers,
+  isShowOrFinishPhase,
+  isWaitPhase,
+} from './serverPokerServices'
 
 @WebSocketGateway({
   cors: {
@@ -87,13 +94,24 @@ export class ServerPokerGateway implements OnGatewayConnection {
     @ConnectedSocket() clientSocket: Socket,
   ) {
     // Validations: check user is joined before as waiting user in this table
-
+    clearTimeout(this.tableTimeouts[tableId])
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
 
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       tables: this.tablesState,
     })
     clientSocket.leave('' + tableId)
+
+    const table = getTable(this.tablesState, tableId)
+    if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
+      const winTimeout = setTimeout(() => {
+        this.tablesState = renderServerStartTable(this.tablesState, tableId)
+        this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+          tables: this.tablesState,
+        })
+      }, START_NEW_ROUND_TIMEOUT / 3)
+      this.tableTimeouts[tableId] = winTimeout
+    }
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
@@ -136,42 +154,35 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveGame)
   handleClientLeaveGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    clearTimeout(this.tableTimeouts[tableId])
     this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
-
     this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
       tables: this.tablesState,
     })
+
+    const table = getTable(this.tablesState, tableId)
+    if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
+      const winTimeout = setTimeout(() => {
+        this.tablesState = renderServerStartTable(this.tablesState, tableId)
+        this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+          tables: this.tablesState,
+        })
+      }, START_NEW_ROUND_TIMEOUT / 3)
+      this.tableTimeouts[tableId] = winTimeout
+    }
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.foldAction)
   handleClientFoldAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     // Validations: check if user is able to fold, also is itt his tturn ....
-
-    renderGeneralClientActions(
-      this.server,
-      this.tablesState,
-      this.updateTablesState,
-      this.tableTimeouts,
-      tableId,
-      username,
-      ACTION_NAMES.fold,
-    )
+    this.handleClientAction(tableId, username, ACTION_NAMES.fold)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.checkAction)
   handleClientCheckAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     // Validations: check user can do check or he should call/fold, also is it user turn
     // check two person are seating in table, check table phase is not waiting
-
-    renderGeneralClientActions(
-      this.server,
-      this.tablesState,
-      this.updateTablesState,
-      this.tableTimeouts,
-      tableId,
-      username,
-      ACTION_NAMES.check,
-    )
+    this.handleClientAction(tableId, username, ACTION_NAMES.check)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.callAction)
@@ -180,17 +191,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
   ) {
     // Validations: check user can call this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
-
-    renderGeneralClientActions(
-      this.server,
-      this.tablesState,
-      this.updateTablesState,
-      this.tableTimeouts,
-      tableId,
-      username,
-      ACTION_NAMES.call,
-      callActionAmount,
-    )
+    this.handleClientAction(tableId, username, ACTION_NAMES.call, callActionAmount)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.raiseAction)
@@ -199,7 +200,10 @@ export class ServerPokerGateway implements OnGatewayConnection {
   ) {
     // Validations: check user can raise this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
+    this.handleClientAction(tableId, username, ACTION_NAMES.raise, raiseActionAmount)
+  }
 
+  handleClientAction(tableId: number, username: string, actionName: TypeAction, amount?: number) {
     renderGeneralClientActions(
       this.server,
       this.tablesState,
@@ -207,8 +211,8 @@ export class ServerPokerGateway implements OnGatewayConnection {
       this.tableTimeouts,
       tableId,
       username,
-      ACTION_NAMES.raise,
-      raiseActionAmount,
+      actionName,
+      amount,
     )
   }
 }
