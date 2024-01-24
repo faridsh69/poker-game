@@ -45,7 +45,7 @@ export const TableActionsJoinGame = (props: TypeTableProps) => {
       </div>
       <img src={sitoutImage} alt='smoke - wc' />
 
-      <ActionButton label={'Deal Me In'} onClick={handleConfirmJoinGame} />
+      <ActionButton label={<div>Deal Me In</div>} onClick={handleConfirmJoinGame} />
     </div>
   )
 }

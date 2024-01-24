@@ -57,7 +57,7 @@ export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
 }
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {
-  const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table)
+  const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
   const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
 
   return isWaitingOrShowPhase && atLeastTwoPlayers
@@ -172,4 +172,15 @@ export const checkIfLastActionIsAllIn = (action: string, seat: TypeSeat) => {
   }
 
   return capitalize(action)
+}
+
+export const isUserPlayingGame = (table: TypeTable, username: string) => {
+  const authSeat = getUserSeat(table, username)
+
+  if (!authSeat || !authSeat?.user) return false
+  if (authSeat.user.isSeatout) return false
+  if (!authSeat.user.cards.length) return false
+  if (isWaitPhase(table)) return false
+
+  return true
 }

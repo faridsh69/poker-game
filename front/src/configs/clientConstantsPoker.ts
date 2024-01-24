@@ -9,10 +9,12 @@ import {
 } from 'src/interfaces/type-game'
 
 export const USER_ACTION_THINKING_TIMEOUT_SECONDS = 15
-export const SITOUT_TIMEOUT_SECONDS = 5 * 60
 
-export const BUY_IN_MODAL_TIME_OUT_SECONDS = 30
 export const SEAT_STATUS_DURATION_MILLISECOND = 3000
+
+export const SITOUT_TIMEOUT_SECONDS = 600
+export const BUY_IN_MODAL_TIME_OUT_SECONDS = 60
+export const USER_SITOUT_NEXT_BLIND_TIMEOUT_SECONDS = 5000
 
 export const SERVER_CHANNELS = {
   connect: 'connect',

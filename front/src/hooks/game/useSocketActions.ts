@@ -34,10 +34,15 @@ export const useSocketActions = (tableId: number) => {
     socket.emit(CLIENT_CHANNELS.foldAction, { tableId, username })
   }, [socket, username, tableId])
 
+  const handleLeaveGame = useCallback(() => {
+    socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
+  }, [socket, username, tableId])
+
   return {
     handleCheckAction,
     handleCallAction,
     handleRaiseAction,
     handleFoldAction,
+    handleLeaveGame,
   }
 }

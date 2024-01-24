@@ -12,10 +12,10 @@ export const RaiseAction = (props: {
     <ActionButton
       label={
         <div className='action-button-front-label'>
-          <p className='action-button-front-label-p'>Raise to</p>
-          <p className='action-button-front-label-p'>
+          <div className='action-button-front-label-p'>Raise to</div>
+          <div className='action-button-front-label-p'>
             <Money money={raise} />
-          </p>
+          </div>
         </div>
       }
       onClick={() => handleRaiseAction(realRestOfRaise)}

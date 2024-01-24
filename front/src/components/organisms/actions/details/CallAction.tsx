@@ -12,10 +12,10 @@ export const CallAction = (props: TypeTableProps & { callActionAmount: number })
     <ActionButton
       label={
         <div className='action-button-front-label'>
-          <p className='action-button-front-label-p'>Call</p>
-          <p className='action-button-front-label-p'>
+          <div className='action-button-front-label-p'>Call</div>
+          <div className='action-button-front-label-p'>
             <Money money={callActionAmount} />
-          </p>
+          </div>
         </div>
       }
       onClick={() => handleCallAction(callActionAmount)}
