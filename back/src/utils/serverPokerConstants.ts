@@ -23,7 +23,7 @@ export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
 export const SERVER_TIMEOUT_ACTION = 15
-export const SERVER_TIMEOUT_SEATOUT = 7 //120
+export const SERVER_TIMEOUT_SEATOUT = 20
 
 export const SERVER_TIMEOUT_RESTART = 7
 
@@ -62,6 +62,8 @@ export const ACTION_NAMES: { [key in TypeAction]: TypeAction } = {
 
 export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {
   leaveSeat: 'leaveSeat',
+  checkfold: 'checkfold',
+  restartTable: 'restartTable',
 }
 
 export const ACTIONS: {

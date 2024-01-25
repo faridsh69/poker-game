@@ -6,7 +6,7 @@ export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 's
 
 export type TypeAction = 'check' | 'call' | 'raise' | 'fold' | 'checkfold'
 
-export type TypeTimerAction = 'leaveSeat'
+export type TypeTimerAction = 'leaveSeat' | 'checkfold' | 'restartTable'
 
 export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 

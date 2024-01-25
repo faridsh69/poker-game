@@ -178,6 +178,7 @@ export const renderClientJoinGame = (
               inBank: WAITING_USER.cash.inBank - buyinAmount,
               inPot: 0,
             },
+            timer: null,
           },
         }
       }),
@@ -352,6 +353,13 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
               inPot,
               inGame,
             },
+            timer:
+              newGameTurnSeatId === s.id
+                ? {
+                    deadline: getDeadline(SERVER_TIMEOUT_ACTION),
+                    action: TIMER_ACTION_NAMES.checkfold,
+                  }
+                : null, // @TODO check do not remove leaveSeat timer for other users
           },
         }
       }),
@@ -363,14 +371,11 @@ export const renderGeneralClientActions = (
   server: Server,
   tablesState: TypeTable[],
   updateTablesState: (tables: TypeTable[]) => void,
-  tableTimeouts: object,
   tableId: number,
   username: string,
   action: TypeAction,
   amount?: number,
 ) => {
-  clearTimeout(tableTimeouts[tableId])
-
   const renderMethod = ACTIONS[action]
   tablesState = renderMethod(tablesState, tableId, amount)
   updateTablesState(tablesState)
@@ -385,34 +390,8 @@ export const renderGeneralClientActions = (
     },
   })
 
-  const table = getTable(tablesState, tableId)
-  if (isShowOrFinishPhase(table)) {
-    const winTimeout = setTimeout(() => {
-      tablesState = renderServerStartTable(tablesState, tableId)
-      updateTablesState(tablesState)
-
-      renderUpdateClients(server, tablesState, tableId)
-    }, SERVER_TIMEOUT_RESTART * 1000)
-    tableTimeouts[tableId] = winTimeout
-
-    return
-  } else {
-    if (isWaitPhase(table)) return
-
-    const timeout = setTimeout(() => {
-      renderGeneralClientActions(
-        server,
-        tablesState,
-        updateTablesState,
-        tableTimeouts,
-        tableId,
-        getCurrentGameTurnUsername(table),
-        ACTION_NAMES.checkfold,
-      )
-    }, SERVER_TIMEOUT_ACTION * 1000)
-
-    tableTimeouts[tableId] = timeout
-  }
+  // if (isShowOrFinishPhase(table)) {
+  //     tablesState = renderServerStartTable(tablesState, tableId)
 }
 
 export const renderUpdateClients = (server: Server, tables: TypeTable[], tableId: number) => {

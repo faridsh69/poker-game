@@ -2,7 +2,10 @@ import {
   CARD_NUMBERS,
   CARD_TYPES,
   KANIAT_PERCENT,
+  SERVER_TIMEOUT_ACTION,
+  SERVER_TIMEOUT_RESTART,
   TABLE_PHASES,
+  TIMER_ACTION_NAMES,
 } from 'src/utils/serverPokerConstants'
 import { getCardsScoreAndAchivement } from 'src/table/services/winnerService'
 import {
@@ -353,6 +356,13 @@ export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: b
         user: {
           ...s.user,
           gameTurn: nextGameTurnSeatId === s.id,
+          timer:
+            nextGameTurnSeatId === s.id
+              ? {
+                  deadline: getDeadline(SERVER_TIMEOUT_ACTION),
+                  action: TIMER_ACTION_NAMES.checkfold,
+                }
+              : null, // @TODO check do not remove leaveSeat timer for other users
         },
       }
     }),
@@ -462,6 +472,12 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
           achievement: scoreAndAchievements[s.id]?.achievement,
           isWinner,
           gameTurn: false,
+          timer: isWinner
+            ? {
+                deadline: getDeadline(SERVER_TIMEOUT_RESTART),
+                action: TIMER_ACTION_NAMES.restartTable,
+              }
+            : null, // @TODO check do not remove leaveSeat timer for other users
         },
       }
     }),

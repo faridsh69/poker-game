@@ -56,8 +56,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
   private tablesState: TypeTable[] = TABLES
 
-  private tableTimeouts = {}
-
   updateTablesState = (tables: TypeTable[]) => {
     this.tablesState = tables
   }
@@ -71,7 +69,9 @@ export class ServerPokerGateway implements OnGatewayConnection {
       const nowtime = getDeadline()
       for (const table of this.tablesState) {
         for (const seat of table.seats) {
-          if (!seat.user?.timer) continue
+          if (!seat.user) continue
+          if (!seat.user.timer) continue
+
           if (nowtime > seat.user.timer.deadline) {
             if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
               this.tablesState = renderClientLeaveSeat(
@@ -81,6 +81,19 @@ export class ServerPokerGateway implements OnGatewayConnection {
               )
 
               renderUpdateClients(this.server, this.tablesState, table.id)
+            }
+
+            if (seat.user.timer.action === TIMER_ACTION_NAMES.checkfold) {
+              this.handleClientAction(table.id, seat.user.username, ACTION_NAMES.checkfold)
+            }
+
+            if (seat.user.timer.action === TIMER_ACTION_NAMES.restartTable) {
+              if (isShowOrFinishPhase(table)) {
+                // @TODO add this condition inside renderServerStartTable
+                this.tablesState = renderServerStartTable(this.tablesState, table.id)
+
+                renderUpdateClients(this.server, this.tablesState, table.id)
+              }
             }
           }
         }
@@ -114,20 +127,13 @@ export class ServerPokerGateway implements OnGatewayConnection {
     @ConnectedSocket() clientSocket: Socket,
   ) {
     // Validations: check user is joined before as waiting user in this table
-    clearTimeout(this.tableTimeouts[tableId])
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
     clientSocket.leave('' + tableId)
 
-    const table = getTable(this.tablesState, tableId)
-    if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
-      const winTimeout = setTimeout(() => {
-        this.tablesState = renderServerStartTable(this.tablesState, tableId)
-        renderUpdateClients(this.server, this.tablesState, tableId)
-      }, SERVER_TIMEOUT_RESTART * 1000)
-      this.tableTimeouts[tableId] = winTimeout
-    }
+    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
+    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
@@ -144,6 +150,8 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
+    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
+    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
@@ -162,20 +170,12 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveGame)
   handleClientLeaveGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
-    clearTimeout(this.tableTimeouts[tableId])
     this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
 
-    const table = getTable(this.tablesState, tableId)
-    if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
-      const winTimeout = setTimeout(() => {
-        this.tablesState = renderServerStartTable(this.tablesState, tableId)
-
-        renderUpdateClients(this.server, this.tablesState, tableId)
-      }, SERVER_TIMEOUT_RESTART * 1000)
-      this.tableTimeouts[tableId] = winTimeout
-    }
+    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
+    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.foldAction)
@@ -214,7 +214,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
       this.server,
       this.tablesState,
       this.updateTablesState,
-      this.tableTimeouts,
       tableId,
       username,
       actionName,
