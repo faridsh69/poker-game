@@ -127,11 +127,7 @@ export const BuyinModal = () => {
             </FormControl>
           </div>
           <div className='buyin-modal-container-body-timer'>
-            <CountDownTimer
-              remainingSeconds={CLIENT_TIMEOUT_BUYIN}
-              onFinishTimer={closeModel}
-              type='circle'
-            />
+            <CountDownTimer remainingSeconds={CLIENT_TIMEOUT_BUYIN} onFinishTimer={closeModel} />
             Second(s) left.
           </div>
           <div className='buyin-modal-container-body-actions'>

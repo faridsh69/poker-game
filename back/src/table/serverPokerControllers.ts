@@ -9,12 +9,14 @@ import {
   SERVER_TIMEOUT_RESTART,
   SERVER_TIMEOUT_SEATOUT,
   TABLE_PHASES,
+  TIMER_ACTION_NAMES,
   WAITING_USER,
 } from 'src/utils/serverPokerConstants'
 import {
   clearTable,
   getCurrentDealerSeatId,
   getCurrentGameTurnUsername,
+  getDeadline,
   getIsPhaseFinished,
   getNextSeatId,
   getRandomCards,
@@ -113,8 +115,8 @@ export const renderClientJoinSeat = (
                 ...WAITING_USER,
                 username,
                 timer: {
-                  deadline: new Date().valueOf() + SERVER_TIMEOUT_SEATOUT * 1000,
-                  action: 'leaveSeat',
+                  deadline: getDeadline(SERVER_TIMEOUT_SEATOUT),
+                  action: TIMER_ACTION_NAMES.leaveSeat,
                 },
               },
             }
@@ -388,9 +390,8 @@ export const renderGeneralClientActions = (
     const winTimeout = setTimeout(() => {
       tablesState = renderServerStartTable(tablesState, tableId)
       updateTablesState(tablesState)
-      server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-        tables: tablesState,
-      })
+
+      renderUpdateClients(server, tablesState, tableId)
     }, SERVER_TIMEOUT_RESTART * 1000)
     tableTimeouts[tableId] = winTimeout
 
@@ -412,4 +413,10 @@ export const renderGeneralClientActions = (
 
     tableTimeouts[tableId] = timeout
   }
+}
+
+export const renderUpdateClients = (server: Server, tables: TypeTable[], tableId: number) => {
+  server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
+    tables,
+  })
 }

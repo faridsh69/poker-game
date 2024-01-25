@@ -15,6 +15,7 @@ import {
   TypeTable,
   TypeTablePhase,
   TypeTableType,
+  TypeTimerAction,
   TypeUser,
 } from 'src/utils/serverPokerTypes'
 
@@ -22,7 +23,7 @@ export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
 export const SERVER_TIMEOUT_ACTION = 15
-export const SERVER_TIMEOUT_SEATOUT = 20 //120
+export const SERVER_TIMEOUT_SEATOUT = 7 //120
 
 export const SERVER_TIMEOUT_RESTART = 7
 
@@ -57,6 +58,10 @@ export const ACTION_NAMES: { [key in TypeAction]: TypeAction } = {
   checkfold: 'checkfold',
   call: 'call',
   raise: 'raise',
+}
+
+export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {
+  leaveSeat: 'leaveSeat',
 }
 
 export const ACTIONS: {
@@ -142,12 +147,7 @@ export const PLAYING_USER: TypeUser = {
     inGame: 2500,
     inPot: 0,
   },
-  cards: [
-    // { type: CARD_TYPES.spades, number: CARD_NUMBERS.k },
-    // { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
-    // { type: CARD_TYPES.spades, number: CARD_NUMBERS[10] },
-    // { type: CARD_TYPES.clubs, number: CARD_NUMBERS.a },
-  ],
+  cards: [],
   isDealer: false,
   gameTurn: false,
   isWinner: false,
@@ -201,66 +201,106 @@ export const TABLES: TypeTable[] = [
     phase: TABLE_PHASES.wait,
     pot: 0,
     total: 0,
-    cards: [
-      // { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[10] },
-      // { type: CARD_TYPES.clubs, number: CARD_NUMBERS.j },
-      // { type: CARD_TYPES.hearts, number: CARD_NUMBERS.q },
-    ],
+    cards: [],
   },
-  // {
-  //   id: 2,
-  //   title: 'Holdem 5$ 10$, Buy in: 500$ - 5K$',
-  //   type: TABLE_TYPES.holdem,
-  //   blinds: {
-  //     small: 5,
-  //     big: 10,
-  //   },
-  //   buyin: {
-  //     min: 500,
-  //     max: 5000,
-  //   },
-  //   waitingUsers: [],
-  //   seats: [
-  //     {
-  //       id: 1,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 2,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 3,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 4,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 5,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 6,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 7,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 8,
-  //       user: null,
-  //     },
-  //     {
-  //       id: 9,
-  //       user: null,
-  //     },
-  //   ],
-  //   phase: TABLE_PHASES.wait,
-  //   pot: 0,
-  //   total: 0,
-  //   cards: [],
-  // },
+  {
+    id: 2,
+    title: 'Holdem 5$ 10$, Buy in: 200$ - 2K$',
+    type: TABLE_TYPES.holdem,
+    blinds: {
+      small: 5,
+      big: 10,
+    },
+    buyin: {
+      min: 200,
+      max: 2000,
+    },
+    waitingUsers: [],
+    seats: [
+      {
+        id: 1,
+        user: null,
+      },
+      {
+        id: 2,
+        user: null,
+      },
+      {
+        id: 3,
+        user: null,
+      },
+      {
+        id: 4,
+        user: null,
+      },
+      {
+        id: 5,
+        user: null,
+      },
+      {
+        id: 6,
+        user: null,
+      },
+    ],
+    phase: TABLE_PHASES.wait,
+    pot: 0,
+    total: 0,
+    cards: [],
+  },
+  {
+    id: 3,
+    title: 'Holdem 0.01$ 0.02$, Buy in: 5$ - 20K$',
+    type: TABLE_TYPES.holdem,
+    blinds: {
+      small: 0.01,
+      big: 0.02,
+    },
+    buyin: {
+      min: 5,
+      max: 20,
+    },
+    waitingUsers: [],
+    seats: [
+      {
+        id: 1,
+        user: null,
+      },
+      {
+        id: 2,
+        user: null,
+      },
+      {
+        id: 3,
+        user: null,
+      },
+      {
+        id: 4,
+        user: null,
+      },
+      {
+        id: 5,
+        user: null,
+      },
+      {
+        id: 6,
+        user: null,
+      },
+      {
+        id: 7,
+        user: null,
+      },
+      {
+        id: 8,
+        user: null,
+      },
+      {
+        id: 9,
+        user: null,
+      },
+    ],
+    phase: TABLE_PHASES.wait,
+    pot: 0,
+    total: 0,
+    cards: [],
+  },
 ]

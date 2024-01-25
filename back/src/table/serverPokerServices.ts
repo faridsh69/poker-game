@@ -16,6 +16,10 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
+export const getDeadline = (timeout = 0) => {
+  return Math.floor(new Date().valueOf() / 1000) + timeout
+}
+
 export const getTable = (tables: TypeTable[], tableId: number) => {
   return tables.find(t => t.id === tableId)
 }

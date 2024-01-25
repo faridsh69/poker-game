@@ -15,6 +15,7 @@ import {
   SERVER_CHANNELS,
   SERVER_TIMEOUT_RESTART,
   TABLES,
+  TIMER_ACTION_NAMES,
 } from 'src/utils/serverPokerConstants'
 import {
   renderClientJoinGame,
@@ -25,6 +26,7 @@ import {
   renderClientLeaveTable,
   renderGeneralClientActions,
   renderServerStartTable,
+  renderUpdateClients,
 } from 'src/table/serverPokerControllers'
 import {
   TypeAction,
@@ -35,6 +37,7 @@ import {
   TypeTable,
 } from 'src/utils/serverPokerTypes'
 import {
+  getDeadline,
   getTable,
   isAtLeastTwoNotSeatOutPlayers,
   isShowOrFinishPhase,
@@ -64,6 +67,25 @@ export class ServerPokerGateway implements OnGatewayConnection {
       auth: false,
       mode: 'development',
     })
+    setInterval(() => {
+      const nowtime = getDeadline()
+      for (const table of this.tablesState) {
+        for (const seat of table.seats) {
+          if (!seat.user?.timer) continue
+          if (nowtime > seat.user.timer.deadline) {
+            if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
+              this.tablesState = renderClientLeaveSeat(
+                this.tablesState,
+                table.id,
+                seat.user.username,
+              )
+
+              renderUpdateClients(this.server, this.tablesState, table.id)
+            }
+          }
+        }
+      }
+    }, 1000)
   }
 
   handleConnection(clientSocket: Socket) {
@@ -83,9 +105,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientJoinTable(this.tablesState, tableId, username)
 
     clientSocket.join('' + tableId)
-    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      tables: this.tablesState,
-    })
+    renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveTable)
@@ -97,18 +117,14 @@ export class ServerPokerGateway implements OnGatewayConnection {
     clearTimeout(this.tableTimeouts[tableId])
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
 
-    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      tables: this.tablesState,
-    })
+    renderUpdateClients(this.server, this.tablesState, tableId)
     clientSocket.leave('' + tableId)
 
     const table = getTable(this.tablesState, tableId)
     if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
       const winTimeout = setTimeout(() => {
         this.tablesState = renderServerStartTable(this.tablesState, tableId)
-        this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-          tables: this.tablesState,
-        })
+        renderUpdateClients(this.server, this.tablesState, tableId)
       }, SERVER_TIMEOUT_RESTART * 1000)
       this.tableTimeouts[tableId] = winTimeout
     }
@@ -119,20 +135,15 @@ export class ServerPokerGateway implements OnGatewayConnection {
     // Validations: check user is joined before as waiting user in this table, also he is not seated
     this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, username)
 
-    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      tables: this.tablesState,
-    })
+    renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveSeat)
   handleClientLeaveSeat(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
-    // Validations: check user is seated beforein this table
-
+    // Validations: check user is seated before this table
     this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
 
-    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      tables: this.tablesState,
-    })
+    renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
@@ -146,26 +157,22 @@ export class ServerPokerGateway implements OnGatewayConnection {
       this.tablesState = renderServerStartTable(this.tablesState, tableId)
     }
 
-    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      tables: this.tablesState,
-    })
+    renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveGame)
   handleClientLeaveGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
     clearTimeout(this.tableTimeouts[tableId])
     this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
-    this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-      tables: this.tablesState,
-    })
+
+    renderUpdateClients(this.server, this.tablesState, tableId)
 
     const table = getTable(this.tablesState, tableId)
     if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
       const winTimeout = setTimeout(() => {
         this.tablesState = renderServerStartTable(this.tablesState, tableId)
-        this.server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-          tables: this.tablesState,
-        })
+
+        renderUpdateClients(this.server, this.tablesState, tableId)
       }, SERVER_TIMEOUT_RESTART * 1000)
       this.tableTimeouts[tableId] = winTimeout
     }

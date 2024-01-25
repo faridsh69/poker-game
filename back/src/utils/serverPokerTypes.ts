@@ -6,6 +6,8 @@ export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 's
 
 export type TypeAction = 'check' | 'call' | 'raise' | 'fold' | 'checkfold'
 
+export type TypeTimerAction = 'leaveSeat'
+
 export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 
 export type TypeCardNumber =
@@ -59,7 +61,7 @@ type TypeBlinds = {
 
 type TypeSeat = {
   id: number
-  user: TypeUser
+  user: TypeUser | null
 }
 
 export type TypeCard = {

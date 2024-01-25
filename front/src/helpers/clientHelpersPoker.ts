@@ -10,6 +10,10 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
+export const getDeadline = (timeout = 0) => {
+  return Math.floor(new Date().valueOf() / 1000) + timeout
+}
+
 export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
 
 export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold

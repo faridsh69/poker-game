@@ -8,9 +8,10 @@ type TypeTimer = 'text' | 'circle' | 'line'
 export const CountDownTimer = (props: {
   remainingSeconds: number
   onFinishTimer: () => void
-  type: TypeTimer
+  type?: TypeTimer
 }) => {
-  const { remainingSeconds = 30, onFinishTimer, type = 'circle' } = props
+  const { remainingSeconds: propRemainingTime = 30, onFinishTimer, type = 'circle' } = props
+  const remainingSeconds = propRemainingTime > 0 ? propRemainingTime : 0
 
   const [progress, setProgress] = useState(remainingSeconds)
 
@@ -25,6 +26,7 @@ export const CountDownTimer = (props: {
   useEffect(() => {
     if (progress === 0) {
       onFinishTimer()
+      // @TODO1 remove setinterval
     }
   }, [progress, onFinishTimer])
 

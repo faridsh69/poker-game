@@ -3,17 +3,18 @@ import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
 import { TypeTableProps } from 'src/interfaces'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { useAuth } from 'src/hooks/useAuth'
-import { getUserSeat } from 'src/helpers/clientHelpersPoker'
+import { getDeadline, getUserSeat } from 'src/helpers/clientHelpersPoker'
 
 export const JoingameTimer = (props: TypeTableProps) => {
   const { table } = props
 
   const { username } = useAuth()
 
+  const { handleLeaveSeat } = useSocketActions(table.id)
+
   const authSeat = getUserSeat(table, username)
   const leaveSeatDeadline = authSeat?.user.timer?.deadline || 0
-  const remainingSeconds = (leaveSeatDeadline - new Date().valueOf()) / 1000
-  const { handleLeaveSeat } = useSocketActions(table.id)
+  const remainingSeconds = leaveSeatDeadline - getDeadline()
 
   return (
     <div className='dnd-window-body-table-actions-joingame-timer'>
