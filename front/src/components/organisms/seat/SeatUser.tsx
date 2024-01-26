@@ -24,7 +24,7 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserCountry />
       <SeatUserHot />
       <SeatUserCash seat={seat} />
-      <SeatUserTimer seat={seat} tablePhase={table.phase} />
+      <SeatUserTimer seat={seat} table={table} />
       <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
       <SeatUserStatus seat={seat} tableId={table.id} />
       <SeatWinner seat={seat} />

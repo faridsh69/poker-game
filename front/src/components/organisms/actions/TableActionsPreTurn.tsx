@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   getCallActionAmount,
   isAtLeastTwoNotSeatOutPlayers,
-  isAuthUserGameTurn,
+  isUserGameTurn,
   isFinishPhase,
   isShowPhase,
   isUserHasCashInGame,
@@ -48,7 +48,7 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
     )
   }, [table, username])
 
-  const isAuthTurn = isAuthUserGameTurn(table, username)
+  const isAuthTurn = isUserGameTurn(table, username)
 
   const showCheckboxes = enableCheckboxes && !isAuthTurn
   const runCheckboxesAction = enableCheckboxes && isAuthTurn

@@ -6,6 +6,7 @@ import {
   TypeClientChannels,
   TypeTablePhase,
   TypeTableType,
+  TypeTimerAction,
 } from 'src/interfaces/type-game'
 
 export const CLIENT_TIMEOUT_EXTRA = 30
@@ -15,6 +16,8 @@ export const CLIENT_TIMEOUT_SEATOUT = 120
 export const CLIENT_TIMEOUT_QUIT = 6
 export const CLIENT_TIMEOUT_STATUS = 3
 export const CLIENT_TIMEOUT_BUYIN = 30
+
+export const CLIENT_TIMEOUT_FAULT = 55555
 
 export const SERVER_CHANNELS = {
   connect: 'connect',
@@ -35,6 +38,12 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   checkAction: 'client:check_action',
   callAction: 'client:call_action',
   raiseAction: 'client:raise_action',
+}
+
+export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {
+  leaveSeat: 'leaveSeat',
+  checkfold: 'checkfold',
+  restartTable: 'restartTable',
 }
 
 export const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {

@@ -28,8 +28,8 @@ export const TablesList = () => {
 
   return tables.map(table => {
     return (
-      <Card className='home-tables-table' key={table.id}>
-        <CardContent>
+      <div className='home-tables-table' key={table.id}>
+        <div className='home-tables-table-content'>
           <div>{table.type}</div>
           <div>
             Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
@@ -43,8 +43,8 @@ export const TablesList = () => {
           <div>Waiting Users: {table.waitingUsers.length}</div>
 
           <div>Game Phase: {table.phase}</div>
-        </CardContent>
-        <CardActions>
+        </div>
+        <div className='home-tables-table-action'>
           <Button
             size='small'
             variant='contained'
@@ -59,8 +59,8 @@ export const TablesList = () => {
           >
             JOIN TABLE
           </Button>
-        </CardActions>
-      </Card>
+        </div>
+      </div>
     )
   })
 }

@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react'
-import CircularProgress from '@mui/material/CircularProgress'
-import { LinearProgress } from '@mui/material'
-import { getMinutes, getSeconds } from 'src/helpers/common'
+import { LinearProgress, CircularProgress } from '@mui/material'
 
-type TypeTimer = 'text' | 'circle' | 'line'
+import { getMinutes, getSeconds } from 'src/helpers/common'
+import { CLIENT_TIMEOUT_FAULT } from 'src/configs/clientConstantsPoker'
+import { TypeTimerType } from 'src/interfaces'
 
 export const CountDownTimer = (props: {
   remainingSeconds: number
-  onFinishTimer: () => void
-  type?: TypeTimer
+  onFinishTimer?: () => void
+  type?: TypeTimerType
 }) => {
-  const { remainingSeconds: propRemainingTime = 30, onFinishTimer, type = 'circle' } = props
+  const {
+    remainingSeconds: propRemainingTime = CLIENT_TIMEOUT_FAULT,
+    onFinishTimer,
+    type = 'circle',
+  } = props
   const remainingSeconds = propRemainingTime > 0 ? propRemainingTime : 0
 
   const [progress, setProgress] = useState(remainingSeconds)
@@ -25,8 +29,7 @@ export const CountDownTimer = (props: {
 
   useEffect(() => {
     if (progress === 0) {
-      onFinishTimer()
-      // @TODO1 remove setinterval
+      onFinishTimer && onFinishTimer()
     }
   }, [progress, onFinishTimer])
 

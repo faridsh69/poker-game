@@ -30,8 +30,8 @@ export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.sh
 
 export const isFinishPhase = (table: TypeTable) => table.phase === TABLE_PHASES.finish
 
-export const getUserSeat = (table: TypeTable, username: string) => {
-  return table.seats.find(s => s.user?.username === username)
+export const getUserSeat = (table: TypeTable, username: string): TypeSeat => {
+  return table.seats.find(s => s.user?.username === username) as TypeSeat
 }
 
 export const isUserSeatedTable = (table: TypeTable, username: string) => {
@@ -50,7 +50,7 @@ export const isUserWaitingTable = (table: TypeTable, username: string) => {
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
-export const isAuthUserGameTurn = (table: TypeTable, username: string) => {
+export const isUserGameTurn = (table: TypeTable, username: string) => {
   return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
 }
 

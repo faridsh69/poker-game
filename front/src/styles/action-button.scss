@@ -164,6 +164,7 @@
 
     .MuiLinearProgress-bar {
       background-image: linear-gradient(to right, #e1f638, #2da821);
+      transition: transform 1s linear;
     }
   }
 

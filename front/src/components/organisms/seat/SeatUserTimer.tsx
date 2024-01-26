@@ -1,31 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
+
+import { TIMER_ACTION_NAMES, CLIENT_TIMEOUT_FAULT } from 'src/configs/clientConstantsPoker'
+import { getDeadline, isFinishPhase, isShowPhase } from 'src/helpers/clientHelpersPoker'
+import { TypeSeatProps, TypeTable } from 'src/interfaces'
 import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
-import { TABLE_PHASES, CLIENT_TIMEOUT_ACTION } from 'src/configs/clientConstantsPoker'
-import { TypeSeatProps, TypeTablePhase } from 'src/interfaces'
+import { useSeatTimer } from 'src/hooks/useSeatTimer'
 
-export const SeatUserTimer = (props: TypeSeatProps & { tablePhase: TypeTablePhase }) => {
-  const { seat, tablePhase } = props
+export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
+  const { seat, table } = props
 
-  const [showTimer, setShowTimer] = useState<boolean>(false)
+  const remainingSeconds = useSeatTimer(seat, 'checkfold')
 
-  useEffect(() => {
-    setShowTimer(false)
-    setTimeout(() => {
-      setShowTimer(true)
-    }, 100)
-  }, [tablePhase])
+  const isShowOrFinishPhase = isFinishPhase(table) || isShowPhase(table)
 
-  const roundFinished = tablePhase === TABLE_PHASES.show || tablePhase === TABLE_PHASES.finish
-
-  if (!seat.user?.gameTurn || !showTimer || roundFinished) return null
+  if (!seat.user?.gameTurn || isShowOrFinishPhase) return null
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-timeout'>
-      <CountDownTimer
-        remainingSeconds={CLIENT_TIMEOUT_ACTION}
-        onFinishTimer={() => {}}
-        type='line'
-      />
+      <CountDownTimer remainingSeconds={remainingSeconds} type='line' />
     </div>
   )
 }

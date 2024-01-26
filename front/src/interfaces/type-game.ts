@@ -2,6 +2,10 @@ import { Socket } from 'socket.io-client'
 
 export type TypeSocket = Socket
 
+export type TypeTimerAction = 'leaveSeat' | 'checkfold' | 'restartTable'
+
+export type TypeTimerType = 'text' | 'circle' | 'line'
+
 export type TypeClientChannelKeys =
   | 'joinTable'
   | 'leaveTable'
