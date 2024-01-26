@@ -13,7 +13,6 @@ import {
   ACTION_NAMES,
   CLIENT_CHANNELS,
   SERVER_CHANNELS,
-  SERVER_TIMEOUT_RESTART,
   TABLES,
   TIMER_ACTION_NAMES,
 } from 'src/utils/serverPokerConstants'
@@ -36,13 +35,7 @@ import {
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/utils/serverPokerTypes'
-import {
-  getDeadline,
-  getTable,
-  isAtLeastTwoNotSeatOutPlayers,
-  isShowOrFinishPhase,
-  isWaitPhase,
-} from './serverPokerServices'
+import { getDeadline, getTable, isWaitPhase } from './serverPokerServices'
 
 @WebSocketGateway({
   cors: {
@@ -52,7 +45,7 @@ import {
 })
 export class ServerPokerGateway implements OnGatewayConnection {
   @WebSocketServer()
-  server: Server
+  server!: Server
 
   private tablesState: TypeTable[] = TABLES
 
@@ -88,12 +81,9 @@ export class ServerPokerGateway implements OnGatewayConnection {
             }
 
             if (seat.user.timer.action === TIMER_ACTION_NAMES.restartTable) {
-              if (isShowOrFinishPhase(table)) {
-                // @TODO add this condition inside renderServerStartTable
-                this.tablesState = renderServerStartTable(this.tablesState, table.id)
+              this.tablesState = renderServerStartTable(this.tablesState, table.id)
 
-                renderUpdateClients(this.server, this.tablesState, table.id)
-              }
+              renderUpdateClients(this.server, this.tablesState, table.id)
             }
           }
         }
@@ -114,7 +104,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     @ConnectedSocket() clientSocket: Socket,
   ) {
     // Validations: check user not joined this table before
-
     this.tablesState = renderClientJoinTable(this.tablesState, tableId, username)
 
     clientSocket.join('' + tableId)
@@ -128,12 +117,12 @@ export class ServerPokerGateway implements OnGatewayConnection {
   ) {
     // Validations: check user is joined before as waiting user in this table
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
+    // @TODO implement timer inside leave table
+    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
+    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
     clientSocket.leave('' + tableId)
-
-    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
-    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
@@ -150,6 +139,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
+    // @TODO implement timer restart inside leave seat
     // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
     //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }
@@ -173,7 +163,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
     this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
-
+    // @TODO implement timer restart inside leave game
     // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
     //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }

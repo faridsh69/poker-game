@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
@@ -54,7 +55,6 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
         ),
       )
 
-      // ['todos', newTodo.id]
       const oldUpdatedItem = queryClient.getQueryData('oldUpdatedItem')
       if (oldUpdatedItem) return oldUpdatedItem
 
@@ -69,14 +69,12 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
         list.map(item => (item.id === updatedData.id ? updatedData : item)),
       )
       toast.success(t(MODEL_SLUG + ' updated successfully'))
-      // ['todos', newTodo.id]
       queryClient.setQueryData('oldUpdatedItem', () => null)
     },
     onError: (error, __, oldItem) => {
       queryClient.setQueryData(MODEL_SLUG, list =>
         list.map(item => (item.id === oldItem.id ? oldItem : item)),
       )
-      // ['todos', newTodo.id]
       queryClient.setQueryData('oldUpdatedItem', () => null)
       errorHandler(error)
     },

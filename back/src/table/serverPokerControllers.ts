@@ -3,10 +3,8 @@ import { Server } from 'socket.io'
 import { TypeAction, TypeTable } from 'src/utils/serverPokerTypes'
 import {
   ACTIONS,
-  ACTION_NAMES,
   SERVER_CHANNELS,
   SERVER_TIMEOUT_ACTION,
-  SERVER_TIMEOUT_RESTART,
   SERVER_TIMEOUT_SEATOUT,
   TABLE_PHASES,
   TIMER_ACTION_NAMES,
@@ -15,7 +13,6 @@ import {
 import {
   clearTable,
   getCurrentDealerSeatId,
-  getCurrentGameTurnUsername,
   getDeadline,
   getIsPhaseFinished,
   getNextSeatId,
@@ -26,13 +23,11 @@ import {
   getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
   isCheckAllowed,
-  isShowOrFinishPhase,
 
   // isGameHeadsUp,
   isTimeToStartTable,
   isUserSeatedTable,
   isUserWaitingTable,
-  isWaitPhase,
   roundNumber,
 } from 'src/table/serverPokerServices'
 
@@ -264,12 +259,12 @@ export const renderServerAutoCheckFold = (
 export const renderClientCallAction = (
   tablesState: TypeTable[],
   tableId: number,
-  callActionAmount: number,
+  callActionAmount?: number,
 ) => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, callActionAmount)
+    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, callActionAmount as number)
     const isPhaseFinished = getIsPhaseFinished(t)
     const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
       updatedSeatWithAmount,
@@ -287,12 +282,15 @@ export const renderClientCallAction = (
 export const renderClientRaiseAction = (
   tablesState: TypeTable[],
   tableId: number,
-  raiseActionAmount: number,
+  raiseActionAmount?: number,
 ) => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, raiseActionAmount)
+    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(
+      t,
+      raiseActionAmount as number,
+    )
     const isPhaseFinished = false
     const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
       updatedSeatWithAmount,
@@ -306,6 +304,9 @@ export const renderClientRaiseAction = (
 export const renderServerStartTable = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
+
+    // if (isShowOrFinishPhase(t)) {
+    // }
 
     if (!isTimeToStartTable(t)) {
       return clearTable(t)
@@ -359,7 +360,9 @@ export const renderServerStartTable = (tablesState: TypeTable[], tableId: number
                     deadline: getDeadline(SERVER_TIMEOUT_ACTION),
                     action: TIMER_ACTION_NAMES.checkfold,
                   }
-                : null, // @TODO check do not remove leaveSeat timer for other users
+                : s.user.timer?.action === TIMER_ACTION_NAMES.leaveSeat
+                ? s.user.timer
+                : null,
           },
         }
       }),
@@ -389,9 +392,6 @@ export const renderGeneralClientActions = (
       amount,
     },
   })
-
-  // if (isShowOrFinishPhase(table)) {
-  //     tablesState = renderServerStartTable(tablesState, tableId)
 }
 
 export const renderUpdateClients = (server: Server, tables: TypeTable[], tableId: number) => {

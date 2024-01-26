@@ -23,8 +23,8 @@ export const getDeadline = (timeout = 0) => {
   return Math.floor(new Date().valueOf() / 1000) + timeout
 }
 
-export const getTable = (tables: TypeTable[], tableId: number) => {
-  return tables.find(t => t.id === tableId)
+export const getTable = (tables: TypeTable[], tableId: number): TypeTable => {
+  return tables.find(t => t.id === tableId) as TypeTable
 }
 
 export const isWaitPhase = (table: TypeTable) => {
@@ -75,7 +75,7 @@ const getMaximumBet = (table: TypeTable) => {
   const seats = getActiveSeats(table)
 
   for (const seat of seats) {
-    if (seat.user.cash.inPot > maximumBet) {
+    if (seat.user && seat.user.cash.inPot > maximumBet) {
       maximumBet = seat.user.cash.inPot
     }
   }
@@ -89,7 +89,7 @@ const getMaximumBetSeatIds = (table: TypeTable): number[] => {
   const seats = getActiveSeats(table)
 
   for (const seat of seats) {
-    if (seat.user.cash.inPot === maximumBet) {
+    if (seat.user && seat.user.cash.inPot === maximumBet) {
       maximumBetSeatIds.push(seat.id)
     }
   }
@@ -129,7 +129,13 @@ const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number 
 }
 
 const getTableTotal = (table: TypeTable) => {
-  const total = table.seats.filter(s => s.user).reduce((sum, s) => sum + s.user.cash.inPot, 0)
+  const total = table.seats
+    .filter(s => s.user)
+    .reduce((sum, s) => {
+      if (!s.user) return sum
+
+      return sum + s.user.cash.inPot
+    }, 0)
 
   return total + table.pot
 }
@@ -156,7 +162,7 @@ const isAllPlayersAllIn = (table: TypeTable): boolean => {
 
   if (inGameSeats.length < 2) return false
 
-  return inGameSeats.filter(s => s.user.cash.inGame).length < 2
+  return inGameSeats.filter(s => s.user?.cash.inGame).length < 2
 }
 
 export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
@@ -255,7 +261,7 @@ export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders =
 const userIsFoldOrAllIn = (table: TypeTable, nextGameTurnSeatId: number) => {
   const seat = table.seats.find(s => s.id === nextGameTurnSeatId)
 
-  return seat.user.isFold || seat.user.cash.inGame === 0
+  return seat?.user?.isFold || seat?.user?.cash.inGame === 0
 }
 
 const getNextNotFoldedSeatId = (table: TypeTable, seatId: number) => {
@@ -313,7 +319,7 @@ const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
   const seats = getActiveSeats(table, false, true)
 
   for (const seat of seats) {
-    const userCards = seat.user.cards
+    const userCards = seat.user?.cards || []
     const tableAndUserCards = [...tableCards, ...userCards]
     scoreAndAchivements[seat.id] = getCardsScoreAndAchivement(tableAndUserCards)
   }
@@ -362,7 +368,9 @@ export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: b
                   deadline: getDeadline(SERVER_TIMEOUT_ACTION),
                   action: TIMER_ACTION_NAMES.checkfold,
                 }
-              : null, // @TODO check do not remove leaveSeat timer for other users
+              : s.user.timer?.action === TIMER_ACTION_NAMES.leaveSeat
+              ? s.user.timer
+              : null,
         },
       }
     }),
@@ -477,7 +485,9 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
                 deadline: getDeadline(SERVER_TIMEOUT_RESTART),
                 action: TIMER_ACTION_NAMES.restartTable,
               }
-            : null, // @TODO check do not remove leaveSeat timer for other users
+            : s.user.timer?.action === TIMER_ACTION_NAMES.leaveSeat
+            ? s.user.timer
+            : null,
         },
       }
     }),

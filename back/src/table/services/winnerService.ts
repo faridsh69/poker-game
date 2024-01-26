@@ -78,7 +78,7 @@ export const getCardsScoreAndAchivement = (cards: TypeCard[]): TypeScoreAndAchiv
     score = getFlushScore(flushCards)
   }
   if (level === WINNER_LEVELS.fullHouse) {
-    score = getFullHouseScore(sortedCards, pairOrSetOrQuadsCards)
+    score = getFullHouseScore(pairOrSetOrQuadsCards)
   }
   if (level === WINNER_LEVELS.quads) {
     score = getQuadsScore(sortedCards, pairOrSetOrQuadsCards)
@@ -116,7 +116,7 @@ const getQuadsScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]) =
   )
 }
 
-const getFullHouseScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]) => {
+const getFullHouseScore = (pairOrSetOrQuadsCards: TypeCard[][]) => {
   const setCards = pairOrSetOrQuadsCards[0]
   const pairCards = pairOrSetOrQuadsCards[1]
 
@@ -278,11 +278,11 @@ const getStraightCards = (cards: TypeCard[]): TypeCard[] => {
 
     if (nextScore1 && nextScore2 && nextScore3 && nextScore4) {
       straightCards = [
-        cards.find(c => getCardScore(c) === cardScore),
-        cards.find(c => getCardScore(c) === cardScore),
-        cards.find(c => getCardScore(c) === cardScore),
-        cards.find(c => getCardScore(c) === cardScore),
-        cards.find(c => getCardScore(c) === cardScore),
+        cards.find(c => getCardScore(c) === cardScore) as TypeCard,
+        cards.find(c => getCardScore(c) === cardScore - 1) as TypeCard,
+        cards.find(c => getCardScore(c) === cardScore - 2) as TypeCard,
+        cards.find(c => getCardScore(c) === cardScore - 3) as TypeCard,
+        cards.find(c => getCardScore(c) === cardScore - 4) as TypeCard,
       ]
       break
     }
