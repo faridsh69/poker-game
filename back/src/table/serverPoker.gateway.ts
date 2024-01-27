@@ -66,6 +66,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
           if (!seat.user.timer) continue
 
           if (nowtime > seat.user.timer.deadline) {
+            console.log('1 timer.action', seat.user.timer.action)
             if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
               this.tablesState = renderClientLeaveSeat(
                 this.tablesState,

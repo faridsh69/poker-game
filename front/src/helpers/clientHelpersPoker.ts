@@ -179,11 +179,11 @@ export const checkIfLastActionIsAllIn = (action: string, seat: TypeSeat) => {
 }
 
 export const isUserPlayingGame = (table: TypeTable, username: string) => {
-  const authSeat = getUserSeat(table, username)
+  const userSeat = getUserSeat(table, username)
 
-  if (!authSeat || !authSeat?.user) return false
-  if (authSeat.user.isSeatout) return false
-  if (!authSeat.user.cards.length) return false
+  if (!userSeat || !userSeat?.user) return false
+  if (userSeat.user.isSeatout) return false
+  if (!userSeat.user.cards.length) return false
   if (isWaitPhase(table)) return false
 
   return true

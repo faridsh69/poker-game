@@ -241,7 +241,10 @@ export const isGameHeadsUp = (table: TypeTable): boolean => {
 export const getNextSeatId = (table: TypeTable, seatId: number, includeFolders = false): number => {
   const seats = getActiveSeats(table, includeFolders)
 
-  let nextSeatId = seats[0].id
+  let nextSeatId = seats[0]?.id || 1
+  if (!seats.length) {
+    console.log('why there is no seat:', table)
+  }
   let foundSeat = false
 
   for (const seat of seats) {

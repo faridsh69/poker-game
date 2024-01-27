@@ -192,6 +192,14 @@ export const playSound = (action: string) => {
   sound.play()
 }
 
+export const stopSound = (action: string) => {
+  const correctAction = lowerize(action)
+  const sound = document.getElementById(`${correctAction}-sound-id`)
+  if (!sound) return
+
+  sound.pause()
+}
+
 export const getMinutes = second => {
   const minutes = Math.floor(second / 60) + ''
 

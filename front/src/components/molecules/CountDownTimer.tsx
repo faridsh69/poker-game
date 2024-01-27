@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { LinearProgress, CircularProgress } from '@mui/material'
 
-import { getMinutes, getSeconds } from 'src/helpers/common'
+import { getMinutes, getSeconds, playSound, stopSound } from 'src/helpers/common'
 import { CLIENT_TIMEOUT_FAULT } from 'src/configs/clientConstantsPoker'
 import { TypeTimerType } from 'src/interfaces'
 
@@ -17,21 +17,29 @@ export const CountDownTimer = (props: {
   } = props
   const remainingSeconds = propRemainingTime > 0 ? propRemainingTime : 0
 
-  const [progress, setProgress] = useState(remainingSeconds)
+  const [restTime, setRestTime] = useState(remainingSeconds)
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setProgress(prevProgress => (prevProgress >= 1 ? Math.floor(prevProgress - 1) : 0))
+      setRestTime(prev => (prev >= 1 ? Math.floor(prev - 1) : 0))
     }, 1000)
 
-    return () => clearInterval(timer)
+    return () => {
+      clearInterval(timer)
+      stopSound('timer')
+    }
   }, [])
 
   useEffect(() => {
-    if (progress === 0) {
+    if (restTime === 0) {
       onFinishTimer && onFinishTimer()
+      return
     }
-  }, [progress, onFinishTimer])
+
+    if (restTime < 10) {
+      playSound('timer')
+    }
+  }, [restTime, onFinishTimer])
 
   return (
     <div className='timer-action'>
@@ -40,9 +48,9 @@ export const CountDownTimer = (props: {
           <CircularProgress
             className='timer-action-circle'
             variant='determinate'
-            value={(progress * 100) / remainingSeconds}
+            value={(restTime * 100) / remainingSeconds}
           />
-          <div className='timer-action-text'>{Math.round(progress)}</div>
+          <div className='timer-action-text'>{restTime}</div>
         </>
       )}
 
@@ -50,13 +58,13 @@ export const CountDownTimer = (props: {
         <LinearProgress
           className='timer-action-line'
           variant='determinate'
-          value={(progress * 100) / remainingSeconds}
+          value={(restTime * 100) / remainingSeconds}
         />
       )}
 
       {type === 'text' && (
         <div className='timer-text'>
-          {getMinutes(progress)}:{getSeconds(progress)}
+          {getMinutes(restTime)}:{getSeconds(restTime)}
         </div>
       )}
     </div>
