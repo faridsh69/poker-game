@@ -6,6 +6,7 @@ import {
   SERVER_TIMEOUT_CLEAR,
   SERVER_TIMEOUT_RESTART,
   SERVER_TIMEOUT_SEATOUT,
+  SERVER_TIMEOUT_SEATOUT_ALLIN,
   SERVER_TIMEOUT_START,
   TABLE_PHASES,
   TIMER_ACTION_NAMES,
@@ -91,12 +92,12 @@ export const isTimeToStartTable = (table: TypeTable) => {
 }
 
 export const isTimeToClearTable = (table: TypeTable) => {
-  return !isAtLeastTwoPlayers(table, true, false)
+  return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, false)
 }
 
-export const getLeaveSeatTimer = () => {
+export const getLeaveSeatTimer = (isAllin = false) => {
   return {
-    deadline: getDeadline(SERVER_TIMEOUT_SEATOUT),
+    deadline: getDeadline(isAllin ? SERVER_TIMEOUT_SEATOUT_ALLIN : SERVER_TIMEOUT_SEATOUT),
     action: TIMER_ACTION_NAMES.leaveSeat,
   }
 }
@@ -226,7 +227,7 @@ const isAllPlayersAllIn = (table: TypeTable): boolean => {
 
   if (inGameSeats.length < 2) return false
 
-  return inGameSeats.filter(s => s.user?.cash.inGame).length < 2
+  return inGameSeats.filter(s => !isAllinSeat(s)).length < 2
 }
 
 const getOnlyPlayingSeatId = (table: TypeTable): number => {
@@ -506,6 +507,7 @@ export const getUpdatedTableIfPhaseFinishedWithWinners = (
     phase: tablePhase,
     pot: tablePot,
     timer: isAtLeastTwoPlayers(table, true, false) ? getRestartTableTimer() : getClearTableTimer(),
+    total: 0,
     seats: table.seats.map(s => {
       if (!s.user) return s
       if (isSeatoutSeat(s)) return s
@@ -542,11 +544,14 @@ export const clearTable = (table: TypeTable): TypeTable => {
     seats: table.seats.map(s => {
       if (!s.user) return s
 
+      const isAllin = isAllinSeat(s)
+
       return {
         ...s,
         user: {
           ...s.user,
-          isSeatout: !s.user.cash.inGame ? true : isSeatoutSeat(s),
+          isSeatout: isAllin ? true : s.user.isSeatout,
+          timer: isAllin ? getLeaveSeatTimer(isAllin) : s.user.timer,
           cards: [],
           gameTurn: false,
           isWinner: false,

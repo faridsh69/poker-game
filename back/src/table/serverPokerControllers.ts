@@ -90,7 +90,7 @@ export const renderClientJoinSeat = (
                 ...WAITING_USER,
                 username,
                 isSeatout: true,
-                timer: getLeaveSeatTimer(),
+                timer: getLeaveSeatTimer(false),
               },
             }
           }),

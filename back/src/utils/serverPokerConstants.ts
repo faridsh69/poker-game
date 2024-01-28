@@ -23,6 +23,7 @@ export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
 export const SERVER_TIMEOUT_ACTION = 15
+export const SERVER_TIMEOUT_SEATOUT_ALLIN = 10 // 120
 export const SERVER_TIMEOUT_SEATOUT = 20
 export const SERVER_TIMEOUT_RESTART = 6
 export const SERVER_TIMEOUT_START = 0
