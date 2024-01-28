@@ -24,7 +24,9 @@ export const KANIAT_PERCENT = 5
 export const SERVER_TIMEOUT_EXTRA = 30
 export const SERVER_TIMEOUT_ACTION = 15
 export const SERVER_TIMEOUT_SEATOUT = 20
-export const SERVER_TIMEOUT_RESTART = 7
+export const SERVER_TIMEOUT_RESTART = 6
+export const SERVER_TIMEOUT_START = 0
+export const SERVER_TIMEOUT_CLEAR = 5
 
 export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
   updateTables: 'server:update_tables',
@@ -63,6 +65,7 @@ export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } =
   leaveSeat: 'leaveSeat',
   checkfold: 'checkfold',
   restartTable: 'restartTable',
+  clearTable: 'clearTable',
 }
 
 export const ACTIONS: {
@@ -203,6 +206,7 @@ export const TABLES: TypeTable[] = [
     pot: 0,
     total: 0,
     cards: [],
+    timer: null,
   },
   {
     id: 2,
@@ -247,6 +251,7 @@ export const TABLES: TypeTable[] = [
     pot: 0,
     total: 0,
     cards: [],
+    timer: null,
   },
   {
     id: 3,
@@ -303,5 +308,6 @@ export const TABLES: TypeTable[] = [
     pot: 0,
     total: 0,
     cards: [],
+    timer: null,
   },
 ]

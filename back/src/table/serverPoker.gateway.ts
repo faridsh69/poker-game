@@ -5,6 +5,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
   OnGatewayConnection,
+  OnGatewayInit,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
@@ -24,6 +25,7 @@ import {
   renderClientLeaveSeat,
   renderClientLeaveTable,
   renderGeneralClientActions,
+  renderServerClearTable,
   renderServerStartTable,
   renderUpdateClients,
 } from 'src/table/serverPokerControllers'
@@ -35,7 +37,7 @@ import {
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/utils/serverPokerTypes'
-import { getDeadline, getTable, isWaitPhase } from './serverPokerServices'
+import { getDeadline, isAtLeastTwoPlayers, isWaitPhase } from './serverPokerServices'
 
 @WebSocketGateway({
   cors: {
@@ -43,7 +45,7 @@ import { getDeadline, getTable, isWaitPhase } from './serverPokerServices'
     credentials: true,
   },
 })
-export class ServerPokerGateway implements OnGatewayConnection {
+export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   @WebSocketServer()
   server!: Server
 
@@ -66,7 +68,7 @@ export class ServerPokerGateway implements OnGatewayConnection {
           if (!seat.user.timer) continue
 
           if (nowtime > seat.user.timer.deadline) {
-            console.log('1 timer.action', seat.user.timer.action)
+            console.log('1 user timer action', seat.user.timer.action)
             if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
               this.tablesState = renderClientLeaveSeat(
                 this.tablesState,
@@ -80,12 +82,26 @@ export class ServerPokerGateway implements OnGatewayConnection {
             if (seat.user.timer.action === TIMER_ACTION_NAMES.checkfold) {
               this.handleClientAction(table.id, seat.user.username, ACTION_NAMES.checkfold)
             }
+          }
+        }
 
-            if (seat.user.timer.action === TIMER_ACTION_NAMES.restartTable) {
-              this.tablesState = renderServerStartTable(this.tablesState, table.id)
+        if (!table.timer) continue
 
-              renderUpdateClients(this.server, this.tablesState, table.id)
-            }
+        if (nowtime > table.timer.deadline) {
+          console.log('2 table timer ction', table.timer.action)
+
+          if (table.timer.action === TIMER_ACTION_NAMES.restartTable) {
+            if (!isAtLeastTwoPlayers(table, true, false)) continue
+
+            this.tablesState = renderServerStartTable(this.tablesState, table.id)
+            renderUpdateClients(this.server, this.tablesState, table.id)
+          }
+
+          if (table.timer.action === TIMER_ACTION_NAMES.clearTable) {
+            if (isWaitPhase(table)) return
+
+            this.tablesState = renderServerClearTable(this.tablesState, table.id)
+            renderUpdateClients(this.server, this.tablesState, table.id)
           }
         }
       }
@@ -119,8 +135,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     // Validations: check user is joined before as waiting user in this table
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
     // @TODO implement timer inside leave table
-    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
-    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
     clientSocket.leave('' + tableId)
@@ -141,8 +155,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
     renderUpdateClients(this.server, this.tablesState, tableId)
     // @TODO implement timer restart inside leave seat
-    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
-    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
@@ -150,11 +162,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
     @MessageBody() { tableId, username, buyinAmount }: TypeHandleClientSitTable,
   ) {
     this.tablesState = renderClientJoinGame(this.tablesState, tableId, username, buyinAmount)
-
-    const table = getTable(this.tablesState, tableId)
-    if (isWaitPhase(table)) {
-      this.tablesState = renderServerStartTable(this.tablesState, tableId)
-    }
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
@@ -165,8 +172,6 @@ export class ServerPokerGateway implements OnGatewayConnection {
 
     renderUpdateClients(this.server, this.tablesState, tableId)
     // @TODO implement timer restart inside leave game
-    // if (isShowOrFinishPhase(table) || !isAtLeastTwoNotSeatOutPlayers(table)) {
-    //     this.tablesState = renderServerStartTable(this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.foldAction)

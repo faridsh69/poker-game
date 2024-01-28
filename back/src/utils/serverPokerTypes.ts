@@ -6,7 +6,7 @@ export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 's
 
 export type TypeAction = 'check' | 'call' | 'raise' | 'fold' | 'checkfold'
 
-export type TypeTimerAction = 'leaveSeat' | 'checkfold' | 'restartTable'
+export type TypeTimerAction = 'leaveSeat' | 'checkfold' | 'restartTable' | 'clearTable'
 
 export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 
@@ -59,7 +59,7 @@ type TypeBlinds = {
   big: number
 }
 
-type TypeSeat = {
+export type TypeSeat = {
   id: number
   user: TypeUser | null
 }
@@ -108,6 +108,7 @@ export type TypeTable = {
   pot: number
   total: number
   cards: TypeCard[]
+  timer: TypeTimer | null
 }
 
 export type TypeHandleClientJoinTable = {

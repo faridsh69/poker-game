@@ -46,6 +46,10 @@ export const isUserHasCashInGame = (table: TypeTable, username: string) => {
   return !table.seats.find(s => s.user?.username === username && s.user.cash.inGame === 0)
 }
 
+export const isUserFold = (table: TypeTable, username: string) => {
+  return !table.seats.find(s => s.user?.username === username && !s.user.isFold)
+}
+
 export const isUserWaitingTable = (table: TypeTable, username: string) => {
   return !!table.waitingUsers.find(u => u.username === username)
 }

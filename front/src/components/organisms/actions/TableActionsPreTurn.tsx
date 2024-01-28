@@ -7,9 +7,9 @@ import {
   isFinishPhase,
   isShowPhase,
   isUserHasCashInGame,
-  isUserSeatoutTable,
   isWaitPhase,
   isUserPlayingGame,
+  isUserFold,
 } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeTableProps } from 'src/interfaces'
@@ -45,6 +45,7 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
       isAtLeastTwoNotSeatOutPlayers(table) &&
       isUserPlayingGame(table, username) &&
       isUserHasCashInGame(table, username) &&
+      !isUserFold(table, username) &&
       !isWaitingOrShowPhase
     )
   }, [table, username])

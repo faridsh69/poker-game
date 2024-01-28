@@ -22,6 +22,7 @@ export const CLIENT_TIMEOUT_FAULT = 55555
 export const SERVER_CHANNELS = {
   connect: 'connect',
   updateTables: 'server:update_tables',
+  exception: 'exception',
 }
 
 export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChannels } = {
