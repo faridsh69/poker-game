@@ -32,7 +32,9 @@ export const Chips = (props: { money: number }) => {
 
   return (
     <div className='cash-chips'>
-      {chipColumns.map(chipColumn => {
+      {chipColumns.map((chipColumn, chipColumnIndex) => {
+        if (chipColumnIndex > 2) return null
+
         return (
           <div className='cash-chips-column' key={chipColumn.value}>
             {createArrayOfIntegers(chipColumn.count).map((_, chipIndex) => {

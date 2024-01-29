@@ -27,8 +27,8 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   }
 
   const [cardClassNames, setCardClassNames] = useState({
-    0: cardClasses.hide,
-    1: cardClasses.hide,
+    0: cardClasses.show,
+    1: cardClasses.show,
   })
 
   useEffect(() => {
@@ -42,10 +42,10 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
             if (cardIndex === 0) {
               playSound('card')
             }
-            setCardClassNames(prev => ({
-              ...prev,
-              [cardIndex]: cardIndex ? cardClasses.animate2 : cardClasses.animate1,
-            }))
+            // setCardClassNames(prev => ({
+            //   ...prev,
+            //   [cardIndex]: cardIndex ? cardClasses.animate2 : cardClasses.animate1,
+            // }))
           },
           seat.id * 100 + 800 * cardIndex,
         ),

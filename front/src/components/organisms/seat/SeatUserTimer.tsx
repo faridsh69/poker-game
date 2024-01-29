@@ -1,7 +1,5 @@
-import { useMemo } from 'react'
-
-import { TIMER_ACTION_NAMES, CLIENT_TIMEOUT_FAULT } from 'src/configs/clientConstantsPoker'
-import { getDeadline, isFinishPhase, isShowPhase } from 'src/helpers/clientHelpersPoker'
+import { CLIENT_TIMEOUT_ACTION } from 'src/configs/clientConstantsPoker'
+import { isFinishPhase, isShowPhase } from 'src/helpers/clientHelpersPoker'
 import { TypeSeatProps, TypeTable } from 'src/interfaces'
 import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
 import { useSeatTimer } from 'src/hooks/useSeatTimer'
@@ -17,7 +15,11 @@ export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-timeout'>
-      <CountDownTimer remainingSeconds={remainingSeconds} type='line' />
+      <CountDownTimer
+        remainingSeconds={remainingSeconds}
+        type='line'
+        duration={CLIENT_TIMEOUT_ACTION}
+      />
     </div>
   )
 }

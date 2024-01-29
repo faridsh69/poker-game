@@ -11,11 +11,12 @@ import {
 
 export const CLIENT_TIMEOUT_EXTRA = 30
 export const CLIENT_TIMEOUT_ACTION = 15
+
 export const CLIENT_TIMEOUT_SEATOUT = 5
 
-export const CLIENT_TIMEOUT_QUIT = 6
-export const CLIENT_TIMEOUT_STATUS = 3
+export const CLIENT_TIMEOUT_QUIT = 4
 
+export const CLIENT_TIMEOUT_STATUS = 3
 export const CLIENT_TIMEOUT_FAULT = 55555
 
 export const SERVER_CHANNELS = {
