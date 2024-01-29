@@ -1,7 +1,12 @@
 import { Server } from 'socket.io'
 
 import { TypeAction, TypeTable } from 'src/utils/serverPokerTypes'
-import { ACTIONS, SERVER_CHANNELS, WAITING_USER } from 'src/utils/serverPokerConstants'
+import {
+  ACTIONS,
+  ACTION_NAMES,
+  SERVER_CHANNELS,
+  WAITING_USER,
+} from 'src/utils/serverPokerConstants'
 import {
   clearTable,
   getClearTableTimer,
@@ -64,9 +69,22 @@ export const renderClientLeaveTable = (
       }),
     }
 
+    const isTimeToClearTable = isTimeToClearTableInMiddleOfGame(updatedTableLeaveTable)
+
     return {
       ...updatedTableLeaveTable,
-      timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveTable) ? getClearTableTimer() : null,
+      timer: isTimeToClearTable ? getClearTableTimer() : updatedTableLeaveTable.timer,
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            timer: s.user.timer?.action === ACTION_NAMES.checkfold ? null : s.user.timer,
+          },
+        }
+      }),
     }
   })
 }
@@ -132,6 +150,17 @@ export const renderClientLeaveSeat = (
     return {
       ...updatedTableLeaveSeat,
       timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveSeat) ? getClearTableTimer() : null,
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            timer: s.user.timer?.action === ACTION_NAMES.checkfold ? null : s.user.timer,
+          },
+        }
+      }),
     }
   })
 }
@@ -205,6 +234,17 @@ export const renderClientLeaveGame = (
     return {
       ...updatedTableLeaveGame,
       timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveGame) ? getClearTableTimer() : null,
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            timer: s.user.timer?.action === ACTION_NAMES.checkfold ? null : s.user.timer,
+          },
+        }
+      }),
     }
   })
 }
