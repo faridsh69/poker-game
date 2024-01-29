@@ -74,7 +74,7 @@ export const renderClientLeaveTable = (
     return {
       ...updatedTableLeaveTable,
       timer: isTimeToClearTable ? getClearTableTimer() : updatedTableLeaveTable.timer,
-      seats: t.seats.map(s => {
+      seats: updatedTableLeaveTable.seats.map(s => {
         if (!s.user) return s
 
         return {
@@ -150,7 +150,7 @@ export const renderClientLeaveSeat = (
     return {
       ...updatedTableLeaveSeat,
       timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveSeat) ? getClearTableTimer() : null,
-      seats: t.seats.map(s => {
+      seats: updatedTableLeaveSeat.seats.map(s => {
         if (!s.user) return s
 
         return {
@@ -234,7 +234,7 @@ export const renderClientLeaveGame = (
     return {
       ...updatedTableLeaveGame,
       timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveGame) ? getClearTableTimer() : null,
-      seats: t.seats.map(s => {
+      seats: updatedTableLeaveGame.seats.map(s => {
         if (!s.user) return s
 
         return {

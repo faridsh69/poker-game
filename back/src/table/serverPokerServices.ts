@@ -64,6 +64,12 @@ const isAllinSeat = (seat: TypeSeat) => {
   return !seat.user?.cash.inGame
 }
 
+const isNotEnoughCashThanBlinds = (seat: TypeSeat, table: TypeTable): boolean => {
+  if (!seat.user) return true
+
+  return seat.user?.cash?.inGame < table.blinds.big
+}
+
 const getActiveSeats = (table: TypeTable, includeFolders = false, includeAllIns = false) => {
   return table.seats.filter(
     s =>
@@ -539,6 +545,22 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
   return {
     ...finishedPhaseTable,
     timer: winnerReward ? timer : null,
+    seats: finishedPhaseTable.seats.map(seat => {
+      if (!seat.user) return seat
+      if (isSeatoutSeat(seat)) return seat
+
+      const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, finishedPhaseTable)
+
+      return {
+        ...seat,
+        user: {
+          ...seat.user,
+          isSeatout: isNotEnoughCash && winnerReward ? true : seat.user.isSeatout,
+          timer:
+            isNotEnoughCash && winnerReward ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
+        },
+      }
+    }),
   }
 }
 
