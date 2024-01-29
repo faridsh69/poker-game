@@ -283,7 +283,7 @@ export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   return cards
 }
 
-const getCurrentGameTurnSeatId = (table: TypeTable) => {
+const getCurrentGameTurnSeatId = (table: TypeTable): number => {
   return table.seats.find(s => s.user?.gameTurn)?.id || -1
 }
 
@@ -320,6 +320,7 @@ export const getNextSeatId = (
   if (!seats.length) {
     return seatId
   }
+
   let nextSeatId = seats[0].id
   let foundSeat = false
 
@@ -343,7 +344,32 @@ const getNextNotFoldedOrAllinSeatId = (table: TypeTable, isPhaseFinished: boolea
   }
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
-  return getNextSeatId(table, currentGameTurnSeatId, false, false)
+  const seats = getActiveSeats(table, true, true)
+  const acceptableSeats = getActiveSeats(table, false, false)
+
+  if (!acceptableSeats.length) {
+    console.log('acceptableSeats BUG')
+    return currentGameTurnSeatId
+  }
+
+  let nextSeatId = acceptableSeats[0].id
+  let foundSeat = false
+
+  for (const seat of seats) {
+    if (foundSeat) {
+      if (isAllinSeat(seat)) continue
+      if (isFoldSeat(seat)) continue
+
+      nextSeatId = seat.id
+      break
+    }
+
+    if (seat.id === currentGameTurnSeatId) {
+      foundSeat = true
+    }
+  }
+
+  return nextSeatId
 }
 
 export const getIsPhaseFinished = (table: TypeTable) => {
@@ -443,6 +469,7 @@ export const getUpdatedSeatWithFold = (table: TypeTable) => {
     ...table,
     seats: table.seats.map(s => {
       if (!s.user) return s
+      if (isSeatoutSeat(s)) return s
 
       const isFold = currentGameTurnSeatId === s.id ? true : s.user.isFold
 
