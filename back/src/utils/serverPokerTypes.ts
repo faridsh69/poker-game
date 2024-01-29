@@ -36,6 +36,7 @@ export type TypeClientChannelKeys =
   | 'checkAction'
   | 'callAction'
   | 'raiseAction'
+  | 'timeBankAction'
 
 export type TypeClientChannels =
   | 'client:join_table'
@@ -48,6 +49,7 @@ export type TypeClientChannels =
   | 'client:check_action'
   | 'client:call_action'
   | 'client:raise_action'
+  | 'client:timebank_action'
 
 type TypeBuyIn = {
   min: number
@@ -75,7 +77,7 @@ type TypeCash = {
   inPot: number
 }
 
-type TypeTimer = {
+export type TypeTimer = {
   deadline: number
   action: string
   extra?: number
@@ -93,6 +95,7 @@ export type TypeUser = {
   isFold: boolean
   isSeatout: boolean
   timer: TypeTimer | null
+  timeBank: number
   // hot: number
 }
 

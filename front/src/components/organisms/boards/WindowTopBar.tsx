@@ -1,33 +1,27 @@
 import { IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-
-import { useCallback } from 'react'
 import { useAtom } from 'jotai'
 
-import { TypeTableProps } from 'src/interfaces'
-import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import { useAuth } from 'src/hooks/useAuth'
-import { socketAtom } from 'src/contexts/socketAtom'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { confirmModalAtom } from 'src/contexts/confirmModalAtom'
+import { TypeTableProps } from 'src/interfaces'
 import { Money } from 'src/components/molecules/Money'
 
 export const WindowTopBar = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
-  const [socket] = useAtom(socketAtom)
-  const [, setConfirmModal] = useAtom(confirmModalAtom)
+  const { handleLeaveTable } = useSocketActions(table.id)
 
-  const handleLeaveTable = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.leaveTable, { tableId: table.id, username })
-    setConfirmModal({ show: false })
-  }, [socket, table, username, setConfirmModal])
+  const [, setConfirmModal] = useAtom(confirmModalAtom)
 
   const handleConfirmLeaveTable = () => {
     setConfirmModal({
       show: true,
       message: 'Are you sure to leave table?',
-      onConfirm: handleLeaveTable,
+      onConfirm: () => {
+        handleLeaveTable()
+        setConfirmModal({ show: false })
+      },
     })
   }
 

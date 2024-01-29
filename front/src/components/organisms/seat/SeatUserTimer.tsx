@@ -7,7 +7,9 @@ import { useSeatTimer } from 'src/hooks/useSeatTimer'
 export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
   const { seat, table } = props
 
+  console.log('001 seat', seat)
   const remainingSeconds = useSeatTimer(seat, 'checkfold')
+  console.log('002 remainingSeconds', remainingSeconds)
 
   const isShowOrFinishPhase = isFinishPhase(table) || isShowPhase(table)
 

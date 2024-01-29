@@ -16,6 +16,7 @@ import {
   getTable,
   getUpdatedSeatWithFold,
   getUpdatedSeatWithRaiseOrCallAmount,
+  getUpdatedSeatWithTimeBank,
   getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
   isCheckAllowed,
@@ -384,5 +385,13 @@ export const renderGeneralClientActions = (
 export const renderUpdateClients = (server: Server, tables: TypeTable[], tableId: number) => {
   server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
     tables,
+  })
+}
+
+export const renderClientTimeBankAction = (tablesState: TypeTable[], tableId: number) => {
+  return tablesState.map(t => {
+    if (t.id !== tableId) return t
+
+    return getUpdatedSeatWithTimeBank(t)
   })
 }

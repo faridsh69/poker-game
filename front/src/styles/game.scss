@@ -318,6 +318,11 @@ html {
               flex-direction: row;
               gap: 7px;
             }
+
+            &-timebank {
+              position: absolute;
+              top: -70px;
+            }
           }
         }
 

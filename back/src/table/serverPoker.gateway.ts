@@ -24,6 +24,7 @@ import {
   renderClientLeaveGame,
   renderClientLeaveSeat,
   renderClientLeaveTable,
+  renderClientTimeBankAction,
   renderGeneralClientActions,
   renderServerClearTable,
   renderServerStartTable,
@@ -213,5 +214,14 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
       actionName,
       amount,
     )
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.timeBankAction)
+  handleClientTimeBankAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    console.log('x time bank', username)
+    // Validations: check if its user game turn
+    this.tablesState = renderClientTimeBankAction(this.tablesState, tableId)
+
+    renderUpdateClients(this.server, this.tablesState, tableId)
   }
 }

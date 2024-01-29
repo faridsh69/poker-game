@@ -24,12 +24,12 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserCountry />
       <SeatUserHot />
       <SeatUserCash seat={seat} />
-      <SeatUserTimer seat={seat} table={table} />
       <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
       <SeatUserStatus seat={seat} tableId={table.id} />
       <SeatWinner seat={seat} />
       <SeatUserPot seat={seat} />
       <SeatDealer seat={seat} />
+      <SeatUserTimer seat={seat} table={table} />
       {/* <div className='dnd-window-body-table-seats-seat-achievement'></div> */}
     </div>
   )

@@ -18,6 +18,7 @@ import {
   TypeSeat,
   TypeTable,
   TypeTablePhase,
+  TypeTimer,
 } from 'src/utils/serverPokerTypes'
 
 export const roundNumber = (number: number, digits = 2): number => {
@@ -105,7 +106,7 @@ export const isTimeToClearTableInShowPhase = (table: TypeTable) => {
   return !isAtLeastTwoPlayers(table, true, false)
 }
 
-export const getLeaveSeatTimer = (isAllin = false) => {
+export const getLeaveSeatTimer = (isAllin = false): TypeTimer => {
   return {
     deadline: getDeadline(isAllin ? SERVER_TIMEOUT_SEATOUT_ALLIN : SERVER_TIMEOUT_SEATOUT),
     action: TIMER_ACTION_NAMES.leaveSeat,
@@ -119,21 +120,29 @@ const getCheckfoldtimer = () => {
   }
 }
 
-export const getStartTableTimer = () => {
+const getExtraCheckfoldtimer = (time: number): TypeTimer => {
+  return {
+    deadline: getDeadline(time),
+    action: TIMER_ACTION_NAMES.checkfold,
+    extra: 10,
+  }
+}
+
+export const getStartTableTimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_START),
     action: TIMER_ACTION_NAMES.restartTable,
   }
 }
 
-const getRestartTableTimer = () => {
+const getRestartTableTimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_RESTART),
     action: TIMER_ACTION_NAMES.restartTable,
   }
 }
 
-export const getClearTableTimer = () => {
+export const getClearTableTimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_CLEAR),
     action: TIMER_ACTION_NAMES.clearTable,
@@ -645,6 +654,34 @@ export const resetTable = (table: TypeTable): TypeTable => {
             inGame,
           },
           timer: newGameTurnSeatId === s.id ? getCheckfoldtimer() : null,
+        },
+      }
+    }),
+  }
+}
+
+export const getUpdatedSeatWithTimeBank = (table: TypeTable) => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (isSeatoutSeat(s)) return s
+      if (!s.user.timer) return s
+      if (currentGameTurnSeatId !== s.id) return s
+
+      console.log('33 s.user.timeBank', s.user.timeBank)
+      console.log('34 s.user.timer.deadline', s.user.timer.deadline)
+      const extraTimer = getExtraCheckfoldtimer(
+        s.user.timeBank + (s.user.timer.deadline - getDeadline(0)),
+      )
+      console.log('35 extraTimer', extraTimer)
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          timer: extraTimer,
         },
       }
     }),

@@ -17,6 +17,7 @@ export type TypeClientChannelKeys =
   | 'checkAction'
   | 'callAction'
   | 'raiseAction'
+  | 'timeBankAction'
 
 export type TypeClientChannels =
   | 'client:join_table'
@@ -29,6 +30,7 @@ export type TypeClientChannels =
   | 'client:check_action'
   | 'client:call_action'
   | 'client:raise_action'
+  | 'client:timebank_action'
 
 export type TypeServerChannelsUpdateTablesData = {
   tables: TypeTable[]
@@ -103,6 +105,7 @@ export type TypeUser = {
   isFold: boolean
   isSeatout: boolean
   timer: TypeTimer | null
+  timeBank: number
   // hot: number
 }
 

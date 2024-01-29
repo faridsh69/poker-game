@@ -1,66 +1,12 @@
-import { useCallback } from 'react'
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material'
-
-import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import {
-  isUserSeatedTable,
-  isUserSeatoutTable,
-  isUserWaitingTable,
-} from 'src/helpers/clientHelpersPoker'
-import { useAuth } from 'src/hooks/useAuth'
 import { useAtom } from 'jotai'
+
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
-import { socketAtom } from 'src/contexts/socketAtom'
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
-import { Money } from 'src/components/molecules/Money'
+import { TablesItem } from './TablesItem'
 
 export const TablesList = () => {
-  const { username } = useAuth()
   const [tables] = useAtom(allTablesAtom)
-  const [socket] = useAtom(socketAtom)
-
-  const handleJoinTable = useCallback(
-    (tableId: number) => {
-      socket.emit(CLIENT_CHANNELS.joinTable, { tableId, username })
-    },
-    [socket, username],
-  )
 
   return tables.map(table => {
-    return (
-      <div className='home-tables-table' key={table.id}>
-        <div className='home-tables-table-content'>
-          <div>{table.type}</div>
-          <div>
-            Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
-          </div>
-          <div>
-            Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
-          </div>
-          <div>
-            Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length}
-          </div>
-          <div>Waiting Users: {table.waitingUsers.length}</div>
-
-          <div>Game Phase: {table.phase}</div>
-        </div>
-        <div className='home-tables-table-action'>
-          <Button
-            size='small'
-            variant='contained'
-            color='success'
-            startIcon={<PlayCircleOutlineIcon />}
-            disabled={
-              isUserSeatedTable(table, username) ||
-              isUserWaitingTable(table, username) ||
-              isUserSeatoutTable(table, username)
-            }
-            onClick={() => handleJoinTable(table.id)}
-          >
-            JOIN TABLE
-          </Button>
-        </div>
-      </div>
-    )
+    return <TablesItem key={table.id} table={table} />
   })
 }

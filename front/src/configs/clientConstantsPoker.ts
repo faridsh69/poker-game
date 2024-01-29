@@ -40,6 +40,8 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   checkAction: 'client:check_action',
   callAction: 'client:call_action',
   raiseAction: 'client:raise_action',
+
+  timeBankAction: 'client:timebank_action',
 }
 
 export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {
