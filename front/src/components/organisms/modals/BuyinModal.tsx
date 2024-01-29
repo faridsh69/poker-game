@@ -18,7 +18,7 @@ import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { Money } from 'src/components/molecules/Money'
 import { TypeSeat } from 'src/interfaces'
-import { CLIENT_TIMEOUT_SEATOUT } from 'src/configs/clientConstantsPoker'
+import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
 
 export const BuyinModal = () => {
   const { username } = useAuth()
@@ -131,7 +131,7 @@ export const BuyinModal = () => {
               remainingSeconds={remainingSeconds}
               onFinishTimer={closeModel}
               type='circle'
-              duration={CLIENT_TIMEOUT_SEATOUT}
+              duration={CLIENT_TIMEOUT_SEATOUT_ALLIN}
             />
             Second(s) left.
           </div>
