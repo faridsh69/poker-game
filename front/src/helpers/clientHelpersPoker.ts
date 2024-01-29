@@ -182,7 +182,7 @@ export const checkIfLastActionIsAllIn = (action: string, seat: TypeSeat) => {
   return capitalize(action)
 }
 
-export const isUserPlayingGame = (table: TypeTable, username: string) => {
+export const isUserPlayingGame = (table: TypeTable, username: string): boolean => {
   const userSeat = getUserSeat(table, username)
 
   if (!userSeat || !userSeat?.user) return false
@@ -191,4 +191,19 @@ export const isUserPlayingGame = (table: TypeTable, username: string) => {
   if (isWaitPhase(table)) return false
 
   return true
+}
+
+export const isOneOtherPersonToCallRaise = (table: TypeTable, username: string): boolean => {
+  for (const seat of table.seats) {
+    if (
+      seat.user &&
+      seat.user.cash.inGame &&
+      seat.user.cards.length &&
+      seat.user.username !== username
+    ) {
+      return true
+    }
+  }
+
+  return false
 }

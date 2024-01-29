@@ -6,7 +6,7 @@ import { RaiseActionFirstRow } from 'src/components/organisms/actions/details/Ra
 import { RaiseAction } from 'src/components/organisms/actions/details/RaiseAction'
 import { useMemo } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
-import { getCallActionAmount } from 'src/helpers/clientHelpersPoker'
+import { getCallActionAmount, isOneOtherPersonToCallRaise } from 'src/helpers/clientHelpersPoker'
 
 export const RaiseOrFoldOrCallActions = (props: TypeTableProps) => {
   const { table } = props
@@ -20,7 +20,8 @@ export const RaiseOrFoldOrCallActions = (props: TypeTableProps) => {
     return getCallActionAmount(table, username)
   }, [table, username])
 
-  const userCanRaise = realRestOfRaise > callActionAmount
+  const userCanRaise =
+    realRestOfRaise > callActionAmount && isOneOtherPersonToCallRaise(table, username)
 
   return (
     <div className='dnd-window-body-table-actions-gameturn'>

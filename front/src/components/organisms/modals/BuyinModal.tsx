@@ -11,15 +11,14 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
+import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
+import { useSeatTimer } from 'src/hooks/useSeatTimer'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { Money } from 'src/components/molecules/Money'
-import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
-import {
-  BUY_IN_MODAL_TIME_OUT_SECONDS,
-  CLIENT_TIMEOUT_BUYIN,
-} from 'src/configs/clientConstantsPoker'
+import { TypeSeat } from 'src/interfaces'
+import { CLIENT_TIMEOUT_SEATOUT } from 'src/configs/clientConstantsPoker'
 
 export const BuyinModal = () => {
   const { username } = useAuth()
@@ -59,9 +58,10 @@ export const BuyinModal = () => {
     setBuyinAmount(inputValue)
   }, [inputValue])
 
-  if (!buyinModal.table || !buyinModal.show) return null
+  const authSeat = buyinModal.table ? getUserSeat(buyinModal.table, username) : null
+  const remainingSeconds = useSeatTimer(authSeat as TypeSeat, 'leaveSeat')
 
-  const authSeat = getUserSeat(buyinModal.table, username)
+  if (!buyinModal.table || !buyinModal.show) return null
 
   return (
     <Modal open={buyinModal.show} onClose={closeModel} className='buyin-modal'>
@@ -127,7 +127,12 @@ export const BuyinModal = () => {
             </FormControl>
           </div>
           <div className='buyin-modal-container-body-timer'>
-            <CountDownTimer remainingSeconds={CLIENT_TIMEOUT_BUYIN} onFinishTimer={closeModel} />
+            <CountDownTimer
+              remainingSeconds={remainingSeconds}
+              onFinishTimer={closeModel}
+              type='circle'
+              duration={CLIENT_TIMEOUT_SEATOUT}
+            />
             Second(s) left.
           </div>
           <div className='buyin-modal-container-body-actions'>

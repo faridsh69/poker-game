@@ -9,13 +9,17 @@ export const CountDownTimer = (props: {
   remainingSeconds: number
   onFinishTimer?: () => void
   type?: TypeTimerType
+  duration?: number
 }) => {
   const {
     remainingSeconds: propRemainingTime = CLIENT_TIMEOUT_FAULT,
     onFinishTimer,
     type = 'circle',
+    duration = 0,
   } = props
+
   const remainingSeconds = propRemainingTime > 0 ? propRemainingTime : 0
+  const realDuration = duration ? duration : remainingSeconds
 
   const [restTime, setRestTime] = useState(remainingSeconds)
 
@@ -48,7 +52,7 @@ export const CountDownTimer = (props: {
           <CircularProgress
             className='timer-action-circle'
             variant='determinate'
-            value={(restTime * 100) / remainingSeconds}
+            value={(restTime * 100) / realDuration}
           />
           <div className='timer-action-text'>{restTime}</div>
         </>
@@ -58,7 +62,7 @@ export const CountDownTimer = (props: {
         <LinearProgress
           className='timer-action-line'
           variant='determinate'
-          value={(restTime * 100) / remainingSeconds}
+          value={(restTime * 100) / realDuration}
         />
       )}
 

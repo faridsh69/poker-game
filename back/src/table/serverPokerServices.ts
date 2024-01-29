@@ -91,8 +91,12 @@ export const isTimeToStartTable = (table: TypeTable) => {
   return isWaitPhase(table) && isAtLeastTwoPlayers(table, true, false)
 }
 
-export const isTimeToClearTable = (table: TypeTable) => {
-  return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, false)
+export const isTimeToClearTableInMiddleOfGame = (table: TypeTable) => {
+  return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, true)
+}
+
+export const isTimeToClearTableInShowPhase = (table: TypeTable) => {
+  return !isAtLeastTwoPlayers(table, true, false)
 }
 
 export const getLeaveSeatTimer = (isAllin = false) => {
@@ -465,10 +469,7 @@ export const getUpdatedSeatWithRaiseOrCallAmount = (table: TypeTable, amount: nu
   }
 }
 
-export const getUpdatedTableIfPhaseFinishedWithWinners = (
-  table: TypeTable,
-  isPhaseFinished: boolean,
-) => {
+export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished: boolean) => {
   if (!isPhaseFinished) return table
 
   let tablePhase = getNextTablePhase(table.phase)
@@ -502,11 +503,10 @@ export const getUpdatedTableIfPhaseFinishedWithWinners = (
     winnerReward = roundNumber((tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
   }
 
-  return {
+  const finishedPhaseTable = {
     ...table,
     phase: tablePhase,
     pot: tablePot,
-    timer: isAtLeastTwoPlayers(table, true, false) ? getRestartTableTimer() : getClearTableTimer(),
     total: 0,
     seats: table.seats.map(s => {
       if (!s.user) return s
@@ -531,6 +531,15 @@ export const getUpdatedTableIfPhaseFinishedWithWinners = (
       }
     }),
   }
+
+  const timer = isTimeToClearTableInShowPhase(finishedPhaseTable)
+    ? getClearTableTimer()
+    : getRestartTableTimer()
+
+  return {
+    ...finishedPhaseTable,
+    timer: winnerReward ? timer : null,
+  }
 }
 
 export const clearTable = (table: TypeTable): TypeTable => {
@@ -550,8 +559,6 @@ export const clearTable = (table: TypeTable): TypeTable => {
         ...s,
         user: {
           ...s.user,
-          isSeatout: isAllin ? true : s.user.isSeatout,
-          timer: isAllin ? getLeaveSeatTimer(isAllin) : s.user.timer,
           cards: [],
           gameTurn: false,
           isWinner: false,
@@ -562,6 +569,8 @@ export const clearTable = (table: TypeTable): TypeTable => {
             inPot: 0,
             inGame: s.user.cash.inGame + table.total,
           },
+          isSeatout: isAllin ? true : s.user.isSeatout,
+          timer: isAllin ? getLeaveSeatTimer(isAllin) : s.user.timer,
         },
       }
     }),

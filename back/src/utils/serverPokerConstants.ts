@@ -23,11 +23,13 @@ export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
 export const SERVER_TIMEOUT_ACTION = 15
-export const SERVER_TIMEOUT_SEATOUT_ALLIN = 10 // 120
-export const SERVER_TIMEOUT_SEATOUT = 20
+
+export const SERVER_TIMEOUT_SEATOUT_ALLIN = 15 // 120
+export const SERVER_TIMEOUT_SEATOUT = 5 // 20
+
 export const SERVER_TIMEOUT_RESTART = 6
+export const SERVER_TIMEOUT_CLEAR = 4
 export const SERVER_TIMEOUT_START = 0
-export const SERVER_TIMEOUT_CLEAR = 5
 
 export const SERVER_CHANNELS: { [key: string]: TypeServerChannels } = {
   updateTables: 'server:update_tables',
@@ -65,6 +67,7 @@ export const ACTION_NAMES: { [key in TypeAction]: TypeAction } = {
 export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {
   leaveSeat: 'leaveSeat',
   checkfold: 'checkfold',
+
   restartTable: 'restartTable',
   clearTable: 'clearTable',
 }
@@ -139,28 +142,9 @@ export const WAITING_USER: TypeUser = {
   isWinner: false,
   achievement: '',
   isFold: false,
-  isSeatout: true,
-  timer: null,
-  // hot: null,
-}
-
-export const PLAYING_USER: TypeUser = {
-  username: 'Active Player',
-  avatar: '2',
-  cash: {
-    inBank: 7500,
-    inGame: 2500,
-    inPot: 0,
-  },
-  cards: [],
-  isDealer: false,
-  gameTurn: false,
-  isWinner: false,
-  achievement: '',
-  isFold: false,
   isSeatout: false,
   timer: null,
-  // hot: 50,
+  // hot: null,
 }
 
 export const TABLES: TypeTable[] = [

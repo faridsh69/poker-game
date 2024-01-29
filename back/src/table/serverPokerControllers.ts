@@ -11,10 +11,10 @@ import {
   getTable,
   getUpdatedSeatWithFold,
   getUpdatedSeatWithRaiseOrCallAmount,
-  getUpdatedTableIfPhaseFinishedWithWinners,
+  getUpdatedTableIfPhaseFinished,
   getUpdatedTableNextGameTurn,
   isCheckAllowed,
-  isTimeToClearTable,
+  isTimeToClearTableInMiddleOfGame,
   isTimeToStartTable,
   isUserSeatedTable,
   isUserWaitingTable,
@@ -53,9 +53,8 @@ export const renderClientLeaveTable = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    return {
+    const updatedTableLeaveTable = {
       ...t,
-      timer: isTimeToClearTable(t) ? getClearTableTimer() : null,
       waitingUsers: t.waitingUsers.filter(u => u.username !== username),
       seats: t.seats.map(s => {
         return {
@@ -63,6 +62,11 @@ export const renderClientLeaveTable = (
           user: s.user?.username === username ? null : s.user,
         }
       }),
+    }
+
+    return {
+      ...updatedTableLeaveTable,
+      timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveTable) ? getClearTableTimer() : null,
     }
   })
 }
@@ -106,9 +110,8 @@ export const renderClientLeaveSeat = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    return {
+    const updatedTableLeaveSeat = {
       ...t,
-      timer: isTimeToClearTable(t) ? getClearTableTimer() : null,
       waitingUsers: isUserWaitingTable(t, username)
         ? t.waitingUsers
         : [
@@ -125,6 +128,11 @@ export const renderClientLeaveSeat = (
         }
       }),
     }
+
+    return {
+      ...updatedTableLeaveSeat,
+      timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveSeat) ? getClearTableTimer() : null,
+    }
   })
 }
 
@@ -137,7 +145,7 @@ export const renderClientJoinGame = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const table = {
+    const updatedTableJoinGame = {
       ...t,
       seats: t.seats.map(s => {
         if (s.user?.username !== username) return s
@@ -146,12 +154,12 @@ export const renderClientJoinGame = (
           ...s,
           user: {
             ...s.user,
-            isSeatout: false,
             cash: {
               inGame: buyinAmount,
               inBank: WAITING_USER.cash.inBank - buyinAmount,
               inPot: 0,
             },
+            isSeatout: false,
             timer: null,
           },
         }
@@ -159,8 +167,10 @@ export const renderClientJoinGame = (
     }
 
     return {
-      ...table,
-      timer: isTimeToStartTable(table) ? getStartTableTimer() : null,
+      ...updatedTableJoinGame,
+      timer: isTimeToStartTable(updatedTableJoinGame)
+        ? getStartTableTimer()
+        : updatedTableJoinGame.timer,
     }
   })
 }
@@ -173,9 +183,8 @@ export const renderClientLeaveGame = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    return {
+    const updatedTableLeaveGame = {
       ...t,
-      timer: isTimeToClearTable(t) ? getClearTableTimer() : null,
       seats: t.seats.map(s => {
         const user =
           s.user?.username !== username
@@ -183,6 +192,7 @@ export const renderClientLeaveGame = (
             : {
                 ...s.user,
                 isSeatout: true,
+                timer: getLeaveSeatTimer(true),
               }
 
         return {
@@ -190,6 +200,11 @@ export const renderClientLeaveGame = (
           user,
         }
       }),
+    }
+
+    return {
+      ...updatedTableLeaveGame,
+      timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveGame) ? getClearTableTimer() : null,
     }
   })
 }
@@ -200,7 +215,7 @@ export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number
 
     const updatedSeatWithFold = getUpdatedSeatWithFold(t)
     const isPhaseFinished = getIsPhaseFinished(updatedSeatWithFold)
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinishedWithWinners(
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
       updatedSeatWithFold,
       isPhaseFinished,
     )
@@ -218,10 +233,7 @@ export const renderClientCheckAction = (tablesState: TypeTable[], tableId: numbe
     if (t.id !== tableId) return t
 
     const isPhaseFinished = getIsPhaseFinished(t)
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinishedWithWinners(
-      t,
-      isPhaseFinished,
-    )
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(t, isPhaseFinished)
     const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
       updatedTableIfPhaseFinished,
       isPhaseFinished,
@@ -254,7 +266,7 @@ export const renderClientCallAction = (
 
     const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, callActionAmount as number)
     const isPhaseFinished = getIsPhaseFinished(t)
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinishedWithWinners(
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
       updatedSeatWithAmount,
       isPhaseFinished,
     )

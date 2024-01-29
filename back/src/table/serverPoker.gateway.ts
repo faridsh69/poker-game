@@ -37,7 +37,7 @@ import {
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/utils/serverPokerTypes'
-import { getDeadline, isAtLeastTwoPlayers, isWaitPhase } from './serverPokerServices'
+import { getDeadline, isAtLeastTwoPlayers } from './serverPokerServices'
 
 @WebSocketGateway({
   cors: {
@@ -69,6 +69,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
 
           if (nowtime > seat.user.timer.deadline) {
             console.log('1 user timer action', seat.user.timer.action)
+
             if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
               this.tablesState = renderClientLeaveSeat(
                 this.tablesState,
@@ -88,7 +89,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
         if (!table.timer) continue
 
         if (nowtime > table.timer.deadline) {
-          console.log('2 table timer ction', table.timer.action)
+          console.log('2 table timer action', table.timer.action)
 
           if (table.timer.action === TIMER_ACTION_NAMES.restartTable) {
             if (!isAtLeastTwoPlayers(table, true, false)) continue
@@ -98,7 +99,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
           }
 
           if (table.timer.action === TIMER_ACTION_NAMES.clearTable) {
-            if (isWaitPhase(table)) return
+            // if (isWaitPhase(table)) return
 
             this.tablesState = renderServerClearTable(this.tablesState, table.id)
             renderUpdateClients(this.server, this.tablesState, table.id)
@@ -134,7 +135,6 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   ) {
     // Validations: check user is joined before as waiting user in this table
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
-    // @TODO implement timer inside leave table
 
     renderUpdateClients(this.server, this.tablesState, tableId)
     clientSocket.leave('' + tableId)
@@ -154,7 +154,6 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
     this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
-    // @TODO implement timer restart inside leave seat
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
@@ -171,7 +170,6 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
     this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
-    // @TODO implement timer restart inside leave game
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.foldAction)
