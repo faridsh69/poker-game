@@ -109,6 +109,7 @@ export const renderClientJoinSeat = (
 
             return {
               id: s.id,
+              role: null,
               user: {
                 ...WAITING_USER,
                 username,

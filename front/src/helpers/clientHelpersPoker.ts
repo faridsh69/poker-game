@@ -1,4 +1,4 @@
-import { LAST_ACTION_ACTIONS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import { LAST_ACTION_ACTIONS, SEAT_ROLES, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
 import { capitalize } from './common'
 
@@ -13,6 +13,14 @@ export const roundNumber = (number: number, digits = 2): number => {
 export const getDeadline = (timeout = 0) => {
   return Math.floor(new Date().valueOf() / 1000) + timeout
 }
+
+export const isDealerSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.dealer
+
+export const isSmallSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.small
+
+export const isBigSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.big
+
+export const isUnderGunSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.underTheGun
 
 export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
 
@@ -55,7 +63,9 @@ export const isUserWaitingTable = (table: TypeTable, username: string) => {
 }
 
 export const isUserGameTurn = (table: TypeTable, username: string) => {
-  return !!table.seats.find(s => s.user?.gameTurn && s.user?.username === username)
+  return !!table.seats.find(
+    s => s.role && s.role === table.roleTurn && s.user?.username === username,
+  )
 }
 
 export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {

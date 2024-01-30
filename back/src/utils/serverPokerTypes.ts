@@ -10,6 +10,17 @@ export type TypeTimerAction = 'leaveSeat' | 'checkfold' | 'restartTable' | 'clea
 
 export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 
+export type TypeSeatRole =
+  | 'small'
+  | 'big'
+  | 'underTheGun'
+  | 'underTheGunPlusOne'
+  | 'underTheGunPlusTwo'
+  | 'lowJack'
+  | 'highJack'
+  | 'cutOff'
+  | 'dealer'
+
 export type TypeCardNumber =
   | '2'
   | '3'
@@ -63,6 +74,7 @@ type TypeBlinds = {
 
 export type TypeSeat = {
   id: number
+  role: TypeSeatRole | null
   user: TypeUser | null
 }
 
@@ -88,8 +100,6 @@ export type TypeUser = {
   avatar: string
   cash: TypeCash
   cards: TypeCard[]
-  isDealer: boolean
-  gameTurn: boolean
   isWinner: boolean
   achievement: string
   isFold: boolean
@@ -111,6 +121,7 @@ export type TypeTable = {
   pot: number
   total: number
   cards: TypeCard[]
+  roleTurn: TypeSeatRole | null
   timer: TypeTimer | null
 }
 

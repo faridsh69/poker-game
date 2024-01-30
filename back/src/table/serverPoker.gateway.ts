@@ -93,7 +93,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
           console.log('2 table timer action', table.timer.action)
 
           if (table.timer.action === TIMER_ACTION_NAMES.restartTable) {
-            if (!isAtLeastTwoPlayers(table, true, false)) continue
+            if (!isAtLeastTwoPlayers(table, true, false, true, false)) continue
 
             this.tablesState = renderServerStartTable(this.tablesState, table.id)
             renderUpdateClients(this.server, this.tablesState, table.id)

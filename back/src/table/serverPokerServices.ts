@@ -2,6 +2,7 @@ import {
   CARD_NUMBERS,
   CARD_TYPES,
   KANIAT_PERCENT,
+  SEAT_ROLES,
   SERVER_TIMEOUT_ACTION,
   SERVER_TIMEOUT_CLEAR,
   SERVER_TIMEOUT_RESTART,
@@ -16,6 +17,7 @@ import {
   TypeCard,
   TypeScoreAndAchivements,
   TypeSeat,
+  TypeSeatRole,
   TypeTable,
   TypeTablePhase,
   TypeTimer,
@@ -25,7 +27,7 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
-export const getDeadline = (timeout = 0) => {
+export const getDeadline = (timeout = 0): number => {
   return Math.floor(new Date().valueOf() / 1000) + timeout
 }
 
@@ -33,36 +35,48 @@ export const getTable = (tables: TypeTable[], tableId: number): TypeTable => {
   return tables.find(t => t.id === tableId) as TypeTable
 }
 
-export const isWaitPhase = (table: TypeTable) => {
+export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
+  return !!table.seats.find(s => s.user?.username === username)
+}
+
+export const isUserWaitingTable = (table: TypeTable, username: string): boolean => {
+  return !!table.waitingUsers.find(u => u.username === username)
+}
+
+export const isWaitPhase = (table: TypeTable): boolean => {
   return table.phase === TABLE_PHASES.wait
 }
 
-const isPreflopPhase = (table: TypeTable) => {
+const isPreflopPhase = (table: TypeTable): boolean => {
   return table.phase === TABLE_PHASES.preflop
 }
 
-const isShowPhase = (table: TypeTable) => {
+const isShowPhase = (table: TypeTable): boolean => {
   return table.phase === TABLE_PHASES.show
 }
 
-const isFinishPhase = (table: TypeTable) => {
+const isFinishPhase = (table: TypeTable): boolean => {
   return table.phase === TABLE_PHASES.finish
 }
 
-const isShowOrFinishPhase = (table: TypeTable) => {
+const isShowOrFinishPhase = (table: TypeTable): boolean => {
   return isShowPhase(table) || isFinishPhase(table)
 }
 
-const isSeatoutSeat = (seat: TypeSeat) => {
+const isSeatoutSeat = (seat: TypeSeat): boolean => {
   return !!seat.user?.isSeatout
 }
 
-const isFoldSeat = (seat: TypeSeat) => {
+const isFoldSeat = (seat: TypeSeat): boolean => {
   return !!seat.user?.isFold
 }
 
-const isAllinSeat = (seat: TypeSeat) => {
+const isAllinSeat = (seat: TypeSeat): boolean => {
   return !seat.user?.cash.inGame
+}
+
+const isWithCardSeat = (seat: TypeSeat): boolean => {
+  return !!seat.user?.cards.length
 }
 
 const isNotEnoughCashThanBlinds = (seat: TypeSeat, table: TypeTable): boolean => {
@@ -71,39 +85,153 @@ const isNotEnoughCashThanBlinds = (seat: TypeSeat, table: TypeTable): boolean =>
   return seat.user?.cash?.inGame < table.blinds.big
 }
 
-const getActiveSeats = (table: TypeTable, includeFolders = false, includeAllIns = false) => {
-  return table.seats.filter(
-    s =>
-      s.user &&
-      !isSeatoutSeat(s) &&
-      (isWaitPhase(table) || s.user.cards.length) &&
-      (!isAllinSeat(s) || includeAllIns) &&
-      (!isFoldSeat(s) || includeFolders),
+/////////////////////////////////// 1 START SEAT //////////////////////////////////
+const getActiveSeats = (
+  table: TypeTable,
+  includeFolders = false,
+  includeAllIns = false,
+  includeWaitings = false,
+  includeSitouts = false,
+): TypeSeat[] => {
+  return table.seats.filter(s => {
+    if (!s.user) return false
+    if (!includeFolders && isFoldSeat(s)) return false
+    if (!includeAllIns && isAllinSeat(s)) return false
+    if (!includeWaitings && !isWithCardSeat(s)) return false
+    if (!includeSitouts && isSeatoutSeat(s)) return false
+
+    return true
+  })
+}
+
+export const isAtLeastTwoPlayers = (
+  table: TypeTable,
+  includeFolders = false,
+  includeAllIns = false,
+  includeWaitings = false,
+  includeSitouts = false,
+): boolean => {
+  const seats = getActiveSeats(
+    table,
+    includeFolders,
+    includeAllIns,
+    includeWaitings,
+    includeSitouts,
   )
+
+  return seats.length > 1
 }
 
-const getCurrentSmallSeatId = (table: TypeTable): number => {
-  const currentDealerSeatId = getCurrentDealerSeatId(table)
+const increaseSeatId = (seatId: number, tableSeatsLength: number): number => {
+  const nextSeatId = seatId + 1
 
-  return getNextSeatId(table, currentDealerSeatId)
+  return nextSeatId > tableSeatsLength ? 1 : nextSeatId
 }
 
-const getCurrentBigSeatId = (table: TypeTable) => {
-  const smallSeatId = getCurrentSmallSeatId(table)
+export const getNextSeatId = (
+  table: TypeTable,
+  seatId: number,
+  includeFolders = false,
+  includeAllIns = false,
+  includeWaitings = false,
+  includeSitouts = false,
+): number => {
+  const acceptedSeats = getActiveSeats(
+    table,
+    includeFolders,
+    includeAllIns,
+    includeWaitings,
+    includeSitouts,
+  )
 
-  return getNextSeatId(table, smallSeatId)
+  const tableSeatsLength = table.seats.length
+  let nextSeatId = increaseSeatId(seatId, tableSeatsLength)
+  while (!acceptedSeats.map(s => s.id).includes(nextSeatId)) {
+    nextSeatId = increaseSeatId(nextSeatId, tableSeatsLength)
+  }
+
+  return nextSeatId
 }
 
-export const isTimeToStartTable = (table: TypeTable) => {
-  return isWaitPhase(table) && isAtLeastTwoPlayers(table, true, false)
+const getCurrentRoleSeatId = (table: TypeTable, role: TypeSeatRole): number => {
+  const roleSeat = table.seats.find(s => s.role === role)
+
+  if (roleSeat) {
+    return roleSeat.id
+  }
+
+  if (role === SEAT_ROLES.dealer) {
+    return getRandomDealerSeatId(table)
+  }
+
+  if (role === SEAT_ROLES.big) {
+    const isHeadsUp = checkPlayersCount(table, 2)
+    if (isHeadsUp) {
+      return getCurrentRoleSeatId(table, SEAT_ROLES.small)
+    }
+  }
+
+  throw `${role} seat could not found!`
 }
 
-export const isTimeToClearTableInMiddleOfGame = (table: TypeTable) => {
-  return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, true)
+const getRandomDealerSeatId = (table: TypeTable): number => {
+  const seats = getActiveSeats(table, true, true, true, false)
+  const randomSeatIndex = Math.floor(Math.random() * seats.length)
+
+  return seats[randomSeatIndex].id
 }
 
-export const isTimeToClearTableInShowPhase = (table: TypeTable) => {
-  return !isAtLeastTwoPlayers(table, true, false)
+const getNewRoundGameTurnSeatId = (table: TypeTable): number => {
+  const currentSmallSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.small)
+  const acceptedSeats = getActiveSeats(table, false, false, false, false)
+
+  if (acceptedSeats.map(s => s.id).includes(currentSmallSeatId)) return currentSmallSeatId
+
+  return getNextSeatId(table, currentSmallSeatId, false, false, false, false)
+}
+
+const getCurrentGameTurnSeatId = (table: TypeTable): number => {
+  const gameTurnSeat = table.seats.find(s => s.role === table.roleTurn)
+
+  if (gameTurnSeat) {
+    return gameTurnSeat.id
+  }
+
+  throw 'gameTurn could not found!'
+}
+
+const getOnlyPlayingSeatId = (table: TypeTable): number => {
+  const activeSeats = getActiveSeats(table, false, true, false, false)
+
+  if (activeSeats.length === 1) {
+    return activeSeats[0].id
+  }
+
+  throw 'getOnlyPlayingSeatId could not found activeSeats.length: ' + activeSeats.length
+}
+
+const checkPlayersCount = (table: TypeTable, playersCount: number): boolean => {
+  if (isWaitPhase(table) || isShowOrFinishPhase(table)) {
+    return getActiveSeats(table, true, true, true, false).length === playersCount
+  }
+
+  return getActiveSeats(table, true, true, false, false).length === playersCount
+}
+
+/////////////////////////////////// 1 END SEAT //////////////////////////////////
+
+/////////////////////////////////// 2 START TIMER //////////////////////////////////
+
+export const isTimeToStartTable = (table: TypeTable): boolean => {
+  return isWaitPhase(table) && isAtLeastTwoPlayers(table, true, false, true, false)
+}
+
+export const isTimeToClearTableInMiddleOfGame = (table: TypeTable): boolean => {
+  return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, true, false, false)
+}
+
+export const isTimeToClearTableInShowPhase = (table: TypeTable): boolean => {
+  return !isAtLeastTwoPlayers(table, true, false, false, false)
 }
 
 export const getLeaveSeatTimer = (isAllin = false): TypeTimer => {
@@ -113,7 +241,7 @@ export const getLeaveSeatTimer = (isAllin = false): TypeTimer => {
   }
 }
 
-const getCheckfoldtimer = () => {
+const getCheckfoldtimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_ACTION),
     action: TIMER_ACTION_NAMES.checkfold,
@@ -149,9 +277,38 @@ export const getClearTableTimer = (): TypeTimer => {
   }
 }
 
-const getMaximumBet = (table: TypeTable) => {
+export const getUpdatedSeatWithTimeBank = (table: TypeTable): TypeTable => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (isSeatoutSeat(s)) return s
+      if (!s.user.timer) return s
+      if (currentGameTurnSeatId !== s.id) return s
+
+      const extraTimer = getExtraCheckfoldtimer(
+        s.user.timeBank + (s.user.timer.deadline - getDeadline(0)),
+      )
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          timer: extraTimer,
+        },
+      }
+    }),
+  }
+}
+/////////////////////////////////// 2 END TIMER //////////////////////////////////
+
+/////////////////////////////////// 3 START BET //////////////////////////////////
+
+const getMaximumBet = (table: TypeTable): number => {
   let maximumBet = -1
-  const seats = getActiveSeats(table, false, true)
+  const seats = getActiveSeats(table, false, true, false, false)
 
   for (const seat of seats) {
     if (seat.user && seat.user.cash.inPot > maximumBet) {
@@ -165,7 +322,7 @@ const getMaximumBet = (table: TypeTable) => {
 const getMaximumBetSeatIds = (table: TypeTable): number[] => {
   const maximumBet = getMaximumBet(table)
   const maximumBetSeatIds: number[] = []
-  const seats = getActiveSeats(table, false, true)
+  const seats = getActiveSeats(table, false, true, false, false)
 
   for (const seat of seats) {
     if (seat.user && seat.user.cash.inPot === maximumBet) {
@@ -176,24 +333,63 @@ const getMaximumBetSeatIds = (table: TypeTable): number[] => {
   return maximumBetSeatIds
 }
 
-const getRaiserSeatId = (table: TypeTable) => {
+const getRaiserSeatId = (table: TypeTable): number => {
   const maximumBet = getMaximumBet(table)
 
   if (maximumBet === 0) {
-    return getCurrentSmallSeatId(table)
+    return getNewRoundGameTurnSeatId(table)
   }
 
   const maximumBetSeatIds = getMaximumBetSeatIds(table)
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-  let raiserSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true)
-  let repeat = table.seats.length
-  while (!maximumBetSeatIds.includes(raiserSeatId) && repeat >= 0) {
-    raiserSeatId = getNextSeatId(table, raiserSeatId)
-    repeat = repeat - 1
+
+  let raiserSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true, false, false)
+  let trying = 100
+  while (!maximumBetSeatIds.includes(raiserSeatId) && trying) {
+    raiserSeatId = getNextSeatId(table, raiserSeatId, false, true)
+    trying = trying - 1
+  }
+
+  if (!trying) {
+    throw 'getRaiserSeatId error'
   }
 
   return raiserSeatId
 }
+
+export const isCheckAllowed = (table: TypeTable): boolean => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+  const maximumBetSeatIds = getMaximumBetSeatIds(table)
+
+  return maximumBetSeatIds.includes(currentGameTurnSeatId)
+}
+
+const getTableTotal = (table: TypeTable): number => {
+  const total = table.seats
+    .filter(s => s.user)
+    .reduce((sum, s) => {
+      if (!s.user) return sum
+
+      return sum + s.user.cash.inPot
+    }, 0)
+
+  return total + table.pot
+}
+
+const isAllPlayersAllIn = (table: TypeTable): boolean => {
+  const inGameSeats = table.seats.filter(
+    s =>
+      s.user && !isSeatoutSeat(s) && !s.user.isFold && (isWaitPhase(table) || s.user.cards.length),
+  )
+
+  if (inGameSeats.length < 2) return false
+
+  return inGameSeats.filter(s => !isAllinSeat(s)).length < 2
+}
+
+/////////////////////////////////// 3 END BET //////////////////////////////////
+
+/////////////////////////////////// 4 START RESET GAME //////////////////////////////////
 
 const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number => {
   const seatIds = Object.keys(scoreAndAchievements)
@@ -208,59 +404,35 @@ const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number 
   return maximumScore
 }
 
-const getTableTotal = (table: TypeTable) => {
-  const total = table.seats
-    .filter(s => s.user)
-    .reduce((sum, s) => {
-      if (!s.user) return sum
+const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
+  const tableCards = table.cards
+  const scoreAndAchivements: TypeScoreAndAchivements = {}
+  const seats = getActiveSeats(table, false, true, false, false)
 
-      return sum + s.user.cash.inPot
-    }, 0)
+  for (const seat of seats) {
+    const userCards = seat.user?.cards || []
+    const tableAndUserCards = [...tableCards, ...userCards]
+    scoreAndAchivements[seat.id] = getCardsScoreAndAchivement(tableAndUserCards)
+  }
 
-  return total + table.pot
+  return scoreAndAchivements
 }
 
-export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
-  return !!table.seats.find(s => s.user?.username === username)
+const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements): number[] => {
+  const seatIds = Object.keys(scoreAndAchievements)
+  const maximumScore = getMaximumScore(scoreAndAchievements)
+  const winnerSeatIds: number[] = []
+
+  for (const seatId of seatIds) {
+    if (scoreAndAchievements[seatId].score === maximumScore) {
+      winnerSeatIds.push(+seatId)
+    }
+  }
+
+  return winnerSeatIds
 }
 
-export const isUserWaitingTable = (table: TypeTable, username: string): boolean => {
-  return !!table.waitingUsers.find(u => u.username === username)
-}
-
-export const isAtLeastTwoPlayers = (
-  table: TypeTable,
-  includeFolders = false,
-  includeAllIns = false,
-): boolean => {
-  const seats = getActiveSeats(table, includeFolders, includeAllIns)
-
-  return seats.length > 1
-}
-
-const isAllPlayersAllIn = (table: TypeTable): boolean => {
-  const inGameSeats = table.seats.filter(
-    s =>
-      s.user && !isSeatoutSeat(s) && !s.user.isFold && (isWaitPhase(table) || s.user.cards.length),
-  )
-
-  if (inGameSeats.length < 2) return false
-
-  return inGameSeats.filter(s => !isAllinSeat(s)).length < 2
-}
-
-const getOnlyPlayingSeatId = (table: TypeTable): number => {
-  return table.seats.find(s => s.user && !s.user.isFold && !isSeatoutSeat(s))?.id || -1
-}
-
-export const isCheckAllowed = (table: TypeTable) => {
-  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-  const maximumBetSeatIds = getMaximumBetSeatIds(table)
-
-  return maximumBetSeatIds.includes(currentGameTurnSeatId)
-}
-
-export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
+const getRandomCards = (cardsCount: number, usedCards: TypeCard[]): TypeCard[] => {
   const cards: TypeCard[] = []
   const updatedUsedCards = [...usedCards]
 
@@ -283,114 +455,6 @@ export const getRandomCards = (cardsCount: number, usedCards: TypeCard[]) => {
   return cards
 }
 
-const getCurrentGameTurnSeatId = (table: TypeTable): number => {
-  return table.seats.find(s => s.user?.gameTurn)?.id || -1
-}
-
-export const getCurrentGameTurnUsername = (table: TypeTable) => {
-  return table.seats.find(s => s.user?.gameTurn)?.user?.username || 'No Username'
-}
-
-export const getCurrentDealerSeatId = (table: TypeTable): number => {
-  const dealerSeat = table.seats.find(s => s.user?.isDealer)
-  // @TTODO add dealer to seat not to user
-
-  if (dealerSeat) return dealerSeat?.id
-
-  const seats = getActiveSeats(table, true, true)
-  const randomSeatIndex = Math.floor(Math.random() * seats.length)
-
-  return seats[randomSeatIndex].id
-}
-
-export const isGameHeadsUp = (table: TypeTable): boolean => {
-  const seats = getActiveSeats(table, true, true)
-
-  return seats.length === 2
-}
-
-export const getNextSeatId = (
-  table: TypeTable,
-  seatId: number,
-  includeFolders = false,
-  includeAllIns = false,
-): number => {
-  const seats = getActiveSeats(table, includeFolders, includeAllIns)
-
-  if (!seats.length) {
-    return seatId
-  }
-
-  let nextSeatId = seats[0].id
-  let foundSeat = false
-
-  for (const seat of seats) {
-    if (foundSeat) {
-      nextSeatId = seat.id
-      break
-    }
-
-    if (seat.id === seatId) {
-      foundSeat = true
-    }
-  }
-
-  return nextSeatId
-}
-
-const getNextNotFoldedOrAllinSeatId = (table: TypeTable, isPhaseFinished: boolean) => {
-  if (isPhaseFinished) {
-    return getCurrentSmallSeatId(table)
-  }
-  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-
-  const seats = getActiveSeats(table, true, true)
-  const acceptableSeats = getActiveSeats(table, false, false)
-
-  if (!acceptableSeats.length) {
-    console.log('acceptableSeats BUG')
-    return currentGameTurnSeatId
-  }
-
-  let nextSeatId = acceptableSeats[0].id
-  let foundSeat = false
-
-  for (const seat of seats) {
-    if (foundSeat) {
-      if (isAllinSeat(seat)) continue
-      if (isFoldSeat(seat)) continue
-
-      nextSeatId = seat.id
-      break
-    }
-
-    if (seat.id === currentGameTurnSeatId) {
-      foundSeat = true
-    }
-  }
-
-  return nextSeatId
-}
-
-export const getIsPhaseFinished = (table: TypeTable) => {
-  if (!isAtLeastTwoPlayers(table, false, false)) return true
-
-  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-
-  if (isPreflopPhase(table)) {
-    if (getMaximumBet(table) === table.blinds.big) {
-      const currentBigSeatId = getCurrentBigSeatId(table)
-
-      return currentBigSeatId === currentGameTurnSeatId
-    }
-  }
-
-  const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true)
-  const raiserSeatId = getRaiserSeatId(table)
-
-  return raiserSeatId === nextGameTurnSeatId
-}
-
 const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
   const tablePhases = Object.values(TABLE_PHASES)
   let nextPhase = tablePhases[0]
@@ -410,108 +474,34 @@ const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
   return nextPhase
 }
 
-const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
-  const tableCards = table.cards
-  const scoreAndAchivements: TypeScoreAndAchivements = {}
-  const seats = getActiveSeats(table, false, true)
+/////////////////////////////////// 4 END RESET GAME //////////////////////////////////
 
-  for (const seat of seats) {
-    const userCards = seat.user?.cards || []
-    const tableAndUserCards = [...tableCards, ...userCards]
-    scoreAndAchivements[seat.id] = getCardsScoreAndAchivement(tableAndUserCards)
-  }
+/////////////////////////////////// 5 START CONTROLLERS GENERAL //////////////////////////////////
 
-  return scoreAndAchivements
-}
+export const getIsPhaseFinished = (table: TypeTable): boolean => {
+  if (!isAtLeastTwoPlayers(table, false, false, false, false)) return true
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
-const getWinnerSeatIds = (scoreAndAchievements: TypeScoreAndAchivements) => {
-  const seatIds = Object.keys(scoreAndAchievements)
-  const maximumScore = getMaximumScore(scoreAndAchievements)
-  const winnerSeatIds: number[] = []
+  if (isPreflopPhase(table)) {
+    if (getMaximumBet(table) === table.blinds.big) {
+      const currentBigSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.big)
+      if (checkPlayersCount(table, 2)) {
+      }
 
-  for (const seatId of seatIds) {
-    if (scoreAndAchievements[seatId].score === maximumScore) {
-      winnerSeatIds.push(+seatId)
+      return currentBigSeatId === currentGameTurnSeatId
     }
   }
 
-  return winnerSeatIds
+  const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, false, false, false)
+  const raiserSeatId = getRaiserSeatId(table)
+
+  return raiserSeatId === nextGameTurnSeatId
 }
 
-export const getUpdatedTableNextGameTurn = (table: TypeTable, isPhaseFinished: boolean) => {
-  if (isShowOrFinishPhase(table)) return table
-
-  const nextGameTurnSeatId = getNextNotFoldedOrAllinSeatId(table, isPhaseFinished)
-
-  return {
-    ...table,
-    total: getTableTotal(table),
-    seats: table.seats.map(s => {
-      if (!s.user) return s
-      if (isSeatoutSeat(s)) return s
-
-      return {
-        ...s,
-        user: {
-          ...s.user,
-          gameTurn: nextGameTurnSeatId === s.id,
-          timer: nextGameTurnSeatId === s.id ? getCheckfoldtimer() : null,
-        },
-      }
-    }),
-  }
-}
-
-export const getUpdatedSeatWithFold = (table: TypeTable) => {
-  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-
-  return {
-    ...table,
-    seats: table.seats.map(s => {
-      if (!s.user) return s
-      if (isSeatoutSeat(s)) return s
-
-      const isFold = currentGameTurnSeatId === s.id ? true : s.user.isFold
-
-      return {
-        ...s,
-        user: {
-          ...s.user,
-          isFold,
-        },
-      }
-    }),
-  }
-}
-
-export const getUpdatedSeatWithRaiseOrCallAmount = (table: TypeTable, amount: number) => {
-  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-
-  return {
-    ...table,
-    seats: table.seats.map(s => {
-      if (!s.user) return s
-
-      const addedToPot = currentGameTurnSeatId === s.id ? amount : 0
-      const inPot = s.user.cash.inPot + addedToPot
-      const inGame = roundNumber(s.user.cash.inGame - addedToPot)
-
-      return {
-        ...s,
-        user: {
-          ...s.user,
-          cash: {
-            ...s.user.cash,
-            inPot,
-            inGame,
-          },
-        },
-      }
-    }),
-  }
-}
-
-export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished: boolean) => {
+export const getUpdatedTableIfPhaseFinished = (
+  table: TypeTable,
+  isPhaseFinished: boolean,
+): TypeTable => {
   if (!isPhaseFinished) return table
 
   let tablePhase = getNextTablePhase(table.phase)
@@ -521,24 +511,19 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
   let winnerSeatIds: number[] = []
   let winnerReward = 0
 
+  const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false)
+  const allPlayersAllIn = isAllPlayersAllIn(table)
+
   if (tablePhase === TABLE_PHASES.show) {
     scoreAndAchievements = getScoreAndAchievements(table)
     winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
-  }
-
-  const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false)
-
-  if (!atLeastTwoPlayers) {
-    tablePhase = TABLE_PHASES.finish
-    winnerSeatIds = [getOnlyPlayingSeatId(table)]
-  }
-
-  const allPlayersAllIn = isAllPlayersAllIn(table)
-
-  if (allPlayersAllIn) {
+  } else if (allPlayersAllIn) {
     tablePhase = TABLE_PHASES.show
     scoreAndAchievements = getScoreAndAchievements(table)
     winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
+  } else if (!atLeastTwoPlayers) {
+    tablePhase = TABLE_PHASES.finish
+    winnerSeatIds = [getOnlyPlayingSeatId(table)]
   }
 
   if (winnerSeatIds.length) {
@@ -574,13 +559,9 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
     }),
   }
 
-  const timer = isTimeToClearTableInShowPhase(finishedPhaseTable)
-    ? getClearTableTimer()
-    : getRestartTableTimer()
-
-  return {
+  const seatoutedNotEnoughCashes = {
     ...finishedPhaseTable,
-    timer: winnerReward ? timer : null,
+    roleTurn: null,
     seats: finishedPhaseTable.seats.map(seat => {
       if (!seat.user) return seat
       if (isSeatoutSeat(seat)) return seat
@@ -598,7 +579,108 @@ export const getUpdatedTableIfPhaseFinished = (table: TypeTable, isPhaseFinished
       }
     }),
   }
+
+  const timer = isTimeToClearTableInShowPhase(finishedPhaseTable)
+    ? getClearTableTimer()
+    : getRestartTableTimer()
+
+  return {
+    ...seatoutedNotEnoughCashes,
+    timer: winnerReward ? timer : null,
+  }
 }
+
+export const getUpdatedTableNextGameTurn = (
+  table: TypeTable,
+  isPhaseFinished: boolean,
+): TypeTable => {
+  if (isShowOrFinishPhase(table)) return table
+
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+  console.log('0 currentGameTurnSeatId', currentGameTurnSeatId)
+  console.log('1 isPhaseFinished', isPhaseFinished)
+  const nextGameTurnSeatId = isPhaseFinished
+    ? getNewRoundGameTurnSeatId(table)
+    : getNextSeatId(table, currentGameTurnSeatId, false, false, false, false)
+  console.log('2 nextGameTurnSeatId', nextGameTurnSeatId)
+
+  return {
+    ...table,
+    total: getTableTotal(table),
+    // @ts-ignore
+    roleTurn: table.seats.find(s => s.id === nextGameTurnSeatId)?.role,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (isSeatoutSeat(s)) return s
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          timer: nextGameTurnSeatId === s.id ? getCheckfoldtimer() : null,
+        },
+      }
+    }),
+  }
+}
+
+/////////////////////////////////// 5 END CONTROLLERS GENERAL //////////////////////////////////
+
+/////////////////////////////////// 6 START CONTROLLERS ACTIONS //////////////////////////////////
+
+export const getUpdatedSeatWithFold = (table: TypeTable): TypeTable => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (isSeatoutSeat(s)) return s
+
+      const isFold = currentGameTurnSeatId === s.id ? true : s.user.isFold
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          isFold,
+        },
+      }
+    }),
+  }
+}
+
+export const getUpdatedSeatWithRaiseOrCallAmount = (
+  table: TypeTable,
+  amount: number,
+): TypeTable => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+
+      const addedToPot = currentGameTurnSeatId === s.id ? amount : 0
+      const inPot = s.user.cash.inPot + addedToPot
+      const inGame = roundNumber(s.user.cash.inGame - addedToPot)
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          cash: {
+            ...s.user.cash,
+            inPot,
+            inGame,
+          },
+        },
+      }
+    }),
+  }
+}
+
+/////////////////////////////////// 6 END CONTROLLERS ACTIONS //////////////////////////////////
 
 export const clearTable = (table: TypeTable): TypeTable => {
   return {
@@ -608,6 +690,7 @@ export const clearTable = (table: TypeTable): TypeTable => {
     total: 0,
     cards: [],
     timer: null,
+    roleTurn: null,
     seats: table.seats.map(s => {
       if (!s.user) return s
 
@@ -615,10 +698,10 @@ export const clearTable = (table: TypeTable): TypeTable => {
 
       return {
         ...s,
+        role: null,
         user: {
           ...s.user,
           cards: [],
-          gameTurn: false,
           isWinner: false,
           achievement: '',
           isFold: false,
@@ -635,16 +718,81 @@ export const clearTable = (table: TypeTable): TypeTable => {
   }
 }
 
-export const resetTable = (table: TypeTable): TypeTable => {
+const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
+  const currentDealerSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
+  const newDealerSeatId = getNextSeatId(table, currentDealerSeatId, true, false, true, false)
+  const newSmallSeatId = getNextSeatId(table, newDealerSeatId, true, false, true, false)
+  const newBigSeatId = getNextSeatId(table, newSmallSeatId, true, false, true, false)
+  const newUnderTheGunSeatId = getNextSeatId(table, newBigSeatId, true, false, true, false)
+  const newUnderTheGunPlusOneSeatId = getNextSeatId(
+    table,
+    newUnderTheGunSeatId,
+    true,
+    false,
+    true,
+    false,
+  )
+
+  const newUnderTheGunPlusTwoSeatId = getNextSeatId(
+    table,
+    newUnderTheGunPlusOneSeatId,
+    true,
+    false,
+    true,
+    false,
+  )
+
+  const newLowJackSeatId = getNextSeatId(
+    table,
+    newUnderTheGunPlusTwoSeatId,
+    true,
+    false,
+    true,
+    false,
+  )
+  const newHighJackSeatId = getNextSeatId(table, newLowJackSeatId, true, false, true, false)
+  const newCutOffSeatId = getNextSeatId(table, newHighJackSeatId, true, false, true, false)
+
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      let seatRole = null
+      if (s.id === newDealerSeatId) {
+        seatRole = SEAT_ROLES.dealer
+      } else if (s.id === newSmallSeatId) {
+        seatRole = SEAT_ROLES.small
+      } else if (s.id === newBigSeatId) {
+        seatRole = SEAT_ROLES.big
+      } else if (s.id === newUnderTheGunSeatId) {
+        seatRole = SEAT_ROLES.underTheGun
+      } else if (s.id === newUnderTheGunPlusOneSeatId) {
+        seatRole = SEAT_ROLES.underTheGunPlusOne
+      } else if (s.id === newUnderTheGunPlusTwoSeatId) {
+        seatRole = SEAT_ROLES.underTheGunPlusTwo
+      } else if (s.id === newLowJackSeatId) {
+        seatRole = SEAT_ROLES.lowJack
+      } else if (s.id === newHighJackSeatId) {
+        seatRole = SEAT_ROLES.highJack
+      } else if (s.id === newCutOffSeatId) {
+        seatRole = SEAT_ROLES.cutOff
+      }
+
+      return {
+        ...s,
+        role: seatRole,
+      }
+    }),
+  }
+}
+
+export const resetTable = (pureTable: TypeTable): TypeTable => {
+  const table = getUpdateSeatRoles(pureTable)
+  const isHeadsUp = checkPlayersCount(table, 2)
+  const isTheePlayer = checkPlayersCount(table, 3)
+  const roleTurn = isHeadsUp || isTheePlayer ? SEAT_ROLES.dealer : SEAT_ROLES.underTheGun
+
   const tableCards = getRandomCards(5, [])
   let usedCards = [...tableCards]
-
-  const currentDealerSeatId = getCurrentDealerSeatId(table)
-  const newDealerSeatId = getNextSeatId(table, currentDealerSeatId, true)
-  // const newSmallSeatId = isGameHeadsUp(t) ? newDealerSeatId : getNextSeatId(t, newDealerSeatId)
-  const newSmallSeatId = getNextSeatId(table, newDealerSeatId, true)
-  const newBigSeatId = getNextSeatId(table, newSmallSeatId, true)
-  const newGameTurnSeatId = getNextSeatId(table, newBigSeatId, true)
 
   return {
     ...table,
@@ -653,15 +801,29 @@ export const resetTable = (table: TypeTable): TypeTable => {
     total: table.blinds.small + table.blinds.big,
     cards: tableCards,
     timer: null,
+    roleTurn,
     seats: table.seats.map(s => {
       if (!s.user) return s
-      if (isSeatoutSeat(s)) return s
+      if (isSeatoutSeat(s))
+        return {
+          ...s,
+          role: null,
+          user: {
+            ...s.user,
+            cards: [],
+            isWinner: false,
+            achievement: '',
+            isFold: false,
+          },
+        }
+
+      const isSmall = isHeadsUp ? s.role === SEAT_ROLES.dealer : s.role === SEAT_ROLES.small
+      const isBig = isHeadsUp ? s.role === SEAT_ROLES.small : s.role === SEAT_ROLES.big
 
       const userCards = getRandomCards(2, usedCards)
       usedCards = [...usedCards, ...userCards]
 
-      const addedToPot =
-        newSmallSeatId === s.id ? table.blinds.small : newBigSeatId === s.id ? table.blinds.big : 0
+      const addedToPot = isSmall ? table.blinds.small : isBig ? table.blinds.big : 0
       const inPot = addedToPot
       const inGame = roundNumber(s.user.cash.inGame - addedToPot)
 
@@ -670,8 +832,6 @@ export const resetTable = (table: TypeTable): TypeTable => {
         user: {
           ...s.user,
           cards: userCards,
-          isDealer: newDealerSeatId === s.id,
-          gameTurn: newGameTurnSeatId === s.id,
           isWinner: false,
           isFold: false,
           achievement: '',
@@ -680,35 +840,7 @@ export const resetTable = (table: TypeTable): TypeTable => {
             inPot,
             inGame,
           },
-          timer: newGameTurnSeatId === s.id ? getCheckfoldtimer() : null,
-        },
-      }
-    }),
-  }
-}
-
-export const getUpdatedSeatWithTimeBank = (table: TypeTable) => {
-  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-
-  return {
-    ...table,
-    seats: table.seats.map(s => {
-      if (!s.user) return s
-      if (isSeatoutSeat(s)) return s
-      if (!s.user.timer) return s
-      if (currentGameTurnSeatId !== s.id) return s
-
-      console.log('33 s.user.timeBank', s.user.timeBank)
-      console.log('34 s.user.timer.deadline', s.user.timer.deadline)
-      const extraTimer = getExtraCheckfoldtimer(
-        s.user.timeBank + (s.user.timer.deadline - getDeadline(0)),
-      )
-      console.log('35 extraTimer', extraTimer)
-      return {
-        ...s,
-        user: {
-          ...s.user,
-          timer: extraTimer,
+          timer: roleTurn === s.role ? getCheckfoldtimer() : null,
         },
       }
     }),

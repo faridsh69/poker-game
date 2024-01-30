@@ -11,6 +11,7 @@ import {
   TypeCardType,
   TypeClientChannelKeys,
   TypeClientChannels,
+  TypeSeatRole,
   TypeServerChannels,
   TypeTable,
   TypeTablePhase,
@@ -84,6 +85,18 @@ export const ACTIONS: {
   raise: renderClientRaiseAction,
 }
 
+export const SEAT_ROLES: { [key in TypeSeatRole]: TypeSeatRole } = {
+  small: 'small',
+  big: 'big',
+  underTheGun: 'underTheGun',
+  underTheGunPlusOne: 'underTheGunPlusOne',
+  underTheGunPlusTwo: 'underTheGunPlusTwo',
+  lowJack: 'lowJack',
+  highJack: 'highJack',
+  cutOff: 'cutOff',
+  dealer: 'dealer',
+}
+
 export const TABLE_PHASES: { [key in TypeTablePhase]: TypeTablePhase } = {
   wait: 'wait',
   preflop: 'preflop',
@@ -139,8 +152,6 @@ export const WAITING_USER: TypeUser = {
     inPot: 0,
   },
   cards: [],
-  isDealer: false,
-  gameTurn: false,
   isWinner: false,
   achievement: '',
   isFold: false,
@@ -167,26 +178,32 @@ export const TABLES: TypeTable[] = [
     seats: [
       {
         id: 1,
+        role: null,
         user: null,
       },
       {
         id: 2,
+        role: null,
         user: null,
       },
       {
         id: 3,
+        role: null,
         user: null,
       },
       {
         id: 4,
+        role: null,
         user: null,
       },
       {
         id: 5,
+        role: null,
         user: null,
       },
       {
         id: 6,
+        role: null,
         user: null,
       },
     ],
@@ -194,6 +211,7 @@ export const TABLES: TypeTable[] = [
     pot: 0,
     total: 0,
     cards: [],
+    roleTurn: null,
     timer: null,
   },
   {
@@ -212,26 +230,32 @@ export const TABLES: TypeTable[] = [
     seats: [
       {
         id: 1,
+        role: null,
         user: null,
       },
       {
         id: 2,
+        role: null,
         user: null,
       },
       {
         id: 3,
+        role: null,
         user: null,
       },
       {
         id: 4,
+        role: null,
         user: null,
       },
       {
         id: 5,
+        role: null,
         user: null,
       },
       {
         id: 6,
+        role: null,
         user: null,
       },
     ],
@@ -239,6 +263,7 @@ export const TABLES: TypeTable[] = [
     pot: 0,
     total: 0,
     cards: [],
+    roleTurn: null,
     timer: null,
   },
   {
@@ -257,38 +282,47 @@ export const TABLES: TypeTable[] = [
     seats: [
       {
         id: 1,
+        role: null,
         user: null,
       },
       {
         id: 2,
+        role: null,
         user: null,
       },
       {
         id: 3,
+        role: null,
         user: null,
       },
       {
         id: 4,
+        role: null,
         user: null,
       },
       {
         id: 5,
+        role: null,
         user: null,
       },
       {
         id: 6,
+        role: null,
         user: null,
       },
       {
         id: 7,
+        role: null,
         user: null,
       },
       {
         id: 8,
+        role: null,
         user: null,
       },
       {
         id: 9,
+        role: null,
         user: null,
       },
     ],
@@ -296,6 +330,7 @@ export const TABLES: TypeTable[] = [
     pot: 0,
     total: 0,
     cards: [],
+    roleTurn: null,
     timer: null,
   },
 ]

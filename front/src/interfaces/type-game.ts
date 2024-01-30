@@ -32,6 +32,17 @@ export type TypeClientChannels =
   | 'client:raise_action'
   | 'client:timebank_action'
 
+export type TypeSeatRole =
+  | 'small'
+  | 'big'
+  | 'underTheGun'
+  | 'underTheGunPlusOne'
+  | 'underTheGunPlusTwo'
+  | 'lowJack'
+  | 'highJack'
+  | 'cutOff'
+  | 'dealer'
+
 export type TypeServerChannelsUpdateTablesData = {
   tables: TypeTable[]
   message: string
@@ -56,6 +67,7 @@ type TypeBlinds = {
 
 export type TypeSeat = {
   id: number
+  role: TypeSeatRole | null
   user: TypeUser
 }
 
@@ -117,14 +129,16 @@ export type TypeTable = {
   id: number
   title: string
   type: TypeTableType
-  buyin: TypeBuyIn
   blinds: TypeBlinds
+  buyin: TypeBuyIn
   waitingUsers: TypeUser[]
   seats: TypeSeat[]
   phase: TypeTablePhase
-  cards: TypeCard[]
   pot: number
   total: number
+  cards: TypeCard[]
+  roleTurn: TypeSeatRole
+  timer: TypeTimer | null
 }
 
 export type TypeHandleSitTableModal = (tableId: number, seatId: number) => void

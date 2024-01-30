@@ -4,6 +4,7 @@ import {
   TypeCardType,
   TypeClientChannelKeys,
   TypeClientChannels,
+  TypeSeatRole,
   TypeTablePhase,
   TypeTableType,
   TypeTimerAction,
@@ -48,6 +49,18 @@ export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } =
   leaveSeat: 'leaveSeat',
   checkfold: 'checkfold',
   restartTable: 'restartTable',
+}
+
+export const SEAT_ROLES: { [key in TypeSeatRole]: TypeSeatRole } = {
+  small: 'small',
+  big: 'big',
+  underTheGun: 'underTheGun',
+  underTheGunPlusOne: 'underTheGunPlusOne',
+  underTheGunPlusTwo: 'underTheGunPlusTwo',
+  lowJack: 'lowJack',
+  highJack: 'highJack',
+  cutOff: 'cutOff',
+  dealer: 'dealer',
 }
 
 export const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
