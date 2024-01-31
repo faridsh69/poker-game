@@ -217,8 +217,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.timeBankAction)
-  handleClientTimeBankAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
-    console.log('x time bank', username)
+  handleClientTimeBankAction(@MessageBody() { tableId }: TypeHandleClientJoinTable) {
     // Validations: check if its user game turn
     this.tablesState = renderClientTimeBankAction(this.tablesState, tableId)
 

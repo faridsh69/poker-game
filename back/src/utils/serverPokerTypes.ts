@@ -92,7 +92,7 @@ type TypeCash = {
 export type TypeTimer = {
   deadline: number
   action: string
-  extra?: number
+  extra: boolean
 }
 
 export type TypeUser = {

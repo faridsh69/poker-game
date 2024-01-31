@@ -238,6 +238,7 @@ export const getLeaveSeatTimer = (isAllin = false): TypeTimer => {
   return {
     deadline: getDeadline(isAllin ? SERVER_TIMEOUT_SEATOUT_ALLIN : SERVER_TIMEOUT_SEATOUT),
     action: TIMER_ACTION_NAMES.leaveSeat,
+    extra: false,
   }
 }
 
@@ -245,14 +246,17 @@ const getCheckfoldtimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_ACTION),
     action: TIMER_ACTION_NAMES.checkfold,
+    extra: false,
   }
 }
 
-const getExtraCheckfoldtimer = (time: number): TypeTimer => {
+const getExtraCheckfoldtimer = (seat: TypeSeat): TypeTimer => {
+  const timeBank = seat.user?.timeBank || 0
+
   return {
-    deadline: getDeadline(time),
+    deadline: getDeadline(timeBank),
     action: TIMER_ACTION_NAMES.checkfold,
-    extra: 10,
+    extra: true,
   }
 }
 
@@ -260,6 +264,7 @@ export const getStartTableTimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_START),
     action: TIMER_ACTION_NAMES.restartTable,
+    extra: false,
   }
 }
 
@@ -267,6 +272,7 @@ const getRestartTableTimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_RESTART),
     action: TIMER_ACTION_NAMES.restartTable,
+    extra: false,
   }
 }
 
@@ -274,6 +280,7 @@ export const getClearTableTimer = (): TypeTimer => {
   return {
     deadline: getDeadline(SERVER_TIMEOUT_CLEAR),
     action: TIMER_ACTION_NAMES.clearTable,
+    extra: false,
   }
 }
 
@@ -288,9 +295,7 @@ export const getUpdatedSeatWithTimeBank = (table: TypeTable): TypeTable => {
       if (!s.user.timer) return s
       if (currentGameTurnSeatId !== s.id) return s
 
-      const extraTimer = getExtraCheckfoldtimer(
-        s.user.timeBank + (s.user.timer.deadline - getDeadline(0)),
-      )
+      const extraTimer = getExtraCheckfoldtimer(s)
 
       return {
         ...s,

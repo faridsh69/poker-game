@@ -5,12 +5,15 @@ import { TypeSeat } from 'src/interfaces'
 export const TimeBank = (props: { tableId: number; seat: TypeSeat }) => {
   const { tableId, seat } = props
 
+  const timeBank = seat.user.timeBank
+
   const { handleTimeBankAction } = useSocketActions(tableId)
 
-  // SERVER_TIMEOUT_EXTRA
+  if (!timeBank || seat.user.timer?.extra) return null
+
   return (
     <div className='dnd-window-body-table-actions-gameturn-timebank'>
-      <ActionButton label={`+${seat.user.timeBank}`} onClick={handleTimeBankAction} />
+      <ActionButton label={`+${timeBank}`} onClick={handleTimeBankAction} />
     </div>
   )
 }

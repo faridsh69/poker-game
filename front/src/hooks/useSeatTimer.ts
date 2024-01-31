@@ -3,12 +3,20 @@ import { CLIENT_TIMEOUT_FAULT, TIMER_ACTION_NAMES } from 'src/configs/clientCons
 import { getDeadline } from 'src/helpers/clientHelpersPoker'
 import { TypeSeat, TypeTimerAction } from 'src/interfaces'
 
-export const useSeatTimer = (seat: TypeSeat, action: TypeTimerAction) => {
-  const remainingSeconds = useMemo(() => {
-    if (seat?.user.timer?.action !== TIMER_ACTION_NAMES[action]) return CLIENT_TIMEOUT_FAULT
+export const useSeatTimer = (seat: TypeSeat | null, action: TypeTimerAction) => {
+  const timer = seat?.user.timer
 
-    return seat.user.timer.deadline - getDeadline()
-  }, [seat, action])
+  const remainingSeconds = useMemo(() => {
+    if (!timer) {
+      return 0
+    }
+
+    if (timer.action !== TIMER_ACTION_NAMES[action]) {
+      return CLIENT_TIMEOUT_FAULT
+    }
+
+    return timer.deadline - getDeadline()
+  }, [timer, action])
 
   return remainingSeconds
 }

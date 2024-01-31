@@ -40,6 +40,7 @@ export const RaiseOrFoldOrCallActions = (props: TypeTableProps) => {
           changeRaiseAmount={changeRaiseAmount}
         />
       )}
+
       <div className='dnd-window-body-table-actions-gameturn-secondrow'>
         <FoldAction table={table} />
         <CallOrCheckAction table={table} callActionAmount={callActionAmount} />
