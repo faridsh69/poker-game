@@ -479,7 +479,8 @@ const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
 /////////////////////////////////// 5 START CONTROLLERS GENERAL //////////////////////////////////
 
 export const getIsPhaseFinished = (table: TypeTable): boolean => {
-  if (!isAtLeastTwoPlayers(table, false, false, false, false)) return true
+  if (!isAtLeastTwoPlayers(table, false, true, false, false)) return true
+
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
   if (isPreflopPhase(table)) {
@@ -494,6 +495,10 @@ export const getIsPhaseFinished = (table: TypeTable): boolean => {
 
   const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, false, false, false)
   const raiserSeatId = getRaiserSeatId(table)
+
+  if (currentGameTurnSeatId === nextGameTurnSeatId) {
+    return true
+  }
 
   return raiserSeatId === nextGameTurnSeatId
 }
@@ -597,12 +602,9 @@ export const getUpdatedTableNextGameTurn = (
   if (isShowOrFinishPhase(table)) return table
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
-  console.log('0 currentGameTurnSeatId', currentGameTurnSeatId)
-  console.log('1 isPhaseFinished', isPhaseFinished)
   const nextGameTurnSeatId = isPhaseFinished
     ? getNewRoundGameTurnSeatId(table)
     : getNextSeatId(table, currentGameTurnSeatId, false, false, false, false)
-  console.log('2 nextGameTurnSeatId', nextGameTurnSeatId)
 
   return {
     ...table,
