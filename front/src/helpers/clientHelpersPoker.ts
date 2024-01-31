@@ -26,6 +26,12 @@ export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.usern
 
 export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold
 
+export const isAllinSeat = (seat: TypeSeat): boolean => !seat.user?.cash.inGame
+
+export const isWithCardSeat = (seat: TypeSeat): boolean => !!seat.user?.cards.length
+
+export const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
+
 export const isWaitPhase = (table: TypeTable) => table.phase === TABLE_PHASES.wait
 
 export const isPreflopPhase = (table: TypeTable) => table.phase === TABLE_PHASES.preflop
@@ -43,11 +49,11 @@ export const getUserSeat = (table: TypeTable, username: string): TypeSeat => {
 }
 
 export const isUserSeatedTable = (table: TypeTable, username: string) => {
-  return !!table.seats.find(s => s.user?.username === username && !s.user.isSeatout)
+  return !!table.seats.find(s => s.user?.username === username && !isSeatoutSeat(s))
 }
 
 export const isUserSeatoutTable = (table: TypeTable, username: string) => {
-  return !!table.seats.find(s => s.user?.username === username && s.user.isSeatout)
+  return !!table.seats.find(s => s.user?.username === username && isSeatoutSeat(s))
 }
 
 export const isUserHasCashInGame = (table: TypeTable, username: string) => {
@@ -69,7 +75,7 @@ export const isUserGameTurn = (table: TypeTable, username: string) => {
 }
 
 export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
-  const seats = table.seats.filter(s => s.user && !s.user.isSeatout)
+  const seats = table.seats.filter(s => s.user && !isSeatoutSeat(s))
 
   return seats.length > 1
 }
@@ -196,8 +202,8 @@ export const isUserPlayingGame = (table: TypeTable, username: string): boolean =
   const userSeat = getUserSeat(table, username)
 
   if (!userSeat || !userSeat?.user) return false
-  if (userSeat.user.isSeatout) return false
-  if (!userSeat.user.cards.length) return false
+  if (isSeatoutSeat(userSeat)) return false
+  if (!isWithCardSeat(userSeat)) return false
   if (isWaitPhase(table)) return false
 
   return true
@@ -207,8 +213,9 @@ export const isOneOtherPersonToCallRaise = (table: TypeTable, username: string):
   for (const seat of table.seats) {
     if (
       seat.user &&
-      seat.user.cash.inGame &&
-      seat.user.cards.length &&
+      !isSeatoutSeat(seat) &&
+      !isAllinSeat(seat) &&
+      isWithCardSeat(seat) &&
       seat.user.username !== username
     ) {
       return true
