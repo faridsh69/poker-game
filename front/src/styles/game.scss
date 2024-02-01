@@ -651,16 +651,16 @@ html {
 
           &-turnseat {
             @keyframes turnAnimation {
-              40% {
+              30% {
                 box-shadow: 0px 0px 6px 4px white;
               }
-              60% {
+              70% {
                 box-shadow: 0px 0px 6px 4px white;
               }
             }
 
             .dnd-window-body-table-seats-seat-user-box {
-              animation: turnAnimation 1.6s ease-in-out infinite;
+              animation: turnAnimation 1.2s ease-in-out infinite;
             }
           }
         }

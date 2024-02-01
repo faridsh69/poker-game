@@ -23,61 +23,41 @@ import {
   TypeTimer,
 } from 'src/utils/serverPokerTypes'
 
-export const roundNumber = (number: number, digits = 2): number => {
-  return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
-}
+export const roundNumber = (number: number, digits = 2): number =>
+  Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 
-export const getDeadline = (timeout = 0): number => {
-  return Math.floor(new Date().valueOf() / 1000) + timeout
-}
+export const getDeadline = (timeout = 0): number =>
+  Math.floor(new Date().valueOf() / 1000) + timeout
 
-export const getTable = (tables: TypeTable[], tableId: number): TypeTable => {
-  return tables.find(t => t.id === tableId) as TypeTable
-}
+export const getTable = (tables: TypeTable[], tableId: number): TypeTable =>
+  tables.find(t => t.id === tableId) as TypeTable
 
-export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
-  return !!table.seats.find(s => s.user?.username === username)
-}
+export const isUserSeatedTable = (table: TypeTable, username: string): boolean =>
+  !!table.seats.find(s => s.user?.username === username)
 
-export const isUserWaitingTable = (table: TypeTable, username: string): boolean => {
-  return !!table.waitingUsers.find(u => u.username === username)
-}
+export const isUserWaitingTable = (table: TypeTable, username: string): boolean =>
+  !!table.waitingUsers.find(u => u.username === username)
 
-export const isWaitPhase = (table: TypeTable): boolean => {
-  return table.phase === TABLE_PHASES.wait
-}
+export const isWaitPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.wait
 
-const isPreflopPhase = (table: TypeTable): boolean => {
-  return table.phase === TABLE_PHASES.preflop
-}
+const isPreflopPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.preflop
 
-const isShowPhase = (table: TypeTable): boolean => {
-  return table.phase === TABLE_PHASES.show
-}
+const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
 
-const isFinishPhase = (table: TypeTable): boolean => {
-  return table.phase === TABLE_PHASES.finish
-}
+const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
 
-const isShowOrFinishPhase = (table: TypeTable): boolean => {
-  return isShowPhase(table) || isFinishPhase(table)
-}
+const isShowOrFinishPhase = (table: TypeTable): boolean =>
+  isShowPhase(table) || isFinishPhase(table)
 
-const isSeatoutSeat = (seat: TypeSeat): boolean => {
-  return !!seat.user?.isSeatout
-}
+const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 
-const isFoldSeat = (seat: TypeSeat): boolean => {
-  return !!seat.user?.isFold
-}
+const isFoldSeat = (seat: TypeSeat): boolean => !!seat.user?.isFold
 
-const isAllinSeat = (seat: TypeSeat): boolean => {
-  return !seat.user?.cash.inGame
-}
+const isAllinSeat = (seat: TypeSeat): boolean => !seat.user?.cash.inGame
 
-const isWithCardSeat = (seat: TypeSeat): boolean => {
-  return !!seat.user?.cards.length
-}
+const isWithCardSeat = (seat: TypeSeat): boolean => !!seat.user?.cards.length
+
+const isWithoutRole = (seat: TypeSeat): boolean => !seat.role
 
 const isNotEnoughCashThanBlinds = (seat: TypeSeat, table: TypeTable): boolean => {
   if (!seat.user) return true
@@ -92,6 +72,7 @@ const getActiveSeats = (
   includeAllIns = false,
   includeWaitings = false,
   includeSitouts = false,
+  includeWithoutRole = false,
 ): TypeSeat[] => {
   return table.seats.filter(s => {
     if (!s.user) return false
@@ -99,6 +80,7 @@ const getActiveSeats = (
     if (!includeAllIns && isAllinSeat(s)) return false
     if (!includeWaitings && !isWithCardSeat(s)) return false
     if (!includeSitouts && isSeatoutSeat(s)) return false
+    if (includeWithoutRole && isWithoutRole(s)) return false
 
     return true
   })
@@ -165,7 +147,8 @@ const getCurrentRoleSeatId = (table: TypeTable, role: TypeSeatRole): number => {
   }
 
   if (role === SEAT_ROLES.big) {
-    const isHeadsUp = checkPlayersCount(table, 2)
+    const players = getActiveSeats(table, true, true, false, false)
+    const isHeadsUp = players.length === 2
     if (isHeadsUp) {
       return getCurrentRoleSeatId(table, SEAT_ROLES.small)
     }
@@ -208,14 +191,6 @@ const getOnlyPlayingSeatId = (table: TypeTable): number => {
   }
 
   throw 'getOnlyPlayingSeatId could not found activeSeats.length: ' + activeSeats.length
-}
-
-const checkPlayersCount = (table: TypeTable, playersCount: number): boolean => {
-  if (isWaitPhase(table) || isShowOrFinishPhase(table)) {
-    return getActiveSeats(table, true, true, true, false).length === playersCount
-  }
-
-  return getActiveSeats(table, true, true, false, false).length === playersCount
 }
 
 /////////////////////////////////// 1 END SEAT //////////////////////////////////
@@ -491,8 +466,6 @@ export const getIsPhaseFinished = (table: TypeTable): boolean => {
   if (isPreflopPhase(table)) {
     if (getMaximumBet(table) === table.blinds.big) {
       const currentBigSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.big)
-      if (checkPlayersCount(table, 2)) {
-      }
 
       return currentBigSeatId === currentGameTurnSeatId
     }
@@ -732,77 +705,81 @@ export const clearTable = (table: TypeTable): TypeTable => {
 }
 
 const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
-  const currentDealerSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
-  const newDealerSeatId = getNextSeatId(table, currentDealerSeatId, true, false, true, false)
-  const newSmallSeatId = getNextSeatId(table, newDealerSeatId, true, false, true, false)
-  const newBigSeatId = getNextSeatId(table, newSmallSeatId, true, false, true, false)
-  const newUnderTheGunSeatId = getNextSeatId(table, newBigSeatId, true, false, true, false)
-  const newUnderTheGunPlusOneSeatId = getNextSeatId(
-    table,
-    newUnderTheGunSeatId,
-    true,
-    false,
-    true,
-    false,
-  )
+  if (isWaitPhase(table)) {
+    const currentDealerSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
+    const newDealerSeatId = getNextSeatId(table, currentDealerSeatId, true, false, true, false)
+    const newSmallSeatId = getNextSeatId(table, newDealerSeatId, true, false, true, false)
+    const newBigSeatId = getNextSeatId(table, newSmallSeatId, true, false, true, false)
+    const newUnderTheGunSeatId = getNextSeatId(table, newBigSeatId, true, false, true, false)
 
-  const newUnderTheGunPlusTwoSeatId = getNextSeatId(
-    table,
-    newUnderTheGunPlusOneSeatId,
-    true,
-    false,
-    true,
-    false,
-  )
+    return {
+      ...table,
+      seats: table.seats.map(s => {
+        if (!s.user) return s
+        if (isSeatoutSeat(s)) return s
 
-  const newLowJackSeatId = getNextSeatId(
-    table,
-    newUnderTheGunPlusTwoSeatId,
-    true,
-    false,
-    true,
-    false,
-  )
-  const newHighJackSeatId = getNextSeatId(table, newLowJackSeatId, true, false, true, false)
-  const newCutOffSeatId = getNextSeatId(table, newHighJackSeatId, true, false, true, false)
+        let seatRole = null
+        if (s.id === newDealerSeatId) {
+          seatRole = SEAT_ROLES.dealer
+        } else if (s.id === newSmallSeatId) {
+          seatRole = SEAT_ROLES.small
+        } else if (s.id === newBigSeatId) {
+          seatRole = SEAT_ROLES.big
+        } else if (s.id === newUnderTheGunSeatId) {
+          seatRole = SEAT_ROLES.underTheGun
+        }
 
-  return {
-    ...table,
-    seats: table.seats.map(s => {
-      let seatRole = null
-      if (s.id === newDealerSeatId) {
-        seatRole = SEAT_ROLES.dealer
-      } else if (s.id === newSmallSeatId) {
-        seatRole = SEAT_ROLES.small
-      } else if (s.id === newBigSeatId) {
-        seatRole = SEAT_ROLES.big
-      } else if (s.id === newUnderTheGunSeatId) {
-        seatRole = SEAT_ROLES.underTheGun
-      } else if (s.id === newUnderTheGunPlusOneSeatId) {
-        seatRole = SEAT_ROLES.underTheGunPlusOne
-      } else if (s.id === newUnderTheGunPlusTwoSeatId) {
-        seatRole = SEAT_ROLES.underTheGunPlusTwo
-      } else if (s.id === newLowJackSeatId) {
-        seatRole = SEAT_ROLES.lowJack
-      } else if (s.id === newHighJackSeatId) {
-        seatRole = SEAT_ROLES.highJack
-      } else if (s.id === newCutOffSeatId) {
-        seatRole = SEAT_ROLES.cutOff
-      }
-
-      return {
-        ...s,
-        role: seatRole,
-      }
-    }),
+        return {
+          ...s,
+          role: seatRole,
+        }
+      }),
+    }
   }
+
+  if (isShowOrFinishPhase(table)) {
+    const currentDealerSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
+    const newDealerSeatId = getNextSeatId(table, currentDealerSeatId, true, false, false, false)
+    const newSmallSeatId = getNextSeatId(table, newDealerSeatId, true, false, false, false)
+    const newBigSeatId = getNextSeatId(table, newSmallSeatId, true, false, true, false)
+    const newUnderTheGunSeatId = getNextSeatId(table, newBigSeatId, true, false, false, false)
+
+    return {
+      ...table,
+      seats: table.seats.map(s => {
+        if (!s.user) return s
+        if (isSeatoutSeat(s)) return s
+
+        let seatRole = null
+        if (s.id === newDealerSeatId) {
+          seatRole = SEAT_ROLES.dealer
+        } else if (s.id === newSmallSeatId) {
+          seatRole = SEAT_ROLES.small
+        } else if (s.id === newBigSeatId) {
+          seatRole = SEAT_ROLES.big
+        } else if (s.id === newUnderTheGunSeatId) {
+          seatRole = SEAT_ROLES.underTheGun
+        }
+
+        return {
+          ...s,
+          role: seatRole,
+        }
+      }),
+    }
+  }
+
+  return table
 }
 
 export const resetTable = (pureTable: TypeTable): TypeTable => {
   const table = getUpdateSeatRoles(pureTable)
-  const isHeadsUp = checkPlayersCount(table, 2)
-  const isTheePlayer = checkPlayersCount(table, 3)
+
+  const players = getActiveSeats(table, true, true, true, false, true)
+  const isHeadsUp = players.length === 2
+  const isTheePlayer = players.length === 3
   const roleTurn = isHeadsUp || isTheePlayer ? SEAT_ROLES.dealer : SEAT_ROLES.underTheGun
+  const tableTotal = table.blinds.small + table.blinds.big
 
   const tableCards = getRandomCards(5, [])
   let usedCards = [...tableCards]
@@ -811,13 +788,13 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
     ...table,
     pot: 0,
     phase: TABLE_PHASES.preflop,
-    total: table.blinds.small + table.blinds.big,
+    total: tableTotal,
     cards: tableCards,
     timer: null,
     roleTurn,
     seats: table.seats.map(s => {
       if (!s.user) return s
-      if (isSeatoutSeat(s))
+      if (isSeatoutSeat(s)) {
         return {
           ...s,
           role: null,
@@ -829,6 +806,8 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
             isFold: false,
           },
         }
+      }
+      if (!s.role) return s
 
       const isSmall = isHeadsUp ? s.role === SEAT_ROLES.dealer : s.role === SEAT_ROLES.small
       const isBig = isHeadsUp ? s.role === SEAT_ROLES.small : s.role === SEAT_ROLES.big

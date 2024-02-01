@@ -1,4 +1,3 @@
-// import { ChipSvg } from './ChipSvg'
 import ChipsImage from 'src/images/game/chips.png'
 
 export const Chip = (props: { backgroundPosition: string; chipIndex: number }) => {
@@ -12,8 +11,6 @@ export const Chip = (props: { backgroundPosition: string; chipIndex: number }) =
         backgroundPosition: backgroundPosition,
         zIndex: chipIndex,
       }}
-    >
-      {/* <div className='cash-chips-column-chip-edge' /> */}
-    </div>
+    />
   )
 }

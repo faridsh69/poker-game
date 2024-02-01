@@ -63,15 +63,22 @@ export const renderClientLeaveTable = (
       ...t,
       waitingUsers: t.waitingUsers.filter(u => u.username !== username),
       seats: t.seats.map(s => {
+        if (!s.user) return s
+        if (s.user.username !== username) return s
+
         return {
           ...s,
-          user: s.user?.username === username ? null : s.user,
+          user: null,
         }
       }),
     }
 
     const isTimeToClearTable = isTimeToClearTableInMiddleOfGame(updatedTableLeaveTable)
 
+    // @TODO if its user game turn then gather his pot to table pot
+    // MOVE user.cash.pot to seat.pot from user
+    // Also go for next turn
+    // Also update role turn of table
     return {
       ...updatedTableLeaveTable,
       timer: isTimeToClearTable ? getClearTableTimer() : updatedTableLeaveTable.timer,
