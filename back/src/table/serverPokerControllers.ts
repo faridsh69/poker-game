@@ -290,6 +290,7 @@ export const renderServerAutoCheckFold = (
   tableId: number,
 ): TypeTable[] => {
   const table = getTable(tablesState, tableId)
+  // @TODO active seat out next hand
 
   if (isCheckAllowed(table)) {
     return renderClientCheckAction(tablesState, tableId)

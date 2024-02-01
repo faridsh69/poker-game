@@ -620,10 +620,16 @@ export const getUpdatedTableNextGameTurn = (
       if (!s.user) return s
       if (isSeatoutSeat(s)) return s
 
+      const timeBank =
+        currentGameTurnSeatId === s.id && s.user.timer?.extra
+          ? s.user.timer.deadline - getDeadline()
+          : s.user.timeBank
+
       return {
         ...s,
         user: {
           ...s.user,
+          timeBank,
           timer: nextGameTurnSeatId === s.id ? getCheckfoldtimer() : null,
         },
       }

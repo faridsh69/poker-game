@@ -2,6 +2,7 @@ import FastfoodIcon from '@mui/icons-material/Fastfood'
 import RestaurantIcon from '@mui/icons-material/Restaurant'
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining'
 import HomeIcon from '@mui/icons-material/Home'
+import packageJson from '../../package.json'
 
 const { VITE_CLIENT_ID, VITE_CLIENT_SECRET } = import.meta.env
 
@@ -10,7 +11,7 @@ export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'access_token'
 export const LOCAL_STORAGE_AUTH_USER_EMAIL = 'auth_email'
 
 export const META_TAGS = {
-  title: 'Royal Poker V 0.81',
+  title: `Royal Poker V ${packageJson.version}`,
   description: 'Royal Poker is easy and safe',
   keywords: '',
   image: 'vite.svg',

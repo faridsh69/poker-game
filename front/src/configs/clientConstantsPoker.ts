@@ -118,23 +118,23 @@ export const LAST_ACTION_ACTIONS: { [key in TypeAction]: TypeAction } = {
 
 export const CHIP_UNITS = [
   {
-    backgroundPosition: '-283px 0px',
+    backgroundPosition: '-277px 0px',
     value: 25000000,
   },
   {
-    backgroundPosition: '-259px 0px',
+    backgroundPosition: '-253px 0px',
     value: 5000000,
   },
   {
-    backgroundPosition: '-235px 0px',
+    backgroundPosition: '-230px 0px',
     value: 1000000,
   },
   {
-    backgroundPosition: '-211px 0px',
+    backgroundPosition: '-206px 0px',
     value: 250000,
   },
   {
-    backgroundPosition: '-187px 0px',
+    backgroundPosition: '-184px 0px',
     value: 50000,
   },
   {
