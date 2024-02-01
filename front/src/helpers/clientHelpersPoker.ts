@@ -44,8 +44,8 @@ export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.sh
 
 export const isFinishPhase = (table: TypeTable) => table.phase === TABLE_PHASES.finish
 
-export const getUserSeat = (table: TypeTable, username: string): TypeSeat => {
-  return table.seats.find(s => s.user?.username === username) as TypeSeat
+export const getUserSeat = (table: TypeTable, username: string): TypeSeat | null => {
+  return table.seats.find(s => s.user?.username === username) || null
 }
 
 export const isUserSeatedTable = (table: TypeTable, username: string) => {

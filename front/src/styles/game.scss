@@ -241,6 +241,13 @@ html {
             }
           }
 
+          &-joinplay {
+            position: absolute;
+            bottom: 20px;
+            right: 70px;
+            user-select: none;
+          }
+
           &-leavegame {
             position: absolute;
             bottom: 10px;
@@ -543,7 +550,22 @@ html {
                 }
               }
 
+              &-timeout {
+                position: absolute;
+                top: 129px;
+                left: -6px;
+                z-index: 10;
+              }
+
+              .seat-user-timeout-extra {
+                .MuiLinearProgress-bar {
+                  background-image: linear-gradient(to right, #f5522f, #b82018);
+                  transition: transform 0.1s linear;
+                }
+              }
+
               &-country {
+                user-select: none;
                 position: absolute;
                 z-index: 10;
                 top: 50px;
@@ -551,6 +573,7 @@ html {
               }
 
               &-hot {
+                user-select: none;
                 position: absolute;
                 z-index: 10;
                 top: 50px;
@@ -561,21 +584,7 @@ html {
                 }
               }
 
-              &-timeout {
-                position: absolute;
-                top: 129px;
-                left: -6px;
-                z-index: 10;
-              }
-
               &-achievement {
-              }
-
-              .seat-user-timeout-extra {
-                .MuiLinearProgress-bar {
-                  background-image: linear-gradient(to right, #f5522f, #b82018);
-                  transition: transform 0.1s linear;
-                }
               }
             }
 
