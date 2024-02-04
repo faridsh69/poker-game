@@ -144,6 +144,25 @@ export const WINNER_LEVELS = {
   royalFlush: 9,
 }
 
+export const NEW_USER: TypeUser = {
+  username: '',
+  avatar: '',
+  cash: {
+    inBank: 0,
+    inGame: 0,
+    inPot: 0,
+  },
+  cards: [],
+  isWinner: false,
+  achievement: '',
+  isFold: false,
+  isSeatout: false,
+  isAutoAction: false,
+  isTableClosed: false,
+  timer: null,
+  timeBank: SERVER_TIMEOUT_EXTRA,
+}
+
 export const WAITING_USER: TypeUser = {
   username: 'W8 player',
   avatar: '1',

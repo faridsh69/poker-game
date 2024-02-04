@@ -2,13 +2,18 @@ import { useState } from 'react'
 import { CheckboxAction } from './details/CheckboxAction'
 import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
-import { getUserSeat, isUserSeatoutTable } from 'src/helpers/clientHelpersPoker'
+import {
+  getUserSeat,
+  isAtLeastTwoNotSeatOutPlayers,
+  isUserSeatoutTable,
+  isWithCardSeat,
+} from 'src/helpers/clientHelpersPoker'
 
 export const TableActionsJoinPlay = (props: TypeTableProps) => {
   const { table } = props
 
   const { username } = useAuth()
-  const authSeat = getUserSeat(table, username)
+  const userSeat = getUserSeat(table, username)
 
   const [waitForBb, setWaitForBb] = useState<boolean>(true)
 
@@ -16,9 +21,10 @@ export const TableActionsJoinPlay = (props: TypeTableProps) => {
     setWaitForBb(!checked)
   }
 
-  if (!authSeat) return null
+  if (!userSeat) return null
+  if (isWithCardSeat(userSeat)) return null
   if (isUserSeatoutTable(table, username)) return null
-  if (authSeat?.user.cards.length) return null
+  if (!isAtLeastTwoNotSeatOutPlayers(table)) return null
 
   return (
     <div className='dnd-window-body-table-actions-joinplay'>

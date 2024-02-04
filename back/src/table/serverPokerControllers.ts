@@ -36,18 +36,34 @@ export const renderClientJoinTable = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
+    const isWaitingUser = isUserWaitingTable(t, username)
+    const isSeatedUser = isUserSeatedTable(t, username)
+
     return {
       ...t,
-      waitingUsers:
-        isUserWaitingTable(t, username) || isUserSeatedTable(t, username)
-          ? t.waitingUsers
-          : [
-              ...t.waitingUsers,
-              {
-                ...WAITING_USER,
-                username,
-              },
-            ],
+      waitingUsers: isSeatedUser
+        ? t.waitingUsers
+        : [
+            ...t.waitingUsers,
+            {
+              ...WAITING_USER, // NEW_USER
+              username,
+              // avatar
+              // cash inBank
+            },
+          ],
+      seats: t.seats.map(s => {
+        if (!s.user) return s
+        if (s.user.username !== username) return s
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            isTableClosed: false,
+          },
+        }
+      }),
     }
   })
 }
@@ -60,7 +76,7 @@ export const renderClientLeaveTable = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedTableLeaveTable = {
+    return {
       ...t,
       waitingUsers: t.waitingUsers.filter(u => u.username !== username),
       seats: t.seats.map(s => {
@@ -69,28 +85,9 @@ export const renderClientLeaveTable = (
 
         return {
           ...s,
-          user: null,
-        }
-      }),
-    }
-
-    const isTimeToClearTable = isTimeToClearTableInMiddleOfGame(updatedTableLeaveTable)
-
-    // @TODO if its user game turn then gather his pot to table pot
-    // MOVE user.cash.pot to seat.pot from user
-    // Also go for next turn
-    // Also update role turn of table
-    return {
-      ...updatedTableLeaveTable,
-      timer: isTimeToClearTable ? getClearTableTimer() : updatedTableLeaveTable.timer,
-      seats: updatedTableLeaveTable.seats.map(s => {
-        if (!s.user) return s
-
-        return {
-          ...s,
           user: {
             ...s.user,
-            timer: s.user.timer?.action === ACTION_NAMES.checkfold ? null : s.user.timer,
+            isTableClosed: true,
           },
         }
       }),
@@ -119,8 +116,10 @@ export const renderClientJoinSeat = (
               id: s.id,
               role: null,
               user: {
-                ...WAITING_USER,
+                ...WAITING_USER, // NEW_USER
                 username,
+                // avatar
+                // cash inBank
                 isSeatout: true,
                 timer: getLeaveSeatTimer(false),
               },
@@ -145,8 +144,10 @@ export const renderClientLeaveSeat = (
         : [
             ...t.waitingUsers,
             {
-              ...WAITING_USER,
+              ...WAITING_USER, // NEW_USER
               username,
+              // avatar
+              // cash inBank
             },
           ],
       seats: t.seats.map(s => {

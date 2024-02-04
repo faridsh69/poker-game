@@ -116,6 +116,8 @@ export type TypeUser = {
   achievement: string
   isFold: boolean
   isSeatout: boolean
+  isTableClosed: boolean
+  isAutoAction: boolean
   timer: TypeTimer | null
   timeBank: number
   // hot: number

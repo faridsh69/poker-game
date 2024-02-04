@@ -89,11 +89,20 @@ export const isTimeToStartTable = (table: TypeTable): boolean => {
 
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] => {
   return allTables.filter(t => {
-    const isUserSeated = isUserSeatedTable(t, username) || isUserSeatoutTable(t, username)
-    const isUserWaited = isUserWaitingTable(t, username)
-
-    return isUserSeated || isUserWaited
+    return isUserJoinedTable(t, username)
   })
+}
+
+export const isUserJoinedTable = (table: TypeTable, username: string) => {
+  const isUserSeated = isUserSeatedTable(table, username) || isUserSeatoutTable(table, username)
+  const tableIsNotClosed = !isTableClosed(table, username)
+  const isUserWaited = isUserWaitingTable(table, username)
+
+  return (isUserSeated && tableIsNotClosed) || isUserWaited
+}
+
+const isTableClosed = (table: TypeTable, username: string) => {
+  return table.seats.find(s => s.user?.username === username)?.user.isTableClosed
 }
 
 export const showBackcard = (seat: TypeSeat, username: string, isShowPhase: boolean) => {

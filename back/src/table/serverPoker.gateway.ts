@@ -147,13 +147,13 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
-  @SubscribeMessage(CLIENT_CHANNELS.leaveSeat)
-  handleClientLeaveSeat(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
-    // Validations: check user is seated before this table
-    this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
+  // @SubscribeMessage(CLIENT_CHANNELS.leaveSeat)
+  // handleClientLeaveSeat(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  //   // Validations: check user is seated before this table
+  //   this.tablesState = renderClientLeaveSeat(this.tablesState, tableId, username)
 
-    renderUpdateClients(this.server, this.tablesState, tableId)
-  }
+  //   renderUpdateClients(this.server, this.tablesState, tableId)
+  // }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
   handleClientJoinGame(
