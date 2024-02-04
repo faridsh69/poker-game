@@ -195,9 +195,9 @@ const getOnlyPlayingSeatId = (table: TypeTable): number => {
   throw 'getOnlyPlayingSeatId could not found activeSeats.length: ' + activeSeats.length
 }
 
-/////////////////////////////////// 1 END SEAT //////////////////////////////////
+/////////////////////////////////// 1 END SEAT ////////////////////////////////////
 
-/////////////////////////////////// 2 START TIMER //////////////////////////////////
+/////////////////////////////////// 2 START TIMER /////////////////////////////////
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {
   return isWaitPhase(table) && isAtLeastTwoPlayers(table, true, false, true, false)
@@ -307,9 +307,9 @@ export const getUpdatedSeatWithAutoCheck = (table: TypeTable, isAutoAction: bool
   }
 }
 
-/////////////////////////////////// 2 END TIMER //////////////////////////////////
+/////////////////////////////////// 2 END TIMER ///////////////////////////////////
 
-/////////////////////////////////// 3 START BET //////////////////////////////////
+/////////////////////////////////// 3 START BET ///////////////////////////////////
 
 const getMaximumBet = (table: TypeTable): number => {
   let maximumBet = -1
@@ -392,9 +392,9 @@ const isAllPlayersAllIn = (table: TypeTable): boolean => {
   return inGameSeats.filter(s => !isAllinSeat(s)).length < 2
 }
 
-/////////////////////////////////// 3 END BET //////////////////////////////////
+/////////////////////////////////// 3 END BET /////////////////////////////////////
 
-/////////////////////////////////// 4 START RESET GAME //////////////////////////////////
+/////////////////////////////////// 4 START RESET GAME ////////////////////////////
 
 const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number => {
   const seatIds = Object.keys(scoreAndAchievements)
@@ -479,11 +479,11 @@ const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
   return nextPhase
 }
 
-/////////////////////////////////// 4 END RESET GAME //////////////////////////////////
+/////////////////////////////////// 4 END RESET GAME ///////////////////////////////
 
-/////////////////////////////////// 5 START CONTROLLERS GENERAL //////////////////////////////////
+/////////////////////////////////// 5 START CONTROLLERS GENERAL ////////////////////
 
-export const getIsPhaseFinished = (table: TypeTable): boolean => {
+export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
   if (!isAtLeastTwoPlayers(table, false, true, false, false)) return true
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
@@ -506,7 +506,7 @@ export const getIsPhaseFinished = (table: TypeTable): boolean => {
   return raiserSeatId === nextGameTurnSeatId
 }
 
-export const getUpdatedTableIfPhaseFinished = (
+export const getUpdatedTableIfPhaseFinished3 = (
   table: TypeTable,
   isPhaseFinished: boolean,
 ): TypeTable => {
@@ -538,7 +538,7 @@ export const getUpdatedTableIfPhaseFinished = (
     winnerReward = roundNumber((tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
   }
 
-  const finishedPhaseTable = {
+  const finishedPhaseTable1 = {
     ...table,
     phase: tablePhase,
     pot: tablePot,
@@ -567,14 +567,14 @@ export const getUpdatedTableIfPhaseFinished = (
     }),
   }
 
-  const seatoutedNotEnoughCashes = {
-    ...finishedPhaseTable,
+  const seatoutedNotEnoughCashes2 = {
+    ...finishedPhaseTable1,
     roleTurn: null,
-    seats: finishedPhaseTable.seats.map(seat => {
+    seats: finishedPhaseTable1.seats.map(seat => {
       if (!seat.user) return seat
       if (isSeatoutSeat(seat)) return seat
 
-      const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, finishedPhaseTable)
+      const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, finishedPhaseTable1)
       const isAutoAction = isAutoActionSeat(seat)
       const shouldBeSeatOut = isNotEnoughCash || isAutoAction
 
@@ -591,17 +591,17 @@ export const getUpdatedTableIfPhaseFinished = (
     }),
   }
 
-  const timer = isTimeToClearTableInShowPhase(finishedPhaseTable)
+  const timer = isTimeToClearTableInShowPhase(seatoutedNotEnoughCashes2)
     ? getClearTableTimer()
     : getRestartTableTimer()
 
   return {
-    ...seatoutedNotEnoughCashes,
+    ...seatoutedNotEnoughCashes2,
     timer: winnerReward ? timer : null,
   }
 }
 
-export const getUpdatedTableNextGameTurn = (
+export const getUpdatedTableNextGameTurn4 = (
   table: TypeTable,
   isPhaseFinished: boolean,
 ): TypeTable => {
@@ -637,11 +637,11 @@ export const getUpdatedTableNextGameTurn = (
   }
 }
 
-/////////////////////////////////// 5 END CONTROLLERS GENERAL //////////////////////////////////
+/////////////////////////////////// 5 END CONTROLLERS GENERAL //////////////////////
 
-/////////////////////////////////// 6 START CONTROLLERS ACTIONS //////////////////////////////////
+/////////////////////////////////// 6 START CONTROLLERS ACTIONS ////////////////////
 
-export const getUpdatedSeatWithFold = (table: TypeTable): TypeTable => {
+export const getUpdatedSeatWithFold1 = (table: TypeTable): TypeTable => {
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
   return {
@@ -663,7 +663,7 @@ export const getUpdatedSeatWithFold = (table: TypeTable): TypeTable => {
   }
 }
 
-export const getUpdatedSeatWithRaiseOrCallAmount = (
+export const getUpdatedSeatWithRaiseOrCallAmount1 = (
   table: TypeTable,
   amount: number,
 ): TypeTable => {
@@ -693,7 +693,7 @@ export const getUpdatedSeatWithRaiseOrCallAmount = (
   }
 }
 
-/////////////////////////////////// 6 END CONTROLLERS ACTIONS //////////////////////////////////
+/////////////////////////////////// 6 END CONTROLLERS ACTIONS //////////////////////
 
 export const clearTable = (table: TypeTable): TypeTable => {
   return {

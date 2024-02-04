@@ -82,6 +82,7 @@ export const ACTIONS: {
   check: renderClientCheckAction,
   checkfold: renderServerAutoCheckFold,
   call: renderClientCallAction,
+  // @ts-ignore
   raise: renderClientRaiseAction,
 }
 

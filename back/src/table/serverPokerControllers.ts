@@ -10,16 +10,16 @@ import {
 import {
   clearTable,
   getClearTableTimer,
-  getIsPhaseFinished,
+  getIsPhaseFinished2,
   getLeaveSeatTimer,
   getStartTableTimer,
   getTable,
   getUpdatedSeatWithAutoCheck,
-  getUpdatedSeatWithFold,
-  getUpdatedSeatWithRaiseOrCallAmount,
+  getUpdatedSeatWithFold1,
+  getUpdatedSeatWithRaiseOrCallAmount1,
   getUpdatedSeatWithTimeBank,
-  getUpdatedTableIfPhaseFinished,
-  getUpdatedTableNextGameTurn,
+  getUpdatedTableIfPhaseFinished3,
+  getUpdatedTableNextGameTurn4,
   isCheckAllowed,
   isTimeToClearTableInMiddleOfGame,
   isTimeToStartTable,
@@ -263,13 +263,13 @@ export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatWithFold = getUpdatedSeatWithFold(t)
-    const isPhaseFinished = getIsPhaseFinished(updatedSeatWithFold)
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
+    const updatedSeatWithFold = getUpdatedSeatWithFold1(t)
+    const isPhaseFinished = getIsPhaseFinished2(updatedSeatWithFold)
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished3(
       updatedSeatWithFold,
       isPhaseFinished,
     )
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn4(
       updatedTableIfPhaseFinished,
       isPhaseFinished,
     )
@@ -282,9 +282,9 @@ export const renderClientCheckAction = (tablesState: TypeTable[], tableId: numbe
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const isPhaseFinished = getIsPhaseFinished(t)
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(t, isPhaseFinished)
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+    const isPhaseFinished = getIsPhaseFinished2(t)
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished3(t, isPhaseFinished)
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn4(
       updatedTableIfPhaseFinished,
       isPhaseFinished,
     )
@@ -314,13 +314,16 @@ export const renderClientCallAction = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(t, callActionAmount as number)
-    const isPhaseFinished = getIsPhaseFinished(t)
-    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished(
+    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount1(
+      t,
+      callActionAmount as number,
+    )
+    const isPhaseFinished = getIsPhaseFinished2(t)
+    const updatedTableIfPhaseFinished = getUpdatedTableIfPhaseFinished3(
       updatedSeatWithAmount,
       isPhaseFinished,
     )
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn4(
       updatedTableIfPhaseFinished,
       isPhaseFinished,
     )
@@ -332,17 +335,14 @@ export const renderClientCallAction = (
 export const renderClientRaiseAction = (
   tablesState: TypeTable[],
   tableId: number,
-  raiseActionAmount?: number,
+  raiseActionAmount: number,
 ): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount(
-      t,
-      raiseActionAmount as number,
-    )
+    const updatedSeatWithAmount = getUpdatedSeatWithRaiseOrCallAmount1(t, raiseActionAmount)
     const isPhaseFinished = false
-    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn(
+    const updatedTableNextGameTurn = getUpdatedTableNextGameTurn4(
       updatedSeatWithAmount,
       isPhaseFinished,
     )
@@ -383,8 +383,7 @@ export const renderGeneralClientActions = (
     action === ACTION_NAMES.checkfold,
   )
   const tables = renderMethod(tablesStateUpdatedAutoAction, tableId, amount)
-
-  updateTablesState(tablesState)
+  updateTablesState(tables)
 
   server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
     tables,
