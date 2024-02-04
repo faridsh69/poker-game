@@ -2,10 +2,10 @@ import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { ActionButton } from './ActionButton'
 import { TypeSeat } from 'src/interfaces'
 
-export const TimeBank = (props: { tableId: number; seat: TypeSeat }) => {
+export const TimeBank = (props: { tableId: number; seat: TypeSeat | null }) => {
   const { tableId, seat } = props
 
-  const timeBank = seat.user.timeBank
+  const timeBank = seat?.user.timeBank
 
   const { handleTimeBankAction } = useSocketActions(tableId)
 

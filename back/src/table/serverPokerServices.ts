@@ -51,6 +51,8 @@ const isShowOrFinishPhase = (table: TypeTable): boolean =>
 
 const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 
+const isAutoActionSeat = (seat: TypeSeat): boolean => !!seat.user?.isAutoAction
+
 const isFoldSeat = (seat: TypeSeat): boolean => !!seat.user?.isFold
 
 const isAllinSeat = (seat: TypeSeat): boolean => !seat.user?.cash.inGame
@@ -282,6 +284,29 @@ export const getUpdatedSeatWithTimeBank = (table: TypeTable): TypeTable => {
     }),
   }
 }
+
+export const getUpdatedSeatWithAutoCheck = (table: TypeTable, isAutoAction: boolean): TypeTable => {
+  const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
+
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (isSeatoutSeat(s)) return s
+      if (!s.user.timer) return s
+      if (currentGameTurnSeatId !== s.id) return s
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          isAutoAction,
+        },
+      }
+    }),
+  }
+}
+
 /////////////////////////////////// 2 END TIMER //////////////////////////////////
 
 /////////////////////////////////// 3 START BET //////////////////////////////////
@@ -550,14 +575,17 @@ export const getUpdatedTableIfPhaseFinished = (
       if (isSeatoutSeat(seat)) return seat
 
       const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, finishedPhaseTable)
+      const isAutoAction = isAutoActionSeat(seat)
+      const shouldBeSeatOut = isNotEnoughCash || isAutoAction
 
       return {
         ...seat,
         user: {
           ...seat.user,
-          isSeatout: isNotEnoughCash && winnerReward ? true : seat.user.isSeatout,
+          isAutoAction: winnerReward ? false : seat.user.isAutoAction,
+          isSeatout: shouldBeSeatOut && winnerReward ? true : seat.user.isSeatout,
           timer:
-            isNotEnoughCash && winnerReward ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
+            shouldBeSeatOut && winnerReward ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
         },
       }
     }),
@@ -587,8 +615,7 @@ export const getUpdatedTableNextGameTurn = (
   return {
     ...table,
     total: getTableTotal(table),
-    // @ts-ignore
-    roleTurn: table.seats.find(s => s.id === nextGameTurnSeatId)?.role,
+    roleTurn: table.seats.find(s => s.id === nextGameTurnSeatId)?.role || null,
     seats: table.seats.map(s => {
       if (!s.user) return s
       if (isSeatoutSeat(s)) return s
@@ -680,7 +707,9 @@ export const clearTable = (table: TypeTable): TypeTable => {
     seats: table.seats.map(s => {
       if (!s.user) return s
 
-      const isAllin = isAllinSeat(s)
+      const isNotEnoughCash = isNotEnoughCashThanBlinds(s, table)
+      const isAutoAction = isAutoActionSeat(s)
+      const shouldBeSeatOut = isNotEnoughCash || isAutoAction
 
       return {
         ...s,
@@ -691,13 +720,14 @@ export const clearTable = (table: TypeTable): TypeTable => {
           isWinner: false,
           achievement: '',
           isFold: false,
+          isAutoAction: false,
           cash: {
             ...s.user.cash,
             inPot: 0,
             inGame: s.user.cash.inGame + table.total,
           },
-          isSeatout: isAllin ? true : s.user.isSeatout,
-          timer: isAllin ? getLeaveSeatTimer(isAllin) : s.user.timer,
+          isSeatout: shouldBeSeatOut ? true : s.user.isSeatout,
+          timer: shouldBeSeatOut ? getLeaveSeatTimer(isNotEnoughCash) : s.user.timer,
         },
       }
     }),
@@ -807,6 +837,7 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
           },
         }
       }
+
       if (!s.role) return s
 
       const isSmall = isHeadsUp ? s.role === SEAT_ROLES.dealer : s.role === SEAT_ROLES.small

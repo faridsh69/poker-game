@@ -156,6 +156,8 @@ export const WAITING_USER: TypeUser = {
   achievement: '',
   isFold: false,
   isSeatout: false,
+  isAutoAction: false,
+  isTableClosed: false,
   timer: null,
   timeBank: SERVER_TIMEOUT_EXTRA,
   // hot: null,

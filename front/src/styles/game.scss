@@ -204,6 +204,7 @@ html {
           bottom: 0px;
 
           &-joingame {
+            user-select: none;
             display: flex;
             flex-direction: row;
             align-items: flex-end;
@@ -233,6 +234,7 @@ html {
                 color: white !important;
                 font-size: 20px;
                 font-weight: bold;
+                user-select: none;
               }
 
               .timer-action-circle {

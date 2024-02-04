@@ -1,4 +1,6 @@
 .action-button {
+  user-select: none;
+
   &-front {
     width: 100%;
     min-width: 90px;

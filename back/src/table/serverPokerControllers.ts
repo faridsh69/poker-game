@@ -14,6 +14,7 @@ import {
   getLeaveSeatTimer,
   getStartTableTimer,
   getTable,
+  getUpdatedSeatWithAutoCheck,
   getUpdatedSeatWithFold,
   getUpdatedSeatWithRaiseOrCallAmount,
   getUpdatedSeatWithTimeBank,
@@ -31,7 +32,7 @@ export const renderClientJoinTable = (
   tablesState: TypeTable[],
   tableId: number,
   username: string,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -55,7 +56,7 @@ export const renderClientLeaveTable = (
   tablesState: TypeTable[],
   tableId: number,
   username: string,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -102,7 +103,7 @@ export const renderClientJoinSeat = (
   tableId: number,
   seatId: number,
   username: string,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -133,7 +134,7 @@ export const renderClientLeaveSeat = (
   tablesState: TypeTable[],
   tableId: number,
   username: string,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -179,7 +180,7 @@ export const renderClientJoinGame = (
   tableId: number,
   username: string,
   buyinAmount: number,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -217,7 +218,7 @@ export const renderClientLeaveGame = (
   tablesState: TypeTable[],
   tableId: number,
   username: string,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -258,7 +259,7 @@ export const renderClientLeaveGame = (
   })
 }
 
-export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number) => {
+export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -277,7 +278,7 @@ export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number
   })
 }
 
-export const renderClientCheckAction = (tablesState: TypeTable[], tableId: number) => {
+export const renderClientCheckAction = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -297,7 +298,6 @@ export const renderServerAutoCheckFold = (
   tableId: number,
 ): TypeTable[] => {
   const table = getTable(tablesState, tableId)
-  // @TODO active seat out next hand
 
   if (isCheckAllowed(table)) {
     return renderClientCheckAction(tablesState, tableId)
@@ -310,7 +310,7 @@ export const renderClientCallAction = (
   tablesState: TypeTable[],
   tableId: number,
   callActionAmount?: number,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -333,7 +333,7 @@ export const renderClientRaiseAction = (
   tablesState: TypeTable[],
   tableId: number,
   raiseActionAmount?: number,
-) => {
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -375,13 +375,19 @@ export const renderGeneralClientActions = (
   username: string,
   action: TypeAction,
   amount?: number,
-) => {
+): void => {
   const renderMethod = ACTIONS[action]
-  tablesState = renderMethod(tablesState, tableId, amount)
+  const tablesStateUpdatedAutoAction = renderUpdatedAutoAction(
+    tablesState,
+    tableId,
+    action === ACTION_NAMES.checkfold,
+  )
+  const tables = renderMethod(tablesStateUpdatedAutoAction, tableId, amount)
+
   updateTablesState(tablesState)
 
   server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
-    tables: tablesState,
+    tables,
     lastAction: {
       username,
       action,
@@ -391,16 +397,31 @@ export const renderGeneralClientActions = (
   })
 }
 
-export const renderUpdateClients = (server: Server, tables: TypeTable[], tableId: number) => {
+export const renderUpdateClients = (server: Server, tables: TypeTable[], tableId: number): void => {
   server.to('' + tableId).emit(SERVER_CHANNELS.updateTables, {
     tables,
   })
 }
 
-export const renderClientTimeBankAction = (tablesState: TypeTable[], tableId: number) => {
+export const renderClientTimeBankAction = (
+  tablesState: TypeTable[],
+  tableId: number,
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
     return getUpdatedSeatWithTimeBank(t)
+  })
+}
+
+const renderUpdatedAutoAction = (
+  tablesState: TypeTable[],
+  tableId: number,
+  isAutoCheck: boolean,
+): TypeTable[] => {
+  return tablesState.map(t => {
+    if (t.id !== tableId) return t
+
+    return getUpdatedSeatWithAutoCheck(t, isAutoCheck)
   })
 }
