@@ -100,8 +100,6 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
           }
 
           if (table.timer.action === TIMER_ACTION_NAMES.clearTable) {
-            // if (isWaitPhase(table)) return
-
             this.tablesState = renderServerClearTable(this.tablesState, table.id)
             renderUpdateClients(this.server, this.tablesState, table.id)
           }

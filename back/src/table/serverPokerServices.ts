@@ -519,19 +519,23 @@ export const getUpdatedTableIfPhaseFinished3 = (
   let winnerSeatIds: number[] = []
   let winnerReward = 0
 
-  const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false)
   const allPlayersAllIn = isAllPlayersAllIn(table)
 
-  if (tablePhase === TABLE_PHASES.show) {
-    scoreAndAchievements = getScoreAndAchievements(table)
-    winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
-  } else if (allPlayersAllIn) {
+  if (allPlayersAllIn) {
     tablePhase = TABLE_PHASES.show
     scoreAndAchievements = getScoreAndAchievements(table)
     winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
-  } else if (!atLeastTwoPlayers) {
-    tablePhase = TABLE_PHASES.finish
-    winnerSeatIds = [getOnlyPlayingSeatId(table)]
+  } else {
+    const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false)
+    if (!atLeastTwoPlayers) {
+      tablePhase = TABLE_PHASES.finish
+      winnerSeatIds = [getOnlyPlayingSeatId(table)]
+    } else {
+      if (tablePhase === TABLE_PHASES.show) {
+        scoreAndAchievements = getScoreAndAchievements(table)
+        winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
+      }
+    }
   }
 
   if (winnerSeatIds.length) {
