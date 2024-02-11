@@ -80,6 +80,10 @@ export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
   return seats.length > 1
 }
 
+export const NotSeatOutPlayers = (table: TypeTable): TypeSeat[] => {
+  return table.seats.filter(s => s.user && !isSeatoutSeat(s))
+}
+
 export const isTimeToStartTable = (table: TypeTable): boolean => {
   const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
   const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)

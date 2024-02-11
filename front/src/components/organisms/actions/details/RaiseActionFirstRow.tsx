@@ -1,7 +1,7 @@
 import { Slider } from '@mui/material'
-import { Money } from 'src/components/molecules/Money'
 import { TypeRaiseLimits } from 'src/interfaces'
 import { PotRaiseButton } from './PotRaiseButton'
+import { RaiseInput } from './RaiseInput'
 
 export const RaiseActionFirstRow = (props: {
   raise: number
@@ -19,7 +19,14 @@ export const RaiseActionFirstRow = (props: {
         <PotRaiseButton changeRaiseAmount={changeRaiseAmount} percent={100} />
       </div>
       <div className='dnd-window-body-table-actions-gameturn-firstrow-price'>
-        <Money money={raise} />
+        $
+        <RaiseInput
+          value={raise}
+          min={raiseLimits.min}
+          step={raiseLimits.step}
+          max={raiseLimits.max}
+          changeRaiseAmount={changeRaiseAmount}
+        />
       </div>
       <Slider
         className='dnd-window-body-table-actions-gameturn-firstrow-slider'

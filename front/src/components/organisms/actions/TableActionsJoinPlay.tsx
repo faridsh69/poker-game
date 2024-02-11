@@ -3,6 +3,7 @@ import { CheckboxAction } from './details/CheckboxAction'
 import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
 import {
+  NotSeatOutPlayers,
   getUserSeat,
   isAtLeastTwoNotSeatOutPlayers,
   isUserSeatoutTable,
@@ -25,6 +26,7 @@ export const TableActionsJoinPlay = (props: TypeTableProps) => {
   if (isWithCardSeat(userSeat)) return null
   if (isUserSeatoutTable(table, username)) return null
   if (!isAtLeastTwoNotSeatOutPlayers(table)) return null
+  if (NotSeatOutPlayers(table).length < 3) return null
 
   return (
     <div className='dnd-window-body-table-actions-joinplay'>
