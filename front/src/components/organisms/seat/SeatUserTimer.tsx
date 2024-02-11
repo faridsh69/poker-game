@@ -26,7 +26,7 @@ export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
       <CountDownTimer
         remainingSeconds={remainingSeconds}
         type='line'
-        duration={timer.extra ? CLIENT_TIMEOUT_EXTRA : CLIENT_TIMEOUT_ACTION}
+        duration={timer.extra ? remainingSeconds : CLIENT_TIMEOUT_ACTION}
       />
     </div>
   )

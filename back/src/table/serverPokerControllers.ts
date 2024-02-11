@@ -36,7 +36,7 @@ export const renderClientJoinTable = (
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    const isWaitingUser = isUserWaitingTable(t, username)
+    // const isWaitingUser = isUserWaitingTable(t, username)
     const isSeatedUser = isUserSeatedTable(t, username)
 
     return {

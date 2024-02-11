@@ -5,6 +5,7 @@ import {
   SEAT_ROLES,
   SERVER_TIMEOUT_ACTION,
   SERVER_TIMEOUT_CLEAR,
+  SERVER_TIMEOUT_EXTRA,
   SERVER_TIMEOUT_RESTART,
   SERVER_TIMEOUT_SEATOUT,
   SERVER_TIMEOUT_SEATOUT_ALLIN,
@@ -229,9 +230,11 @@ const getCheckfoldtimer = (): TypeTimer => {
 
 const getExtraCheckfoldtimer = (seat: TypeSeat): TypeTimer => {
   const timeBank = seat.user?.timeBank || 0
+  const currentTimer = seat.user?.timer?.deadline || getDeadline()
+  const remainingTime = currentTimer - getDeadline()
 
   return {
-    deadline: getDeadline(timeBank),
+    deadline: getDeadline(remainingTime + timeBank),
     action: TIMER_ACTION_NAMES.checkfold,
     extra: true,
   }
@@ -624,10 +627,11 @@ export const getUpdatedTableNextGameTurn4 = (
       if (!s.user) return s
       if (isSeatoutSeat(s)) return s
 
-      const timeBank =
-        currentGameTurnSeatId === s.id && s.user.timer?.extra
-          ? s.user.timer.deadline - getDeadline()
-          : s.user.timeBank
+      let timeBank = s.user.timeBank
+      if (currentGameTurnSeatId === s.id && s.user.timer?.extra) {
+        const remainingTime = s.user.timer.deadline - getDeadline()
+        timeBank = Math.min(SERVER_TIMEOUT_EXTRA, remainingTime)
+      }
 
       return {
         ...s,
