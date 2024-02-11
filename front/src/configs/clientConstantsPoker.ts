@@ -35,6 +35,7 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   leaveSeat: 'client:leave_seat',
 
   joinGame: 'client:join_game',
+  waitForBB: 'client:wait_for_bb',
   leaveGame: 'client:leave_game',
 
   foldAction: 'client:fold_action',

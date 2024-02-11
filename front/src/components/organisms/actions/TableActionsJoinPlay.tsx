@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { CheckboxAction } from './details/CheckboxAction'
 import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
@@ -9,18 +8,17 @@ import {
   isUserSeatoutTable,
   isWithCardSeat,
 } from 'src/helpers/clientHelpersPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
 
 export const TableActionsJoinPlay = (props: TypeTableProps) => {
   const { table } = props
 
   const { username } = useAuth()
+  const { handleWaitForBB } = useSocketActions(table.id)
+
   const userSeat = getUserSeat(table, username)
 
-  const [waitForBb, setWaitForBb] = useState<boolean>(true)
-
-  const handleChangeWaitForBb = (checked: boolean) => {
-    setWaitForBb(!checked)
-  }
+  const isWaitingForBB = userSeat?.user ? userSeat?.user?.isWaitForBB : false
 
   if (!userSeat) return null
   if (isWithCardSeat(userSeat)) return null
@@ -32,8 +30,8 @@ export const TableActionsJoinPlay = (props: TypeTableProps) => {
     <div className='dnd-window-body-table-actions-joinplay'>
       <CheckboxAction
         label='Wait for Big Blind'
-        checked={waitForBb}
-        onClick={() => handleChangeWaitForBb(waitForBb)}
+        checked={isWaitingForBB}
+        onClick={handleWaitForBB}
       />
     </div>
   )

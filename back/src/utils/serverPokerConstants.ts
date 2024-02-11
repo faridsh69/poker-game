@@ -44,6 +44,7 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   leaveSeat: 'client:leave_seat',
 
   joinGame: 'client:join_game',
+  waitForBB: 'client:wait_for_bb',
   leaveGame: 'client:leave_game',
 
   foldAction: 'client:fold_action',
@@ -87,15 +88,15 @@ export const ACTIONS: {
 }
 
 export const SEAT_ROLES: { [key in TypeSeatRole]: TypeSeatRole } = {
+  dealer: 'dealer',
   small: 'small',
   big: 'big',
-  underTheGun: 'underTheGun',
-  underTheGunPlusOne: 'underTheGunPlusOne',
-  underTheGunPlusTwo: 'underTheGunPlusTwo',
-  lowJack: 'lowJack',
-  highJack: 'highJack',
-  cutOff: 'cutOff',
-  dealer: 'dealer',
+  underTheGun4: 'underTheGun4',
+  underTheGunPlusOne5: 'underTheGunPlusOne5',
+  underTheGunPlusTwo6: 'underTheGunPlusTwo6',
+  lowJack7: 'lowJack7',
+  highJack8: 'highJack8',
+  cutOff9: 'cutOff9',
 }
 
 export const TABLE_PHASES: { [key in TypeTablePhase]: TypeTablePhase } = {
@@ -159,8 +160,10 @@ export const NEW_USER: TypeUser = {
   isSeatout: false,
   isAutoAction: false,
   isTableClosed: false,
+  isWaitForBB: false,
   timer: null,
   timeBank: SERVER_TIMEOUT_EXTRA,
+  // hot: null,
 }
 
 export const WAITING_USER: TypeUser = {
@@ -178,6 +181,7 @@ export const WAITING_USER: TypeUser = {
   isSeatout: false,
   isAutoAction: false,
   isTableClosed: false,
+  isWaitForBB: false,
   timer: null,
   timeBank: SERVER_TIMEOUT_EXTRA,
   // hot: null,

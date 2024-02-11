@@ -10,13 +10,7 @@ import {
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import {
-  ACTION_NAMES,
-  CLIENT_CHANNELS,
-  SERVER_CHANNELS,
-  TABLES,
-  TIMER_ACTION_NAMES,
-} from 'src/utils/serverPokerConstants'
+import { ACTION_NAMES, CLIENT_CHANNELS, SERVER_CHANNELS, TABLES, TIMER_ACTION_NAMES } from 'src/utils/serverPokerConstants'
 import {
   renderClientJoinGame,
   renderClientJoinSeat,
@@ -25,6 +19,7 @@ import {
   renderClientLeaveSeat,
   renderClientLeaveTable,
   renderClientTimeBankAction,
+  renderClientWaitForBB,
   renderGeneralClientActions,
   renderServerClearTable,
   renderServerStartTable,
@@ -72,11 +67,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
             console.log('1 user timer action', seat.user.timer.action)
 
             if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
-              this.tablesState = renderClientLeaveSeat(
-                this.tablesState,
-                table.id,
-                seat.user.username,
-              )
+              this.tablesState = renderClientLeaveSeat(this.tablesState, table.id, seat.user.username)
 
               renderUpdateClients(this.server, this.tablesState, table.id)
             }
@@ -93,7 +84,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
           console.log('2 table timer action', table.timer.action)
 
           if (table.timer.action === TIMER_ACTION_NAMES.restartTable) {
-            if (!isAtLeastTwoPlayers(table, true, false, true, false)) continue
+            if (!isAtLeastTwoPlayers(table, true, false, true, false, true, false)) continue
 
             this.tablesState = renderServerStartTable(this.tablesState, table.id)
             renderUpdateClients(this.server, this.tablesState, table.id)
@@ -156,10 +147,15 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   // }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
-  handleClientJoinGame(
-    @MessageBody() { tableId, username, buyinAmount }: TypeHandleClientSitTable,
-  ) {
+  handleClientJoinGame(@MessageBody() { tableId, username, buyinAmount }: TypeHandleClientSitTable) {
     this.tablesState = renderClientJoinGame(this.tablesState, tableId, username, buyinAmount)
+
+    renderUpdateClients(this.server, this.tablesState, tableId)
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.waitForBB)
+  handleClientWaitForBB(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    this.tablesState = renderClientWaitForBB(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
@@ -185,33 +181,21 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.callAction)
-  handleClientCallAction(
-    @MessageBody() { tableId, callActionAmount, username }: TypeHandleClientCallAction,
-  ) {
+  handleClientCallAction(@MessageBody() { tableId, callActionAmount, username }: TypeHandleClientCallAction) {
     // Validations: check user can call this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
     this.handleClientAction(tableId, username, ACTION_NAMES.call, callActionAmount)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.raiseAction)
-  handleClientRaiseAction(
-    @MessageBody() { tableId, raiseActionAmount, username }: TypeHandleClientRaiseAction,
-  ) {
+  handleClientRaiseAction(@MessageBody() { tableId, raiseActionAmount, username }: TypeHandleClientRaiseAction) {
     // Validations: check user can raise this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
     this.handleClientAction(tableId, username, ACTION_NAMES.raise, raiseActionAmount)
   }
 
   handleClientAction(tableId: number, username: string, actionName: TypeAction, amount?: number) {
-    renderGeneralClientActions(
-      this.server,
-      this.tablesState,
-      this.updateTablesState,
-      tableId,
-      username,
-      actionName,
-      amount,
-    )
+    renderGeneralClientActions(this.server, this.tablesState, this.updateTablesState, tableId, username, actionName, amount)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.timeBankAction)

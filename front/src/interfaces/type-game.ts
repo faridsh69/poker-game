@@ -12,6 +12,7 @@ export type TypeClientChannelKeys =
   | 'joinSeat'
   | 'leaveSeat'
   | 'joinGame'
+  | 'waitForBB'
   | 'leaveGame'
   | 'foldAction'
   | 'checkAction'
@@ -25,6 +26,7 @@ export type TypeClientChannels =
   | 'client:join_seat'
   | 'client:leave_seat'
   | 'client:join_game'
+  | 'client:wait_for_bb'
   | 'client:leave_game'
   | 'client:fold_action'
   | 'client:check_action'
@@ -118,6 +120,7 @@ export type TypeUser = {
   isSeatout: boolean
   isTableClosed: boolean
   isAutoAction: boolean
+  isWaitForBB: boolean
   timer: TypeTimer | null
   timeBank: number
   // hot: number

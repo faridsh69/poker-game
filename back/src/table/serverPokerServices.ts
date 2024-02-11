@@ -27,11 +27,9 @@ import {
 export const roundNumber = (number: number, digits = 2): number =>
   Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 
-export const getDeadline = (timeout = 0): number =>
-  Math.floor(new Date().valueOf() / 1000) + timeout
+export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueOf() / 1000) + timeout
 
-export const getTable = (tables: TypeTable[], tableId: number): TypeTable =>
-  tables.find(t => t.id === tableId) as TypeTable
+export const getTable = (tables: TypeTable[], tableId: number): TypeTable => tables.find(t => t.id === tableId) as TypeTable
 
 export const isUserSeatedTable = (table: TypeTable, username: string): boolean =>
   !!table.seats.find(s => s.user?.username === username)
@@ -47,8 +45,7 @@ const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.
 
 const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
 
-const isShowOrFinishPhase = (table: TypeTable): boolean =>
-  isShowPhase(table) || isFinishPhase(table)
+const isShowOrFinishPhase = (table: TypeTable): boolean => isShowPhase(table) || isFinishPhase(table)
 
 const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 
@@ -58,9 +55,11 @@ const isFoldSeat = (seat: TypeSeat): boolean => !!seat.user?.isFold
 
 const isAllinSeat = (seat: TypeSeat): boolean => !seat.user?.cash.inGame
 
-const isWithCardSeat = (seat: TypeSeat): boolean => !!seat.user?.cards.length
+const isWithoutCardsSeat = (seat: TypeSeat): boolean => !seat.user?.cards.length
 
-const isWithoutRole = (seat: TypeSeat): boolean => !seat.role
+const isWithoutRoleSeat = (seat: TypeSeat): boolean => !seat.role
+
+const isWaitForBBSeat = (seat: TypeSeat): boolean => !!seat.user?.isWaitForBB
 
 const isNotEnoughCashThanBlinds = (seat: TypeSeat, table: TypeTable): boolean => {
   if (!seat.user) return true
@@ -73,17 +72,19 @@ const getActiveSeats = (
   table: TypeTable,
   includeFolders = false,
   includeAllIns = false,
-  includeWaitings = false,
+  includeWithoutCards = false,
   includeSitouts = false,
   includeWithoutRole = false,
+  filterOnlyWaitForBB = false,
 ): TypeSeat[] => {
   return table.seats.filter(s => {
     if (!s.user) return false
     if (!includeFolders && isFoldSeat(s)) return false
     if (!includeAllIns && isAllinSeat(s)) return false
-    if (!includeWaitings && !isWithCardSeat(s)) return false
+    if (!includeWithoutCards && isWithoutCardsSeat(s)) return false
     if (!includeSitouts && isSeatoutSeat(s)) return false
-    if (includeWithoutRole && isWithoutRole(s)) return false
+    if (!includeWithoutRole && isWithoutRoleSeat(s)) return false
+    if (filterOnlyWaitForBB && isWaitForBBSeat(s)) return false
 
     return true
   })
@@ -93,15 +94,19 @@ export const isAtLeastTwoPlayers = (
   table: TypeTable,
   includeFolders = false,
   includeAllIns = false,
-  includeWaitings = false,
+  includeWithoutCards = false,
   includeSitouts = false,
+  includeWithoutRole = false,
+  filterOnlyWaitForBB = false,
 ): boolean => {
   const seats = getActiveSeats(
     table,
     includeFolders,
     includeAllIns,
-    includeWaitings,
+    includeWithoutCards,
     includeSitouts,
+    includeWithoutRole,
+    filterOnlyWaitForBB,
   )
 
   return seats.length > 1
@@ -113,20 +118,24 @@ const increaseSeatId = (seatId: number, tableSeatsLength: number): number => {
   return nextSeatId > tableSeatsLength ? 1 : nextSeatId
 }
 
-export const getNextSeatId = (
+const getNextSeatId = (
   table: TypeTable,
   seatId: number,
   includeFolders = false,
   includeAllIns = false,
-  includeWaitings = false,
+  includeWithoutCards = false,
   includeSitouts = false,
+  includeWithoutRole = false,
+  filterOnlyWaitForBB = false,
 ): number => {
   const acceptedSeats = getActiveSeats(
     table,
     includeFolders,
     includeAllIns,
-    includeWaitings,
+    includeWithoutCards,
     includeSitouts,
+    includeWithoutRole,
+    filterOnlyWaitForBB,
   )
 
   const tableSeatsLength = table.seats.length
@@ -150,7 +159,7 @@ const getCurrentRoleSeatId = (table: TypeTable, role: TypeSeatRole): number => {
   }
 
   if (role === SEAT_ROLES.big) {
-    const players = getActiveSeats(table, true, true, false, false)
+    const players = getActiveSeats(table, true, true, false, false, false, false)
     const isHeadsUp = players.length === 2
     if (isHeadsUp) {
       return getCurrentRoleSeatId(table, SEAT_ROLES.small)
@@ -161,7 +170,9 @@ const getCurrentRoleSeatId = (table: TypeTable, role: TypeSeatRole): number => {
 }
 
 const getRandomDealerSeatId = (table: TypeTable): number => {
-  const seats = getActiveSeats(table, true, true, true, false)
+  const seats = getActiveSeats(table, true, false, true, false, true, false)
+  if (!seats.length) throw 'getRandomDealerSeatId not found seat'
+
   const randomSeatIndex = Math.floor(Math.random() * seats.length)
 
   return seats[randomSeatIndex].id
@@ -169,11 +180,11 @@ const getRandomDealerSeatId = (table: TypeTable): number => {
 
 const getNewRoundGameTurnSeatId = (table: TypeTable): number => {
   const currentSmallSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.small)
-  const acceptedSeats = getActiveSeats(table, false, false, false, false)
+  const acceptedSeats = getActiveSeats(table, false, false, false, false, false, false)
 
   if (acceptedSeats.map(s => s.id).includes(currentSmallSeatId)) return currentSmallSeatId
 
-  return getNextSeatId(table, currentSmallSeatId, false, false, false, false)
+  return getNextSeatId(table, currentSmallSeatId, false, false, false, false, false, false)
 }
 
 const getCurrentGameTurnSeatId = (table: TypeTable): number => {
@@ -187,7 +198,7 @@ const getCurrentGameTurnSeatId = (table: TypeTable): number => {
 }
 
 const getOnlyPlayingSeatId = (table: TypeTable): number => {
-  const activeSeats = getActiveSeats(table, false, true, false, false)
+  const activeSeats = getActiveSeats(table, false, true, false, false, false, false)
 
   if (activeSeats.length === 1) {
     return activeSeats[0].id
@@ -201,15 +212,15 @@ const getOnlyPlayingSeatId = (table: TypeTable): number => {
 /////////////////////////////////// 2 START TIMER /////////////////////////////////
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {
-  return isWaitPhase(table) && isAtLeastTwoPlayers(table, true, false, true, false)
+  return isWaitPhase(table) && isAtLeastTwoPlayers(table, true, false, true, false, true, false)
 }
 
 export const isTimeToClearTableInMiddleOfGame = (table: TypeTable): boolean => {
-  return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, true, false, false)
+  return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, true, false, false, false, false)
 }
 
 export const isTimeToClearTableInShowPhase = (table: TypeTable): boolean => {
-  return !isAtLeastTwoPlayers(table, true, false, false, false)
+  return !isAtLeastTwoPlayers(table, true, false, true, false, true, false)
 }
 
 export const getLeaveSeatTimer = (isAllin = false): TypeTimer => {
@@ -316,7 +327,7 @@ export const getUpdatedSeatWithAutoCheck = (table: TypeTable, isAutoAction: bool
 
 const getMaximumBet = (table: TypeTable): number => {
   let maximumBet = -1
-  const seats = getActiveSeats(table, false, true, false, false)
+  const seats = getActiveSeats(table, false, true, false, false, false, false)
 
   for (const seat of seats) {
     if (seat.user && seat.user.cash.inPot > maximumBet) {
@@ -330,7 +341,7 @@ const getMaximumBet = (table: TypeTable): number => {
 const getMaximumBetSeatIds = (table: TypeTable): number[] => {
   const maximumBet = getMaximumBet(table)
   const maximumBetSeatIds: number[] = []
-  const seats = getActiveSeats(table, false, true, false, false)
+  const seats = getActiveSeats(table, false, true, false, false, false, false)
 
   for (const seat of seats) {
     if (seat.user && seat.user.cash.inPot === maximumBet) {
@@ -351,10 +362,10 @@ const getRaiserSeatId = (table: TypeTable): number => {
   const maximumBetSeatIds = getMaximumBetSeatIds(table)
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
-  let raiserSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true, false, false)
+  let raiserSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true, false, false, false, false)
   let trying = 100
   while (!maximumBetSeatIds.includes(raiserSeatId) && trying) {
-    raiserSeatId = getNextSeatId(table, raiserSeatId, false, true)
+    raiserSeatId = getNextSeatId(table, raiserSeatId, false, true, false, false, false, false)
     trying = trying - 1
   }
 
@@ -386,8 +397,7 @@ const getTableTotal = (table: TypeTable): number => {
 
 const isAllPlayersAllIn = (table: TypeTable): boolean => {
   const inGameSeats = table.seats.filter(
-    s =>
-      s.user && !isSeatoutSeat(s) && !s.user.isFold && (isWaitPhase(table) || s.user.cards.length),
+    s => s.user && !isSeatoutSeat(s) && !s.user.isFold && (isWaitPhase(table) || s.user.cards.length),
   )
 
   if (inGameSeats.length < 2) return false
@@ -415,7 +425,7 @@ const getMaximumScore = (scoreAndAchievements: TypeScoreAndAchivements): number 
 const getScoreAndAchievements = (table: TypeTable): TypeScoreAndAchivements => {
   const tableCards = table.cards
   const scoreAndAchivements: TypeScoreAndAchivements = {}
-  const seats = getActiveSeats(table, false, true, false, false)
+  const seats = getActiveSeats(table, false, true, false, false, false, false)
 
   for (const seat of seats) {
     const userCards = seat.user?.cards || []
@@ -487,7 +497,7 @@ const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
 /////////////////////////////////// 5 START CONTROLLERS GENERAL ////////////////////
 
 export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
-  if (!isAtLeastTwoPlayers(table, false, true, false, false)) return true
+  if (!isAtLeastTwoPlayers(table, false, true, false, false, false, false)) return true
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
@@ -499,7 +509,7 @@ export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
     }
   }
 
-  const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, false, false, false)
+  const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, false, false, false, false, false)
   const raiserSeatId = getRaiserSeatId(table)
 
   if (currentGameTurnSeatId === nextGameTurnSeatId) {
@@ -509,10 +519,7 @@ export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
   return raiserSeatId === nextGameTurnSeatId
 }
 
-export const getUpdatedTableIfPhaseFinished3 = (
-  table: TypeTable,
-  isPhaseFinished: boolean,
-): TypeTable => {
+export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
   if (!isPhaseFinished) return table
 
   let tablePhase = getNextTablePhase(table.phase)
@@ -529,7 +536,7 @@ export const getUpdatedTableIfPhaseFinished3 = (
     scoreAndAchievements = getScoreAndAchievements(table)
     winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
   } else {
-    const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false)
+    const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false, false, false)
     if (!atLeastTwoPlayers) {
       tablePhase = TABLE_PHASES.finish
       winnerSeatIds = [getOnlyPlayingSeatId(table)]
@@ -591,16 +598,13 @@ export const getUpdatedTableIfPhaseFinished3 = (
           ...seat.user,
           isAutoAction: winnerReward ? false : seat.user.isAutoAction,
           isSeatout: shouldBeSeatOut && winnerReward ? true : seat.user.isSeatout,
-          timer:
-            shouldBeSeatOut && winnerReward ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
+          timer: shouldBeSeatOut && winnerReward ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
         },
       }
     }),
   }
 
-  const timer = isTimeToClearTableInShowPhase(seatoutedNotEnoughCashes2)
-    ? getClearTableTimer()
-    : getRestartTableTimer()
+  const timer = isTimeToClearTableInShowPhase(seatoutedNotEnoughCashes2) ? getClearTableTimer() : getRestartTableTimer()
 
   return {
     ...seatoutedNotEnoughCashes2,
@@ -608,16 +612,13 @@ export const getUpdatedTableIfPhaseFinished3 = (
   }
 }
 
-export const getUpdatedTableNextGameTurn4 = (
-  table: TypeTable,
-  isPhaseFinished: boolean,
-): TypeTable => {
+export const getUpdatedTableNextGameTurn4 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
   if (isShowOrFinishPhase(table)) return table
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
   const nextGameTurnSeatId = isPhaseFinished
     ? getNewRoundGameTurnSeatId(table)
-    : getNextSeatId(table, currentGameTurnSeatId, false, false, false, false)
+    : getNextSeatId(table, currentGameTurnSeatId, false, false, false, false, false, false)
 
   return {
     ...table,
@@ -671,10 +672,7 @@ export const getUpdatedSeatWithFold1 = (table: TypeTable): TypeTable => {
   }
 }
 
-export const getUpdatedSeatWithRaiseOrCallAmount1 = (
-  table: TypeTable,
-  amount: number,
-): TypeTable => {
+export const getUpdatedSeatWithRaiseOrCallAmount1 = (table: TypeTable, amount: number): TypeTable => {
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
   return {
@@ -744,11 +742,17 @@ export const clearTable = (table: TypeTable): TypeTable => {
 
 const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
   if (isWaitPhase(table)) {
-    const currentDealerSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
-    const newDealerSeatId = getNextSeatId(table, currentDealerSeatId, true, false, true, false)
-    const newSmallSeatId = getNextSeatId(table, newDealerSeatId, true, false, true, false)
-    const newBigSeatId = getNextSeatId(table, newSmallSeatId, true, false, true, false)
-    const newUnderTheGunSeatId = getNextSeatId(table, newBigSeatId, true, false, true, false)
+    const curDSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
+
+    const newDSeatId = getNextSeatId(table, curDSeatId, true, false, true, false, true, false)
+    const new2SeatId = getNextSeatId(table, newDSeatId, true, false, true, false, true, false)
+    const new3SeatId = getNextSeatId(table, new2SeatId, true, false, true, false, true, false)
+    const new4SeatId = getNextSeatId(table, new3SeatId, true, false, true, false, true, false)
+    const new5SeatId = getNextSeatId(table, new4SeatId, true, false, true, false, true, false)
+    const new6SeatId = getNextSeatId(table, new5SeatId, true, false, true, false, true, false)
+    const new7SeatId = getNextSeatId(table, new6SeatId, true, false, true, false, true, false)
+    const new8SeatId = getNextSeatId(table, new7SeatId, true, false, true, false, true, false)
+    const new9SeatId = getNextSeatId(table, new8SeatId, true, false, true, false, true, false)
 
     return {
       ...table,
@@ -757,14 +761,24 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
         if (isSeatoutSeat(s)) return s
 
         let seatRole = null
-        if (s.id === newDealerSeatId) {
+        if (s.id === newDSeatId) {
           seatRole = SEAT_ROLES.dealer
-        } else if (s.id === newSmallSeatId) {
+        } else if (s.id === new2SeatId) {
           seatRole = SEAT_ROLES.small
-        } else if (s.id === newBigSeatId) {
+        } else if (s.id === new3SeatId) {
           seatRole = SEAT_ROLES.big
-        } else if (s.id === newUnderTheGunSeatId) {
-          seatRole = SEAT_ROLES.underTheGun
+        } else if (s.id === new4SeatId) {
+          seatRole = SEAT_ROLES.underTheGun4
+        } else if (s.id === new5SeatId) {
+          seatRole = SEAT_ROLES.underTheGunPlusOne5
+        } else if (s.id === new6SeatId) {
+          seatRole = SEAT_ROLES.underTheGunPlusTwo6
+        } else if (s.id === new7SeatId) {
+          seatRole = SEAT_ROLES.lowJack7
+        } else if (s.id === new8SeatId) {
+          seatRole = SEAT_ROLES.highJack8
+        } else if (s.id === new9SeatId) {
+          seatRole = SEAT_ROLES.cutOff9
         }
 
         return {
@@ -776,11 +790,18 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
   }
 
   if (isShowOrFinishPhase(table)) {
-    const currentDealerSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
-    const newDealerSeatId = getNextSeatId(table, currentDealerSeatId, true, false, false, false)
-    const newSmallSeatId = getNextSeatId(table, newDealerSeatId, true, false, false, false)
-    const newBigSeatId = getNextSeatId(table, newSmallSeatId, true, false, true, false)
-    const newUnderTheGunSeatId = getNextSeatId(table, newBigSeatId, true, false, false, false)
+    const tableSeatsLength = getActiveSeats(table, true, false, true, false, true, false).length
+    const curDSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
+
+    const newDSeatId = getNextSeatId(table, curDSeatId, true, false, false, false, true, false)
+    const new2SeatId = getNextSeatId(table, newDSeatId, true, false, false, false, true, false)
+    const new3SeatId = getNextSeatId(table, new2SeatId, true, false, true, false, true, false)
+    const new4SeatId = getNextSeatId(table, new3SeatId, true, false, true, false, true, true)
+    const new5SeatId = getNextSeatId(table, new4SeatId, true, false, true, false, true, true)
+    const new6SeatId = getNextSeatId(table, new5SeatId, true, false, true, false, true, true)
+    const new7SeatId = getNextSeatId(table, new6SeatId, true, false, true, false, true, true)
+    const new8SeatId = getNextSeatId(table, new7SeatId, true, false, true, false, true, true)
+    const new9SeatId = getNextSeatId(table, new8SeatId, true, false, true, false, true, true)
 
     return {
       ...table,
@@ -789,14 +810,24 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
         if (isSeatoutSeat(s)) return s
 
         let seatRole = null
-        if (s.id === newDealerSeatId) {
+        if (s.id === newDSeatId) {
           seatRole = SEAT_ROLES.dealer
-        } else if (s.id === newSmallSeatId) {
+        } else if (s.id === new2SeatId) {
           seatRole = SEAT_ROLES.small
-        } else if (s.id === newBigSeatId) {
+        } else if (s.id === new3SeatId && tableSeatsLength > 2) {
           seatRole = SEAT_ROLES.big
-        } else if (s.id === newUnderTheGunSeatId) {
-          seatRole = SEAT_ROLES.underTheGun
+        } else if (s.id === new4SeatId && tableSeatsLength > 3) {
+          seatRole = SEAT_ROLES.underTheGun4
+        } else if (s.id === new5SeatId && tableSeatsLength > 4) {
+          seatRole = SEAT_ROLES.underTheGunPlusOne5
+        } else if (s.id === new6SeatId && tableSeatsLength > 5) {
+          seatRole = SEAT_ROLES.underTheGunPlusTwo6
+        } else if (s.id === new7SeatId && tableSeatsLength > 6) {
+          seatRole = SEAT_ROLES.lowJack7
+        } else if (s.id === new8SeatId && tableSeatsLength > 7) {
+          seatRole = SEAT_ROLES.highJack8
+        } else if (s.id === new9SeatId && tableSeatsLength > 8) {
+          seatRole = SEAT_ROLES.cutOff9
         }
 
         return {
@@ -813,10 +844,10 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
 export const resetTable = (pureTable: TypeTable): TypeTable => {
   const table = getUpdateSeatRoles(pureTable)
 
-  const players = getActiveSeats(table, true, true, true, false, true)
-  const isHeadsUp = players.length === 2
-  const isTheePlayer = players.length === 3
-  const roleTurn = isHeadsUp || isTheePlayer ? SEAT_ROLES.dealer : SEAT_ROLES.underTheGun
+  const playersInGame = getActiveSeats(table, true, false, true, false, false, false)
+  const isHeadsUp = playersInGame.length === 2
+  const isTheePlayer = playersInGame.length === 3
+  const roleTurn = isHeadsUp || isTheePlayer ? SEAT_ROLES.dealer : SEAT_ROLES.underTheGun4
   const tableTotal = table.blinds.small + table.blinds.big
 
   const tableCards = getRandomCards(5, [])

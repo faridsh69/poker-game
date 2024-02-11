@@ -23,9 +23,9 @@ export const useSocketActions = (tableId: number) => {
     [socket, username, tableId],
   )
 
-  const handleLeaveSeat = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
-  }, [socket, username, tableId])
+  // const handleLeaveSeat = useCallback(() => {
+  //   socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
+  // }, [socket, username, tableId])
 
   const handleJoinGame = useCallback(
     (buyinAmount: number) => {
@@ -33,6 +33,10 @@ export const useSocketActions = (tableId: number) => {
     },
     [socket, username, tableId],
   )
+
+  const handleWaitForBB = useCallback(() => {
+    socket.emit(CLIENT_CHANNELS.waitForBB, { tableId, username })
+  }, [socket, username, tableId])
 
   const handleLeaveGame = useCallback(() => {
     socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
@@ -73,9 +77,10 @@ export const useSocketActions = (tableId: number) => {
     handleLeaveTable,
 
     handleJoinSeat,
-    handleLeaveSeat,
+    // handleLeaveSeat,
 
     handleJoinGame,
+    handleWaitForBB,
     handleLeaveGame,
 
     handleCheckAction,

@@ -11,30 +11,17 @@ export type TypeTimerAction = 'leaveSeat' | 'checkfold' | 'restartTable' | 'clea
 export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 
 export type TypeSeatRole =
+  | 'dealer'
   | 'small'
   | 'big'
-  | 'underTheGun'
-  | 'underTheGunPlusOne'
-  | 'underTheGunPlusTwo'
-  | 'lowJack'
-  | 'highJack'
-  | 'cutOff'
-  | 'dealer'
+  | 'underTheGun4'
+  | 'underTheGunPlusOne5'
+  | 'underTheGunPlusTwo6'
+  | 'lowJack7'
+  | 'highJack8'
+  | 'cutOff9'
 
-export type TypeCardNumber =
-  | '2'
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | '10'
-  | 'j'
-  | 'q'
-  | 'k'
-  | 'a'
+export type TypeCardNumber = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'j' | 'q' | 'k' | 'a'
 
 export type TypeClientChannelKeys =
   | 'joinTable'
@@ -48,6 +35,7 @@ export type TypeClientChannelKeys =
   | 'callAction'
   | 'raiseAction'
   | 'timeBankAction'
+  | 'waitForBB'
 
 export type TypeClientChannels =
   | 'client:join_table'
@@ -55,6 +43,7 @@ export type TypeClientChannels =
   | 'client:join_seat'
   | 'client:leave_seat'
   | 'client:join_game'
+  | 'client:wait_for_bb'
   | 'client:leave_game'
   | 'client:fold_action'
   | 'client:check_action'
@@ -106,6 +95,7 @@ export type TypeUser = {
   isSeatout: boolean
   isAutoAction: boolean
   isTableClosed: boolean
+  isWaitForBB: boolean
   timer: TypeTimer | null
   timeBank: number
   // hot: number

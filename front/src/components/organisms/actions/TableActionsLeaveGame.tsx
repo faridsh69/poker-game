@@ -26,6 +26,7 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
     if (!forceUserToSeatOut) return
 
     setTimeout(() => {
+      // @todo move it to backend
       handleLeaveGame()
       setSitoutChecked(false)
     }, CLIENT_TIMEOUT_QUIT * 1000)
