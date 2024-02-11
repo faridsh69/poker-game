@@ -141,9 +141,12 @@ export const renderClientLeaveSeat = (tablesState: TypeTable[], tableId: number,
       }),
     }
 
+    const timeToClearTableInMiddleOfGame = isTimeToClearTableInMiddleOfGame(updatedTableLeaveSeat)
+    console.log('1 timeToClearTableInMiddleOfGame', timeToClearTableInMiddleOfGame)
+
     return {
       ...updatedTableLeaveSeat,
-      timer: isTimeToClearTableInMiddleOfGame(updatedTableLeaveSeat) ? getClearTableTimer() : null,
+      timer: timeToClearTableInMiddleOfGame ? getClearTableTimer() : null,
       seats: updatedTableLeaveSeat.seats.map(s => {
         if (!s.user) return s
 

@@ -604,7 +604,10 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
     }),
   }
 
-  const timer = isTimeToClearTableInShowPhase(seatoutedNotEnoughCashes2) ? getClearTableTimer() : getRestartTableTimer()
+  const timeToClearTableInShowPhase = isTimeToClearTableInShowPhase(seatoutedNotEnoughCashes2)
+  console.log('2 timeToClearTableInShowPhase ', timeToClearTableInShowPhase)
+
+  const timer = timeToClearTableInShowPhase ? getClearTableTimer() : getRestartTableTimer()
 
   return {
     ...seatoutedNotEnoughCashes2,
@@ -790,11 +793,13 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
   }
 
   if (isShowOrFinishPhase(table)) {
+    console.log('41')
     const tableSeatsLength = getActiveSeats(table, true, false, true, false, true, false).length
+    const isHeadsUp = tableSeatsLength === 2
     const curDSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
 
     const newDSeatId = getNextSeatId(table, curDSeatId, true, false, false, false, true, false)
-    const new2SeatId = getNextSeatId(table, newDSeatId, true, false, false, false, true, false)
+    const new2SeatId = getNextSeatId(table, newDSeatId, true, false, isHeadsUp, false, true, false)
     const new3SeatId = getNextSeatId(table, new2SeatId, true, false, true, false, true, false)
     const new4SeatId = getNextSeatId(table, new3SeatId, true, false, true, false, true, true)
     const new5SeatId = getNextSeatId(table, new4SeatId, true, false, true, false, true, true)
@@ -843,13 +848,11 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
 
 export const resetTable = (pureTable: TypeTable): TypeTable => {
   const table = getUpdateSeatRoles(pureTable)
-
   const playersInGame = getActiveSeats(table, true, false, true, false, false, false)
   const isHeadsUp = playersInGame.length === 2
   const isTheePlayer = playersInGame.length === 3
   const roleTurn = isHeadsUp || isTheePlayer ? SEAT_ROLES.dealer : SEAT_ROLES.underTheGun4
   const tableTotal = table.blinds.small + table.blinds.big
-
   const tableCards = getRandomCards(5, [])
   let usedCards = [...tableCards]
 
@@ -881,11 +884,12 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
 
       const isSmall = isHeadsUp ? s.role === SEAT_ROLES.dealer : s.role === SEAT_ROLES.small
       const isBig = isHeadsUp ? s.role === SEAT_ROLES.small : s.role === SEAT_ROLES.big
+      const newJoinedPlayer = !isHeadsUp && isWithoutCardsSeat(s)
 
       const userCards = getRandomCards(2, usedCards)
       usedCards = [...usedCards, ...userCards]
 
-      const addedToPot = isSmall ? table.blinds.small : isBig ? table.blinds.big : 0
+      const addedToPot = isSmall ? table.blinds.small : isBig || newJoinedPlayer ? table.blinds.big : 0
       const inPot = addedToPot
       const inGame = roundNumber(s.user.cash.inGame - addedToPot)
 
