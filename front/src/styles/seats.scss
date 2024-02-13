@@ -309,8 +309,8 @@ $dealCardTimeout: 0.5s;
     }
 
     .dnd-window-body-table-seats-seat-user-pot {
-      top: -24px;
-      right: -60px;
+      top: -11px;
+      right: -43px;
     }
   }
 
@@ -354,8 +354,8 @@ $dealCardTimeout: 0.5s;
     }
 
     .dnd-window-body-table-seats-seat-user-pot {
-      top: 123px;
-      right: -85px;
+      top: 129px;
+      right: -80px;
     }
   }
 
@@ -367,6 +367,11 @@ $dealCardTimeout: 0.5s;
       top: 133px;
       left: 20px;
     }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 163px;
+      right: -25px;
+    }
   }
 
   .seat-9-6 {
@@ -375,27 +380,42 @@ $dealCardTimeout: 0.5s;
 
     .dnd-window-body-table-seats-seat-user-dealer {
       top: 133px;
-      right: 20px;
+      right: 0px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 163px;
+      right: 45px;
     }
   }
 
   .seat-9-7 {
     top: 9%;
-    right: 12%;
+    right: 10%;
 
     .dnd-window-body-table-seats-seat-user-dealer {
-      top: 133px;
+      top: 140px;
       left: 10px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 129px;
+      left: -80px;
     }
   }
 
   .seat-9-8 {
-    top: calc(40% - 45px);
-    right: 2%;
+    top: calc(40% - 35px);
+    right: 3%;
 
     .dnd-window-body-table-seats-seat-user-dealer {
-      top: 110px;
-      left: -30px;
+      top: 90px;
+      left: -40px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 60px;
+      left: -90px;
     }
   }
 
@@ -404,8 +424,13 @@ $dealCardTimeout: 0.5s;
     right: 14%;
 
     .dnd-window-body-table-seats-seat-user-dealer {
-      top: 50px;
-      left: -40px;
+      top: 55px;
+      left: -50px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 30px;
+      left: -80px;
     }
   }
 }
