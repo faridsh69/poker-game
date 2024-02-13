@@ -307,6 +307,11 @@ $dealCardTimeout: 0.5s;
       top: -20px;
       left: -20px;
     }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: -24px;
+      right: -60px;
+    }
   }
 
   .seat-9-2 {
@@ -314,18 +319,28 @@ $dealCardTimeout: 0.5s;
     left: 14%;
 
     .dnd-window-body-table-seats-seat-user-dealer {
-      top: 50px;
-      right: -40px;
+      top: 55px;
+      right: -50px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 30px;
+      right: -75px;
     }
   }
 
   .seat-9-3 {
-    top: calc(40% - 45px);
+    top: calc(40% - 35px);
     left: 2%;
 
     .dnd-window-body-table-seats-seat-user-dealer {
-      top: 110px;
-      right: -30px;
+      top: 100px;
+      right: -40px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 60px;
+      right: -80px;
     }
   }
 
@@ -336,6 +351,11 @@ $dealCardTimeout: 0.5s;
     .dnd-window-body-table-seats-seat-user-dealer {
       top: 133px;
       right: 10px;
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot {
+      top: 123px;
+      right: -85px;
     }
   }
 

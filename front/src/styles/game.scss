@@ -164,7 +164,7 @@ html {
 
         &-cards {
           position: absolute;
-          left: 265px;
+          left: 240px;
           top: 230px;
           display: flex;
           flex-direction: row;
@@ -307,6 +307,7 @@ html {
                 font-size: 14px;
 
                 input {
+                  margin-right: 3px;
                   margin-left: 3px;
                   font-size: 12px;
                   width: 60px;

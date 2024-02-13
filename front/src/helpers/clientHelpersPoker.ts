@@ -156,7 +156,7 @@ export const getCallActionAmount = (table: TypeTable, username: string) => {
 export const getMinimumRaiseAmount = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
   const prevMaximumBet = getPrevMaximumBet(table)
-  const minimumRaise = 2 * maximumBet - prevMaximumBet
+  const minimumRaise = roundNumber(2 * maximumBet - prevMaximumBet, 2)
 
   return Math.max(table.blinds.big, minimumRaise)
 }
@@ -164,7 +164,7 @@ export const getMinimumRaiseAmount = (table: TypeTable) => {
 export const getStepRaiseAmount = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
   const prevMaximumBet = getPrevMaximumBet(table)
-  const stepRaise = maximumBet - prevMaximumBet
+  const stepRaise = roundNumber(maximumBet - prevMaximumBet, 2)
 
   return Math.max(table.blinds.big, stepRaise)
 }

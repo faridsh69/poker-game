@@ -39,7 +39,13 @@ export const isUserWaitingTable = (table: TypeTable, username: string): boolean 
 
 export const isWaitPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.wait
 
-const isPreflopPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.preflop
+export const isPreflopPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.preflop
+
+export const isFlopPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.flop
+
+export const isTurnPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.turn
+
+export const isRiverPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.river
 
 const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
 
@@ -744,7 +750,8 @@ export const clearTable = (table: TypeTable): TypeTable => {
 }
 
 const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
-  if (isWaitPhase(table)) {
+  const isOnlyOneActivePlayer = getActiveSeats(table, true, false, false, false, true, false).length === 1
+  if (isWaitPhase(table) || isOnlyOneActivePlayer) {
     const curDSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
 
     const newDSeatId = getNextSeatId(table, curDSeatId, true, false, true, false, true, false)
@@ -794,19 +801,49 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
 
   if (isShowOrFinishPhase(table)) {
     console.log('41')
-    const tableSeatsLength = getActiveSeats(table, true, false, true, false, true, false).length
+    const seatIds = []
+    let tableSeatsLength = getActiveSeats(table, true, false, true, false, true, false).length
     const isHeadsUp = tableSeatsLength === 2
     const curDSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
 
     const newDSeatId = getNextSeatId(table, curDSeatId, true, false, false, false, true, false)
+    seatIds.push(newDSeatId)
     const new2SeatId = getNextSeatId(table, newDSeatId, true, false, isHeadsUp, false, true, false)
+    seatIds.push(new2SeatId)
     const new3SeatId = getNextSeatId(table, new2SeatId, true, false, true, false, true, false)
+    if (seatIds.includes(new3SeatId)) {
+      tableSeatsLength = Math.min(tableSeatsLength, 2)
+    }
+    seatIds.push(new3SeatId)
     const new4SeatId = getNextSeatId(table, new3SeatId, true, false, true, false, true, true)
+    if (seatIds.includes(new4SeatId)) {
+      tableSeatsLength = Math.min(tableSeatsLength, 3)
+    }
+    seatIds.push(new4SeatId)
     const new5SeatId = getNextSeatId(table, new4SeatId, true, false, true, false, true, true)
+    if (seatIds.includes(new5SeatId)) {
+      tableSeatsLength = Math.min(tableSeatsLength, 4)
+    }
+    seatIds.push(new5SeatId)
     const new6SeatId = getNextSeatId(table, new5SeatId, true, false, true, false, true, true)
+    if (seatIds.includes(new6SeatId)) {
+      tableSeatsLength = Math.min(tableSeatsLength, 5)
+    }
+    seatIds.push(new6SeatId)
     const new7SeatId = getNextSeatId(table, new6SeatId, true, false, true, false, true, true)
+    if (seatIds.includes(new7SeatId)) {
+      tableSeatsLength = Math.min(tableSeatsLength, 6)
+    }
+    seatIds.push(new7SeatId)
     const new8SeatId = getNextSeatId(table, new7SeatId, true, false, true, false, true, true)
+    if (seatIds.includes(new8SeatId)) {
+      tableSeatsLength = Math.min(tableSeatsLength, 7)
+    }
+    seatIds.push(new8SeatId)
     const new9SeatId = getNextSeatId(table, new8SeatId, true, false, true, false, true, true)
+    if (seatIds.includes(new9SeatId)) {
+      tableSeatsLength = Math.min(tableSeatsLength, 8)
+    }
 
     return {
       ...table,

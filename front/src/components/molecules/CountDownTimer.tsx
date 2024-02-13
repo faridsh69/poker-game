@@ -40,6 +40,7 @@ export const CountDownTimer = (props: {
 
   useEffect(() => {
     if (restTime === 0) {
+      stopSound('timer')
       onFinishTimer && onFinishTimer()
       return
     }

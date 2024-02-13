@@ -16,8 +16,12 @@ import {
   getUpdatedTableIfPhaseFinished3,
   getUpdatedTableNextGameTurn4,
   isCheckAllowed,
+  isFlopPhase,
+  isPreflopPhase,
+  isRiverPhase,
   isTimeToClearTableInMiddleOfGame,
   isTimeToStartTable,
+  isTurnPhase,
   isUserSeatedTable,
   isUserWaitingTable,
   resetTable,
@@ -149,6 +153,11 @@ export const renderClientLeaveSeat = (tablesState: TypeTable[], tableId: number,
       timer: timeToClearTableInMiddleOfGame ? getClearTableTimer() : null,
       seats: updatedTableLeaveSeat.seats.map(s => {
         if (!s.user) return s
+
+        if (isPreflopPhase(updatedTableLeaveSeat)) return s
+        if (isFlopPhase(updatedTableLeaveSeat)) return s
+        if (isTurnPhase(updatedTableLeaveSeat)) return s
+        if (isRiverPhase(updatedTableLeaveSeat)) return s
 
         return {
           ...s,
