@@ -64,6 +64,10 @@ export const isUserFold = (table: TypeTable, username: string) => {
   return !table.seats.find(s => s.user?.username === username && !s.user.isFold)
 }
 
+export const isUserHasCard = (table: TypeTable, username: string) => {
+  return !table.seats.find(s => s.user?.username === username && !s.user.cards.length)
+}
+
 export const isUserWaitingTable = (table: TypeTable, username: string) => {
   return !!table.waitingUsers.find(u => u.username === username)
 }

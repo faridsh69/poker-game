@@ -346,6 +346,55 @@ html {
               }
             }
           }
+
+          &-showcards {
+            position: absolute;
+            bottom: 7px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+
+            &-label {
+              color: white;
+              font-size: 14px;
+            }
+
+            &-buttons {
+              display: flex;
+              flex-direction: row;
+              gap: 7px;
+
+              .cards {
+                display: flex;
+                flex-direction: row;
+                gap: 7px;
+              }
+
+              .action-button-front {
+                min-width: 50px;
+                height: 45px;
+                color: inherit;
+
+                .card-game {
+                  height: 30px;
+                  width: 36px;
+
+                  &-number {
+                    margin-left: -4px;
+                  }
+                  &-smallsign {
+                    top: 5px;
+                    left: 15px;
+                  }
+
+                  &-bigsign {
+                    display: none;
+                  }
+                }
+              }
+            }
+          }
         }
 
         &-seats {

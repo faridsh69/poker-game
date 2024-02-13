@@ -8,9 +8,12 @@ export const useSocketActions = (tableId: number) => {
   const { username } = useAuth()
   const [socket] = useAtom(socketAtom)
 
-  const handleJoinTable = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.joinTable, { tableId, username })
-  }, [socket, username, tableId])
+  const handleJoinTable = useCallback(
+    (tId: number) => {
+      socket.emit(CLIENT_CHANNELS.joinTable, { tableId: tId, username })
+    },
+    [socket, username],
+  )
 
   const handleLeaveTable = useCallback(() => {
     socket.emit(CLIENT_CHANNELS.leaveTable, { tableId, username })
@@ -72,6 +75,13 @@ export const useSocketActions = (tableId: number) => {
     socket.emit(CLIENT_CHANNELS.timeBankAction, { tableId, username })
   }, [socket, username, tableId])
 
+  const handleShowCardAction = useCallback(
+    (cards: number[]) => {
+      socket.emit(CLIENT_CHANNELS.showCardAction, { tableId, username, cards })
+    },
+    [socket, username, tableId],
+  )
+
   return {
     handleJoinTable,
     handleLeaveTable,
@@ -89,5 +99,6 @@ export const useSocketActions = (tableId: number) => {
     handleRaiseAction,
 
     handleTimeBankAction,
+    handleShowCardAction,
   }
 }

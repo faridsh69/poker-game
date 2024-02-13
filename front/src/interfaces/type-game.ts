@@ -19,6 +19,7 @@ export type TypeClientChannelKeys =
   | 'callAction'
   | 'raiseAction'
   | 'timeBankAction'
+  | 'showCardAction'
 
 export type TypeClientChannels =
   | 'client:join_table'
@@ -33,6 +34,7 @@ export type TypeClientChannels =
   | 'client:call_action'
   | 'client:raise_action'
   | 'client:timebank_action'
+  | 'client:showcard_action'
 
 export type TypeSeatRole =
   | 'small'

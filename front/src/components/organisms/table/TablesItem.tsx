@@ -38,7 +38,7 @@ export const TablesItem = (props: { table: TypeTable }) => {
           color='success'
           startIcon={<PlayCircleOutlineIcon />}
           disabled={isUserJoinedTable(table, username)}
-          onClick={() => handleJoinTable()}
+          onClick={() => handleJoinTable(table.id)}
         >
           JOIN TABLE
         </Button>

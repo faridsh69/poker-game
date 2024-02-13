@@ -44,6 +44,7 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   raiseAction: 'client:raise_action',
 
   timeBankAction: 'client:timebank_action',
+  showCardAction: 'client:showcard_action',
 }
 
 export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {
