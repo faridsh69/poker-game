@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { TypeSeatAndShowPhaseProps } from 'src/interfaces'
 import { GameCard } from 'src/components/organisms/cards/GameCard'
-import { isWithCardSeat, showBackcard } from 'src/helpers/clientHelpersPoker'
+import { isWithoutCardsSeat, showBackcard } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { playSound } from 'src/helpers/common'
 
@@ -32,7 +32,7 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   })
 
   useEffect(() => {
-    if (!isWithCardSeat(seat)) return
+    if (isWithoutCardsSeat(seat)) return
 
     const timeouts: ReturnType<typeof setTimeout>[] = []
     for (const cardIndex of [0, 1]) {

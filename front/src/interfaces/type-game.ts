@@ -150,7 +150,7 @@ export type TypeTable = {
 
 export type TypeHandleSitTableModal = (tableId: number, seatId: number) => void
 
-export type TypeAction = 'Check' | 'Call' | 'Raise' | 'Fold' | 'All-In'
+export type TypeAction = 'Check' | 'Call' | 'Raise' | 'Fold' | 'All-In' | 'checkfold'
 
 export type TypeLastAction = {
   username: string

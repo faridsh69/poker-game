@@ -2,14 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
   getCallActionAmount,
-  isAtLeastTwoNotSeatOutPlayers,
   isUserGameTurn,
-  isFinishPhase,
-  isShowPhase,
-  isUserHasCashInGame,
-  isWaitPhase,
-  isUserPlayingGame,
-  isUserFold,
+  canSeeTableActionsPreTurn,
 } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeTableProps } from 'src/interfaces'
@@ -38,22 +32,12 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
     return getCallActionAmount(table, username)
   }, [table, username])
 
-  const enableCheckboxes = useMemo(() => {
-    const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
-
-    return (
-      isAtLeastTwoNotSeatOutPlayers(table) &&
-      isUserPlayingGame(table, username) &&
-      isUserHasCashInGame(table, username) &&
-      !isUserFold(table, username) &&
-      !isWaitingOrShowPhase
-    )
-  }, [table, username])
+  const canSee = canSeeTableActionsPreTurn(table, username)
 
   const isAuthTurn = isUserGameTurn(table, username)
 
-  const showCheckboxes = enableCheckboxes && !isAuthTurn
-  const runCheckboxesAction = enableCheckboxes && isAuthTurn
+  const showCheckboxes = canSee && !isAuthTurn
+  const runCheckboxesAction = canSee && isAuthTurn
 
   useEffect(() => {
     if (!runCheckboxesAction) return
@@ -76,7 +60,7 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
       }
     }
     handleChangeCheckbox('')
-  }, [table])
+  }, [canSee, isAuthTurn])
 
   if (!showCheckboxes) return null
 

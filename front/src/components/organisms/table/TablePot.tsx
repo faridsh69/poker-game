@@ -4,11 +4,10 @@ import { TypeTableProps } from 'src/interfaces'
 export const TablePot = (props: TypeTableProps) => {
   const { table } = props
 
+  if (!table.pot) return null
   return (
-    table.pot && (
-      <div className='dnd-window-body-table-pot'>
-        <Money money={table.pot} showChips />
-      </div>
-    )
+    <div className='dnd-window-body-table-pot'>
+      <Money money={table.pot} showChips />
+    </div>
   )
 }

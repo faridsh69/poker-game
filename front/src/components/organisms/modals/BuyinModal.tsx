@@ -11,14 +11,13 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
+import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
 import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
-import { useSeatTimer } from 'src/hooks/useSeatTimer'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
-import { useAuth } from 'src/hooks/useAuth'
 import { Money } from 'src/components/molecules/Money'
-import { TypeSeat } from 'src/interfaces'
-import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
+import { useSeatTimer } from 'src/hooks/useSeatTimer'
+import { useAuth } from 'src/hooks/useAuth'
 
 export const BuyinModal = () => {
   const { username } = useAuth()

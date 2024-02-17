@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import { canSeeTableActionsLeaveGame, isTimeToStartTable } from 'src/helpers/clientHelpersPoker'
+import { CLIENT_TIMEOUT_QUIT } from 'src/configs/clientConstantsPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import { RadioAction } from './details/RadioAction'
 import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
-import { CLIENT_TIMEOUT_QUIT } from 'src/configs/clientConstantsPoker'
-import { isTimeToStartTable, isUserPlayingGame } from 'src/helpers/clientHelpersPoker'
-import { RadioAction } from './details/RadioAction'
-import { useSocketActions } from 'src/hooks/game/useSocketActions'
 
 export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const { table } = props
@@ -17,10 +17,10 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const [stradleChcked, setStradleChcked] = useState<boolean>(false)
   const [sitoutChecked, setSitoutChecked] = useState<boolean>(false)
 
-  const userIsPlayingGame = isUserPlayingGame(table, username)
+  const canSee = canSeeTableActionsLeaveGame(table, username)
   const tableWillRestart = isTimeToStartTable(table)
 
-  const forceUserToSeatOut = sitoutChecked && userIsPlayingGame && tableWillRestart
+  const forceUserToSeatOut = sitoutChecked && canSee && tableWillRestart
 
   useEffect(() => {
     if (!forceUserToSeatOut) return
@@ -32,7 +32,7 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
     }, CLIENT_TIMEOUT_QUIT * 1000)
   }, [forceUserToSeatOut, handleLeaveGame])
 
-  if (!userIsPlayingGame) return null
+  if (!canSee) return null
 
   return (
     <div className='dnd-window-body-table-actions-leavegame'>

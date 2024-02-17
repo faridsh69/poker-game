@@ -30,7 +30,6 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserPot seat={seat} />
       <SeatDealer seat={seat} />
       <SeatUserTimer seat={seat} table={table} />
-      {/* <div className='dnd-window-body-table-seats-seat-achievement'></div> */}
     </div>
   )
 }

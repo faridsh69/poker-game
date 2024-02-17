@@ -1,20 +1,21 @@
-import { CLIENT_TIMEOUT_ACTION, CLIENT_TIMEOUT_EXTRA } from 'src/configs/clientConstantsPoker'
-import { isFinishPhase, isShowPhase, isUserGameTurn } from 'src/helpers/clientHelpersPoker'
-import { TypeSeatProps, TypeTable } from 'src/interfaces'
-import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
-import { useSeatTimer } from 'src/hooks/useSeatTimer'
 import classNames from 'classnames'
+
+import { CLIENT_TIMEOUT_ACTION, TIMER_ACTION_NAMES } from 'src/configs/clientConstantsPoker'
+import { CountDownTimer } from 'src/components/molecules/CountDownTimer'
+import { canSeeSeatUserTimer } from 'src/helpers/clientHelpersPoker'
+import { TypeSeatProps, TypeTable } from 'src/interfaces'
+import { useSeatTimer } from 'src/hooks/useSeatTimer'
 
 export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
   const { seat, table } = props
 
   const timer = seat.user.timer
+  const username = seat.user.username
 
-  const remainingSeconds = useSeatTimer(seat, 'checkfold')
+  const remainingSeconds = useSeatTimer(seat, TIMER_ACTION_NAMES.checkfold)
 
-  const isShowOrFinishPhase = isFinishPhase(table) || isShowPhase(table)
-
-  if (!isUserGameTurn(table, seat.user.username) || isShowOrFinishPhase || !timer) return null
+  if (!timer) return null
+  if (!canSeeSeatUserTimer(table, username)) return null
 
   return (
     <div

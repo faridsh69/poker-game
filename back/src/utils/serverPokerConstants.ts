@@ -145,6 +145,12 @@ export const WINNER_LEVELS = {
   royalFlush: 9,
 }
 
+export const PAIR_LENGTHESE = {
+  pair: 2,
+  set: 3,
+  quads: 4,
+}
+
 export const NEW_USER: TypeUser = {
   username: '',
   avatar: '',

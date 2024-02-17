@@ -5,6 +5,7 @@ import { TableActionsGameTurn } from 'src/components/organisms/actions/TableActi
 import { TableActionsPreTurn } from '../actions/TableActionsPreTurn'
 import { TableActionsJoinPlay } from '../actions/TableActionsJoinPlay'
 import { TableActionsShowCards } from '../actions/TableActionsShowCards'
+import { TableActionsAchievements } from '../actions/TableActionsAchievements'
 
 export const TableActions = (props: TypeTableProps) => {
   const { table } = props
@@ -23,6 +24,7 @@ export const TableActions = (props: TypeTableProps) => {
       <TableActionsPreTurn table={table} />
       {/* Only if user fold and show phase */}
       <TableActionsShowCards table={table} />
+      <TableActionsAchievements table={table} />
     </div>
   )
 }

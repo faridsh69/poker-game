@@ -1,14 +1,9 @@
-import { TypeTableProps } from 'src/interfaces'
-import { ActionButton } from './details/ActionButton'
+import { canSeeTableActionsShowCards, getUserSeat } from 'src/helpers/clientHelpersPoker'
+import { ActionButton } from 'src/components/organisms/actions//details/ActionButton'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import { GameCard } from 'src/components/organisms/cards/GameCard'
+import { TypeTableProps } from 'src/interfaces'
 import { useAuth } from 'src/hooks/useAuth'
-import {
-  getUserSeat,
-  isUserFold,
-  isUserHasCard,
-  isUserSeatoutTable,
-} from 'src/helpers/clientHelpersPoker'
-import { GameCard } from '../cards/GameCard'
 
 export const TableActionsShowCards = (props: TypeTableProps) => {
   const { table } = props
@@ -20,9 +15,8 @@ export const TableActionsShowCards = (props: TypeTableProps) => {
   const authSeat = getUserSeat(table, username)
 
   if (!authSeat) return null
-  if (!isUserFold(table, username)) return null
-  if (!isUserHasCard(table, username)) return null
-  if (isUserSeatoutTable(table, username)) return null
+
+  if (!canSeeTableActionsShowCards(table, username)) return null
 
   return (
     <div className='dnd-window-body-table-actions-showcards'>

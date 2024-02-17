@@ -1,8 +1,10 @@
 import { LAST_ACTION_ACTIONS, SEAT_ROLES, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import { TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
-import { capitalize } from './common'
+import { capitalize } from 'src/helpers/common'
 
-export const renderNumber = (value: string) => {
+/////////////////////////////////// 1 SMALL METHODS //////////////////////////////////
+
+export const renderNumber = (value: string): number => {
   return isNaN(+value) ? 0 : +value
 }
 
@@ -10,83 +12,80 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
-export const getDeadline = (timeout = 0) => {
+export const getDeadline = (timeout = 0): number => {
   return Math.floor(new Date().valueOf() / 1000) + timeout
 }
 
-export const isDealerSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.dealer
-
-export const isSmallSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.small
-
-export const isBigSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.big
-
-export const isUnderGunSeat = (seat: TypeSeat) => seat.role === SEAT_ROLES.underTheGun
-
-export const isAuthSeat = (seat: TypeSeat, username: string) => seat.user?.username === username
-
-export const isFoldSeat = (seat: TypeSeat) => seat.user?.isFold
-
-export const isAllinSeat = (seat: TypeSeat): boolean => !seat.user?.cash.inGame
-
-export const isWithCardSeat = (seat: TypeSeat): boolean => !!seat.user?.cards.length
-
-export const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
-
-export const isWaitPhase = (table: TypeTable) => table.phase === TABLE_PHASES.wait
-
-export const isPreflopPhase = (table: TypeTable) => table.phase === TABLE_PHASES.preflop
-
-export const isFlopPhase = (table: TypeTable) => table.phase === TABLE_PHASES.flop
-
-export const isTurnPhase = (table: TypeTable) => table.phase === TABLE_PHASES.turn
-
-export const isShowPhase = (table: TypeTable) => table.phase === TABLE_PHASES.show
-
-export const isFinishPhase = (table: TypeTable) => table.phase === TABLE_PHASES.finish
-
-export const getUserSeat = (table: TypeTable, username: string): TypeSeat | null => {
-  return table.seats.find(s => s.user?.username === username) || null
-}
-
-export const isUserSeatedTable = (table: TypeTable, username: string) => {
-  return !!table.seats.find(s => s.user?.username === username && !isSeatoutSeat(s))
-}
-
-export const isUserSeatoutTable = (table: TypeTable, username: string) => {
-  return !!table.seats.find(s => s.user?.username === username && isSeatoutSeat(s))
-}
-
-export const isUserHasCashInGame = (table: TypeTable, username: string) => {
-  return !table.seats.find(s => s.user?.username === username && s.user.cash.inGame === 0)
-}
-
-export const isUserFold = (table: TypeTable, username: string) => {
-  return !table.seats.find(s => s.user?.username === username && !s.user.isFold)
-}
-
-export const isUserHasCard = (table: TypeTable, username: string) => {
-  return !table.seats.find(s => s.user?.username === username && !s.user.cards.length)
-}
-
-export const isUserWaitingTable = (table: TypeTable, username: string) => {
+export const isUserWaitingTable = (table: TypeTable, username: string): boolean => {
   return !!table.waitingUsers.find(u => u.username === username)
 }
 
-export const isUserGameTurn = (table: TypeTable, username: string) => {
-  return !!table.seats.find(
-    s => s.role && s.role === table.roleTurn && s.user?.username === username,
-  )
+export const isWaitPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.wait
+
+export const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
+
+export const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
+
+export const isShowOrFinishPhase = (table: TypeTable): boolean =>
+  isShowPhase(table) || isFinishPhase(table)
+
+export const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
+
+export const isFoldSeat = (seat: TypeSeat): boolean => !!seat.user?.isFold
+
+export const isAllinSeat = (seat: TypeSeat): boolean => !seat.user?.cash.inGame
+
+export const isWithoutCardsSeat = (seat: TypeSeat): boolean => !seat.user?.cards.length
+
+export const isWaitForBBSeat = (seat: TypeSeat): boolean => !!seat?.user?.isWaitForBB
+
+const isSeatHasRole = (seat: TypeSeat, role: string): boolean => !!seat.role && seat.role === role
+
+const isTableClosedSeat = (seat: TypeSeat): boolean => !!seat?.user?.isTableClosed
+
+export const isDealerSeat = (seat: TypeSeat): boolean => seat.role === SEAT_ROLES.dealer
+
+export const isAuthSeat = (seat: TypeSeat, username: string): boolean =>
+  seat.user?.username === username
+
+export const getUserSeat = (table: TypeTable, username: string): TypeSeat | null =>
+  table.seats.find(s => s.user?.username === username) || null
+
+/////////////////////////////////// 2 SEAT METHODS //////////////////////////////////
+
+const isUserJoinedTable = (table: TypeTable, username: string): boolean => {
+  const isUserWaited = isUserWaitingTable(table, username)
+
+  if (isUserWaited) return true
+
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return false
+
+  return !isTableClosedSeat(userSeat)
 }
 
-export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => {
-  const seats = table.seats.filter(s => s.user && !isSeatoutSeat(s))
+export const isUserWaitForBB = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
 
-  return seats.length > 1
+  if (!userSeat) return false
+
+  return isWaitForBBSeat(userSeat)
 }
 
-export const NotSeatOutPlayers = (table: TypeTable): TypeSeat[] => {
-  return table.seats.filter(s => s.user && !isSeatoutSeat(s))
+export const isUserGameTurn = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return false
+
+  return isSeatHasRole(userSeat, table.roleTurn)
 }
+
+const getNotSeatOutPlayers = (table: TypeTable): TypeSeat[] =>
+  table.seats.filter(s => s.user && !isSeatoutSeat(s))
+
+export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean =>
+  getNotSeatOutPlayers(table).length > 1
 
 export const isTimeToStartTable = (table: TypeTable): boolean => {
   const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
@@ -95,27 +94,99 @@ export const isTimeToStartTable = (table: TypeTable): boolean => {
   return isWaitingOrShowPhase && atLeastTwoPlayers
 }
 
-export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] => {
-  return allTables.filter(t => {
-    return isUserJoinedTable(t, username)
-  })
-}
-
-export const isUserJoinedTable = (table: TypeTable, username: string) => {
-  const isUserSeated = isUserSeatedTable(table, username) || isUserSeatoutTable(table, username)
-  const tableIsNotClosed = !isTableClosed(table, username)
-  const isUserWaited = isUserWaitingTable(table, username)
-
-  return (isUserSeated && tableIsNotClosed) || isUserWaited
-}
-
-const isTableClosed = (table: TypeTable, username: string) => {
-  return table.seats.find(s => s.user?.username === username)?.user.isTableClosed
-}
+export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] =>
+  allTables.filter(t => isUserJoinedTable(t, username))
 
 export const showBackcard = (seat: TypeSeat, username: string, isShowPhase: boolean) => {
   return !isAuthSeat(seat, username) && !!seat.user.cards.length && !isShowPhase
 }
+
+const isUserPlayingGame = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return false
+  if (!userSeat.user) return false
+  if (isWaitPhase(table)) return false
+  if (isSeatoutSeat(userSeat)) return false
+  if (isWithoutCardsSeat(userSeat)) return false
+
+  return true
+}
+
+/////////////////////////////////// 3 POLICY METHODS //////////////////////////////////
+
+export const canSeeSeatUserTimer = (table: TypeTable, username: string): boolean => {
+  if (isShowOrFinishPhase(table)) return false
+  if (!isUserGameTurn(table, username)) return false
+
+  return true
+}
+
+export const canUserJoinTable = (table: TypeTable, username: string): boolean => {
+  return !isUserJoinedTable(table, username)
+}
+
+export const canSeeTableActionsJoinGame = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return false
+
+  return isSeatoutSeat(userSeat)
+}
+
+export const canSeeTableActionsJoinPlay = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return false
+  if (!isWithoutCardsSeat(userSeat)) return false
+  if (isSeatoutSeat(userSeat)) return false
+  if (!isAtLeastTwoNotSeatOutPlayers(table)) return false
+  if (getNotSeatOutPlayers(table).length < 3) return false
+
+  return true
+}
+
+export const canSeeTableActionsLeaveGame = (table: TypeTable, username: string): boolean =>
+  isUserPlayingGame(table, username)
+
+export const canSeeTableActionsGameTurn = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return false
+  if (isAllinSeat(userSeat)) return false
+  if (!isUserGameTurn(table, username)) return false
+
+  return true
+}
+
+export const canSeeTableActionsPreTurn = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
+  const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
+
+  if (!userSeat) return false
+  if (isWaitingOrShowPhase) return false
+
+  if (isFoldSeat(userSeat)) return false
+  if (!isAtLeastTwoNotSeatOutPlayers(table)) return false
+  if (!isUserPlayingGame(table, username)) return false
+
+  if (isAllinSeat(userSeat)) return false
+
+  return true
+}
+
+export const canSeeTableActionsShowCards = (table: TypeTable, username: string): boolean => {
+  const userSeat = getUserSeat(table, username)
+
+  if (!userSeat) return false
+  if (isWithoutCardsSeat(userSeat)) return false
+  if (isSeatoutSeat(userSeat)) return false
+  if (!isFoldSeat(userSeat)) return false
+
+  return true
+}
+
+/////////////////////////////////// 4 BET METHODS //////////////////////////////////
 
 const getMaximumBet = (table: TypeTable) => {
   let maximumBet = 0
@@ -204,39 +275,26 @@ export const getRaiseActionAmount = (table: TypeTable, username: string, raise: 
 }
 
 export const checkIfLastActionIsAllIn = (action: string, seat: TypeSeat) => {
-  if (seat.user.cash.inGame === 0) {
+  if (isAllinSeat(seat)) {
     return LAST_ACTION_ACTIONS['All-In']
   }
 
-  if (action === 'checkfold') {
+  if (action === LAST_ACTION_ACTIONS.checkfold) {
     return seat.user.isFold ? LAST_ACTION_ACTIONS.Fold : LAST_ACTION_ACTIONS.Check
   }
 
   return capitalize(action)
 }
 
-export const isUserPlayingGame = (table: TypeTable, username: string): boolean => {
-  const userSeat = getUserSeat(table, username)
-
-  if (!userSeat || !userSeat?.user) return false
-  if (isSeatoutSeat(userSeat)) return false
-  if (!isWithCardSeat(userSeat)) return false
-  if (isWaitPhase(table)) return false
-
-  return true
-}
-
 export const isOneOtherPersonToCallRaise = (table: TypeTable, username: string): boolean => {
   for (const seat of table.seats) {
-    if (
-      seat.user &&
-      !isSeatoutSeat(seat) &&
-      !isAllinSeat(seat) &&
-      isWithCardSeat(seat) &&
-      seat.user.username !== username
-    ) {
-      return true
-    }
+    if (!seat.user) continue
+    if (isSeatoutSeat(seat)) continue
+    if (isAllinSeat(seat)) continue
+    if (isWithoutCardsSeat(seat)) continue
+    if (seat.user.username === username) continue
+
+    return true
   }
 
   return false

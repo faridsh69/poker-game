@@ -116,6 +116,7 @@ export const LAST_ACTION_ACTIONS: { [key in TypeAction]: TypeAction } = {
   Raise: 'Raise',
   Fold: 'Fold',
   ['All-In']: 'All-In',
+  checkfold: 'checkfold',
 }
 
 export const CHIP_UNITS = [

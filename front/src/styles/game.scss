@@ -395,6 +395,17 @@ html {
               }
             }
           }
+
+          &-achievements {
+            position: absolute;
+            bottom: 14px;
+            left: 140px;
+            padding: 12px;
+            font-size: 16px;
+            color: white;
+            background-color: #000;
+            border-radius: 10px;
+          }
         }
 
         &-seats {
@@ -641,9 +652,6 @@ html {
                 img {
                   width: 20px;
                 }
-              }
-
-              &-achievement {
               }
             }
 

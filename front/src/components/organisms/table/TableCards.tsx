@@ -2,6 +2,7 @@ import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { TypeTableProps } from 'src/interfaces'
 import { useEffect, useState } from 'react'
 import { TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import { isFinishPhase } from 'src/helpers/clientHelpersPoker'
 
 export const TableCards = (props: TypeTableProps) => {
   const { table } = props
@@ -9,7 +10,7 @@ export const TableCards = (props: TypeTableProps) => {
   const [lastStateOfTablePhase, setLastStateOfTablePhase] = useState(table.phase)
 
   useEffect(() => {
-    if (table.phase === TABLE_PHASES.finish) return
+    if (isFinishPhase(table)) return
 
     setLastStateOfTablePhase(table.phase)
   }, [table.phase])
