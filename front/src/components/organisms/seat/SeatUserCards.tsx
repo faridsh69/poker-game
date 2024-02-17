@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
-import { TypeSeatAndShowPhaseProps } from 'src/interfaces'
 import { GameCard } from 'src/components/organisms/cards/GameCard'
-import { isWithoutCardsSeat, showBackcard } from 'src/helpers/clientHelpersPoker'
+import { isFoldSeat, isWithoutCardsSeat, showBackcard } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { playSound } from 'src/helpers/common'
+import { TypeSeatProps, TypeTable } from 'src/interfaces'
 
-export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
-  const { seat, isShowPhase } = props
+export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
+  const { seat, table } = props
 
   const { username } = useAuth()
-
-  const backcard = showBackcard(seat, username, isShowPhase)
 
   // 1) aval dealer o peida mikonim, badesh nafare badi bayad 1 bashe badi 2 ...
   // 2) bad be oni ke 1 hast bade 200ms cart 1 esh az hiddeni dar miad
@@ -71,6 +69,11 @@ export const SeatUserCards = (props: TypeSeatAndShowPhaseProps) => {
   return (
     <div className='dnd-window-body-table-seats-seat-user-cards'>
       {seat.user.cards.map((card, cardIndex) => {
+        const backcard = showBackcard(seat, username, table, card)
+        console.log('1 backcard', backcard)
+
+        if (backcard && isFoldSeat(seat)) return null
+
         return (
           <GameCard
             key={card.type + card.number}

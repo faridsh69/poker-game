@@ -53,6 +53,7 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   raiseAction: 'client:raise_action',
 
   timeBankAction: 'client:timebank_action',
+  showCardAction: 'client:showcard_action',
 }
 
 const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {

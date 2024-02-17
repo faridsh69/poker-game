@@ -24,11 +24,11 @@ export const TableActionsShowCards = (props: TypeTableProps) => {
       <div className='dnd-window-body-table-actions-showcards-buttons'>
         <ActionButton
           label={<GameCard card={authSeat.user.cards[0]} backcard={false} />}
-          onClick={() => handleShowCardAction([1])}
+          onClick={() => handleShowCardAction([0])}
         />
         <ActionButton
           label={<GameCard card={authSeat.user.cards[1]} backcard={false} />}
-          onClick={() => handleShowCardAction([2])}
+          onClick={() => handleShowCardAction([1])}
         />
         <ActionButton
           label={
@@ -37,7 +37,7 @@ export const TableActionsShowCards = (props: TypeTableProps) => {
               <GameCard card={authSeat.user.cards[1]} backcard={false} />
             </div>
           }
-          onClick={() => handleShowCardAction([1, 2])}
+          onClick={() => handleShowCardAction([0, 1])}
         />
       </div>
     </div>

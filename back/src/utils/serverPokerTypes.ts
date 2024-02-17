@@ -36,6 +36,7 @@ export type TypeClientChannelKeys =
   | 'raiseAction'
   | 'timeBankAction'
   | 'waitForBB'
+  | 'showCardAction'
 
 export type TypeClientChannels =
   | 'client:join_table'
@@ -50,6 +51,7 @@ export type TypeClientChannels =
   | 'client:call_action'
   | 'client:raise_action'
   | 'client:timebank_action'
+  | 'client:showcard_action'
 
 type TypeBuyIn = {
   min: number
@@ -149,4 +151,10 @@ export type TypeLastAction = {
   username: string
   tableId: number
   action: TypeAction
+}
+
+export type TypeHandleClientShowCardAction = {
+  tableId: number
+  username: string
+  cards: number[]
 }

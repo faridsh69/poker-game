@@ -18,6 +18,7 @@ import {
   renderClientLeaveGame,
   renderClientLeaveSeat,
   renderClientLeaveTable,
+  renderClientShowCardAction,
   renderClientTimeBankAction,
   renderClientWaitForBB,
   renderGeneralClientActions,
@@ -30,6 +31,7 @@ import {
   TypeHandleClientCallAction,
   TypeHandleClientJoinTable,
   TypeHandleClientRaiseAction,
+  TypeHandleClientShowCardAction,
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/utils/serverPokerTypes'
@@ -202,6 +204,14 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   handleClientTimeBankAction(@MessageBody() { tableId }: TypeHandleClientJoinTable) {
     // Validations: check if its user game turn
     this.tablesState = renderClientTimeBankAction(this.tablesState, tableId)
+
+    renderUpdateClients(this.server, this.tablesState, tableId)
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.showCardAction)
+  handleClientShowCardAction(@MessageBody() { tableId, username, cards }: TypeHandleClientShowCardAction) {
+    // Validations: check if use can do show his cards
+    this.tablesState = renderClientShowCardAction(this.tablesState, tableId, username, cards)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }

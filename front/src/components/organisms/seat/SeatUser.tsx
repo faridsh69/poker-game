@@ -5,7 +5,6 @@ import { SeatUserUsername } from 'src/components/organisms/seat/SeatUserUsername
 import { SeatUserCash } from 'src/components/organisms/seat/SeatUserCash'
 import { SeatUserCards } from 'src/components/organisms/seat/SeatUserCards'
 import { SeatDealer } from 'src/components/organisms/seat/SeatDealer'
-import { isShowPhase } from 'src/helpers/clientHelpersPoker'
 import { SeatUserPot } from 'src/components/organisms/seat/SeatUserPot'
 import { SeatUserStatus } from 'src/components/organisms/seat/SeatUserStatus'
 import { SeatWinner } from './SeatWinner'
@@ -24,7 +23,7 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserCountry />
       <SeatUserHot />
       <SeatUserCash seat={seat} />
-      <SeatUserCards seat={seat} isShowPhase={isShowPhase(table)} />
+      <SeatUserCards seat={seat} table={table} />
       <SeatUserStatus seat={seat} tableId={table.id} />
       <SeatWinner seat={seat} />
       <SeatUserPot seat={seat} />

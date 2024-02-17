@@ -12,6 +12,7 @@ import {
   getUpdatedSeatWithAutoCheck,
   getUpdatedSeatWithFold1,
   getUpdatedSeatWithRaiseOrCallAmount1,
+  getUpdatedSeatWithShowCards,
   getUpdatedSeatWithTimeBank,
   getUpdatedTableIfPhaseFinished3,
   getUpdatedTableNextGameTurn4,
@@ -390,5 +391,18 @@ const renderUpdatedAutoAction = (tablesState: TypeTable[], tableId: number, isAu
     if (t.id !== tableId) return t
 
     return getUpdatedSeatWithAutoCheck(t, isAutoCheck)
+  })
+}
+
+export const renderClientShowCardAction = (
+  tablesState: TypeTable[],
+  tableId: number,
+  username: string,
+  cards: number[],
+): TypeTable[] => {
+  return tablesState.map(t => {
+    if (t.id !== tableId) return t
+
+    return getUpdatedSeatWithShowCards(t, username, cards)
   })
 }

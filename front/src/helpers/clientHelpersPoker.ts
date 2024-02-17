@@ -1,5 +1,5 @@
 import { LAST_ACTION_ACTIONS, SEAT_ROLES, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
-import { TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
+import { TypeCard, TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
 import { capitalize } from 'src/helpers/common'
 
 /////////////////////////////////// 1 SMALL METHODS //////////////////////////////////
@@ -97,8 +97,19 @@ export const isTimeToStartTable = (table: TypeTable): boolean => {
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] =>
   allTables.filter(t => isUserJoinedTable(t, username))
 
-export const showBackcard = (seat: TypeSeat, username: string, isShowPhase: boolean) => {
-  return !isAuthSeat(seat, username) && !!seat.user.cards.length && !isShowPhase
+export const showBackcard = (
+  seat: TypeSeat,
+  username: string,
+  table: TypeTable,
+  card: TypeCard,
+) => {
+  if (isShowPhase(table)) return false
+  if (isWithoutCardsSeat(seat)) return false
+  // @ts-ignore
+  if (card.visible) return false
+  if (isAuthSeat(seat, username)) return false
+
+  return true
 }
 
 const isUserPlayingGame = (table: TypeTable, username: string): boolean => {

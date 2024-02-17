@@ -949,3 +949,31 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
     }),
   }
 }
+
+export const getUpdatedSeatWithShowCards = (table: TypeTable, username: string, cardIndexes: number[]): TypeTable => {
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (s.user.username !== username) return s
+
+      const userCards = s.user.cards
+      const visibleUserCards = userCards.map((card, cardIndex) => {
+        if (!cardIndexes.includes(cardIndex)) return card
+
+        return {
+          ...card,
+          visible: true,
+        }
+      })
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          cards: visibleUserCards,
+        },
+      }
+    }),
+  }
+}
