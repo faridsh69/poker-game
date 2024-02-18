@@ -104,9 +104,8 @@ export const showBackcard = (
   card: TypeCard,
 ) => {
   if (isShowPhase(table)) return false
-  if (isWithoutCardsSeat(seat)) return false
-  // @ts-ignore
-  if (card.visible) return false
+  // if (isWithoutCardsSeat(seat)) return false
+  if (card.isVisible) return false
   if (isAuthSeat(seat, username)) return false
 
   return true

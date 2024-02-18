@@ -398,11 +398,11 @@ export const renderClientShowCardAction = (
   tablesState: TypeTable[],
   tableId: number,
   username: string,
-  cards: number[],
+  cardIndexes: number[],
 ): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    return getUpdatedSeatWithShowCards(t, username, cards)
+    return getUpdatedSeatWithShowCards(t, username, cardIndexes)
   })
 }

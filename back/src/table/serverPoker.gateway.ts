@@ -209,9 +209,9 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.showCardAction)
-  handleClientShowCardAction(@MessageBody() { tableId, username, cards }: TypeHandleClientShowCardAction) {
+  handleClientShowCardAction(@MessageBody() { tableId, username, cardIndexes }: TypeHandleClientShowCardAction) {
     // Validations: check if use can do show his cards
-    this.tablesState = renderClientShowCardAction(this.tablesState, tableId, username, cards)
+    this.tablesState = renderClientShowCardAction(this.tablesState, tableId, username, cardIndexes)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }

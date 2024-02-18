@@ -95,6 +95,7 @@ export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 export type TypeCard = {
   type: TypeCardType
   number: TypeCardNumber
+  isVisible?: boolean
 }
 
 type TypeCash = {

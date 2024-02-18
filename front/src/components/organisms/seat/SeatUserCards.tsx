@@ -70,7 +70,6 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
     <div className='dnd-window-body-table-seats-seat-user-cards'>
       {seat.user.cards.map((card, cardIndex) => {
         const backcard = showBackcard(seat, username, table, card)
-        console.log('1 backcard', backcard)
 
         if (backcard && isFoldSeat(seat)) return null
 

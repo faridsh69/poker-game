@@ -72,6 +72,7 @@ export type TypeSeat = {
 export type TypeCard = {
   type: TypeCardType
   number: TypeCardNumber
+  isVisible?: boolean
 }
 
 type TypeCash = {
@@ -156,5 +157,5 @@ export type TypeLastAction = {
 export type TypeHandleClientShowCardAction = {
   tableId: number
   username: string
-  cards: number[]
+  cardIndexes: number[]
 }

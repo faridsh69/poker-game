@@ -963,7 +963,7 @@ export const getUpdatedSeatWithShowCards = (table: TypeTable, username: string, 
 
         return {
           ...card,
-          visible: true,
+          isVisible: true,
         }
       })
 

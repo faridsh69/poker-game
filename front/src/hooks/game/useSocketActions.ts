@@ -76,8 +76,8 @@ export const useSocketActions = (tableId: number) => {
   }, [socket, username, tableId])
 
   const handleShowCardAction = useCallback(
-    (cards: number[]) => {
-      socket.emit(CLIENT_CHANNELS.showCardAction, { tableId, username, cards })
+    (cardIndexes: number[]) => {
+      socket.emit(CLIENT_CHANNELS.showCardAction, { tableId, username, cardIndexes })
     },
     [socket, username, tableId],
   )
