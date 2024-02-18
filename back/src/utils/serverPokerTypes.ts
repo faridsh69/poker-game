@@ -37,6 +37,8 @@ export type TypeClientChannelKeys =
   | 'timeBankAction'
   | 'waitForBB'
   | 'showCardAction'
+  | 'stradle'
+  | 'seatoutNextRound'
 
 export type TypeClientChannels =
   | 'client:join_table'
@@ -52,6 +54,8 @@ export type TypeClientChannels =
   | 'client:raise_action'
   | 'client:timebank_action'
   | 'client:showcard_action'
+  | 'client:stradle'
+  | 'client:seatout_next_round'
 
 type TypeBuyIn = {
   min: number
@@ -99,6 +103,8 @@ export type TypeUser = {
   isAutoAction: boolean
   isTableClosed: boolean
   isWaitForBB: boolean
+  isStradle: boolean
+  isSeatoutNextRound: boolean
   timer: TypeTimer | null
   timeBank: number
   // hot: number

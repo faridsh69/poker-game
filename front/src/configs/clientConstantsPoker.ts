@@ -16,7 +16,7 @@ export const CLIENT_TIMEOUT_ACTION = 15
 export const CLIENT_TIMEOUT_SEATOUT_ALLIN = 20
 export const CLIENT_TIMEOUT_SEATOUT = 20
 
-export const CLIENT_TIMEOUT_QUIT = 4
+// export const CLIENT_TIMEOUT_QUIT = 4
 
 export const CLIENT_TIMEOUT_STATUS = 3
 export const CLIENT_TIMEOUT_FAULT = 55555
@@ -45,6 +45,9 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
 
   timeBankAction: 'client:timebank_action',
   showCardAction: 'client:showcard_action',
+
+  stradle: 'client:stradle',
+  seatoutNextRound: 'client:seatout_next_round',
 }
 
 export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {

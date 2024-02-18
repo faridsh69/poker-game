@@ -54,6 +54,9 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
 
   timeBankAction: 'client:timebank_action',
   showCardAction: 'client:showcard_action',
+
+  stradle: 'client:stradle',
+  seatoutNextRound: 'client:seatout_next_round',
 }
 
 const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {

@@ -41,7 +41,13 @@ export const isWaitForBBSeat = (seat: TypeSeat): boolean => !!seat?.user?.isWait
 
 const isSeatHasRole = (seat: TypeSeat, role: string): boolean => !!seat.role && seat.role === role
 
+const isAnyCardsVisible = (seat: TypeSeat): boolean => !!seat.user.cards.find(c => c.isVisible)
+
 const isTableClosedSeat = (seat: TypeSeat): boolean => !!seat?.user?.isTableClosed
+
+export const isStradleSeat = (seat: TypeSeat): boolean => !!seat?.user.isStradle
+
+export const isSeatoutNextRoundSeat = (seat: TypeSeat): boolean => !!seat?.user.isSeatoutNextRound
 
 export const isDealerSeat = (seat: TypeSeat): boolean => seat.role === SEAT_ROLES.dealer
 
@@ -87,12 +93,12 @@ const getNotSeatOutPlayers = (table: TypeTable): TypeSeat[] =>
 export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean =>
   getNotSeatOutPlayers(table).length > 1
 
-export const isTimeToStartTable = (table: TypeTable): boolean => {
-  const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
-  const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
+// const isTimeToStartTable = (table: TypeTable): boolean => {
+//   const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
+//   const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
 
-  return isWaitingOrShowPhase && atLeastTwoPlayers
-}
+//   return isWaitingOrShowPhase && atLeastTwoPlayers
+// }
 
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] =>
   allTables.filter(t => isUserJoinedTable(t, username))
@@ -192,6 +198,7 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
   if (isWithoutCardsSeat(userSeat)) return false
   if (isSeatoutSeat(userSeat)) return false
   if (!isFoldSeat(userSeat)) return false
+  if (isAnyCardsVisible(userSeat)) return false
 
   return true
 }

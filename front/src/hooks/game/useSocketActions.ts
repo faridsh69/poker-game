@@ -45,6 +45,7 @@ export const useSocketActions = (tableId: number) => {
     socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
   }, [socket, username, tableId])
 
+  // START ACTIONS
   const handleCheckAction = useCallback(() => {
     socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
   }, [socket, username, tableId])
@@ -81,6 +82,15 @@ export const useSocketActions = (tableId: number) => {
     },
     [socket, username, tableId],
   )
+  // FINISH ACTIONS
+
+  const handleStradle = useCallback(() => {
+    socket.emit(CLIENT_CHANNELS.stradle, { tableId, username })
+  }, [socket, username, tableId])
+
+  const handleSeatoutNextRound = useCallback(() => {
+    socket.emit(CLIENT_CHANNELS.stradle, { tableId, username })
+  }, [socket, username, tableId])
 
   return {
     handleJoinTable,
@@ -100,5 +110,8 @@ export const useSocketActions = (tableId: number) => {
 
     handleTimeBankAction,
     handleShowCardAction,
+
+    handleStradle,
+    handleSeatoutNextRound,
   }
 }
