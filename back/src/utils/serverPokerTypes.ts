@@ -70,6 +70,7 @@ type TypeBlinds = {
 export type TypeSeat = {
   id: number
   role: TypeSeatRole | null
+  isSeatStradle?: boolean
   user: TypeUser | null
 }
 

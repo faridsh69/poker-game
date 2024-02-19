@@ -19,6 +19,7 @@ import {
   renderClientLeaveSeat,
   renderClientLeaveTable,
   renderClientShowCardAction,
+  renderClientStradle,
   renderClientTimeBankAction,
   renderClientWaitForBB,
   renderGeneralClientActions,
@@ -66,7 +67,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
           if (!seat.user.timer) continue
 
           if (nowtime > seat.user.timer.deadline) {
-            console.log('1 user timer action', seat.user.timer.action)
+            console.log('setInterval seat user timer action', seat.user.timer.action)
 
             if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
               this.tablesState = renderClientLeaveSeat(this.tablesState, table.id, seat.user.username)
@@ -83,7 +84,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
         if (!table.timer) continue
 
         if (nowtime > table.timer.deadline) {
-          console.log('2 table timer action', table.timer.action)
+          console.log('setInterval table timer action', table.timer.action)
 
           if (table.timer.action === TIMER_ACTION_NAMES.restartTable) {
             if (!isAtLeastTwoPlayers(table, true, false, true, false, true, false)) continue
@@ -212,6 +213,13 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
   handleClientShowCardAction(@MessageBody() { tableId, username, cardIndexes }: TypeHandleClientShowCardAction) {
     // Validations: check if use can do show his cards
     this.tablesState = renderClientShowCardAction(this.tablesState, tableId, username, cardIndexes)
+
+    renderUpdateClients(this.server, this.tablesState, tableId)
+  }
+
+  @SubscribeMessage(CLIENT_CHANNELS.stradle)
+  handleClientStradle(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+    this.tablesState = renderClientStradle(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }

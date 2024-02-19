@@ -73,6 +73,12 @@ const isNotEnoughCashThanBlinds = (seat: TypeSeat, table: TypeTable): boolean =>
   return seat.user?.cash?.inGame < table.blinds.big
 }
 
+const isStradleSeatUser = (seat: TypeSeat): boolean => !!seat.user?.isStradle
+
+const isStradleSeat = (seat: TypeSeat): boolean => !!seat.isSeatStradle
+
+const isTableHasStradle = (table: TypeTable): boolean => !!table.seats.find(s => isStradleSeat(s))
+
 /////////////////////////////////// 1 START SEAT //////////////////////////////////
 const getActiveSeats = (
   table: TypeTable,
@@ -611,7 +617,6 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
   }
 
   const timeToClearTableInShowPhase = isTimeToClearTableInShowPhase(seatoutedNotEnoughCashes2)
-  console.log('2 timeToClearTableInShowPhase ', timeToClearTableInShowPhase)
 
   const timer = timeToClearTableInShowPhase ? getClearTableTimer() : getRestartTableTimer()
 
@@ -800,9 +805,10 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
   }
 
   if (isShowOrFinishPhase(table)) {
-    console.log('41')
     const seatIds = []
-    let tableSeatsLength = getActiveSeats(table, true, false, true, false, true, false).length
+    const tableSeats = getActiveSeats(table, true, false, true, false, true, false)
+    let tableSeatsLength = tableSeats.length
+    let isUnderGunAlsoStradle = false
     const isHeadsUp = tableSeatsLength === 2
     const curDSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.dealer)
 
@@ -816,8 +822,13 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
     }
     seatIds.push(new3SeatId)
     const new4SeatId = getNextSeatId(table, new3SeatId, true, false, true, false, true, true)
+
     if (seatIds.includes(new4SeatId)) {
       tableSeatsLength = Math.min(tableSeatsLength, 3)
+    } else {
+      const underTheGunSeat = tableSeats.find(s => s.id === new4SeatId)
+
+      isUnderGunAlsoStradle = !!underTheGunSeat && isStradleSeatUser(underTheGunSeat)
     }
     seatIds.push(new4SeatId)
     const new5SeatId = getNextSeatId(table, new4SeatId, true, false, true, false, true, true)
@@ -875,6 +886,7 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
         return {
           ...s,
           role: seatRole,
+          isSeatStradle: seatRole === SEAT_ROLES.underTheGun4 && isUnderGunAlsoStradle,
         }
       }),
     }
@@ -886,9 +898,22 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
 export const resetTable = (pureTable: TypeTable): TypeTable => {
   const table = getUpdateSeatRoles(pureTable)
   const playersInGame = getActiveSeats(table, true, false, true, false, false, false)
-  const isHeadsUp = playersInGame.length === 2
-  const isTheePlayer = playersInGame.length === 3
-  const roleTurn = isHeadsUp || isTheePlayer ? SEAT_ROLES.dealer : SEAT_ROLES.underTheGun4
+  const playersCount = playersInGame.length
+  const isHeadsUp = playersCount === 2
+  const isTheePlayer = playersCount === 3
+  const tableHasStradleSeat = isTableHasStradle(table)
+
+  let roleTurn = SEAT_ROLES.underTheGun4
+  if (isHeadsUp || isTheePlayer) {
+    roleTurn = SEAT_ROLES.dealer
+  } else if (tableHasStradleSeat) {
+    if (playersCount === 4) {
+      roleTurn = SEAT_ROLES.dealer
+    } else if (playersCount > 4) {
+      roleTurn = SEAT_ROLES.underTheGunPlusOne5
+    }
+  }
+
   const tableTotal = table.blinds.small + table.blinds.big
   const tableCards = getRandomCards(5, [])
   let usedCards = [...tableCards]
@@ -922,11 +947,20 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
       const isSmall = isHeadsUp ? s.role === SEAT_ROLES.dealer : s.role === SEAT_ROLES.small
       const isBig = isHeadsUp ? s.role === SEAT_ROLES.small : s.role === SEAT_ROLES.big
       const newJoinedPlayer = !isHeadsUp && isWithoutCardsSeat(s)
+      const isStradle = isStradleSeat(s)
 
       const userCards = getRandomCards(2, usedCards)
       usedCards = [...usedCards, ...userCards]
 
-      const addedToPot = isSmall ? table.blinds.small : isBig || newJoinedPlayer ? table.blinds.big : 0
+      let addedToPot = 0
+      if (isSmall) {
+        addedToPot = table.blinds.small
+      } else if (isBig || newJoinedPlayer) {
+        addedToPot = table.blinds.big
+      } else if (isStradle) {
+        addedToPot = table.blinds.big + table.blinds.big
+      }
+
       const inPot = addedToPot
       const inGame = roundNumber(s.user.cash.inGame - addedToPot)
 
@@ -972,6 +1006,24 @@ export const getUpdatedSeatWithShowCards = (table: TypeTable, username: string, 
         user: {
           ...s.user,
           cards: visibleUserCards,
+        },
+      }
+    }),
+  }
+}
+
+export const getUpdatedSeatWithStradle = (table: TypeTable, username: string): TypeTable => {
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (s.user.username !== username) return s
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          isStradle: !s.user.isStradle,
         },
       }
     }),

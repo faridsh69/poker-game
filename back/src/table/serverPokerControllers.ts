@@ -13,6 +13,7 @@ import {
   getUpdatedSeatWithFold1,
   getUpdatedSeatWithRaiseOrCallAmount1,
   getUpdatedSeatWithShowCards,
+  getUpdatedSeatWithStradle,
   getUpdatedSeatWithTimeBank,
   getUpdatedTableIfPhaseFinished3,
   getUpdatedTableNextGameTurn4,
@@ -147,7 +148,6 @@ export const renderClientLeaveSeat = (tablesState: TypeTable[], tableId: number,
     }
 
     const timeToClearTableInMiddleOfGame = isTimeToClearTableInMiddleOfGame(updatedTableLeaveSeat)
-    console.log('1 timeToClearTableInMiddleOfGame', timeToClearTableInMiddleOfGame)
 
     return {
       ...updatedTableLeaveSeat,
@@ -404,5 +404,13 @@ export const renderClientShowCardAction = (
     if (t.id !== tableId) return t
 
     return getUpdatedSeatWithShowCards(t, username, cardIndexes)
+  })
+}
+
+export const renderClientStradle = (tablesState: TypeTable[], tableId: number, username: string): TypeTable[] => {
+  return tablesState.map(t => {
+    if (t.id !== tableId) return t
+
+    return getUpdatedSeatWithStradle(t, username)
   })
 }
