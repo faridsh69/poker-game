@@ -41,15 +41,15 @@ export type TypeClientChannels =
   | 'client:seatout_next_round'
 
 export type TypeSeatRole =
+  | 'dealer'
   | 'small'
   | 'big'
-  | 'underTheGun'
-  | 'underTheGunPlusOne'
-  | 'underTheGunPlusTwo'
-  | 'lowJack'
-  | 'highJack'
-  | 'cutOff'
-  | 'dealer'
+  | 'underTheGun4'
+  | 'underTheGunPlusOne5'
+  | 'underTheGunPlusTwo6'
+  | 'lowJack7'
+  | 'highJack8'
+  | 'cutOff9'
 
 export type TypeServerChannelsUpdateTablesData = {
   tables: TypeTable[]

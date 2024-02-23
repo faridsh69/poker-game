@@ -9,6 +9,7 @@ import {
   TypeTableType,
   TypeTimerAction,
 } from 'src/interfaces/type-game'
+export const ANIMATION_PASS_CARD_SPEED = 300
 
 export const CLIENT_TIMEOUT_EXTRA = 30
 export const CLIENT_TIMEOUT_ACTION = 15
@@ -57,15 +58,15 @@ export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } =
 }
 
 export const SEAT_ROLES: { [key in TypeSeatRole]: TypeSeatRole } = {
+  dealer: 'dealer',
   small: 'small',
   big: 'big',
-  underTheGun: 'underTheGun',
-  underTheGunPlusOne: 'underTheGunPlusOne',
-  underTheGunPlusTwo: 'underTheGunPlusTwo',
-  lowJack: 'lowJack',
-  highJack: 'highJack',
-  cutOff: 'cutOff',
-  dealer: 'dealer',
+  underTheGun4: 'underTheGun4',
+  underTheGunPlusOne5: 'underTheGunPlusOne5',
+  underTheGunPlusTwo6: 'underTheGunPlusTwo6',
+  lowJack7: 'lowJack7',
+  highJack8: 'highJack8',
+  cutOff9: 'cutOff9',
 }
 
 export const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {

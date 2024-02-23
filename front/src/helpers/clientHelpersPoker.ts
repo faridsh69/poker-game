@@ -22,6 +22,8 @@ export const isUserWaitingTable = (table: TypeTable, username: string): boolean 
 
 export const isWaitPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.wait
 
+export const isPreflopPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.preflop
+
 export const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
 
 export const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
@@ -87,7 +89,7 @@ export const isUserGameTurn = (table: TypeTable, username: string): boolean => {
   return isSeatHasRole(userSeat, table.roleTurn)
 }
 
-const getNotSeatOutPlayers = (table: TypeTable): TypeSeat[] =>
+export const getNotSeatOutPlayers = (table: TypeTable): TypeSeat[] =>
   table.seats.filter(s => s.user && !isSeatoutSeat(s))
 
 export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean =>
@@ -315,4 +317,64 @@ export const isOneOtherPersonToCallRaise = (table: TypeTable, username: string):
   }
 
   return false
+}
+
+export const getTurnInPassingCards = (table: TypeTable, seat: TypeSeat): number => {
+  const playersCount = getNotSeatOutPlayers(table).length
+  if (seat.role === SEAT_ROLES.small) return 1
+
+  if (playersCount === 2) {
+    if (seat.role === SEAT_ROLES.dealer) return 2
+  }
+  if (playersCount === 3) {
+    if (seat.role === SEAT_ROLES.big) return 2
+    if (seat.role === SEAT_ROLES.dealer) return 3
+  }
+  if (playersCount === 4) {
+    if (seat.role === SEAT_ROLES.big) return 2
+    if (seat.role === SEAT_ROLES.underTheGun4) return 3
+    if (seat.role === SEAT_ROLES.dealer) return 4
+  }
+  if (playersCount === 5) {
+    if (seat.role === SEAT_ROLES.big) return 2
+    if (seat.role === SEAT_ROLES.underTheGun4) return 3
+    if (seat.role === SEAT_ROLES.underTheGunPlusOne5) return 4
+    if (seat.role === SEAT_ROLES.dealer) return 5
+  }
+  if (playersCount === 6) {
+    if (seat.role === SEAT_ROLES.big) return 2
+    if (seat.role === SEAT_ROLES.underTheGun4) return 3
+    if (seat.role === SEAT_ROLES.underTheGunPlusOne5) return 4
+    if (seat.role === SEAT_ROLES.underTheGunPlusTwo6) return 5
+    if (seat.role === SEAT_ROLES.dealer) return 6
+  }
+  if (playersCount === 7) {
+    if (seat.role === SEAT_ROLES.big) return 2
+    if (seat.role === SEAT_ROLES.underTheGun4) return 3
+    if (seat.role === SEAT_ROLES.underTheGunPlusOne5) return 4
+    if (seat.role === SEAT_ROLES.underTheGunPlusTwo6) return 5
+    if (seat.role === SEAT_ROLES.lowJack7) return 6
+    if (seat.role === SEAT_ROLES.dealer) return 7
+  }
+  if (playersCount === 8) {
+    if (seat.role === SEAT_ROLES.big) return 2
+    if (seat.role === SEAT_ROLES.underTheGun4) return 3
+    if (seat.role === SEAT_ROLES.underTheGunPlusOne5) return 4
+    if (seat.role === SEAT_ROLES.underTheGunPlusTwo6) return 5
+    if (seat.role === SEAT_ROLES.lowJack7) return 6
+    if (seat.role === SEAT_ROLES.highJack8) return 7
+    if (seat.role === SEAT_ROLES.dealer) return 8
+  }
+  if (playersCount === 9) {
+    if (seat.role === SEAT_ROLES.big) return 2
+    if (seat.role === SEAT_ROLES.underTheGun4) return 3
+    if (seat.role === SEAT_ROLES.underTheGunPlusOne5) return 4
+    if (seat.role === SEAT_ROLES.underTheGunPlusTwo6) return 5
+    if (seat.role === SEAT_ROLES.lowJack7) return 6
+    if (seat.role === SEAT_ROLES.highJack8) return 7
+    if (seat.role === SEAT_ROLES.cutOff9) return 8
+    if (seat.role === SEAT_ROLES.dealer) return 9
+  }
+
+  return 30
 }

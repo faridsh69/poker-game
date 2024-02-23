@@ -1,9 +1,7 @@
-import hotImage from 'src/images/game/fire-emoji-icon-free-png.webp'
+// import hotImage from 'src/images/game/fire-emoji-icon-free-png.webp'
 
 export const SeatUserHot = () => {
   return (
-    <div className='dnd-window-body-table-seats-seat-user-hot'>
-      <img src={hotImage} />
-    </div>
+    <div className='dnd-window-body-table-seats-seat-user-hot'>{/* <img src={hotImage} /> */}</div>
   )
 }

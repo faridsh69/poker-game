@@ -23,7 +23,7 @@ import {
 export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
-export const SERVER_TIMEOUT_ACTION = 15
+export const SERVER_TIMEOUT_ACTION = 15000 // 15
 
 export const SERVER_TIMEOUT_SEATOUT_ALLIN = 20 // 120
 export const SERVER_TIMEOUT_SEATOUT = 20 // 20
@@ -171,6 +171,8 @@ export const NEW_USER: TypeUser = {
   isAutoAction: false,
   isTableClosed: false,
   isWaitForBB: false,
+  isStradle: false,
+  isSeatoutNextRound: false,
   timer: null,
   timeBank: SERVER_TIMEOUT_EXTRA,
   // hot: null,
@@ -192,6 +194,8 @@ export const WAITING_USER: TypeUser = {
   isAutoAction: false,
   isTableClosed: false,
   isWaitForBB: false,
+  isStradle: false,
+  isSeatoutNextRound: false,
   timer: null,
   timeBank: SERVER_TIMEOUT_EXTRA,
   // hot: null,

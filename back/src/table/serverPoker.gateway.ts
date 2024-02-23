@@ -67,7 +67,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
           if (!seat.user.timer) continue
 
           if (nowtime > seat.user.timer.deadline) {
-            console.log('setInterval seat user timer action', seat.user.timer.action)
+            console.log('#1 setInterval seat user timer action', seat.user.timer.action)
 
             if (seat.user.timer.action === TIMER_ACTION_NAMES.leaveSeat) {
               this.tablesState = renderClientLeaveSeat(this.tablesState, table.id, seat.user.username)
@@ -84,7 +84,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
         if (!table.timer) continue
 
         if (nowtime > table.timer.deadline) {
-          console.log('setInterval table timer action', table.timer.action)
+          console.log('#1 setInterval table timer action', table.timer.action)
 
           if (table.timer.action === TIMER_ACTION_NAMES.restartTable) {
             if (!isAtLeastTwoPlayers(table, true, false, true, false, true, false)) continue

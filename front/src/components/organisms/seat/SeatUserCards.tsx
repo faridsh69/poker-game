@@ -1,70 +1,61 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 
 import { GameCard } from 'src/components/organisms/cards/GameCard'
-import { isFoldSeat, isWithoutCardsSeat, showBackcard } from 'src/helpers/clientHelpersPoker'
+import {
+  getNotSeatOutPlayers,
+  getTurnInPassingCards,
+  isFoldSeat,
+  showBackcard,
+} from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { playSound } from 'src/helpers/common'
 import { TypeSeatProps, TypeTable } from 'src/interfaces'
+import { ANIMATION_PASS_CARD_SPEED } from 'src/configs/clientConstantsPoker'
+
+const CARD_CLASSES = {
+  hide: 'card-hide',
+  show: 'card-show',
+  animate1: 'card-pass-1',
+  animate2: 'card-pass-2',
+}
 
 export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
   const { seat, table } = props
 
   const { username } = useAuth()
 
-  // 1) aval dealer o peida mikonim, badesh nafare badi bayad 1 bashe badi 2 ...
-  // 2) bad be oni ke 1 hast bade 200ms cart 1 esh az hiddeni dar miad
-  // 3) 1200 ms ham karte 2 sh az hiddeni dar miad
-  // 4) class hae animationi ham hamegi from tto daran, yek fasele zamani
-
-  const cardClasses = {
-    hide: 'card-hide',
-    show: 'card-show',
-    animate1: 'card-pass-1',
-    animate2: 'card-pass-2',
-  }
-
-  const [cardClassNames, setCardClassNames] = useState({
-    0: cardClasses.show,
-    1: cardClasses.show,
-  })
+  const [lastUserCards, setLastUserCards] = useState(JSON.stringify(seat.user.cards))
+  const [cardClassNames, setCardClassNames] = useState([CARD_CLASSES.show, CARD_CLASSES.show])
 
   useEffect(() => {
-    if (isWithoutCardsSeat(seat)) return
+    const cardsJson = JSON.stringify(seat.user.cards)
+    setLastUserCards(cardsJson)
 
-    const timeouts: ReturnType<typeof setTimeout>[] = []
-    for (const cardIndex of [0, 1]) {
-      timeouts.push(
-        setTimeout(
-          () => {
-            if (cardIndex === 0) {
-              playSound('card')
-            }
-            // setCardClassNames(prev => ({
-            //   ...prev,
-            //   [cardIndex]: cardIndex ? cardClasses.animate2 : cardClasses.animate1,
-            // }))
-          },
-          seat.id * 100 + 800 * cardIndex,
-        ),
-      )
+    if (lastUserCards === cardsJson) return
 
-      timeouts.push(
-        setTimeout(() => {
-          setCardClassNames(prev => ({
-            ...prev,
-            [cardIndex]: cardClasses.show,
-          }))
-        }, 5000),
-      )
+    const turnInPassingCards = getTurnInPassingCards(table, seat)
+    const playersCount = getNotSeatOutPlayers(table).length
+
+    for (let cardIndex = 0; cardIndex < seat.user.cards.length; cardIndex++) {
+      // @ts-ignore
+      const classAnimate = CARD_CLASSES[`animate${cardIndex + 1}`]
+      setCardClassNames(clses => {
+        return clses.map(cls => CARD_CLASSES.hide)
+      })
+
+      const animDelay =
+        turnInPassingCards * ANIMATION_PASS_CARD_SPEED +
+        playersCount * ANIMATION_PASS_CARD_SPEED * cardIndex
+
+      setTimeout(() => {
+        if (cardIndex === 0) playSound('card')
+        setCardClassNames(classes =>
+          classes.map((cls, clsIndex) => (clsIndex === cardIndex ? classAnimate : cls)),
+        )
+      }, animDelay)
     }
-
-    return () => {
-      for (const timeout of timeouts) {
-        clearTimeout(timeout)
-      }
-    }
-  }, [seat.user.cards.length])
+  }, [seat.user.cards])
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-cards'>
@@ -79,7 +70,6 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
             card={card}
             cardIndex={cardIndex}
             backcard={backcard}
-            // @ts-ignore
             className={classNames(`${cardClassNames[cardIndex]}`)}
           />
         )
