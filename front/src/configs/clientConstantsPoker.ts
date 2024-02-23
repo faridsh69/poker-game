@@ -10,6 +10,7 @@ import {
   TypeTimerAction,
 } from 'src/interfaces/type-game'
 export const ANIMATION_PASS_CARD_SPEED = 300
+export const ANIMATION_CSS_DURATION = 500
 
 export const CLIENT_TIMEOUT_EXTRA = 30
 export const CLIENT_TIMEOUT_ACTION = 15
@@ -173,3 +174,12 @@ export const CHIP_UNITS = [
     value: 1,
   },
 ]
+
+export const CARD_CLASS_NAMES = {
+  hide: 'card-hide',
+  show: 'card-show',
+  animatePass1: 'card-pass-animate-1',
+  animatePass2: 'card-pass-animate-2',
+  animateFold1: 'card-fold-animate-1',
+  animateFold2: 'card-fold-animate-2',
+}

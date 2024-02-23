@@ -716,9 +716,13 @@ html {
           }
 
           &-foldSeat {
-            .dnd-window-body-table-seats-seat-user-cards {
+            .dnd-window-body-table-seats-seat-user-cards:hover {
               filter: brightness(40%);
               opacity: 0.8;
+
+              .card-hide {
+                display: block;
+              }
             }
           }
 

@@ -11,14 +11,11 @@ import {
 import { useAuth } from 'src/hooks/useAuth'
 import { playSound } from 'src/helpers/common'
 import { TypeSeatProps, TypeTable } from 'src/interfaces'
-import { ANIMATION_PASS_CARD_SPEED } from 'src/configs/clientConstantsPoker'
-
-const CARD_CLASSES = {
-  hide: 'card-hide',
-  show: 'card-show',
-  animate1: 'card-pass-1',
-  animate2: 'card-pass-2',
-}
+import {
+  ANIMATION_CSS_DURATION,
+  ANIMATION_PASS_CARD_SPEED,
+  CARD_CLASS_NAMES,
+} from 'src/configs/clientConstantsPoker'
 
 export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
   const { seat, table } = props
@@ -26,7 +23,28 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
   const { username } = useAuth()
 
   const [lastUserCards, setLastUserCards] = useState(JSON.stringify(seat.user.cards))
-  const [cardClassNames, setCardClassNames] = useState([CARD_CLASSES.show, CARD_CLASSES.show])
+  const [lastUserIsFold, setLastUserIsFold] = useState(seat.user.isFold)
+
+  const [cardClassNames, setCardClassNames] = useState([
+    CARD_CLASS_NAMES.show,
+    CARD_CLASS_NAMES.show,
+  ])
+
+  useEffect(() => {
+    setLastUserIsFold(seat.user.isFold)
+
+    if (lastUserIsFold === seat.user.isFold) return
+
+    setCardClassNames([CARD_CLASS_NAMES.animateFold1, CARD_CLASS_NAMES.animateFold2])
+
+    // hide cards
+
+    setTimeout(() => {
+      setCardClassNames(clses => {
+        return clses.map(() => CARD_CLASS_NAMES.hide)
+      })
+    }, ANIMATION_CSS_DURATION)
+  }, [seat.user.isFold])
 
   useEffect(() => {
     const cardsJson = JSON.stringify(seat.user.cards)
@@ -38,12 +56,14 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
     const playersCount = getNotSeatOutPlayers(table).length
 
     for (let cardIndex = 0; cardIndex < seat.user.cards.length; cardIndex++) {
-      // @ts-ignore
-      const classAnimate = CARD_CLASSES[`animate${cardIndex + 1}`]
+      // hide cards
       setCardClassNames(clses => {
-        return clses.map(cls => CARD_CLASSES.hide)
+        return clses.map(() => CARD_CLASS_NAMES.hide)
       })
 
+      // add animation
+      // @ts-ignore
+      const classAnimate = CARD_CLASS_NAMES[`animatePass${cardIndex + 1}`]
       const animDelay =
         turnInPassingCards * ANIMATION_PASS_CARD_SPEED +
         playersCount * ANIMATION_PASS_CARD_SPEED * cardIndex
@@ -54,6 +74,16 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
           classes.map((cls, clsIndex) => (clsIndex === cardIndex ? classAnimate : cls)),
         )
       }, animDelay)
+
+      // show cards
+      const finishedPassingCardsDelay =
+        ANIMATION_PASS_CARD_SPEED * playersCount * 2 + ANIMATION_CSS_DURATION
+
+      setTimeout(() => {
+        setCardClassNames(clses => {
+          return clses.map(() => CARD_CLASS_NAMES.show)
+        })
+      }, finishedPassingCardsDelay)
     }
   }, [seat.user.cards])
 
@@ -62,7 +92,8 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
       {seat.user.cards.map((card, cardIndex) => {
         const backcard = showBackcard(seat, username, table, card)
 
-        if (backcard && isFoldSeat(seat)) return null
+        // if (backcard && isFoldSeat(seat)) return null
+        // if (backcard) return null
 
         return (
           <GameCard

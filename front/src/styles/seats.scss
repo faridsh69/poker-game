@@ -42,12 +42,48 @@ $dealCardTimeout: 0.5s;
       }
     }
 
-    .card-pass-1 {
+    .card-pass-animate-1 {
       animation: passCard-6-1-1 $dealCardTimeout ease-out;
     }
 
-    .card-pass-2 {
+    .card-pass-animate-2 {
       animation: passCard-6-1-2 $dealCardTimeout ease-out;
+    }
+
+    @keyframes foldCard-6-1-1 {
+      from {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+
+      to {
+        top: -200px;
+        left: 0px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes foldCard-6-1-2 {
+      from {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+
+      to {
+        top: -200px;
+        left: 0px;
+        opacity: 0;
+      }
+    }
+
+    .card-fold-animate-1 {
+      animation: foldCard-6-1-1 $dealCardTimeout ease-out;
+    }
+
+    .card-fold-animate-2 {
+      animation: foldCard-6-1-2 $dealCardTimeout ease-out;
     }
   }
 
@@ -91,12 +127,46 @@ $dealCardTimeout: 0.5s;
       }
     }
 
-    .card-pass-1 {
+    .card-pass-animate-1 {
       animation: passCard-6-2-1 $dealCardTimeout ease-out;
     }
 
-    .card-pass-2 {
+    .card-pass-animate-2 {
       animation: passCard-6-2-2 $dealCardTimeout ease-out;
+    }
+
+    @keyframes foldCard-6-2-1 {
+      from {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+      to {
+        top: -100px;
+        left: 300px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes foldCard-6-2-2 {
+      from {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+      to {
+        top: -100px;
+        left: 300px;
+        opacity: 0;
+      }
+    }
+
+    .card-fold-animate-1 {
+      animation: foldCard-6-2-1 $dealCardTimeout ease-out;
+    }
+
+    .card-fold-animate-2 {
+      animation: foldCard-6-2-2 $dealCardTimeout ease-out;
     }
   }
 
@@ -140,12 +210,46 @@ $dealCardTimeout: 0.5s;
       }
     }
 
-    .card-pass-1 {
+    .card-pass-animate-1 {
       animation: passCard-6-3-1 $dealCardTimeout ease-out;
     }
 
-    .card-pass-2 {
+    .card-pass-animate-2 {
       animation: passCard-6-3-2 $dealCardTimeout ease-out;
+    }
+
+    @keyframes foldCard-6-3-1 {
+      from {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+      to {
+        top: 200px;
+        left: 300px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes foldCard-6-3-2 {
+      from {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+      to {
+        top: 200px;
+        left: 300px;
+        opacity: 0;
+      }
+    }
+
+    .card-fold-animate-1 {
+      animation: foldCard-6-3-1 $dealCardTimeout ease-out;
+    }
+
+    .card-fold-animate-2 {
+      animation: foldCard-6-3-2 $dealCardTimeout ease-out;
     }
   }
 
@@ -190,12 +294,46 @@ $dealCardTimeout: 0.5s;
       }
     }
 
-    .card-pass-1 {
+    .card-pass-animate-1 {
       animation: passCard-6-4-1 $dealCardTimeout ease-out;
     }
 
-    .card-pass-2 {
+    .card-pass-animate-2 {
       animation: passCard-6-4-2 $dealCardTimeout ease-out;
+    }
+
+    @keyframes foldCard-6-4-1 {
+      from {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+      to {
+        top: 200px;
+        left: 0px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes foldCard-6-4-2 {
+      from {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+      to {
+        top: 200px;
+        left: 0px;
+        opacity: 0;
+      }
+    }
+
+    .card-fold-animate-1 {
+      animation: foldCard-6-4-1 $dealCardTimeout ease-out;
+    }
+
+    .card-fold-animate-2 {
+      animation: foldCard-6-4-2 $dealCardTimeout ease-out;
     }
   }
 
@@ -240,11 +378,11 @@ $dealCardTimeout: 0.5s;
       }
     }
 
-    .card-pass-1 {
+    .card-pass-animate-1 {
       animation: passCard-6-5-1 $dealCardTimeout ease-out;
     }
 
-    .card-pass-2 {
+    .card-pass-animate-2 {
       animation: passCard-6-5-2 $dealCardTimeout ease-out;
     }
   }
@@ -290,11 +428,11 @@ $dealCardTimeout: 0.5s;
       }
     }
 
-    .card-pass-1 {
+    .card-pass-animate-1 {
       animation: passCard-6-6-1 $dealCardTimeout ease-out;
     }
 
-    .card-pass-2 {
+    .card-pass-animate-2 {
       animation: passCard-6-6-2 $dealCardTimeout ease-out;
     }
   }
