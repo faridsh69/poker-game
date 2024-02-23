@@ -385,6 +385,42 @@ $dealCardTimeout: 0.5s;
     .card-pass-animate-2 {
       animation: passCard-6-5-2 $dealCardTimeout ease-out;
     }
+
+    @keyframes foldCard-6-5-1 {
+      from {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+
+      to {
+        top: 100px;
+        left: -300px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes foldCard-6-5-2 {
+      from {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+
+      to {
+        top: 100px;
+        left: -300px;
+        opacity: 0;
+      }
+    }
+
+    .card-fold-animate-1 {
+      animation: foldCard-6-5-1 $dealCardTimeout ease-out;
+    }
+
+    .card-fold-animate-2 {
+      animation: foldCard-6-5-2 $dealCardTimeout ease-out;
+    }
   }
 
   .seat-6-6 {
@@ -434,6 +470,42 @@ $dealCardTimeout: 0.5s;
 
     .card-pass-animate-2 {
       animation: passCard-6-6-2 $dealCardTimeout ease-out;
+    }
+
+    @keyframes foldCard-6-6-1 {
+      from {
+        top: 3px;
+        left: -6px;
+        opacity: 1;
+      }
+
+      to {
+        top: -100px;
+        left: -300px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes foldCard-6-6-2 {
+      from {
+        top: 3px;
+        left: 38px;
+        opacity: 1;
+      }
+
+      to {
+        top: -100px;
+        left: -300px;
+        opacity: 0;
+      }
+    }
+
+    .card-fold-animate-1 {
+      animation: foldCard-6-6-1 $dealCardTimeout ease-out;
+    }
+
+    .card-fold-animate-2 {
+      animation: foldCard-6-6-2 $dealCardTimeout ease-out;
     }
   }
 
