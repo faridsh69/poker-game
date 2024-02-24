@@ -10,7 +10,8 @@ import {
   TypeTimerAction,
 } from 'src/interfaces/type-game'
 export const ANIMATION_PASS_CARD_DELAY = 400
-export const ANIMATION_CSS_DURATION = 500 // Dont change it
+export const ANIMATION_CSS_USER_CARD_DURATION = 500 // Dont change it
+export const ANIMATION_CSS_TABLE_CARD_DURATION = 900
 
 export const CLIENT_TIMEOUT_EXTRA = 30
 export const CLIENT_TIMEOUT_ACTION = 15
@@ -175,18 +176,47 @@ export const CHIP_UNITS = [
   },
 ]
 
-export const CARD_CLASS_NAMES = {
-  hide: 'card-hide',
-  show: 'card-show',
-  visible: 'card-visible',
+export const USER_CARD_CLASS_NAMES = {
+  hide: 'user-card-hide',
   animatePass1: 'card-pass-animate-1',
   animatePass2: 'card-pass-animate-2',
   animateFold1: 'card-fold-animate-1',
   animateFold2: 'card-fold-animate-2',
+  visible: 'user-card-visible',
 }
 
-export const CARDS_SHOW_CLASS_NAME = [CARD_CLASS_NAMES.show, CARD_CLASS_NAMES.show]
+export const USER_CARDS_SHOW_CLASS_NAME = ['', '']
 
-export const CARDS_HIDE_CLASS_NAME = [CARD_CLASS_NAMES.hide, CARD_CLASS_NAMES.hide]
+export const USER_CARDS_HIDE_CLASS_NAME = [USER_CARD_CLASS_NAMES.hide, USER_CARD_CLASS_NAMES.hide]
 
-export const CARDS_FOLD_CLASS_NAME = [CARD_CLASS_NAMES.animateFold1, CARD_CLASS_NAMES.animateFold2]
+export const USER_CARDS_FOLD_CLASS_NAME = [
+  USER_CARD_CLASS_NAMES.animateFold1,
+  USER_CARD_CLASS_NAMES.animateFold2,
+]
+
+export const TABLE_CARD_CLASS_NAMES = {
+  hide: 'table-card-hide',
+  flop1: 'table-card-flop-1',
+  flop2: 'table-card-flop-2',
+  flop3: 'table-card-flop-3',
+  turn: 'table-card-turn',
+  river: 'table-card-river',
+}
+
+export const TABLE_CARD_FLOP_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.flop1,
+  TABLE_CARD_CLASS_NAMES.flop2,
+  TABLE_CARD_CLASS_NAMES.flop3,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+]
+
+export const TABLE_CARD_TURN_CLASS_NAMES = [
+  '',
+  '',
+  '',
+  TABLE_CARD_CLASS_NAMES.turn,
+  TABLE_CARD_CLASS_NAMES.hide,
+]
+
+export const TABLE_CARD_RIVER_CLASS_NAMES = ['', '', '', '', TABLE_CARD_CLASS_NAMES.river]

@@ -1,3 +1,5 @@
+$tableCardAnimationTimeout: 0.9s;
+
 * {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
 }
@@ -172,6 +174,104 @@ html {
 
           .card-red {
             color: #cb1515;
+          }
+
+          .table-card-hide {
+            display: none;
+          }
+
+          @keyframes flop1CardsAnimation {
+            0% {
+              top: 100px;
+              left: 100px;
+              opacity: 0;
+            }
+
+            50% {
+              top: 0px;
+              left: 0px;
+              opacity: 1;
+            }
+          }
+
+          .table-card-flop-1 {
+            animation: flop1CardsAnimation $tableCardAnimationTimeout ease-out;
+          }
+
+          @keyframes flop2CardsAnimation {
+            0% {
+              top: 100px;
+              left: 35px;
+              opacity: 0;
+            }
+
+            50% {
+              top: 0px;
+              left: -65px;
+              opacity: 1;
+            }
+
+            100% {
+              left: 0px;
+            }
+          }
+
+          .table-card-flop-2 {
+            animation: flop2CardsAnimation $tableCardAnimationTimeout ease-out;
+          }
+
+          @keyframes flop3CardsAnimation {
+            0% {
+              top: 100px;
+              left: -30px;
+              opacity: 0;
+            }
+
+            50% {
+              top: 0px;
+              left: -130px;
+              opacity: 1;
+            }
+
+            100% {
+              left: 0px;
+            }
+          }
+
+          .table-card-flop-3 {
+            animation: flop3CardsAnimation $tableCardAnimationTimeout ease-out;
+          }
+
+          @keyframes phaseTurnCardsAnimation {
+            0% {
+              top: 100px;
+              opacity: 0;
+            }
+
+            50% {
+              top: 0px;
+              opacity: 1;
+            }
+          }
+
+          .table-card-turn {
+            animation: phaseTurnCardsAnimation $tableCardAnimationTimeout ease-out;
+          }
+
+          @keyframes phaseRiverCardsAnimation {
+            0% {
+              top: 100px;
+              opacity: 0;
+            }
+
+            50% {
+              top: 0px;
+              opacity: 1;
+            }
+          }
+
+          .table-card-river {
+            animation: phaseRiverCardsAnimation $tableCardAnimationTimeout ease-out;
           }
         }
 
@@ -523,7 +623,7 @@ html {
                   }
                 }
 
-                .card-hide {
+                .user-card-hide {
                   display: none;
                 }
 
@@ -729,7 +829,7 @@ html {
                 }
               }
 
-              .card-visible {
+              .user-card-visible {
                 display: block !important;
                 animation: visibleCardAnimation 3s ease-in-out infinite;
               }
@@ -738,7 +838,7 @@ html {
                 filter: brightness(40%);
                 opacity: 0.8;
 
-                .card-hide {
+                .user-card-hide {
                   display: block;
                 }
               }

@@ -1,5 +1,11 @@
 import { LAST_ACTION_ACTIONS, SEAT_ROLES, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
-import { TypeCard, TypeRaiseLimits, TypeSeat, TypeTable } from 'src/interfaces/type-game'
+import {
+  TypeCard,
+  TypeRaiseLimits,
+  TypeSeat,
+  TypeTable,
+  TypeTablePhase,
+} from 'src/interfaces/type-game'
 import { capitalize } from 'src/helpers/common'
 
 /////////////////////////////////// 1 SMALL METHODS //////////////////////////////////
@@ -369,4 +375,20 @@ export const getTurnInPassingCards = (table: TypeTable, seat: TypeSeat): number 
   }
 
   return 30
+}
+
+export const getTableCardsLength = (phase: TypeTablePhase) => {
+  if (phase === TABLE_PHASES.flop) {
+    return 3
+  }
+
+  if (phase === TABLE_PHASES.turn) {
+    return 4
+  }
+
+  if (phase === TABLE_PHASES.river || phase === TABLE_PHASES.show) {
+    return 5
+  }
+
+  return 0
 }

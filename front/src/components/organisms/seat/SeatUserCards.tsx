@@ -4,7 +4,7 @@ import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { showBackcard } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeSeatProps, TypeTable } from 'src/interfaces'
-import { CARD_CLASS_NAMES } from 'src/configs/clientConstantsPoker'
+import { USER_CARD_CLASS_NAMES } from 'src/configs/clientConstantsPoker'
 import { useUserCardsAnimation } from 'src/hooks/game/useUserCardsAnimation'
 
 export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
@@ -27,7 +27,7 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
             backcard={backcard}
             className={classNames(
               cardClassNames[cardIndex],
-              card.isVisible ? CARD_CLASS_NAMES.visible : '',
+              card.isVisible ? USER_CARD_CLASS_NAMES.visible : '',
             )}
           />
         )
