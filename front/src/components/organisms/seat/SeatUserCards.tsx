@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 import {
   getNotSeatOutPlayers,
   getTurnInPassingCards,
-  isFoldSeat,
+  isPreflopPhase,
   showBackcard,
 } from 'src/helpers/clientHelpersPoker'
 import { useAuth } from 'src/hooks/useAuth'
@@ -13,7 +13,10 @@ import { playSound } from 'src/helpers/common'
 import { TypeSeatProps, TypeTable } from 'src/interfaces'
 import {
   ANIMATION_CSS_DURATION,
-  ANIMATION_PASS_CARD_SPEED,
+  ANIMATION_PASS_CARD_DELAY,
+  CARDS_FOLD_CLASS_NAME,
+  CARDS_HIDE_CLASS_NAME,
+  CARDS_SHOW_CLASS_NAME,
   CARD_CLASS_NAMES,
 } from 'src/configs/clientConstantsPoker'
 
@@ -22,52 +25,46 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
 
   const { username } = useAuth()
 
-  const [lastUserCards, setLastUserCards] = useState(JSON.stringify(seat.user.cards))
-  const [lastUserIsFold, setLastUserIsFold] = useState(seat.user.isFold)
+  const [cardClassNames, setCardClassNames] = useState<string[]>(CARDS_SHOW_CLASS_NAME)
 
-  const [cardClassNames, setCardClassNames] = useState([
-    CARD_CLASS_NAMES.show,
-    CARD_CLASS_NAMES.show,
-  ])
+  const [lastUserIsFold, setLastUserIsFold] = useState<boolean>(seat.user.isFold)
 
+  // Fold animation
   useEffect(() => {
     setLastUserIsFold(seat.user.isFold)
 
     if (lastUserIsFold === seat.user.isFold) return
 
-    setCardClassNames([CARD_CLASS_NAMES.animateFold1, CARD_CLASS_NAMES.animateFold2])
+    setCardClassNames(CARDS_FOLD_CLASS_NAME)
 
     // hide cards
-
     setTimeout(() => {
-      setCardClassNames(clses => {
-        return clses.map(() => CARD_CLASS_NAMES.hide)
-      })
+      setCardClassNames(CARDS_HIDE_CLASS_NAME)
     }, ANIMATION_CSS_DURATION)
   }, [seat.user.isFold])
 
+  const [lastUserCards, setLastUserCards] = useState<string>(JSON.stringify(seat.user.cards))
+
+  // Pass card animation
   useEffect(() => {
     const cardsJson = JSON.stringify(seat.user.cards)
     setLastUserCards(cardsJson)
 
+    if (!isPreflopPhase(table)) return
     if (lastUserCards === cardsJson) return
 
     const turnInPassingCards = getTurnInPassingCards(table, seat)
     const playersCount = getNotSeatOutPlayers(table).length
 
+    setCardClassNames(CARDS_HIDE_CLASS_NAME)
     for (let cardIndex = 0; cardIndex < seat.user.cards.length; cardIndex++) {
-      // hide cards
-      setCardClassNames(clses => {
-        return clses.map(() => CARD_CLASS_NAMES.hide)
-      })
-
-      // add animation
       // @ts-ignore
       const classAnimate = CARD_CLASS_NAMES[`animatePass${cardIndex + 1}`]
       const animDelay =
-        turnInPassingCards * ANIMATION_PASS_CARD_SPEED +
-        playersCount * ANIMATION_PASS_CARD_SPEED * cardIndex
+        turnInPassingCards * ANIMATION_PASS_CARD_DELAY +
+        playersCount * ANIMATION_PASS_CARD_DELAY * cardIndex
 
+      // add animation
       setTimeout(() => {
         if (cardIndex === 0) playSound('card')
         setCardClassNames(classes =>
@@ -76,14 +73,11 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
       }, animDelay)
 
       // show cards
-      const finishedPassingCardsDelay =
-        ANIMATION_PASS_CARD_SPEED * playersCount * 2 + ANIMATION_CSS_DURATION
-
       setTimeout(() => {
-        setCardClassNames(clses => {
-          return clses.map(() => CARD_CLASS_NAMES.show)
-        })
-      }, finishedPassingCardsDelay)
+        setCardClassNames(classes =>
+          classes.map((cls, clsIndex) => (clsIndex === cardIndex ? CARD_CLASS_NAMES.show : cls)),
+        )
+      }, animDelay + ANIMATION_CSS_DURATION)
     }
   }, [seat.user.cards])
 
