@@ -95,13 +95,6 @@ export const getNotSeatOutPlayers = (table: TypeTable): TypeSeat[] =>
 export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean =>
   getNotSeatOutPlayers(table).length > 1
 
-// const isTimeToStartTable = (table: TypeTable): boolean => {
-//   const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
-//   const atLeastTwoPlayers = isAtLeastTwoNotSeatOutPlayers(table)
-
-//   return isWaitingOrShowPhase && atLeastTwoPlayers
-// }
-
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] =>
   allTables.filter(t => isUserJoinedTable(t, username))
 
@@ -112,7 +105,6 @@ export const showBackcard = (
   card: TypeCard,
 ) => {
   if (isShowPhase(table)) return false
-  // if (isWithoutCardsSeat(seat)) return false
   if (card.isVisible) return false
   if (isAuthSeat(seat, username)) return false
 

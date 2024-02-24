@@ -9,7 +9,7 @@ import {
   TypeTableType,
   TypeTimerAction,
 } from 'src/interfaces/type-game'
-export const ANIMATION_PASS_CARD_DELAY = 200
+export const ANIMATION_PASS_CARD_DELAY = 400
 export const ANIMATION_CSS_DURATION = 500 // Dont change it
 
 export const CLIENT_TIMEOUT_EXTRA = 30
