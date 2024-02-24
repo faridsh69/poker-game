@@ -9,7 +9,7 @@ import {
   TypeTableType,
   TypeTimerAction,
 } from 'src/interfaces/type-game'
-export const ANIMATION_PASS_CARD_DELAY = 1000
+export const ANIMATION_PASS_CARD_DELAY = 200
 export const ANIMATION_CSS_DURATION = 500 // Dont change it
 
 export const CLIENT_TIMEOUT_EXTRA = 30
@@ -178,6 +178,7 @@ export const CHIP_UNITS = [
 export const CARD_CLASS_NAMES = {
   hide: 'card-hide',
   show: 'card-show',
+  visible: 'card-visible',
   animatePass1: 'card-pass-animate-1',
   animatePass2: 'card-pass-animate-2',
   animateFold1: 'card-fold-animate-1',

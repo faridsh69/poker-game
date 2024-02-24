@@ -95,7 +95,10 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
             card={card}
             cardIndex={cardIndex}
             backcard={backcard}
-            className={classNames(`${cardClassNames[cardIndex]}`)}
+            className={classNames(
+              cardClassNames[cardIndex],
+              card.isVisible ? CARD_CLASS_NAMES.visible : '',
+            )}
           />
         )
       })}

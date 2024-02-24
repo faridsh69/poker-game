@@ -716,28 +716,50 @@ html {
           }
 
           &-foldSeat {
-            .dnd-window-body-table-seats-seat-user-cards:hover {
-              filter: brightness(40%);
-              opacity: 0.8;
+            .dnd-window-body-table-seats-seat-user-cards {
+              @keyframes visibleCardAnimation {
+                0% {
+                  transform: scale(1.05);
+                }
+                50% {
+                  transform: scale(1.25);
+                }
+                100% {
+                  transform: scale(1.05);
+                }
+              }
 
-              .card-hide {
-                display: block;
+              .card-visible {
+                display: block !important;
+                animation: visibleCardAnimation 3s ease-in-out infinite;
+              }
+
+              &:hover {
+                filter: brightness(40%);
+                opacity: 0.8;
+
+                .card-hide {
+                  display: block;
+                }
               }
             }
           }
 
           &-turnseat {
             @keyframes turnAnimation {
-              30% {
-                box-shadow: 0px 0px 6px 4px white;
+              0% {
+                box-shadow: 0px 0px 2px 0px white;
               }
-              70% {
-                box-shadow: 0px 0px 6px 4px white;
+              50% {
+                box-shadow: 0px 0px 8px 4px white;
+              }
+              100% {
+                box-shadow: 0px 0px 2px 0px white;
               }
             }
 
             .dnd-window-body-table-seats-seat-user-box {
-              animation: turnAnimation 1.2s ease-in-out infinite;
+              animation: turnAnimation 1s ease-in-out infinite;
             }
           }
         }
