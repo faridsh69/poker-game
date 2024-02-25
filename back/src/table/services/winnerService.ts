@@ -320,12 +320,13 @@ const getStraightCards = (cards: TypeCard[]): TypeCard[] => {
     const nextScore4 = cardScores.find(cs => cs === cardScore - 4)
 
     if (nextScore1 && nextScore2 && nextScore3 && nextScore4) {
+      const aceScoreStraighAceToFive = cardScore - 4 !== 1 ? cardScore - 4 : 14
       straightCards = [
         cards.find(c => getCardScore(c) === cardScore) as TypeCard,
         cards.find(c => getCardScore(c) === cardScore - 1) as TypeCard,
         cards.find(c => getCardScore(c) === cardScore - 2) as TypeCard,
         cards.find(c => getCardScore(c) === cardScore - 3) as TypeCard,
-        cards.find(c => getCardScore(c) === cardScore - 4) as TypeCard,
+        cards.find(c => getCardScore(c) === aceScoreStraighAceToFive) as TypeCard,
       ]
       break
     }

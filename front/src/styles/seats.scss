@@ -730,6 +730,21 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
     animation: collecting-pot-6-1 $ANIMATION_CSS_POT_DURATION ease-out;
   }
 
+  @keyframes collecting-pot-6-2 {
+    from {
+      top: 20px;
+      left: -222px;
+    }
+    to {
+      top: 0px;
+      left: 0px;
+    }
+  }
+
+  .seat-6-2-collecting-pot {
+    animation: collecting-pot-6-2 $ANIMATION_CSS_POT_DURATION ease-out;
+  }
+
   @keyframes collecting-pot-6-3 {
     from {
       top: -120px;
@@ -743,5 +758,35 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
 
   .seat-6-3-collecting-pot {
     animation: collecting-pot-6-3 $ANIMATION_CSS_POT_DURATION ease-out;
+  }
+
+  @keyframes collecting-pot-6-4 {
+    from {
+      top: -220px;
+      left: 0px;
+    }
+    to {
+      top: 0px;
+      left: 0px;
+    }
+  }
+
+  .seat-6-4-collecting-pot {
+    animation: collecting-pot-6-4 $ANIMATION_CSS_POT_DURATION ease-out;
+  }
+
+  @keyframes collecting-pot-6-5 {
+    from {
+      top: -120px;
+      left: 216px;
+    }
+    to {
+      top: 0px;
+      left: 0px;
+    }
+  }
+
+  .seat-6-5-collecting-pot {
+    animation: collecting-pot-6-5 $ANIMATION_CSS_POT_DURATION ease-out;
   }
 }

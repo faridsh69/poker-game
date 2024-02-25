@@ -41,3 +41,15 @@ export const FullHand = [
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS[9] },
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS[4] },
 ]
+
+// export const FlushHand = []
+
+export const StraightHand = [
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS.a },
+  { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.q },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS[5] },
+  { type: CARD_TYPES.hearts, number: CARD_NUMBERS[2] },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS[4] },
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS[3] },
+]
