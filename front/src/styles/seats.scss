@@ -1,4 +1,5 @@
-$dealCardTimeout: 0.5s;
+$ANIMATION_CSS_USER_CARD_DURATION: 0.5s;
+$ANIMATION_CSS_POT_DURATION: 0.3s;
 
 .dnd-window-body-table-seats {
   .seat-6-1 {
@@ -43,11 +44,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-pass-animate-1 {
-      animation: passCard-6-1-1 $dealCardTimeout ease-out;
+      animation: passCard-6-1-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-pass-animate-2 {
-      animation: passCard-6-1-2 $dealCardTimeout ease-out;
+      animation: passCard-6-1-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     @keyframes foldCard-6-1-1 {
@@ -79,11 +80,28 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-fold-animate-1 {
-      animation: foldCard-6-1-1 $dealCardTimeout ease-out;
+      animation: foldCard-6-1-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-fold-animate-2 {
-      animation: foldCard-6-1-2 $dealCardTimeout ease-out;
+      animation: foldCard-6-1-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
+    }
+
+    @keyframes pot-6-1 {
+      from {
+        top: 30px;
+        left: -30px;
+        opacity: 0;
+      }
+      to {
+        top: 0px;
+        left: 0px;
+        opacity: 1;
+      }
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot-animation {
+      animation: pot-6-1 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -98,7 +116,7 @@ $dealCardTimeout: 0.5s;
 
     .dnd-window-body-table-seats-seat-user-pot {
       top: 9px;
-      right: -90px;
+      right: -70px; // -90
     }
 
     @keyframes passCard-6-2-1 {
@@ -128,11 +146,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-pass-animate-1 {
-      animation: passCard-6-2-1 $dealCardTimeout ease-out;
+      animation: passCard-6-2-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-pass-animate-2 {
-      animation: passCard-6-2-2 $dealCardTimeout ease-out;
+      animation: passCard-6-2-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     @keyframes foldCard-6-2-1 {
@@ -162,11 +180,28 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-fold-animate-1 {
-      animation: foldCard-6-2-1 $dealCardTimeout ease-out;
+      animation: foldCard-6-2-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-fold-animate-2 {
-      animation: foldCard-6-2-2 $dealCardTimeout ease-out;
+      animation: foldCard-6-2-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
+    }
+
+    @keyframes pot-6-2 {
+      from {
+        top: 30px;
+        left: -30px;
+        opacity: 0;
+      }
+      to {
+        top: 0px;
+        left: 0px;
+        opacity: 1;
+      }
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot-animation {
+      animation: pot-6-2 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -211,11 +246,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-pass-animate-1 {
-      animation: passCard-6-3-1 $dealCardTimeout ease-out;
+      animation: passCard-6-3-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-pass-animate-2 {
-      animation: passCard-6-3-2 $dealCardTimeout ease-out;
+      animation: passCard-6-3-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     @keyframes foldCard-6-3-1 {
@@ -245,11 +280,28 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-fold-animate-1 {
-      animation: foldCard-6-3-1 $dealCardTimeout ease-out;
+      animation: foldCard-6-3-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-fold-animate-2 {
-      animation: foldCard-6-3-2 $dealCardTimeout ease-out;
+      animation: foldCard-6-3-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
+    }
+
+    @keyframes pot-6-3 {
+      from {
+        top: -30px;
+        left: -30px;
+        opacity: 0;
+      }
+      to {
+        top: 0px;
+        left: 0px;
+        opacity: 1;
+      }
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot-animation {
+      animation: pot-6-3 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -295,11 +347,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-pass-animate-1 {
-      animation: passCard-6-4-1 $dealCardTimeout ease-out;
+      animation: passCard-6-4-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-pass-animate-2 {
-      animation: passCard-6-4-2 $dealCardTimeout ease-out;
+      animation: passCard-6-4-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     @keyframes foldCard-6-4-1 {
@@ -329,11 +381,28 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-fold-animate-1 {
-      animation: foldCard-6-4-1 $dealCardTimeout ease-out;
+      animation: foldCard-6-4-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-fold-animate-2 {
-      animation: foldCard-6-4-2 $dealCardTimeout ease-out;
+      animation: foldCard-6-4-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
+    }
+
+    @keyframes pot-6-4 {
+      from {
+        top: -30px;
+        left: 0px;
+        opacity: 0;
+      }
+      to {
+        top: 0px;
+        left: 0px;
+        opacity: 1;
+      }
+    }
+
+    .dnd-window-body-table-seats-seat-user-pot-animation {
+      animation: pot-6-4 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -379,11 +448,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-pass-animate-1 {
-      animation: passCard-6-5-1 $dealCardTimeout ease-out;
+      animation: passCard-6-5-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-pass-animate-2 {
-      animation: passCard-6-5-2 $dealCardTimeout ease-out;
+      animation: passCard-6-5-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     @keyframes foldCard-6-5-1 {
@@ -415,11 +484,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-fold-animate-1 {
-      animation: foldCard-6-5-1 $dealCardTimeout ease-out;
+      animation: foldCard-6-5-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-fold-animate-2 {
-      animation: foldCard-6-5-2 $dealCardTimeout ease-out;
+      animation: foldCard-6-5-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
   }
 
@@ -465,11 +534,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-pass-animate-1 {
-      animation: passCard-6-6-1 $dealCardTimeout ease-out;
+      animation: passCard-6-6-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-pass-animate-2 {
-      animation: passCard-6-6-2 $dealCardTimeout ease-out;
+      animation: passCard-6-6-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     @keyframes foldCard-6-6-1 {
@@ -501,11 +570,11 @@ $dealCardTimeout: 0.5s;
     }
 
     .card-fold-animate-1 {
-      animation: foldCard-6-6-1 $dealCardTimeout ease-out;
+      animation: foldCard-6-6-1 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
     .card-fold-animate-2 {
-      animation: foldCard-6-6-2 $dealCardTimeout ease-out;
+      animation: foldCard-6-6-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
   }
 
