@@ -87,7 +87,7 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       animation: foldCard-6-1-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
-    @keyframes pot-6-1 {
+    @keyframes throwing-pot-6-1 {
       from {
         top: 30px;
         left: -30px;
@@ -100,8 +100,8 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       }
     }
 
-    .dnd-window-body-table-seats-seat-user-pot-animation {
-      animation: pot-6-1 $ANIMATION_CSS_POT_DURATION ease-out;
+    .dnd-window-body-table-seats-seat-user-pot-throwing {
+      animation: throwing-pot-6-1 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -187,7 +187,7 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       animation: foldCard-6-2-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
-    @keyframes pot-6-2 {
+    @keyframes throwing-pot-6-2 {
       from {
         top: 30px;
         left: -30px;
@@ -200,8 +200,8 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       }
     }
 
-    .dnd-window-body-table-seats-seat-user-pot-animation {
-      animation: pot-6-2 $ANIMATION_CSS_POT_DURATION ease-out;
+    .dnd-window-body-table-seats-seat-user-pot-throwing {
+      animation: throwing-pot-6-2 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -287,7 +287,7 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       animation: foldCard-6-3-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
-    @keyframes pot-6-3 {
+    @keyframes throwing-pot-6-3 {
       from {
         top: -30px;
         left: -30px;
@@ -300,8 +300,8 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       }
     }
 
-    .dnd-window-body-table-seats-seat-user-pot-animation {
-      animation: pot-6-3 $ANIMATION_CSS_POT_DURATION ease-out;
+    .dnd-window-body-table-seats-seat-user-pot-throwing {
+      animation: throwing-pot-6-3 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -388,7 +388,7 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       animation: foldCard-6-4-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
 
-    @keyframes pot-6-4 {
+    @keyframes throwing-pot-6-4 {
       from {
         top: -30px;
         left: 0px;
@@ -401,8 +401,8 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       }
     }
 
-    .dnd-window-body-table-seats-seat-user-pot-animation {
-      animation: pot-6-4 $ANIMATION_CSS_POT_DURATION ease-out;
+    .dnd-window-body-table-seats-seat-user-pot-throwing {
+      animation: throwing-pot-6-4 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -711,5 +711,37 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
       top: 30px;
       left: -80px;
     }
+  }
+}
+
+.dnd-window-body-table-pot {
+  @keyframes collecting-pot-6-1 {
+    from {
+      top: 24px;
+      left: 80px;
+    }
+    to {
+      top: 0px;
+      left: 0px;
+    }
+  }
+
+  .seat-6-1-collecting-pot {
+    animation: collecting-pot-6-1 $ANIMATION_CSS_POT_DURATION ease-out;
+  }
+
+  @keyframes collecting-pot-6-3 {
+    from {
+      top: -120px;
+      left: -222px;
+    }
+    to {
+      top: 0px;
+      left: 0px;
+    }
+  }
+
+  .seat-6-3-collecting-pot {
+    animation: collecting-pot-6-3 $ANIMATION_CSS_POT_DURATION ease-out;
   }
 }

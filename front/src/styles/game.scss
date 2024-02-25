@@ -294,6 +294,14 @@ html {
           color: white;
           background-color: rgba($color: #000000, $alpha: 0.3);
           padding: 0px 5px;
+
+          .collecting-pot {
+            position: absolute;
+
+            .cash-money {
+              opacity: 0;
+            }
+          }
         }
 
         &-actions {
@@ -677,7 +685,7 @@ html {
                 background-color: rgba($color: #000000, $alpha: 0.3);
                 // padding: 0px 5px;
 
-                &-animation {
+                &-throwing {
                   padding: 0px 5px;
                   position: absolute;
 

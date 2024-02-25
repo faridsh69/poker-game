@@ -33,7 +33,7 @@ export const SeatUserPot = (props: TypeSeatProps) => {
   return (
     <div className='dnd-window-body-table-seats-seat-user-pot'>
       {!!restOfUserPotAnimation && (
-        <div className='dnd-window-body-table-seats-seat-user-pot-animation'>
+        <div className='dnd-window-body-table-seats-seat-user-pot-throwing'>
           <Money money={restOfUserPotAnimation} showChips />
         </div>
       )}
