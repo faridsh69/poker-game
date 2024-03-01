@@ -18,14 +18,18 @@ import {
   getUpdatedTableIfPhaseFinished3,
   getUpdatedTableNextGameTurn4,
   isCheckAllowed,
+  isFinishPhase,
   isFlopPhase,
   isPreflopPhase,
   isRiverPhase,
+  isSeatoutSeat,
+  isShowPhase,
   isTimeToClearTableInMiddleOfGame,
   isTimeToStartTable,
   isTurnPhase,
   isUserSeatedTable,
   isUserWaitingTable,
+  isWaitPhase,
   resetTable,
 } from 'src/table/serverPokerServices'
 
@@ -75,6 +79,13 @@ export const renderClientLeaveTable = (tablesState: TypeTable[], tableId: number
       seats: t.seats.map(s => {
         if (!s.user) return s
         if (s.user.username !== username) return s
+
+        if (isSeatoutSeat(s) || isWaitPhase(t) || isShowPhase(t) || isFinishPhase(t)) {
+          return {
+            ...s,
+            user: null,
+          }
+        }
 
         return {
           ...s,

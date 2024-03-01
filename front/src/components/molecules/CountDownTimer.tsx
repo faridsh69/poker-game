@@ -10,12 +10,14 @@ export const CountDownTimer = (props: {
   onFinishTimer?: () => void
   type?: TypeTimerType
   duration?: number
+  forceReset?: boolean
 }) => {
   const {
     remainingSeconds: propRemainingTime = CLIENT_TIMEOUT_FAULT,
     onFinishTimer,
     type = 'circle',
     duration = 0,
+    forceReset = false,
   } = props
 
   const remainingSeconds = propRemainingTime > 0 ? propRemainingTime : 0
@@ -25,7 +27,7 @@ export const CountDownTimer = (props: {
 
   useEffect(() => {
     setRestTime(remainingSeconds)
-  }, [remainingSeconds])
+  }, [remainingSeconds, forceReset])
 
   useEffect(() => {
     const timer = setInterval(() => {

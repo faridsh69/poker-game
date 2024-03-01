@@ -47,13 +47,13 @@ export const isTurnPhase = (table: TypeTable): boolean => table.phase === TABLE_
 
 export const isRiverPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.river
 
-const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
+export const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 
-const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
+export const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
+
+export const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
 
 const isShowOrFinishPhase = (table: TypeTable): boolean => isShowPhase(table) || isFinishPhase(table)
-
-const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 
 const isAutoActionSeat = (seat: TypeSeat): boolean => !!seat.user?.isAutoAction
 
@@ -908,24 +908,21 @@ const getInpotInStartGame = (table: TypeTable, playersCount: number, seat: TypeS
   return 0
 }
 
-const getSeatoutedTable = (table: TypeTable): TypeTable => {
+const getSeatoutedNotEnoughCashPlayersTable = (table: TypeTable): TypeTable => {
   return {
     ...table,
-    roleTurn: null,
     seats: table.seats.map(seat => {
       if (!seat.user) return seat
       if (isSeatoutSeat(seat)) return seat
 
       const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, table)
-      const isAutoAction = isAutoActionSeat(seat)
-      const shouldBeSeatOut = isNotEnoughCash || isAutoAction
 
       return {
         ...seat,
         user: {
           ...seat.user,
-          isSeatout: shouldBeSeatOut ? true : seat.user.isSeatout,
-          timer: shouldBeSeatOut ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
+          isSeatout: isNotEnoughCash ? true : seat.user.isSeatout,
+          timer: isNotEnoughCash ? getLeaveSeatTimer(true) : seat.user.timer,
         },
       }
     }),
@@ -933,7 +930,7 @@ const getSeatoutedTable = (table: TypeTable): TypeTable => {
 }
 
 export const resetTable = (pureTable: TypeTable): TypeTable => {
-  const seatoutedTable = getSeatoutedTable(pureTable)
+  const seatoutedTable = getSeatoutedNotEnoughCashPlayersTable(pureTable)
   const table = getUpdateSeatRoles(seatoutedTable)
   const playersCount = getNumberOfPlayersInStartGame(table)
   const roleTurn = getRoleTurnInStartGame(table, playersCount)
@@ -1037,6 +1034,27 @@ const getWinnerReward = (winnerSeatIds: number[], tablePot: number) => {
   return 0
 }
 
+const getSeatoutedAutoActionPlayersTable = (table: TypeTable): TypeTable => {
+  return {
+    ...table,
+    seats: table.seats.map(seat => {
+      if (!seat.user) return seat
+      if (isSeatoutSeat(seat)) return seat
+
+      const isAutoAction = isAutoActionSeat(seat)
+
+      return {
+        ...seat,
+        user: {
+          ...seat.user,
+          isSeatout: isAutoAction ? true : seat.user.isSeatout,
+          timer: isAutoAction ? getLeaveSeatTimer(false) : seat.user.timer,
+        },
+      }
+    }),
+  }
+}
+
 export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
   if (!isPhaseFinished) return table
 
@@ -1051,6 +1069,7 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
 
   const finishedPhaseTable = {
     ...table,
+    roleTurn: winnerReward ? null : table.roleTurn,
     phase: tablePhase,
     pot: tablePot,
     total: 0,
@@ -1078,11 +1097,13 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
     }),
   }
 
-  const timeToClearTableInShowPhase = isTimeToClearTableInShowPhase(finishedPhaseTable)
+  const seatoutedAutoActionPlayersTable = getSeatoutedAutoActionPlayersTable(finishedPhaseTable)
+
+  const timeToClearTableInShowPhase = isTimeToClearTableInShowPhase(seatoutedAutoActionPlayersTable)
   const timer = timeToClearTableInShowPhase ? getClearTableTimer() : getRestartTableTimer()
 
   return {
-    ...finishedPhaseTable,
+    ...seatoutedAutoActionPlayersTable,
     timer: winnerReward ? timer : null,
   }
 }
