@@ -531,101 +531,6 @@ export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
   return raiserSeatId === nextGameTurnSeatId
 }
 
-export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
-  if (!isPhaseFinished) return table
-
-  let tablePhase = getNextTablePhase(table.phase)
-  const tablePot = getTableTotal(table)
-
-  let scoreAndAchievements: TypeScoreAndAchivements = {}
-  let winnerSeatIds: number[] = []
-  let winnerReward = 0
-
-  const allPlayersAllIn = isAllPlayersAllIn(table)
-
-  if (allPlayersAllIn) {
-    tablePhase = TABLE_PHASES.show
-    scoreAndAchievements = getScoreAndAchievements(table)
-    winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
-  } else {
-    const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false, false, false)
-    if (!atLeastTwoPlayers) {
-      tablePhase = TABLE_PHASES.finish
-      winnerSeatIds = [getOnlyPlayingSeatId(table)]
-    } else {
-      if (tablePhase === TABLE_PHASES.show) {
-        scoreAndAchievements = getScoreAndAchievements(table)
-        winnerSeatIds = getWinnerSeatIds(scoreAndAchievements)
-      }
-    }
-  }
-
-  if (winnerSeatIds.length) {
-    winnerReward = roundNumber((tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
-  }
-
-  const finishedPhaseTable1 = {
-    ...table,
-    phase: tablePhase,
-    pot: tablePot,
-    total: 0,
-    seats: table.seats.map(s => {
-      if (!s.user) return s
-      if (isSeatoutSeat(s)) return s
-
-      const isWinner = winnerSeatIds.includes(s.id)
-
-      return {
-        ...s,
-        user: {
-          ...s.user,
-          cash: {
-            ...s.user.cash,
-            inPot: 0,
-            inGame: isWinner ? s.user.cash.inGame + winnerReward : s.user.cash.inGame,
-          },
-          achievement: scoreAndAchievements[s.id]?.achievement,
-          isWinner,
-          gameTurn: false,
-          timer: null,
-        },
-      }
-    }),
-  }
-
-  const seatoutedNotEnoughCashes2 = {
-    ...finishedPhaseTable1,
-    roleTurn: null,
-    seats: finishedPhaseTable1.seats.map(seat => {
-      if (!seat.user) return seat
-      if (isSeatoutSeat(seat)) return seat
-
-      const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, finishedPhaseTable1)
-      const isAutoAction = isAutoActionSeat(seat)
-      const shouldBeSeatOut = isNotEnoughCash || isAutoAction
-
-      return {
-        ...seat,
-        user: {
-          ...seat.user,
-          isAutoAction: winnerReward ? false : seat.user.isAutoAction,
-          isSeatout: shouldBeSeatOut && winnerReward ? true : seat.user.isSeatout,
-          timer: shouldBeSeatOut && winnerReward ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
-        },
-      }
-    }),
-  }
-
-  const timeToClearTableInShowPhase = isTimeToClearTableInShowPhase(seatoutedNotEnoughCashes2)
-
-  const timer = timeToClearTableInShowPhase ? getClearTableTimer() : getRestartTableTimer()
-
-  return {
-    ...seatoutedNotEnoughCashes2,
-    timer: winnerReward ? timer : null,
-  }
-}
-
 export const getUpdatedTableNextGameTurn4 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
   if (isShowOrFinishPhase(table)) return table
 
@@ -713,46 +618,53 @@ export const getUpdatedSeatWithRaiseOrCallAmount1 = (table: TypeTable, amount: n
   }
 }
 
-/////////////////////////////////// 6 END CONTROLLERS ACTIONS //////////////////////
-
-export const clearTable = (table: TypeTable): TypeTable => {
+export const getUpdatedSeatWithShowCards = (table: TypeTable, username: string, cardIndexes: number[]): TypeTable => {
   return {
     ...table,
-    phase: TABLE_PHASES.wait,
-    pot: 0,
-    total: 0,
-    cards: [],
-    timer: null,
-    roleTurn: null,
     seats: table.seats.map(s => {
       if (!s.user) return s
+      if (s.user.username !== username) return s
 
-      const isNotEnoughCash = isNotEnoughCashThanBlinds(s, table)
-      const isAutoAction = isAutoActionSeat(s)
-      const shouldBeSeatOut = isNotEnoughCash || isAutoAction
+      const userCards = s.user.cards
+      const visibleUserCards = userCards.map((card, cardIndex) => {
+        if (!cardIndexes.includes(cardIndex)) return card
+
+        return {
+          ...card,
+          isVisible: true,
+        }
+      })
 
       return {
         ...s,
-        role: null,
         user: {
           ...s.user,
-          cards: [],
-          isWinner: false,
-          achievement: '',
-          isFold: false,
-          isAutoAction: false,
-          cash: {
-            ...s.user.cash,
-            inPot: 0,
-            inGame: s.user.cash.inGame + table.total,
-          },
-          isSeatout: shouldBeSeatOut ? true : s.user.isSeatout,
-          timer: shouldBeSeatOut ? getLeaveSeatTimer(isNotEnoughCash) : s.user.timer,
+          cards: visibleUserCards,
         },
       }
     }),
   }
 }
+
+export const getUpdatedSeatWithStradle = (table: TypeTable, username: string): TypeTable => {
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (s.user.username !== username) return s
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          isStradle: !s.user.isStradle,
+        },
+      }
+    }),
+  }
+}
+
+/////////////////////////////////// 6 END CONTROLLERS ACTIONS //////////////////////
 
 const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
   const isOnlyOneActivePlayer = getActiveSeats(table, true, false, false, false, true, false).length === 1
@@ -895,26 +807,139 @@ const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
   return table
 }
 
-export const resetTable = (pureTable: TypeTable): TypeTable => {
-  const table = getUpdateSeatRoles(pureTable)
+export const clearTable = (table: TypeTable): TypeTable => {
+  return {
+    ...table,
+    phase: TABLE_PHASES.wait,
+    pot: 0,
+    total: 0,
+    cards: [],
+    timer: null,
+    roleTurn: null,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+
+      const isNotEnoughCash = isNotEnoughCashThanBlinds(s, table)
+      const isAutoAction = isAutoActionSeat(s)
+      const shouldBeSeatOut = isNotEnoughCash || isAutoAction
+
+      return {
+        ...s,
+        role: null,
+        user: {
+          ...s.user,
+          cards: [],
+          isWinner: false,
+          achievement: '',
+          isFold: false,
+          isAutoAction: false,
+          cash: {
+            ...s.user.cash,
+            inPot: 0,
+            inGame: s.user.cash.inGame + table.total,
+          },
+          isSeatout: shouldBeSeatOut ? true : s.user.isSeatout,
+          timer: shouldBeSeatOut ? getLeaveSeatTimer(isNotEnoughCash) : s.user.timer,
+        },
+      }
+    }),
+  }
+}
+
+const getNumberOfPlayersInStartGame = (table: TypeTable): number => {
   const playersInGame = getActiveSeats(table, true, false, true, false, false, false)
   const playersCount = playersInGame.length
-  const isHeadsUp = playersCount === 2
-  const isTheePlayer = playersCount === 3
+
+  return playersCount
+}
+
+const getRoleTurnInStartGame = (table: TypeTable, playersCount: number): TypeSeatRole => {
   const tableHasStradleSeat = isTableHasStradle(table)
 
-  let roleTurn = SEAT_ROLES.underTheGun4
-  if (isHeadsUp || isTheePlayer) {
-    roleTurn = SEAT_ROLES.dealer
-  } else if (tableHasStradleSeat) {
-    if (playersCount === 4) {
-      roleTurn = SEAT_ROLES.dealer
-    } else if (playersCount > 4) {
-      roleTurn = SEAT_ROLES.underTheGunPlusOne5
-    }
+  if (playersCount === 2 || playersCount === 3) {
+    return SEAT_ROLES.dealer
   }
 
-  const tableTotal = table.blinds.small + table.blinds.big
+  if (tableHasStradleSeat) {
+    if (playersCount === 4) {
+      return SEAT_ROLES.dealer
+    }
+
+    return SEAT_ROLES.underTheGunPlusOne5
+  }
+
+  return SEAT_ROLES.underTheGun4
+}
+
+const isSeatSmallInStartGame = (playersCount: number, seat: TypeSeat) => {
+  if (playersCount === 2) {
+    return seat.role === SEAT_ROLES.dealer
+  }
+
+  return seat.role === SEAT_ROLES.small
+}
+
+const isSeatBigInStartGame = (playersCount: number, seat: TypeSeat) => {
+  if (playersCount === 2) {
+    return seat.role === SEAT_ROLES.small
+  }
+
+  return seat.role === SEAT_ROLES.big
+}
+
+const getInpotInStartGame = (table: TypeTable, playersCount: number, seat: TypeSeat) => {
+  const isSmall = isSeatSmallInStartGame(playersCount, seat)
+  const isBig = isSeatBigInStartGame(playersCount, seat)
+  const newJoinedPlayer = playersCount !== 2 && isWithoutCardsSeat(seat)
+  const isStradle = isStradleSeat(seat)
+
+  if (isSmall) {
+    return table.blinds.small
+  }
+
+  if (isBig || newJoinedPlayer) {
+    return table.blinds.big
+  }
+
+  if (isStradle) {
+    return table.blinds.big + table.blinds.big
+  }
+
+  return 0
+}
+
+const getSeatoutedTable = (table: TypeTable): TypeTable => {
+  return {
+    ...table,
+    roleTurn: null,
+    seats: table.seats.map(seat => {
+      if (!seat.user) return seat
+      if (isSeatoutSeat(seat)) return seat
+
+      const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, table)
+      const isAutoAction = isAutoActionSeat(seat)
+      const shouldBeSeatOut = isNotEnoughCash || isAutoAction
+
+      return {
+        ...seat,
+        user: {
+          ...seat.user,
+          isSeatout: shouldBeSeatOut ? true : seat.user.isSeatout,
+          timer: shouldBeSeatOut ? getLeaveSeatTimer(isNotEnoughCash) : seat.user.timer,
+        },
+      }
+    }),
+  }
+}
+
+export const resetTable = (pureTable: TypeTable): TypeTable => {
+  const seatoutedTable = getSeatoutedTable(pureTable)
+  const table = getUpdateSeatRoles(seatoutedTable)
+  const playersCount = getNumberOfPlayersInStartGame(table)
+  const roleTurn = getRoleTurnInStartGame(table, playersCount)
+  const tableHasStradleSeat = isTableHasStradle(table)
+
+  const tableTotal = table.blinds.small + table.blinds.big + (tableHasStradleSeat ? table.blinds.big : 0)
   const tableCards = getRandomCards(5, [])
   let usedCards = [...tableCards]
 
@@ -944,25 +969,11 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
 
       if (!s.role) return s
 
-      const isSmall = isHeadsUp ? s.role === SEAT_ROLES.dealer : s.role === SEAT_ROLES.small
-      const isBig = isHeadsUp ? s.role === SEAT_ROLES.small : s.role === SEAT_ROLES.big
-      const newJoinedPlayer = !isHeadsUp && isWithoutCardsSeat(s)
-      const isStradle = isStradleSeat(s)
-
       const userCards = getRandomCards(2, usedCards)
       usedCards = [...usedCards, ...userCards]
 
-      let addedToPot = 0
-      if (isSmall) {
-        addedToPot = table.blinds.small
-      } else if (isBig || newJoinedPlayer) {
-        addedToPot = table.blinds.big
-      } else if (isStradle) {
-        addedToPot = table.blinds.big + table.blinds.big
-      }
-
-      const inPot = addedToPot
-      const inGame = roundNumber(s.user.cash.inGame - addedToPot)
+      const inPot = getInpotInStartGame(table, playersCount, s)
+      const inGame = roundNumber(s.user.cash.inGame - inPot)
 
       return {
         ...s,
@@ -984,48 +995,94 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
   }
 }
 
-export const getUpdatedSeatWithShowCards = (table: TypeTable, username: string, cardIndexes: number[]): TypeTable => {
-  return {
+const calculateNewTablePhase = (table: TypeTable, atLeastTwoPlayers: boolean, allPlayersAllIn: boolean): TypeTablePhase => {
+  if (allPlayersAllIn) {
+    return TABLE_PHASES.show
+  }
+
+  if (!atLeastTwoPlayers) {
+    return TABLE_PHASES.finish
+  }
+
+  return getNextTablePhase(table.phase)
+}
+
+const calculateFinalWinnerSeatIds = (
+  scoreAndAchievements: TypeScoreAndAchivements,
+  allPlayersAllIn: boolean,
+  atLeastTwoPlayers: boolean,
+  table: TypeTable,
+  tablePhase: TypeTablePhase,
+): number[] => {
+  if (allPlayersAllIn) {
+    return getWinnerSeatIds(scoreAndAchievements)
+  }
+
+  if (!atLeastTwoPlayers) {
+    return [getOnlyPlayingSeatId(table)]
+  }
+
+  if (tablePhase === TABLE_PHASES.show) {
+    return getWinnerSeatIds(scoreAndAchievements)
+  }
+
+  return []
+}
+
+const getWinnerReward = (winnerSeatIds: number[], tablePot: number) => {
+  if (winnerSeatIds.length) {
+    return roundNumber((tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
+  }
+
+  return 0
+}
+
+export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
+  if (!isPhaseFinished) return table
+
+  const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false, false, false)
+  const allPlayersAllIn = isAllPlayersAllIn(table)
+  const tablePhase = calculateNewTablePhase(table, atLeastTwoPlayers, allPlayersAllIn)
+  const tablePot = getTableTotal(table)
+  const scoreAndAchievements = getScoreAndAchievements(table)
+
+  const winnerSeatIds = calculateFinalWinnerSeatIds(scoreAndAchievements, allPlayersAllIn, atLeastTwoPlayers, table, tablePhase)
+  const winnerReward = getWinnerReward(winnerSeatIds, tablePot)
+
+  const finishedPhaseTable = {
     ...table,
+    phase: tablePhase,
+    pot: tablePot,
+    total: 0,
     seats: table.seats.map(s => {
       if (!s.user) return s
-      if (s.user.username !== username) return s
+      if (isSeatoutSeat(s)) return s
 
-      const userCards = s.user.cards
-      const visibleUserCards = userCards.map((card, cardIndex) => {
-        if (!cardIndexes.includes(cardIndex)) return card
-
-        return {
-          ...card,
-          isVisible: true,
-        }
-      })
+      const isWinner = winnerSeatIds.includes(s.id)
 
       return {
         ...s,
         user: {
           ...s.user,
-          cards: visibleUserCards,
+          cash: {
+            ...s.user.cash,
+            inPot: 0,
+            inGame: isWinner ? s.user.cash.inGame + winnerReward : s.user.cash.inGame,
+          },
+          achievement: scoreAndAchievements[s.id]?.achievement,
+          isWinner,
+          gameTurn: false,
+          timer: null,
         },
       }
     }),
   }
-}
 
-export const getUpdatedSeatWithStradle = (table: TypeTable, username: string): TypeTable => {
+  const timeToClearTableInShowPhase = isTimeToClearTableInShowPhase(finishedPhaseTable)
+  const timer = timeToClearTableInShowPhase ? getClearTableTimer() : getRestartTableTimer()
+
   return {
-    ...table,
-    seats: table.seats.map(s => {
-      if (!s.user) return s
-      if (s.user.username !== username) return s
-
-      return {
-        ...s,
-        user: {
-          ...s.user,
-          isStradle: !s.user.isStradle,
-        },
-      }
-    }),
+    ...finishedPhaseTable,
+    timer: winnerReward ? timer : null,
   }
 }
