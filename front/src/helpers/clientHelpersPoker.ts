@@ -177,7 +177,7 @@ export const canSeeTableActionsGameTurn = (table: TypeTable, username: string): 
 
 export const canSeeTableActionsPreTurn = (table: TypeTable, username: string): boolean => {
   const userSeat = getUserSeat(table, username)
-  const isWaitingOrShowPhase = isWaitPhase(table) || isShowPhase(table) || isFinishPhase(table)
+  const isWaitingOrShowPhase = isWaitPhase(table) || isShowOrFinishPhase(table)
 
   if (!userSeat) return false
   if (isWaitingOrShowPhase) return false
@@ -197,9 +197,8 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
   if (!userSeat) return false
   if (isWithoutCardsSeat(userSeat)) return false
   if (isSeatoutSeat(userSeat)) return false
-  if (!isFoldSeat(userSeat)) return false
   if (isAnyCardsVisible(userSeat)) return false
-  if (!isShowPhase(table) || !isFinishPhase(table)) return false
+  if (!isShowPhase(table) && !isFinishPhase(table)) return false
 
   return true
 }
