@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useAtom } from 'jotai'
 import classNames from 'classnames'
 
@@ -10,7 +11,6 @@ import BackCardImage from 'src/components/organisms/cards/back/back4.svg'
 import BackRabbitCardImage from 'src/components/organisms/cards/back/back-rabbit.svg'
 import { CARD_TYPES } from 'src/configs/clientConstantsPoker'
 import { rabbitCardHoveredAtom } from 'src/contexts/rabbitCardHoveredAtom'
-import { useEffect } from 'react'
 
 export const GameCard = (props: TypeGameCardProps) => {
   const { card, cardIndex = -1, className = '', backcard = false, rabbitcard = false } = props
