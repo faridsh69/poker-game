@@ -36,4 +36,5 @@ export type TypeGameCardProps = {
   cardIndex?: number
   className?: string
   backcard: boolean
+  rabbitcard?: boolean
 }
