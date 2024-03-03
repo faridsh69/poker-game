@@ -29,11 +29,9 @@ export const TablesItem = (props: { table: TypeTable }) => {
           Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
         </div>
         <div>
-          Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length}
+          Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length} -{' '}
+          {table.phase}
         </div>
-        <div>Waiting Users: {table.waitingUsers.length}</div>
-
-        <div>Game Phase: {table.phase}</div>
       </div>
       <div className='home-tables-table-action'>
         <Button

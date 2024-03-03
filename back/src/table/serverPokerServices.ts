@@ -1079,6 +1079,7 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
 
   const winnerSeatIds = calculateFinalWinnerSeatIds(scoreAndAchievements, allPlayersAllIn, atLeastTwoPlayers, table, tablePhase)
   const winnerReward = getWinnerReward(winnerSeatIds, tablePot)
+  const showAchievements = atLeastTwoPlayers && winnerReward
 
   const finishedPhaseTable = {
     ...table,
@@ -1101,7 +1102,7 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
             inPot: 0,
             inGame: isWinner ? s.user.cash.inGame + winnerReward : s.user.cash.inGame,
           },
-          achievement: scoreAndAchievements[s.id]?.achievement,
+          achievement: showAchievements ? scoreAndAchievements[s.id]?.achievement : '',
           isWinner,
           gameTurn: false,
           timer: null,

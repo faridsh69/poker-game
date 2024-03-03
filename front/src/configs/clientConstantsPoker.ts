@@ -6,7 +6,6 @@ import {
   TypeClientChannels,
   TypeSeatRole,
   TypeTablePasoor,
-  TypeTablePasoorLabel,
   TypeTablePhase,
   TypeTimerAction,
 } from 'src/interfaces/type-game'

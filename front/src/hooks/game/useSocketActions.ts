@@ -9,8 +9,8 @@ export const useSocketActions = (tableId: number) => {
   const [socket] = useAtom(socketAtom)
 
   const handleJoinTable = useCallback(
-    (tId: number) => {
-      socket.emit(CLIENT_CHANNELS.joinTable, { tableId: tId, username })
+    (tableId: number) => {
+      socket.emit(CLIENT_CHANNELS.joinTable, { tableId, username })
     },
     [socket, username],
   )
