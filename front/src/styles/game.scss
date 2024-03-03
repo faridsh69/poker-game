@@ -667,7 +667,6 @@ html {
                 .card-game {
                   position: absolute;
                   top: 3px;
-                  // transition: all 2s;
                 }
 
                 .card-back {
@@ -685,24 +684,6 @@ html {
                 .card-red {
                   color: #cb1515;
                 }
-
-                .card-1 {
-                  left: -6px;
-                  transform: rotate(-5deg);
-                }
-
-                .card-2 {
-                  left: 38px;
-                  transform: rotate(5deg);
-                }
-
-                // .card-3 {
-                //   left: 170px;
-                // }
-
-                // .card-4 {
-                //   left: 280px;
-                // }
               }
 
               &-dealer {
@@ -928,6 +909,67 @@ html {
 
             .dnd-window-body-table-seats-seat-user-box {
               animation: turnAnimation 1s ease-in-out infinite;
+            }
+          }
+
+          .seat-pasoor-2 {
+            .card-1 {
+              left: -6px;
+              transform: rotate(-5deg);
+            }
+
+            .card-2 {
+              left: 38px;
+              transform: rotate(5deg);
+            }
+          }
+
+          .seat-pasoor-4 {
+            .card-1 {
+              left: -16px;
+              transform: rotate(-5deg);
+            }
+
+            .card-2 {
+              left: 4px;
+              transform: rotate(-3deg);
+            }
+
+            .card-3 {
+              left: 26px;
+              transform: rotate(3deg);
+            }
+
+            .card-4 {
+              left: 48px;
+              transform: rotate(5deg);
+            }
+          }
+
+          .seat-pasoor-5 {
+            .card-1 {
+              left: -26px;
+              transform: rotate(-5deg);
+            }
+
+            .card-2 {
+              left: -6px;
+              transform: rotate(-3deg);
+            }
+
+            .card-3 {
+              left: 15px;
+              transform: rotate(0deg);
+            }
+
+            .card-4 {
+              left: 37px;
+              transform: rotate(3deg);
+            }
+
+            .card-5 {
+              left: 59px;
+              transform: rotate(5deg);
             }
           }
         }

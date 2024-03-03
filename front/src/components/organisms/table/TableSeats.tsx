@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 
 import {
+  getUserCardsCount,
   isAuthSeat,
   isFoldSeat,
   isUserGameTurn,
@@ -27,6 +28,7 @@ export const TableSeats = (props: TypeTableProps) => {
             className={classNames(
               'dnd-window-body-table-seats-seat',
               `seat-${table.seats.length}-${s.id}`,
+              `seat-pasoor-${getUserCardsCount(table.pasoor)}`,
               isAuthSeat(s, username) && 'dnd-window-body-table-seats-authseat',
               isFoldSeat(s) && 'dnd-window-body-table-seats-foldSeat',
               isUserGameTurn(table, s.user?.username) && 'dnd-window-body-table-seats-turnseat',

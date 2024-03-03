@@ -1,9 +1,15 @@
-import { LAST_ACTION_ACTIONS, SEAT_ROLES, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import {
+  LAST_ACTION_ACTIONS,
+  SEAT_ROLES,
+  TABLE_PASOORS,
+  TABLE_PHASES,
+} from 'src/configs/clientConstantsPoker'
 import {
   TypeCard,
   TypeRaiseLimits,
   TypeSeat,
   TypeTable,
+  TypeTablePasoor,
   TypeTablePhase,
 } from 'src/interfaces/type-game'
 import { capitalize } from 'src/helpers/common'
@@ -68,6 +74,13 @@ export const isAuthSeat = (seat: TypeSeat, username: string): boolean =>
 
 export const getUserSeat = (table: TypeTable, username: string): TypeSeat | null =>
   table.seats.find(s => s.user?.username === username) || null
+
+export const getUserCardsCount = (tablePasoor: TypeTablePasoor): number => {
+  if (tablePasoor === TABLE_PASOORS.omaha5) return 5
+  if (tablePasoor === TABLE_PASOORS.omaha4) return 4
+
+  return 2
+}
 
 /////////////////////////////////// 2 SEAT METHODS //////////////////////////////////
 
