@@ -5,8 +5,9 @@ import {
   TypeClientChannelKeys,
   TypeClientChannels,
   TypeSeatRole,
+  TypeTablePasoor,
+  TypeTablePasoorLabel,
   TypeTablePhase,
-  TypeTableType,
   TypeTimerAction,
 } from 'src/interfaces/type-game'
 
@@ -68,9 +69,10 @@ export const SEAT_ROLES: { [key in TypeSeatRole]: TypeSeatRole } = {
   cutOff9: 'cutOff9',
 }
 
-export const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
+export const TABLE_PASOORS: { [key in TypeTablePasoor]: TypeTablePasoor } = {
   holdem: 'holdem',
-  omaha: 'omaha',
+  omaha4: 'omaha4',
+  omaha5: 'omaha5',
 }
 
 export const TABLE_PHASES: { [key in TypeTablePhase]: TypeTablePhase } = {

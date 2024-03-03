@@ -10,6 +10,7 @@ import {
   SERVER_TIMEOUT_SEATOUT,
   SERVER_TIMEOUT_SEATOUT_ALLIN,
   SERVER_TIMEOUT_START,
+  TABLE_PASOORS,
   TABLE_PHASES,
   TIMER_ACTION_NAMES,
 } from 'src/utils/serverPokerConstants'
@@ -20,12 +21,17 @@ import {
   TypeSeat,
   TypeSeatRole,
   TypeTable,
+  TypeTablePasoor,
   TypeTablePhase,
   TypeTimer,
 } from 'src/utils/serverPokerTypes'
 
 export const roundNumber = (number: number, digits = 2): number =>
   Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
+
+const getRandomNumber = (to: number): number => {
+  return Math.floor(Math.random() * to)
+}
 
 export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueOf() / 1000) + timeout
 
@@ -52,6 +58,13 @@ export const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 export const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
 
 export const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
+
+const getUserCardsCount = (tablePasoor: TypeTablePasoor): number => {
+  if (tablePasoor === TABLE_PASOORS.omaha5) return 5
+  if (tablePasoor === TABLE_PASOORS.omaha4) return 4
+
+  return 2
+}
 
 const isShowOrFinishPhase = (table: TypeTable): boolean => isShowPhase(table) || isFinishPhase(table)
 
@@ -185,7 +198,7 @@ const getRandomDealerSeatId = (table: TypeTable): number => {
   const seats = getActiveSeats(table, true, false, true, false, true, false)
   if (!seats.length) throw 'getRandomDealerSeatId not found seat'
 
-  const randomSeatIndex = Math.floor(Math.random() * seats.length)
+  const randomSeatIndex = getRandomNumber(seats.length)
 
   return seats[randomSeatIndex].id
 }
@@ -467,8 +480,8 @@ const getRandomCards = (cardsCount: number, usedCards: TypeCard[]): TypeCard[] =
   const updatedUsedCards = [...usedCards]
 
   while (cards.length < cardsCount) {
-    const cardTypeIndex = Math.floor(Math.random() * 4)
-    const cardNumberIndex = Math.floor(Math.random() * 13)
+    const cardTypeIndex = getRandomNumber(4)
+    const cardNumberIndex = getRandomNumber(13)
     const card = {
       type: Object.values(CARD_TYPES)[cardTypeIndex],
       number: Object.values(CARD_NUMBERS)[cardNumberIndex],
@@ -966,7 +979,7 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
 
       if (!s.role) return s
 
-      const userCards = getRandomCards(2, usedCards)
+      const userCards = getRandomCards(getUserCardsCount(table.pasoor), usedCards)
       usedCards = [...usedCards, ...userCards]
 
       const inPot = getInpotInStartGame(table, playersCount, s)

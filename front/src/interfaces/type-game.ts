@@ -136,14 +136,14 @@ export type TypeUser = {
   // hot: number
 }
 
-export type TypeTableType = 'holdem' | 'omaha'
+export type TypeTablePasoor = 'holdem' | 'omaha4' | 'omaha5'
 
 export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show' | 'finish'
 
 export type TypeTable = {
   id: number
   title: string
-  type: TypeTableType
+  pasoor: TypeTablePasoor
   blinds: TypeBlinds
   buyin: TypeBuyIn
   waitingUsers: TypeUser[]

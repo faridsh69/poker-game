@@ -17,7 +17,11 @@ export const TablesItem = (props: { table: TypeTable }) => {
   return (
     <div className='home-tables-table'>
       <div className='home-tables-table-content'>
-        <div>{table.type}</div>
+        <div>
+          <b>{table.pasoor === 'holdem' && 'Holdem'}</b>
+          <b>{table.pasoor === 'omaha4' && 'Omaha 4 Cards'}</b>
+          <b>{table.pasoor === 'omaha5' && 'Omaha 5 Cards'}</b>
+        </div>
         <div>
           Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
         </div>

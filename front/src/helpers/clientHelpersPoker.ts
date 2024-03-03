@@ -18,6 +18,10 @@ export const roundNumber = (number: number, digits = 2): number => {
   return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
+export const getRandomNumber = (to: number): number => {
+  return Math.floor(Math.random() * to)
+}
+
 export const getDeadline = (timeout = 0): number => {
   return Math.floor(new Date().valueOf() / 1000) + timeout
 }

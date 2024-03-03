@@ -14,8 +14,8 @@ import {
   TypeSeatRole,
   TypeServerChannels,
   TypeTable,
+  TypeTablePasoor,
   TypeTablePhase,
-  TypeTableType,
   TypeTimerAction,
   TypeUser,
 } from 'src/utils/serverPokerTypes'
@@ -59,9 +59,10 @@ export const CLIENT_CHANNELS: { [key in TypeClientChannelKeys]: TypeClientChanne
   seatoutNextRound: 'client:seatout_next_round',
 }
 
-const TABLE_TYPES: { [key in TypeTableType]: TypeTableType } = {
+export const TABLE_PASOORS: { [key in TypeTablePasoor]: TypeTablePasoor } = {
   holdem: 'holdem',
-  omaha: 'omaha',
+  omaha4: 'omaha4',
+  omaha5: 'omaha5',
 }
 
 export const ACTION_NAMES: { [key in TypeAction]: TypeAction } = {
@@ -205,7 +206,7 @@ export const TABLES: TypeTable[] = [
   {
     id: 1,
     title: 'Holdem 1$ 2$, Buy in: 100$ - 1K$',
-    type: TABLE_TYPES.holdem,
+    pasoor: TABLE_PASOORS.omaha4,
     blinds: {
       small: 1,
       big: 2,
@@ -257,7 +258,7 @@ export const TABLES: TypeTable[] = [
   {
     id: 2,
     title: 'Holdem 5$ 10$, Buy in: 200$ - 2K$',
-    type: TABLE_TYPES.holdem,
+    pasoor: TABLE_PASOORS.holdem,
     blinds: {
       small: 5,
       big: 10,
@@ -309,7 +310,7 @@ export const TABLES: TypeTable[] = [
   {
     id: 3,
     title: 'Holdem 0.01$ 0.02$, Buy in: 5$ - 20K$',
-    type: TABLE_TYPES.holdem,
+    pasoor: TABLE_PASOORS.omaha5,
     blinds: {
       small: 0.01,
       big: 0.02,
