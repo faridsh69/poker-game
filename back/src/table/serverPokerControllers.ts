@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
 
 import { TypeAction, TypeTable } from 'src/utils/serverPokerTypes'
-import { ACTIONS, ACTION_NAMES, SERVER_CHANNELS, WAITING_USER } from 'src/utils/serverPokerConstants'
+import { ACTION_NAMES, SERVER_CHANNELS, WAITING_USER } from 'src/utils/serverPokerConstants'
 import {
   clearTable,
   getClearTableTimer,
@@ -282,7 +282,7 @@ export const renderClientLeaveGame = (tablesState: TypeTable[], tableId: number,
   })
 }
 
-export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
+const renderClientFoldAction = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -295,7 +295,7 @@ export const renderClientFoldAction = (tablesState: TypeTable[], tableId: number
   })
 }
 
-export const renderClientCheckAction = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
+const renderClientCheckAction = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -307,7 +307,7 @@ export const renderClientCheckAction = (tablesState: TypeTable[], tableId: numbe
   })
 }
 
-export const renderServerAutoCheckFold = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
+const renderServerAutoCheckFold = (tablesState: TypeTable[], tableId: number): TypeTable[] => {
   const table = getTable(tablesState, tableId)
 
   if (isCheckAllowed(table)) {
@@ -317,7 +317,7 @@ export const renderServerAutoCheckFold = (tablesState: TypeTable[], tableId: num
   return renderClientFoldAction(tablesState, tableId)
 }
 
-export const renderClientCallAction = (tablesState: TypeTable[], tableId: number, callActionAmount?: number): TypeTable[] => {
+const renderClientCallAction = (tablesState: TypeTable[], tableId: number, callActionAmount?: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -330,7 +330,7 @@ export const renderClientCallAction = (tablesState: TypeTable[], tableId: number
   })
 }
 
-export const renderClientRaiseAction = (tablesState: TypeTable[], tableId: number, raiseActionAmount: number): TypeTable[] => {
+const renderClientRaiseAction = (tablesState: TypeTable[], tableId: number, raiseActionAmount: number): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -367,6 +367,17 @@ export const renderGeneralClientActions = (
   action: TypeAction,
   amount?: number,
 ): void => {
+  const ACTIONS: {
+    [key in TypeAction]: (tablesState: TypeTable[], tableId: number, amount?: number) => TypeTable[]
+  } = {
+    fold: renderClientFoldAction,
+    check: renderClientCheckAction,
+    checkfold: renderServerAutoCheckFold,
+    call: renderClientCallAction,
+    // @ts-ignore
+    raise: renderClientRaiseAction,
+  }
+
   const renderMethod = ACTIONS[action]
   const tablesStateUpdatedAutoAction = renderUpdatedAutoAction(tablesState, tableId, action === ACTION_NAMES.checkfold)
   const tables = renderMethod(tablesStateUpdatedAutoAction, tableId, amount)

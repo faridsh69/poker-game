@@ -1,6 +1,7 @@
 import { CARD_NUMBERS, CARD_TYPES } from './serverPokerConstants'
+import { TypeTable } from './serverPokerTypes'
 
-export const royalFlushHand = [
+export const TestRoyalFlushHand = [
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS.k },
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS.q },
@@ -10,7 +11,7 @@ export const royalFlushHand = [
   { type: CARD_TYPES.clubs, number: CARD_NUMBERS[4] },
 ]
 
-export const StraightFlushHand = [
+export const TestStraightFlushHand = [
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS.k },
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS.q },
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS.j },
@@ -20,7 +21,7 @@ export const StraightFlushHand = [
   { type: CARD_TYPES.clubs, number: CARD_NUMBERS[3] },
 ]
 
-export const quadsHand = [
+export const TestQuadsHand = [
   // 71310000000
   { type: CARD_TYPES.spades, number: CARD_NUMBERS.k },
   { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.k },
@@ -31,7 +32,7 @@ export const quadsHand = [
   { type: CARD_TYPES.hearts, number: CARD_NUMBERS[2] },
 ]
 
-export const FullHand = [
+export const TestFullHand = [
   // 61013000000
   { type: CARD_TYPES.spades, number: CARD_NUMBERS.k },
   { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.k },
@@ -44,7 +45,7 @@ export const FullHand = [
 
 // export const FlushHand = []
 
-export const StraightHand = [
+export const TestStraightHand = [
   { type: CARD_TYPES.spades, number: CARD_NUMBERS.a },
   { type: CARD_TYPES.diamonds, number: CARD_NUMBERS.q },
   { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
@@ -53,3 +54,44 @@ export const StraightHand = [
   { type: CARD_TYPES.clubs, number: CARD_NUMBERS[4] },
   { type: CARD_TYPES.spades, number: CARD_NUMBERS[3] },
 ]
+
+export const TestSeperatePotTable = {
+  id: 1,
+  title: 't',
+  total: 0,
+  pots: [
+    { amount: 40, seatIds: [1, 2] },
+    { amount: 100, seatIds: [1, 2, 3, 4] },
+  ],
+  seats: [
+    {
+      id: 1,
+      role: 'small',
+      user: {
+        cards: [{}],
+        isSeatout: false,
+        isFold: false,
+        cash: {
+          inPot: 3,
+          inGame: 10,
+          inBank: 4,
+        },
+      },
+    },
+
+    {
+      id: 2,
+      role: 'small',
+      user: {
+        isSeatout: false,
+        isFold: false,
+        cards: [{}],
+        cash: {
+          inPot: 5,
+          inGame: 10,
+          inBank: 4,
+        },
+      },
+    },
+  ],
+} as TypeTable

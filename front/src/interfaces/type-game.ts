@@ -140,6 +140,11 @@ export type TypeTablePasoor = 'holdem' | 'omaha4' | 'omaha5'
 
 export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show' | 'finish'
 
+export type TypePot = {
+  seatIds: number[]
+  amount: number
+}
+
 export type TypeTable = {
   id: number
   title: string
@@ -149,7 +154,7 @@ export type TypeTable = {
   waitingUsers: TypeUser[]
   seats: TypeSeat[]
   phase: TypeTablePhase
-  pot: number
+  pots: TypePot[]
   total: number
   cards: TypeCard[]
   roleTurn: TypeSeatRole

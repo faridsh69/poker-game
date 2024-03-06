@@ -2,9 +2,9 @@ import { TableSeats } from 'src/components/organisms/table/TableSeats'
 import { TableActions } from 'src/components/organisms/table/TableActions'
 import { TableCards } from 'src/components/organisms/table/TableCards'
 import { TableBackground } from 'src/components/organisms/table/TableBackground'
-import { TablePot } from 'src/components/organisms/table/TablePot'
 import { TableTotalPot } from 'src/components/organisms/table/TableTotalPot'
 import { TypeTableProps } from 'src/interfaces'
+import { TablePots } from 'src/components/organisms/table/TablePots'
 
 export const TableWindow = (props: TypeTableProps) => {
   const { table } = props
@@ -14,7 +14,7 @@ export const TableWindow = (props: TypeTableProps) => {
       <TableBackground />
       <TableTotalPot table={table} />
       <TableCards table={table} />
-      <TablePot table={table} />
+      <TablePots table={table} />
       <TableSeats table={table} />
       <TableActions table={table} />
     </div>

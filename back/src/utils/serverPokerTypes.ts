@@ -111,6 +111,11 @@ export type TypeUser = {
   // hot: number
 }
 
+export type TypePot = {
+  seatIds: number[]
+  amount: number
+}
+
 export type TypeTable = {
   id: number
   title: string
@@ -120,7 +125,7 @@ export type TypeTable = {
   waitingUsers: TypeUser[]
   seats: TypeSeat[]
   phase: TypeTablePhase
-  pot: number
+  pots: TypePot[]
   total: number
   cards: TypeCard[]
   roleTurn: TypeSeatRole | null

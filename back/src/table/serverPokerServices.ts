@@ -17,6 +17,7 @@ import {
 import { getCardsScoreAndAchivement } from 'src/table/services/winnerService'
 import {
   TypeCard,
+  TypePot,
   TypeScoreAndAchivements,
   TypeSeat,
   TypeSeatRole,
@@ -25,6 +26,7 @@ import {
   TypeTablePhase,
   TypeTimer,
 } from 'src/utils/serverPokerTypes'
+import { SEATOUT_USER } from 'src/utils/serverPokerConstants'
 
 export const roundNumber = (number: number, digits = 2): number =>
   Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
@@ -37,8 +39,12 @@ export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueO
 
 export const getTable = (tables: TypeTable[], tableId: number): TypeTable => tables.find(t => t.id === tableId) as TypeTable
 
-export const isUserSeatedTable = (table: TypeTable, username: string): boolean =>
-  !!table.seats.find(s => s.user?.username === username)
+export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
+  // const tetsTablePots = getTablePots(TestSeperatePotTable)
+  // console.log('1 tetsTablePots', tetsTablePots)
+
+  return !!table.seats.find(s => s.user?.username === username)
+}
 
 export const isUserWaitingTable = (table: TypeTable, username: string): boolean =>
   !!table.waitingUsers.find(u => u.username === username)
@@ -409,7 +415,7 @@ export const isCheckAllowed = (table: TypeTable): boolean => {
 }
 
 const getTableTotal = (table: TypeTable): number => {
-  const total = table.seats
+  const totalInPots = table.seats
     .filter(s => s.user)
     .reduce((sum, s) => {
       if (!s.user) return sum
@@ -417,10 +423,15 @@ const getTableTotal = (table: TypeTable): number => {
       return sum + s.user.cash.inPot
     }, 0)
 
-  return total + table.pot
+  const totalTablePots = table.pots.reduce((sum, pot) => {
+    return sum + pot.amount
+  }, 0)
+
+  return totalInPots + totalTablePots
 }
 
 const isAllPlayersAllIn = (table: TypeTable): boolean => {
+  // @todo clean this code
   const inGameSeats = table.seats.filter(
     s => s.user && !isSeatoutSeat(s) && !s.user.isFold && (isWaitPhase(table) || s.user.cards.length),
   )
@@ -552,10 +563,13 @@ export const getUpdatedTableNextGameTurn4 = (table: TypeTable, isPhaseFinished: 
     ? getNewRoundGameTurnSeatId(table)
     : getNextSeatId(table, currentGameTurnSeatId, false, false, false, false, false, false)
 
+  const roleTurn = table.seats.find(s => s.id === nextGameTurnSeatId)?.role || null
+  const tableTotal = getTableTotal(table)
+
   return {
     ...table,
-    total: getTableTotal(table),
-    roleTurn: table.seats.find(s => s.id === nextGameTurnSeatId)?.role || null,
+    total: tableTotal,
+    roleTurn,
     seats: table.seats.map(s => {
       if (!s.user) return s
       if (isSeatoutSeat(s)) return s
@@ -580,7 +594,7 @@ export const getUpdatedTableNextGameTurn4 = (table: TypeTable, isPhaseFinished: 
 
 /////////////////////////////////// 5 END CONTROLLERS GENERAL //////////////////////
 
-/////////////////////////////////// 6 START CONTROLLERS ACTIONS ////////////////////
+/////////////////////////////////// 6 START CONTROLLERS ACTIONs ////////////////////
 
 export const getUpdatedSeatWithFold1 = (table: TypeTable): TypeTable => {
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
@@ -677,7 +691,7 @@ export const getUpdatedSeatWithStradle = (table: TypeTable, username: string): T
   }
 }
 
-/////////////////////////////////// 6 END CONTROLLERS ACTIONS //////////////////////
+/////////////////////////////////// 6 END CONTROLLERS ACTIONs //////////////////////
 
 const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
   const isOnlyOneActivePlayer = getActiveSeats(table, true, false, false, false, true, false).length === 1
@@ -824,7 +838,7 @@ export const clearTable = (table: TypeTable): TypeTable => {
   return {
     ...table,
     phase: TABLE_PHASES.wait,
-    pot: 0,
+    pots: [],
     total: 0,
     cards: [],
     timer: null,
@@ -955,7 +969,7 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
 
   return {
     ...table,
-    pot: 0,
+    pots: [],
     phase: TABLE_PHASES.preflop,
     total: tableTotal,
     cards: tableCards,
@@ -969,10 +983,7 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
           role: null,
           user: {
             ...s.user,
-            cards: [],
-            isWinner: false,
-            achievement: '',
-            isFold: false,
+            ...SEATOUT_USER,
           },
         }
       }
@@ -1039,9 +1050,9 @@ const calculateFinalWinnerSeatIds = (
   return []
 }
 
-const getWinnerReward = (winnerSeatIds: number[], tablePot: number) => {
+const getWinnerReward = (winnerSeatIds: number[], tablePots: TypePot[]) => {
   if (winnerSeatIds.length) {
-    return roundNumber((tablePot / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
+    return roundNumber((tablePots[0].amount / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
   }
 
   return 0
@@ -1068,24 +1079,102 @@ const getSeatoutedAutoActionPlayersTable = (table: TypeTable): TypeTable => {
   }
 }
 
+const getMinimumInPot = (seats: TypeSeat[]): number => {
+  let minimumInPot = 0
+  for (const seat of seats) {
+    if (!seat.user || !seat.user.cash.inPot) continue
+
+    if (!minimumInPot || minimumInPot > seat.user.cash.inPot) {
+      minimumInPot = seat.user.cash.inPot
+    }
+  }
+
+  return minimumInPot
+}
+
+const isSamePot = (pot1: TypePot, pot2: TypePot) => {
+  return JSON.stringify(pot1.seatIds) === JSON.stringify(pot2.seatIds)
+}
+
+const mergePots = (userPots: TypePot[], tablePots: TypePot[]): TypePot[] => {
+  const pots: TypePot[] = []
+
+  const calculatedUserPots = []
+  for (const tablePot of tablePots) {
+    const sameUserPot = userPots.find(userPot => isSamePot(tablePot, userPot))
+    if (sameUserPot) {
+      calculatedUserPots.push(sameUserPot)
+      pots.push({
+        seatIds: tablePot.seatIds,
+        amount: tablePot.amount + sameUserPot.amount,
+      })
+    } else {
+      pots.push(tablePot)
+    }
+  }
+
+  for (const userPot of userPots) {
+    if (calculatedUserPots.find(calcUserPot => isSamePot(calcUserPot, userPot))) continue
+
+    pots.push(userPot)
+  }
+
+  return pots
+}
+
+const getTablePots = (table: TypeTable): TypePot[] => {
+  const playingSeats = getActiveSeats(table, false, true, false, false, false, false)
+  const tablePots = table.pots
+
+  const userPots: TypePot[] = []
+  let newPlayingSeats = playingSeats as TypeSeat[]
+  let minimumInPot = getMinimumInPot(newPlayingSeats)
+
+  while (minimumInPot !== 0) {
+    newPlayingSeats = [...newPlayingSeats]
+      .filter(s => s.user && s.user.cash.inPot)
+      .map(s => {
+        if (!s.user) return s
+
+        return {
+          ...s,
+          user: {
+            ...s.user,
+            cash: {
+              ...s.user.cash,
+              inPot: s.user.cash.inPot - minimumInPot,
+            },
+          },
+        }
+      })
+    userPots.push({
+      seatIds: newPlayingSeats.map(s => s.id),
+      amount: newPlayingSeats.length * minimumInPot,
+    })
+    minimumInPot = getMinimumInPot(newPlayingSeats)
+  }
+
+  return mergePots(userPots, tablePots)
+}
+
 export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
   if (!isPhaseFinished) return table
 
   const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false, false, false)
   const allPlayersAllIn = isAllPlayersAllIn(table)
   const tablePhase = calculateNewTablePhase(table, atLeastTwoPlayers, allPlayersAllIn)
-  const tablePot = getTableTotal(table)
+  const tablePots = getTablePots(table)
   const scoreAndAchievements = getScoreAndAchievements(table)
 
   const winnerSeatIds = calculateFinalWinnerSeatIds(scoreAndAchievements, allPlayersAllIn, atLeastTwoPlayers, table, tablePhase)
-  const winnerReward = getWinnerReward(winnerSeatIds, tablePot)
+  const winnerReward = getWinnerReward(winnerSeatIds, tablePots)
   const showAchievements = atLeastTwoPlayers && winnerReward
 
   const finishedPhaseTable = {
     ...table,
     roleTurn: winnerReward ? null : table.roleTurn,
     phase: tablePhase,
-    pot: tablePot,
+    pots: tablePots,
     total: 0,
     seats: table.seats.map(s => {
       if (!s.user) return s

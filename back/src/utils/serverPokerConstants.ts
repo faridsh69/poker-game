@@ -1,11 +1,4 @@
 import {
-  renderClientCallAction,
-  renderClientCheckAction,
-  renderClientFoldAction,
-  renderClientRaiseAction,
-  renderServerAutoCheckFold,
-} from 'src/table/serverPokerControllers'
-import {
   TypeAction,
   TypeCardNumber,
   TypeCardType,
@@ -79,17 +72,6 @@ export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } =
 
   restartTable: 'restartTable',
   clearTable: 'clearTable',
-}
-
-export const ACTIONS: {
-  [key in TypeAction]: (tablesState: TypeTable[], tableId: number, amount?: number) => TypeTable[]
-} = {
-  fold: renderClientFoldAction,
-  check: renderClientCheckAction,
-  checkfold: renderServerAutoCheckFold,
-  call: renderClientCallAction,
-  // @ts-ignore
-  raise: renderClientRaiseAction,
 }
 
 export const SEAT_ROLES: { [key in TypeSeatRole]: TypeSeatRole } = {
@@ -202,6 +184,13 @@ export const WAITING_USER: TypeUser = {
   // hot: null,
 }
 
+export const SEATOUT_USER = {
+  cards: [],
+  isWinner: false,
+  achievement: '',
+  isFold: false,
+}
+
 export const TABLES: TypeTable[] = [
   {
     id: 1,
@@ -249,7 +238,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
-    pot: 0,
+    pots: [],
     total: 0,
     cards: [],
     roleTurn: null,
@@ -301,7 +290,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
-    pot: 0,
+    pots: [],
     total: 0,
     cards: [],
     roleTurn: null,
@@ -368,7 +357,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
-    pot: 0,
+    pots: [],
     total: 0,
     cards: [],
     roleTurn: null,

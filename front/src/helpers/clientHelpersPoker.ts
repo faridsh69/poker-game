@@ -212,10 +212,11 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
   const userSeat = getUserSeat(table, username)
 
   if (!userSeat) return false
+  if (!isFoldSeat(userSeat)) return false
   if (isWithoutCardsSeat(userSeat)) return false
   if (isSeatoutSeat(userSeat)) return false
   if (isAnyCardsVisible(userSeat)) return false
-  if (!isShowPhase(table) && !isFinishPhase(table)) return false
+  if (!isShowOrFinishPhase(table)) return false
 
   return true
 }

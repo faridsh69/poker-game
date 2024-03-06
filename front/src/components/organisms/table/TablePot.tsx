@@ -2,10 +2,10 @@ import classNames from 'classnames'
 import { useEffect, useMemo, useState } from 'react'
 import { Money } from 'src/components/molecules/Money'
 import { ANIMATION_CSS_POT_DURATION } from 'src/configs/clientConstantsPoker'
-import { TypeTablePhase, TypeTableProps } from 'src/interfaces'
+import { TypePot, TypeTablePhase, TypeTableProps } from 'src/interfaces'
 
-export const TablePot = (props: TypeTableProps) => {
-  const { table } = props
+export const TablePot = (props: TypeTableProps & { pot: TypePot }) => {
+  const { table, pot } = props
 
   const [showAnimation, setShowAnimation] = useState(false)
   const [lastTablePhase, setLastTablePhase] = useState<TypeTablePhase>(table.phase)
@@ -19,13 +19,6 @@ export const TablePot = (props: TypeTableProps) => {
       setShowAnimation(false)
     }, ANIMATION_CSS_POT_DURATION)
   }, [table.phase])
-
-  // const [lastTablePot, setLastTablePot] = useState(table.pot)
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLastTablePot(table.pot)
-  //   }, 2000)
-  // }, [table.pot])
 
   const userPots: { id: number; inPot: number }[] = useMemo(() => {
     return table.seats
@@ -42,10 +35,10 @@ export const TablePot = (props: TypeTableProps) => {
     }, ANIMATION_CSS_POT_DURATION)
   }, [userPots])
 
-  if (!table.pot) return null
+  if (!table.pots.length) return null
 
   return (
-    <div className='dnd-window-body-table-pot'>
+    <div className='dnd-window-body-table-pots-pot'>
       {showAnimation &&
         beforeNextPhaseUserPots.map(seat => {
           return (
@@ -60,7 +53,7 @@ export const TablePot = (props: TypeTableProps) => {
             </div>
           )
         })}
-      <Money money={table.pot} showChips />
+      <Money money={pot.amount} showChips />
     </div>
   )
 }
