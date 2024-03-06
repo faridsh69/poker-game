@@ -538,10 +538,18 @@ export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
   if (isPreflopPhase(table)) {
-    if (getMaximumBet(table) === table.blinds.big) {
+    const maximumBet = getMaximumBet(table)
+    if (maximumBet === table.blinds.big) {
       const currentBigSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.big)
 
       return currentBigSeatId === currentGameTurnSeatId
+    }
+
+    const tableHasStradle = isTableHasStradle(table)
+    if (tableHasStradle && maximumBet === 2 * table.blinds.big) {
+      const currentUnderTheGunSeatId = getCurrentRoleSeatId(table, SEAT_ROLES.underTheGun4)
+
+      return currentUnderTheGunSeatId === currentGameTurnSeatId
     }
   }
 
@@ -929,7 +937,7 @@ const getInpotInStartGame = (table: TypeTable, playersCount: number, seat: TypeS
   }
 
   if (isStradle) {
-    return table.blinds.big + table.blinds.big
+    return 2 * table.blinds.big
   }
 
   return 0
