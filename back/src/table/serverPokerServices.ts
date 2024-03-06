@@ -1052,7 +1052,8 @@ const calculateFinalWinnerSeatIds = (
 
 const getWinnerReward = (winnerSeatIds: number[], tablePots: TypePot[]) => {
   if (winnerSeatIds.length) {
-    return roundNumber((tablePots[0].amount / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
+    const potAmount = tablePots[0]?.amount
+    return roundNumber((potAmount / winnerSeatIds.length) * (1 - KANIAT_PERCENT / 100))
   }
 
   return 0
@@ -1096,7 +1097,7 @@ const isSamePot = (pot1: TypePot, pot2: TypePot) => {
   return JSON.stringify(pot1.seatIds) === JSON.stringify(pot2.seatIds)
 }
 
-const mergePots = (userPots: TypePot[], tablePots: TypePot[]): TypePot[] => {
+const getMergePots = (userPots: TypePot[], tablePots: TypePot[]): TypePot[] => {
   const pots: TypePot[] = []
 
   const calculatedUserPots = []
@@ -1122,12 +1123,11 @@ const mergePots = (userPots: TypePot[], tablePots: TypePot[]): TypePot[] => {
   return pots
 }
 
-const getTablePots = (table: TypeTable): TypePot[] => {
-  const playingSeats = getActiveSeats(table, false, true, false, false, false, false)
-  const tablePots = table.pots
+const getUserPots = (table: TypeTable): TypePot[] => {
+  const playingSeats = getActiveSeats(table, true, true, false, false, false, false)
 
   const userPots: TypePot[] = []
-  let newPlayingSeats = playingSeats as TypeSeat[]
+  let newPlayingSeats = playingSeats
   let minimumInPot = getMinimumInPot(newPlayingSeats)
 
   while (minimumInPot !== 0) {
@@ -1154,7 +1154,17 @@ const getTablePots = (table: TypeTable): TypePot[] => {
     minimumInPot = getMinimumInPot(newPlayingSeats)
   }
 
-  return mergePots(userPots, tablePots)
+  return userPots
+}
+
+const getTablePots = (table: TypeTable): { tablePots: TypePot[]; extraBetUserPot: TypePot | null } => {
+  const userPots = getUserPots(table)
+  const mergedPots = getMergePots(userPots, table.pots)
+
+  return {
+    tablePots: mergedPots.filter(pot => pot.seatIds.length !== 1),
+    extraBetUserPot: mergedPots.find(pot => pot.seatIds.length === 1) || null,
+  }
 }
 
 export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
@@ -1163,7 +1173,7 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
   const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false, false, false)
   const allPlayersAllIn = isAllPlayersAllIn(table)
   const tablePhase = calculateNewTablePhase(table, atLeastTwoPlayers, allPlayersAllIn)
-  const tablePots = getTablePots(table)
+  const { tablePots, extraBetUserPot } = getTablePots(table)
   const scoreAndAchievements = getScoreAndAchievements(table)
 
   const winnerSeatIds = calculateFinalWinnerSeatIds(scoreAndAchievements, allPlayersAllIn, atLeastTwoPlayers, table, tablePhase)
@@ -1181,6 +1191,9 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
       if (isSeatoutSeat(s)) return s
 
       const isWinner = winnerSeatIds.includes(s.id)
+      const userCashInGame = isWinner ? s.user.cash.inGame + winnerReward : s.user.cash.inGame
+      const userAchievement = showAchievements ? scoreAndAchievements[s.id]?.achievement : ''
+      const extraBetUser = extraBetUserPot?.seatIds?.includes(s.id) ? extraBetUserPot.amount : 0
 
       return {
         ...s,
@@ -1189,9 +1202,9 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
           cash: {
             ...s.user.cash,
             inPot: 0,
-            inGame: isWinner ? s.user.cash.inGame + winnerReward : s.user.cash.inGame,
+            inGame: userCashInGame + extraBetUser,
           },
-          achievement: showAchievements ? scoreAndAchievements[s.id]?.achievement : '',
+          achievement: userAchievement,
           isWinner,
           gameTurn: false,
           timer: null,

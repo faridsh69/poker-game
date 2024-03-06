@@ -182,6 +182,9 @@ export const canSeeTableActionsJoinPlay = (table: TypeTable, username: string): 
 export const canSeeTableActionsLeaveGame = (table: TypeTable, username: string): boolean =>
   isUserPlayingGame(table, username)
 
+export const canSeeTableActionsStradle = (table: TypeTable): boolean =>
+  getNotSeatOutPlayers(table).length > 3
+
 export const canSeeTableActionsGameTurn = (table: TypeTable, username: string): boolean => {
   const userSeat = getUserSeat(table, username)
 

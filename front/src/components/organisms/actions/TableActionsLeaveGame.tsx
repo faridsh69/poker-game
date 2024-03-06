@@ -1,5 +1,6 @@
 import {
   canSeeTableActionsLeaveGame,
+  canSeeTableActionsStradle,
   getUserSeat,
   isSeatoutNextRoundSeat,
   isStradleSeat,
@@ -24,9 +25,13 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
 
   if (!canSeeTableActionsLeaveGame(table, username)) return null
 
+  const canSeeStradle = canSeeTableActionsStradle(table)
+
   return (
     <div className='dnd-window-body-table-actions-leavegame'>
-      <RadioAction checked={stradleChecked} onClick={handleStradle} label='Stradle' />
+      {canSeeStradle && (
+        <RadioAction checked={stradleChecked} onClick={handleStradle} label='Stradle' />
+      )}
       <RadioAction
         checked={sitoutNextRoundChecked}
         onClick={handleSeatoutNextRound}
