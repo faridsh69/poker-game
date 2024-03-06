@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CARD_NUMBERS, CARD_TYPES } from './serverPokerConstants'
 import { TypeTable } from './serverPokerTypes'
 
@@ -60,36 +61,49 @@ export const TestSeperatePotTable = {
   title: 't',
   total: 0,
   pots: [
-    { amount: 40, seatIds: [1, 2] },
-    { amount: 100, seatIds: [1, 2, 3, 4] },
+    // { amount: 40, seatIds: [1, 2] },
+    // { amount: 100, seatIds: [1, 2, 3, 4] },
   ],
   seats: [
     {
       id: 1,
-      role: 'small',
+      role: 'dealer',
       user: {
-        cards: [{}],
         isSeatout: false,
         isFold: false,
+        cards: [{}],
         cash: {
-          inPot: 3,
-          inGame: 10,
-          inBank: 4,
+          inPot: 0,
+          inGame: 1000,
+          inBank: 1000,
         },
       },
     },
-
     {
       id: 2,
       role: 'small',
       user: {
+        cards: [{}],
+        isSeatout: false,
+        isFold: false,
+        cash: {
+          inPot: 5,
+          inGame: 1000,
+          inBank: 1000,
+        },
+      },
+    },
+    {
+      id: 3,
+      role: 'big',
+      user: {
         isSeatout: false,
         isFold: false,
         cards: [{}],
         cash: {
-          inPot: 5,
-          inGame: 10,
-          inBank: 4,
+          inPot: 10,
+          inGame: 1000,
+          inBank: 1000,
         },
       },
     },

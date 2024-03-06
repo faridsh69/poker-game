@@ -40,8 +40,8 @@ export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueO
 export const getTable = (tables: TypeTable[], tableId: number): TypeTable => tables.find(t => t.id === tableId) as TypeTable
 
 export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
-  // const tetsTablePots = getTablePots(TestSeperatePotTable)
-  // console.log('1 tetsTablePots', tetsTablePots)
+  // const tetsUserPots = getUserPots(TestSeperatePotTable)
+  // console.log('1 tetsTablePots', tetsUserPots)
 
   return !!table.seats.find(s => s.user?.username === username)
 }
