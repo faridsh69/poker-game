@@ -65,7 +65,7 @@ const isTableClosedSeat = (seat: TypeSeat): boolean => !!seat?.user?.isTableClos
 
 export const isStradleSeat = (seat: TypeSeat): boolean => !!seat?.user.isStradle
 
-export const isSeatoutNextRoundSeat = (seat: TypeSeat): boolean => !!seat?.user.isSeatoutNextRound
+export const isSeatoutNextRoundSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatoutNextRound
 
 export const isDealerSeat = (seat: TypeSeat): boolean => seat.role === SEAT_ROLES.dealer
 

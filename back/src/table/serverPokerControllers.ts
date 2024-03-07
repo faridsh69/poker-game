@@ -12,18 +12,18 @@ import {
   getUpdatedSeatWithAutoCheck,
   getUpdatedSeatWithFold1,
   getUpdatedSeatWithRaiseOrCallAmount1,
+  getUpdatedSeatWithSeatoutNextRound,
   getUpdatedSeatWithShowCards,
   getUpdatedSeatWithStradle,
   getUpdatedSeatWithTimeBank,
   getUpdatedTableIfPhaseFinished3,
   getUpdatedTableNextGameTurn4,
   isCheckAllowed,
-  isFinishPhase,
   isFlopPhase,
   isPreflopPhase,
   isRiverPhase,
   isSeatoutSeat,
-  isShowPhase,
+  isShowOrFinishPhase,
   isTimeToClearTableInMiddleOfGame,
   isTimeToStartTable,
   isTurnPhase,
@@ -80,10 +80,22 @@ export const renderClientLeaveTable = (tablesState: TypeTable[], tableId: number
         if (!s.user) return s
         if (s.user.username !== username) return s
 
-        if (isSeatoutSeat(s) || isWaitPhase(t) || isShowPhase(t) || isFinishPhase(t)) {
+        if (isSeatoutSeat(s) || isWaitPhase(t)) {
           return {
             ...s,
             user: null,
+          }
+        }
+
+        if (isShowOrFinishPhase(t)) {
+          return {
+            ...s,
+            user: {
+              ...s.user,
+              isTableClosed: true,
+              isSeatout: true,
+              timer: getLeaveSeatTimer(false),
+            },
           }
         }
 
@@ -434,5 +446,13 @@ export const renderClientStradle = (tablesState: TypeTable[], tableId: number, u
     if (t.id !== tableId) return t
 
     return getUpdatedSeatWithStradle(t, username)
+  })
+}
+
+export const renderClientSeatoutNextRound = (tablesState: TypeTable[], tableId: number, username: string): TypeTable[] => {
+  return tablesState.map(t => {
+    if (t.id !== tableId) return t
+
+    return getUpdatedSeatWithSeatoutNextRound(t, username)
   })
 }

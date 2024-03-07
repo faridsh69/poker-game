@@ -41,9 +41,9 @@ export const useSocketActions = (tableId: number) => {
     socket.emit(CLIENT_CHANNELS.waitForBB, { tableId, username })
   }, [socket, username, tableId])
 
-  const handleLeaveGame = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
-  }, [socket, username, tableId])
+  // const handleLeaveGame = useCallback(() => {
+  //   socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
+  // }, [socket, username, tableId])
 
   // START ACTIONS
   const handleCheckAction = useCallback(() => {
@@ -89,7 +89,7 @@ export const useSocketActions = (tableId: number) => {
   }, [socket, username, tableId])
 
   const handleSeatoutNextRound = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.stradle, { tableId, username })
+    socket.emit(CLIENT_CHANNELS.seatoutNextRound, { tableId, username })
   }, [socket, username, tableId])
 
   return {
@@ -101,7 +101,7 @@ export const useSocketActions = (tableId: number) => {
 
     handleJoinGame,
     handleWaitForBB,
-    handleLeaveGame,
+    // handleLeaveGame,
 
     handleCheckAction,
     handleFoldAction,

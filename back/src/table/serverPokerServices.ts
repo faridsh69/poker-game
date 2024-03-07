@@ -61,9 +61,11 @@ export const isRiverPhase = (table: TypeTable): boolean => table.phase === TABLE
 
 export const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 
-export const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
+const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.show
 
-export const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
+const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
+
+export const isShowOrFinishPhase = (table: TypeTable): boolean => isShowPhase(table) || isFinishPhase(table)
 
 const getUserCardsCount = (tablePasoor: TypeTablePasoor): number => {
   if (tablePasoor === TABLE_PASOORS.omaha5) return 5
@@ -71,8 +73,6 @@ const getUserCardsCount = (tablePasoor: TypeTablePasoor): number => {
 
   return 2
 }
-
-const isShowOrFinishPhase = (table: TypeTable): boolean => isShowPhase(table) || isFinishPhase(table)
 
 const isAutoActionSeat = (seat: TypeSeat): boolean => !!seat.user?.isAutoAction
 
@@ -699,6 +699,24 @@ export const getUpdatedSeatWithStradle = (table: TypeTable, username: string): T
   }
 }
 
+export const getUpdatedSeatWithSeatoutNextRound = (table: TypeTable, username: string): TypeTable => {
+  return {
+    ...table,
+    seats: table.seats.map(s => {
+      if (!s.user) return s
+      if (s.user.username !== username) return s
+
+      return {
+        ...s,
+        user: {
+          ...s.user,
+          isSeatoutNextRound: !s.user.isSeatoutNextRound,
+        },
+      }
+    }),
+  }
+}
+
 /////////////////////////////////// 6 END CONTROLLERS ACTIONs //////////////////////
 
 const getUpdateSeatRoles = (table: TypeTable): TypeTable => {
@@ -952,12 +970,24 @@ const getSeatoutedNotEnoughCashPlayersTable = (table: TypeTable): TypeTable => {
 
       const isNotEnoughCash = isNotEnoughCashThanBlinds(seat, table)
 
-      return {
+      const seatoutedSeatForNotEnoughCash = {
         ...seat,
         user: {
           ...seat.user,
           isSeatout: isNotEnoughCash ? true : seat.user.isSeatout,
           timer: isNotEnoughCash ? getLeaveSeatTimer(true) : seat.user.timer,
+        },
+      }
+
+      const checkedSeatout = seat.user.isSeatoutNextRound
+
+      return {
+        ...seatoutedSeatForNotEnoughCash,
+        user: {
+          ...seat.user,
+          isSeatout: checkedSeatout ? true : seat.user.isSeatout,
+          timer: checkedSeatout ? getLeaveSeatTimer(false) : seat.user.timer,
+          isSeatoutNextRound: false,
         },
       }
     }),
@@ -1132,8 +1162,9 @@ const getMergePots = (userPots: TypePot[], tablePots: TypePot[]): TypePot[] => {
 }
 
 const getUserPots = (table: TypeTable): TypePot[] => {
-  const playingSeats = getActiveSeats(table, true, true, false, false, false, false)
-
+  const playingSeats = getActiveSeats(table, false, true, false, false, false, false)
+  // inja tttaklife on poolai ke folder ha gozashtan ro miz malom nemishe
+  // @TODO add poole foldera be baghie pot ha
   const userPots: TypePot[] = []
   let newPlayingSeats = playingSeats
   let minimumInPot = getMinimumInPot(newPlayingSeats)
