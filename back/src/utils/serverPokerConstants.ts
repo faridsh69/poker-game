@@ -147,7 +147,7 @@ export const NEW_USER: TypeUser = {
     inPot: 0,
   },
   cards: [],
-  isWinner: false,
+  winnerPotIds: [],
   achievement: '',
   isFold: false,
   isSeatout: false,
@@ -170,7 +170,7 @@ export const WAITING_USER: TypeUser = {
     inPot: 0,
   },
   cards: [],
-  isWinner: false,
+  winnerPotIds: [],
   achievement: '',
   isFold: false,
   isSeatout: false,
@@ -186,7 +186,7 @@ export const WAITING_USER: TypeUser = {
 
 export const SEATOUT_USER = {
   cards: [],
-  isWinner: false,
+  winnerPotIds: [],
   achievement: '',
   isFold: false,
 }

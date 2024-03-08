@@ -56,56 +56,60 @@ export const TestStraightHand = [
   { type: CARD_TYPES.spades, number: CARD_NUMBERS[3] },
 ]
 
-export const TestSeperatePotTable = {
+export const TestSeperatePotTable: TypeTable = {
   id: 1,
   title: 't',
+  pasoor: 'holdem',
+  blinds: { small: 1, big: 2 },
+  buyin: { min: 1, max: 2 },
+  waitingUsers: [],
   total: 0,
   pots: [
-    // { amount: 40, seatIds: [1, 2] },
-    // { amount: 100, seatIds: [1, 2, 3, 4] },
+    { id: 1, amount: 300, seatIds: [1, 2, 3] },
+    // { id: 2, amount: 100, seatIds: [1, 2, 3, 4] },
   ],
   seats: [
     {
       id: 1,
-      role: 'dealer',
+      role: 'kianaz',
       user: {
         isSeatout: false,
         isFold: false,
         cards: [{}],
         cash: {
-          inPot: 0,
-          inGame: 1000,
+          inPot: 100,
+          inGame: 100,
           inBank: 1000,
         },
       },
     },
     {
       id: 2,
-      role: 'small',
+      role: 'farid',
       user: {
         cards: [{}],
         isSeatout: false,
-        isFold: false,
+        isFold: true,
         cash: {
-          inPot: 5,
-          inGame: 1000,
+          inPot: 50,
+          inGame: 350,
           inBank: 1000,
         },
       },
     },
     {
       id: 3,
-      role: 'big',
+      role: 'sanaz',
       user: {
         isSeatout: false,
         isFold: false,
         cards: [{}],
         cash: {
-          inPot: 10,
-          inGame: 1000,
+          inPot: 100,
+          inGame: 600,
           inBank: 1000,
         },
       },
     },
   ],
-} as TypeTable
+}

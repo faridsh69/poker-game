@@ -97,7 +97,7 @@ export type TypeUser = {
   avatar: string
   cash: TypeCash
   cards: TypeCard[]
-  isWinner: boolean
+  winnerPotIds: number[]
   achievement: string
   isFold: boolean
   isSeatout: boolean
@@ -112,8 +112,16 @@ export type TypeUser = {
 }
 
 export type TypePot = {
-  seatIds: number[]
+  id: number
   amount: number
+  seatIds: number[]
+}
+
+export type TypePotWinner = {
+  id: number
+  amount: number
+  winnerSeatIds: number[]
+  winnerReward: number
 }
 
 export type TypeTable = {
