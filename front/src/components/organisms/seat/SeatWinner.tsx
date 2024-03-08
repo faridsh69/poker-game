@@ -5,7 +5,7 @@ import goldCircleHalfImage from 'src/images/game/gold-circle-half.png'
 export const SeatWinner = (props: TypeSeatProps) => {
   const { seat } = props
 
-  if (!seat.user.isWinner) return null
+  if (!seat.user.winnerPotIds.length) return null
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-winner'>

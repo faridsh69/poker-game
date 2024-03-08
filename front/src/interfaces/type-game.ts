@@ -122,7 +122,7 @@ export type TypeUser = {
   cards: TypeCard[]
   isDealer: boolean
   gameTurn: boolean
-  isWinner: boolean
+  winnerPotIds: number[]
   achievement: string
   isFold: boolean
   isSeatout: boolean
