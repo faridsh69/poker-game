@@ -8,8 +8,8 @@ export const TablePots = (props: TypeTableProps) => {
 
   return (
     <div className='dnd-window-body-table-pots'>
-      {table.pots.map((pot, potIndex) => {
-        return <TablePot table={table} pot={pot} key={potIndex} />
+      {table.pots.map(tablePot => {
+        return <TablePot table={table} tablePot={tablePot} key={tablePot.id} />
       })}
     </div>
   )

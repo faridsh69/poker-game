@@ -1,6 +1,7 @@
 import {
   CARD_NUMBERS,
   CARD_TYPES,
+  EMPTY_POT,
   KANIAT_PERCENT,
   SEAT_ROLES,
   SERVER_TIMEOUT_ACTION,
@@ -864,7 +865,7 @@ export const clearTable = (table: TypeTable): TypeTable => {
   return {
     ...table,
     phase: TABLE_PHASES.wait,
-    pots: [],
+    pots: EMPTY_POT,
     total: 0,
     cards: [],
     timer: null,
@@ -1007,7 +1008,7 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
 
   return {
     ...table,
-    pots: [],
+    pots: EMPTY_POT,
     phase: TABLE_PHASES.preflop,
     total: tableTotal,
     cards: tableCards,

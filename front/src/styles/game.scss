@@ -54,11 +54,10 @@ html {
 .cash {
   display: inline-flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   position: relative;
 
   &-chips {
-    // transform: scale(0.7);
     display: flex;
     flex-direction: row;
     position: absolute;
@@ -147,14 +146,16 @@ html {
         }
 
         &-total {
+          right: 0px;
+          left: 0px;
+          margin: 0px auto;
           padding: 0px 10px;
-          min-width: 150px;
+          width: 190px;
           user-select: none;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          top: 210px;
+          top: 200px;
           font-size: 14px;
           font-weight: 400;
+
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -305,6 +306,7 @@ html {
             padding: 0px 5px;
 
             .collecting-pot {
+              transform: translateX(250px);
               position: absolute;
 
               .cash-money {

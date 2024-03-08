@@ -1,5 +1,5 @@
-$ANIMATION_CSS_USER_CARD_DURATION: 0.5s;
-$ANIMATION_CSS_POT_DURATION: 0.3s;
+$ANIMATION_CSS_USER_CARD_DURATION: 0.5s; // ANIMATION_CSS_USER_CARD_DURATION
+$ANIMATION_CSS_POT_DURATION: 0.3s; // Dont change it ANIMATION_CSS_POT_DURATION
 
 .dnd-window-body-table-seats {
   .seat-6-1 {
@@ -748,7 +748,7 @@ $ANIMATION_CSS_POT_DURATION: 0.3s;
   }
 }
 
-.dnd-window-body-table-pot {
+.dnd-window-body-table-pots-pot {
   @keyframes collecting-pot-6-1 {
     from {
       top: 24px;

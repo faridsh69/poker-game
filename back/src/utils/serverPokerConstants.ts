@@ -4,6 +4,7 @@ import {
   TypeCardType,
   TypeClientChannelKeys,
   TypeClientChannels,
+  TypePot,
   TypeSeatRole,
   TypeServerChannels,
   TypeTable,
@@ -191,6 +192,8 @@ export const SEATOUT_USER = {
   isFold: false,
 }
 
+export const EMPTY_POT: TypePot[] = [{ id: 1, amount: 0, seatIds: [1, 2, 3, 4, 5, 6, 7, 8, 9] }]
+
 export const TABLES: TypeTable[] = [
   {
     id: 1,
@@ -238,7 +241,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
-    pots: [],
+    pots: EMPTY_POT,
     total: 0,
     cards: [],
     roleTurn: null,
@@ -290,7 +293,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
-    pots: [],
+    pots: EMPTY_POT,
     total: 0,
     cards: [],
     roleTurn: null,
@@ -357,7 +360,7 @@ export const TABLES: TypeTable[] = [
       },
     ],
     phase: TABLE_PHASES.wait,
-    pots: [],
+    pots: EMPTY_POT,
     total: 0,
     cards: [],
     roleTurn: null,

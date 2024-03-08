@@ -141,8 +141,9 @@ export type TypeTablePasoor = 'holdem' | 'omaha4' | 'omaha5'
 export type TypeTablePhase = 'wait' | 'preflop' | 'flop' | 'turn' | 'river' | 'show' | 'finish'
 
 export type TypePot = {
-  seatIds: number[]
+  id: number
   amount: number
+  seatIds: number[]
 }
 
 export type TypeTable = {
@@ -181,4 +182,9 @@ export type ChipColumnProp = {
   value: number
   count: number
   backgroundPosition: string
+}
+
+export type TypeUserPot = {
+  seatId: number
+  inPot: number
 }
