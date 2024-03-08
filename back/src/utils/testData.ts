@@ -56,6 +56,16 @@ export const TestStraightHand = [
   { type: CARD_TYPES.spades, number: CARD_NUMBERS[3] },
 ]
 
+export const TestTwoPair = [
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS[8] },
+  { type: CARD_TYPES.hearts, number: CARD_NUMBERS[8] },
+  { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[4] },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS['j'] },
+  { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[9] },
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS[4] },
+  { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[6] },
+]
+
 export const TestSeperatePotTable: TypeTable = {
   id: 1,
   title: 't',

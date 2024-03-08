@@ -28,6 +28,7 @@ import {
   TypeTimer,
 } from 'src/utils/serverPokerTypes'
 import { SEATOUT_USER } from 'src/utils/serverPokerConstants'
+// import { TestTwoPair } from 'src/utils/testData'
 // import { TestSeperatePotTable } from 'src/utils/testData'
 
 export const roundNumber = (number: number, digits = 2): number =>
@@ -42,8 +43,8 @@ export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueO
 export const getTable = (tables: TypeTable[], tableId: number): TypeTable => tables.find(t => t.id === tableId) as TypeTable
 
 export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
-  // const tablePots = getTablePots(TestSeperatePotTable)
-  // console.log('1 tablePots', tablePots, JSON.stringify(tablePots))
+  // console.log('t1 tablePots', getTablePots(TestSeperatePotTable))
+  // console.log('t2 getCardsScoreAndAchivement', getCardsScoreAndAchivement(TestTwoPair))
 
   return !!table.seats.find(s => s.user?.username === username)
 }
@@ -1272,7 +1273,7 @@ const getUserPots = (table: TypeTable): TypePot[] => {
     minimumInPot = getMinimumInPot(newPlayingSeats)
   }
 
-  console.log('$$ userPots', userPots)
+  console.log('1275 userPots', userPots)
   return userPots
 }
 
@@ -1281,8 +1282,9 @@ const getTablePots = (table: TypeTable): { tablePots: TypePot[]; extraBetUserPot
   const mergedPots = getMergePots(userPots, table)
 
   return {
-    tablePots: mergedPots.filter(pot => pot.seatIds.length !== 1),
-    extraBetUserPot: mergedPots.find(pot => pot.seatIds.length === 1) || null,
+    // tablePots: mergedPots.filter(pot => pot.seatIds.length !== 1),
+    tablePots: mergedPots,
+    extraBetUserPot: null,
   }
 }
 
