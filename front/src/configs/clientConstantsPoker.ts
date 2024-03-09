@@ -126,51 +126,51 @@ export const LAST_ACTION_ACTIONS: { [key in TypeAction]: TypeAction } = {
 export const CHIP_UNITS = [
   {
     backgroundPosition: '-277px 0px',
-    value: 25000000,
-  },
-  {
-    backgroundPosition: '-253px 0px',
-    value: 5000000,
-  },
-  {
-    backgroundPosition: '-230px 0px',
-    value: 1000000,
-  },
-  {
-    backgroundPosition: '-206px 0px',
     value: 250000,
   },
   {
-    backgroundPosition: '-184px 0px',
+    backgroundPosition: '-253px 0px',
     value: 50000,
   },
   {
-    backgroundPosition: '-161px 0px',
+    backgroundPosition: '-230px 0px',
     value: 10000,
   },
   {
-    backgroundPosition: '-139px 0px',
+    backgroundPosition: '-206px 0px',
     value: 2500,
   },
   {
-    backgroundPosition: '-115px 0px',
+    backgroundPosition: '-184px 0px',
     value: 500,
   },
   {
-    backgroundPosition: '-91px 0px',
+    backgroundPosition: '-161px 0px',
     value: 100,
   },
   {
-    backgroundPosition: '-69px 0px',
+    backgroundPosition: '-139px 0px',
     value: 25,
   },
   {
-    backgroundPosition: '-46px 0px',
+    backgroundPosition: '-115px 0px',
     value: 5,
   },
   {
-    backgroundPosition: '-23px 0px',
+    backgroundPosition: '-91px 0px',
     value: 1,
+  },
+  {
+    backgroundPosition: '-69px 0px',
+    value: 0.25,
+  },
+  {
+    backgroundPosition: '-46px 0px',
+    value: 0.05,
+  },
+  {
+    backgroundPosition: '-23px 0px',
+    value: 0.01,
   },
 ]
 
@@ -203,7 +203,7 @@ export const ANIMATION_CSS_USER_CARD_DURATION = 500 // Dont change it
 
 export const ANIMATION_CSS_TABLE_CARD_DURATION = 900 // Dont change it
 
-export const ANIMATION_CSS_POT_DURATION = 1300 // Dont change it 300
+export const ANIMATION_CSS_POT_DURATION = 700 // Dont change it 300
 
 export const TABLE_CARD_CLASS_NAMES = {
   hide: 'table-card-hide',

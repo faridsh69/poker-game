@@ -11,7 +11,7 @@ export const Chips = (props: { money: number }) => {
   }
 
   const chipColumns = useMemo(() => {
-    let remainingChips = money * 100
+    let remainingChips = money
     const chipColumns: ChipColumnProp[] = []
 
     for (const unit of CHIP_UNITS) {
@@ -25,11 +25,14 @@ export const Chips = (props: { money: number }) => {
           backgroundPosition: unit.backgroundPosition,
         })
       }
+      if (countCent < 0) {
+        console.log('#1 bug count mines:  money', money, countCent, unit)
+      }
     }
 
     return chipColumns
   }, [money])
-  console.log('1 chipColumns', chipColumns)
+
   return (
     <div className='cash-chips'>
       {chipColumns.map((chipColumn, chipColumnIndex) => {

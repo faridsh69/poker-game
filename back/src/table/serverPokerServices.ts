@@ -2,6 +2,7 @@ import {
   CARD_NUMBERS,
   CARD_TYPES,
   EMPTY_POT,
+  EMPTY_POT_ID,
   KANIAT_PERCENT,
   SEAT_ROLES,
   SERVER_TIMEOUT_ACTION,
@@ -79,6 +80,8 @@ const getUserCardsCount = (tablePasoor: TypeTablePasoor): number => {
 }
 
 const isAutoActionSeat = (seat: TypeSeat): boolean => !!seat.user?.isAutoAction
+
+const isTableClosedSeat = (seat: TypeSeat): boolean => !!seat?.user?.isTableClosed
 
 const isFoldSeat = (seat: TypeSeat): boolean => !!seat.user?.isFold
 
@@ -980,14 +983,14 @@ const getSeatoutedNotEnoughCashPlayersTable = (table: TypeTable): TypeTable => {
         },
       }
 
-      const checkedSeatout = seat.user.isSeatoutNextRound
+      const checkedSeatout = seatoutedSeatForNotEnoughCash.user.isSeatoutNextRound
 
       return {
         ...seatoutedSeatForNotEnoughCash,
         user: {
           ...seat.user,
-          isSeatout: checkedSeatout ? true : seat.user.isSeatout,
-          timer: checkedSeatout ? getLeaveSeatTimer(false) : seat.user.timer,
+          isSeatout: checkedSeatout ? true : seatoutedSeatForNotEnoughCash.user.isSeatout,
+          timer: checkedSeatout ? getLeaveSeatTimer(false) : seatoutedSeatForNotEnoughCash.user.timer,
           isSeatoutNextRound: false,
         },
       }
@@ -1147,14 +1150,14 @@ const getSeatoutedAutoActionPlayersTable = (table: TypeTable): TypeTable => {
       if (!seat.user) return seat
       if (isSeatoutSeat(seat)) return seat
 
-      const isAutoAction = isAutoActionSeat(seat)
+      const shouldBeSeatOut = isAutoActionSeat(seat) || isTableClosedSeat(seat)
 
       return {
         ...seat,
         user: {
           ...seat.user,
-          isSeatout: isAutoAction ? true : seat.user.isSeatout,
-          timer: isAutoAction ? getLeaveSeatTimer(false) : seat.user.timer,
+          isSeatout: shouldBeSeatOut ? true : seat.user.isSeatout,
+          timer: shouldBeSeatOut ? getLeaveSeatTimer(false) : seat.user.timer,
         },
       }
     }),
@@ -1196,6 +1199,8 @@ const getMergePots = (userPots: TypePot[], table: TypeTable): TypePot[] => {
 
   const calculatedUserPots = []
   for (const tablePot of tablePots) {
+    if (tablePot.id === EMPTY_POT_ID) continue
+
     const sameUserPot = userPots.find(userPot => isSamePotAndNotFolded(tablePot, userPot, table))
     if (sameUserPot) {
       calculatedUserPots.push(sameUserPot)
@@ -1274,7 +1279,6 @@ const getUserPots = (table: TypeTable): TypePot[] => {
     minimumInPot = getMinimumInPot(newPlayingSeats)
   }
 
-  console.log('1275 userPots', userPots)
   return userPots
 }
 
