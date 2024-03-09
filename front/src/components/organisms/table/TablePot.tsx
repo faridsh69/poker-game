@@ -10,6 +10,13 @@ export const TablePot = (props: TypeTableProps & { tablePot: TypePot }) => {
   const [showAnimation, setShowAnimation] = useState(false)
   const [lastTablePhase, setLastTablePhase] = useState<TypeTablePhase>(table.phase)
 
+  // const [lastTablePot, setLastTablePot] = useState(table.pot)
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLastTablePot(table.pot)
+  //   }, 2000)
+  // }, [table.pot])
+
   useEffect(() => {
     setLastTablePhase(table.phase)
 

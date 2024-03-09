@@ -17,7 +17,7 @@ import {
 export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
-export const SERVER_TIMEOUT_ACTION = 5
+export const SERVER_TIMEOUT_ACTION = 185 // 15
 
 export const SERVER_TIMEOUT_SEATOUT_ALLIN = 600 // 120
 export const SERVER_TIMEOUT_SEATOUT = 20

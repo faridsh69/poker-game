@@ -1,5 +1,5 @@
 $ANIMATION_CSS_USER_CARD_DURATION: 0.5s; // ANIMATION_CSS_USER_CARD_DURATION
-$ANIMATION_CSS_POT_DURATION: 0.3s; // Dont change it ANIMATION_CSS_POT_DURATION
+$ANIMATION_CSS_POT_DURATION: 1.3s; // Dont change it 0.3s ANIMATION_CSS_POT_DURATION
 
 .dnd-window-body-table-seats {
   .seat-6-1 {
@@ -216,7 +216,7 @@ $ANIMATION_CSS_POT_DURATION: 0.3s; // Dont change it ANIMATION_CSS_POT_DURATION
 
     .dnd-window-body-table-seats-seat-user-pot {
       top: 160px;
-      right: -50px;
+      left: 86px;
     }
 
     @keyframes passCard-6-3-1 {
@@ -316,7 +316,7 @@ $ANIMATION_CSS_POT_DURATION: 0.3s; // Dont change it ANIMATION_CSS_POT_DURATION
 
     .dnd-window-body-table-seats-seat-user-pot {
       top: 163px;
-      right: -15px;
+      left: 50px;
     }
 
     @keyframes passCard-6-4-1 {

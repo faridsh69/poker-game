@@ -29,7 +29,7 @@ export const Chips = (props: { money: number }) => {
 
     return chipColumns
   }, [money])
-
+  console.log('1 chipColumns', chipColumns)
   return (
     <div className='cash-chips'>
       {chipColumns.map((chipColumn, chipColumnIndex) => {
