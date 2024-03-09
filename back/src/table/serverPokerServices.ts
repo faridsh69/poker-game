@@ -254,7 +254,7 @@ export const isTimeToClearTableInMiddleOfGame = (table: TypeTable): boolean => {
   return !isWaitPhase(table) && !isAtLeastTwoPlayers(table, true, true, false, false, false, false)
 }
 
-export const isTimeToClearTableInShowPhase = (table: TypeTable): boolean => {
+const isTimeToClearOrResetTableInShowPhase = (table: TypeTable): boolean => {
   return !isAtLeastTwoPlayers(table, true, false, true, false, true, false)
 }
 
@@ -1306,12 +1306,13 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
     tablePhase,
     tablePots,
   )
+  const hasWinner = potsWithWinnerSeatIds.length
 
-  const showAchievements = atLeastTwoPlayers && potsWithWinnerSeatIds.length
+  const showAchievements = atLeastTwoPlayers && hasWinner
 
   const finishedPhaseTable = {
     ...table,
-    roleTurn: potsWithWinnerSeatIds.length ? null : table.roleTurn,
+    roleTurn: hasWinner ? null : table.roleTurn,
     phase: tablePhase,
     pots: tablePots,
     total: 0,
@@ -1345,11 +1346,14 @@ export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinishe
       }
     }),
   }
+  if (!hasWinner) {
+    return finishedPhaseTable
+  }
 
   const seatoutedAutoActionPlayersTable = getSeatoutedAutoActionPlayersTable(finishedPhaseTable)
 
-  const timeToClearTableInShowPhase = isTimeToClearTableInShowPhase(seatoutedAutoActionPlayersTable)
-  const timer = timeToClearTableInShowPhase ? getClearTableTimer() : getRestartTableTimer()
+  const timeToClearOrResetTableInShowPhase = isTimeToClearOrResetTableInShowPhase(seatoutedAutoActionPlayersTable)
+  const timer = timeToClearOrResetTableInShowPhase ? getClearTableTimer() : getRestartTableTimer()
 
   return {
     ...seatoutedAutoActionPlayersTable,
