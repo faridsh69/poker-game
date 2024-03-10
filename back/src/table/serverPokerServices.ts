@@ -2,7 +2,7 @@ import {
   CARD_NUMBERS,
   CARD_TYPES,
   EMPTY_POT,
-  EMPTY_POT_ID,
+  EMPTY_POT_SEAT_IDS,
   KANIAT_PERCENT,
   SEAT_ROLES,
   SERVER_TIMEOUT_ACTION,
@@ -559,6 +559,9 @@ export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
 
   const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, false, false, false, false, false)
   const raiserSeatId = getRaiserSeatId(table)
+  console.log('1 raiserSeatId', raiserSeatId)
+  console.log('2 currentGameTurnSeatId', currentGameTurnSeatId)
+  console.log('3 nextGameTurnSeatId', nextGameTurnSeatId)
 
   if (currentGameTurnSeatId === nextGameTurnSeatId) {
     return true
@@ -1199,7 +1202,7 @@ const getMergePots = (userPots: TypePot[], table: TypeTable): TypePot[] => {
 
   const calculatedUserPots = []
   for (const tablePot of tablePots) {
-    if (tablePot.id === EMPTY_POT_ID) continue
+    if (tablePot.seatIds[0] === EMPTY_POT_SEAT_IDS[0]) continue
 
     const sameUserPot = userPots.find(userPot => isSamePotAndNotFolded(tablePot, userPot, table))
     if (sameUserPot) {

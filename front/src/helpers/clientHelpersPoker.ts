@@ -226,7 +226,7 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
 
 /////////////////////////////////// 4 BET METHODS //////////////////////////////////
 
-const getMaximumBet = (table: TypeTable) => {
+export const getMaximumBet = (table: TypeTable) => {
   let maximumBet = 0
   for (const seat of table.seats) {
     if (!seat.user) continue

@@ -192,9 +192,9 @@ export const SEATOUT_USER = {
   isFold: false,
 }
 
-export const EMPTY_POT_ID = 11112222
+export const EMPTY_POT_SEAT_IDS = [20]
 
-export const EMPTY_POT: TypePot[] = [{ id: EMPTY_POT_ID, amount: 0, seatIds: [1, 2, 3, 4, 5, 6, 7, 8, 9] }]
+export const EMPTY_POT: TypePot[] = [{ id: 1, amount: 0, seatIds: EMPTY_POT_SEAT_IDS }]
 
 export const TABLES: TypeTable[] = [
   {
