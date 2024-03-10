@@ -1,11 +1,11 @@
-import { CARD_NUMBERS, CARD_TYPES, NEW_USER, NEW_TABLE } from '../../utils/serverPokerConstants'
+import { CARD_NUMBERS, CARD_TYPES, NEW_USER, NEW_TABLE, SEAT_ROLES } from '../../utils/serverPokerConstants'
 import { TypeTable } from '../../utils/serverPokerTypes'
 import { getIsPhaseFinished2 } from '../serverPokerServices'
 import { getCardsScoreAndAchivement } from '../services/winnerService'
 
 export const runTests = () => {
-  console.log('3-1 getIsPhaseFinished2 ', getIsPhaseFinished2(TestTableIsPhaseFinished))
   return
+  console.log('3-1 getIsPhaseFinished2 ', getIsPhaseFinished2(TestTableIsPhaseFinished))
   console.log('1-1 getCardsScoreAndAchivement TestRoyalFlushHand', getCardsScoreAndAchivement(TestRoyalFlushHand))
   console.log('1-2 getCardsScoreAndAchivement TestStraightFlushHand', getCardsScoreAndAchivement(TestStraightFlushHand))
   console.log('1-3 getCardsScoreAndAchivement TestQuadsHand', getCardsScoreAndAchivement(TestQuadsHand))
@@ -19,44 +19,68 @@ export const runTests = () => {
 
 const TestTableIsPhaseFinished: TypeTable = {
   ...NEW_TABLE,
+  roleTurn: SEAT_ROLES.big,
   seats: [
     {
+      id: 1,
+      role: null,
+      user: null,
+    },
+    {
+      id: 2,
+      role: null,
+      user: null,
+    },
+    {
       id: 3,
-      role: 'dealer',
+      role: SEAT_ROLES.dealer,
       user: {
         ...NEW_USER,
         username: 'kianaz',
+
         cash: {
-          inPot: 100,
+          inPot: 60,
           inGame: 0,
           inBank: 0,
         },
+        cards: [
+          { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
+          { type: CARD_TYPES.hearts, number: CARD_NUMBERS.k },
+        ],
       },
     },
     {
       id: 4,
-      role: 'small',
+      role: SEAT_ROLES.small,
       user: {
         ...NEW_USER,
         username: 'farid',
         cash: {
-          inPot: 100,
+          inPot: 60,
           inGame: 100,
           inBank: 0,
         },
+        cards: [
+          { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
+          { type: CARD_TYPES.hearts, number: CARD_NUMBERS.k },
+        ],
       },
     },
     {
       id: 5,
-      role: 'big',
+      role: SEAT_ROLES.big,
       user: {
         ...NEW_USER,
         username: 'sanazi',
         cash: {
-          inPot: 100,
+          inPot: 60,
           inGame: 100,
           inBank: 0,
         },
+        cards: [
+          { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
+          { type: CARD_TYPES.hearts, number: CARD_NUMBERS.k },
+        ],
       },
     },
   ],

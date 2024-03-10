@@ -63,6 +63,8 @@ const isAnyCardsVisible = (seat: TypeSeat): boolean => !!seat.user.cards.find(c 
 
 const isTableClosedSeat = (seat: TypeSeat): boolean => !!seat?.user?.isTableClosed
 
+export const isWinnerSeat = (seat: TypeSeat): boolean => !!seat?.user.winnerPotIds.length
+
 export const isStradleSeat = (seat: TypeSeat): boolean => !!seat?.user.isStradle
 
 export const isSeatoutNextRoundSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatoutNextRound
@@ -219,6 +221,7 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
   if (isSeatoutSeat(userSeat)) return false
   if (isAnyCardsVisible(userSeat)) return false
   if (!isShowOrFinishPhase(table)) return false
+  if (!isWinnerSeat(userSeat)) return false
 
   return true
 }

@@ -385,6 +385,27 @@ const getMaximumBetSeatIds = (table: TypeTable): number[] => {
   return maximumBetSeatIds
 }
 
+const getMaximumBetSeatIdsForPhaseFinished = (table: TypeTable): number[] => {
+  const maximumBetSeatIds = getMaximumBetSeatIds(table)
+
+  let thereIsNotAllInMaxBet = false
+  for (const maximumBetSeatId of maximumBetSeatIds) {
+    if (table.seats.find(s => s.id === maximumBetSeatId && s.user?.cash.inGame)) {
+      thereIsNotAllInMaxBet = true
+    }
+  }
+
+  if (thereIsNotAllInMaxBet) {
+    return maximumBetSeatIds.filter(seatId => {
+      const seat = table.seats.find(s => s.id === seatId)
+
+      return seat?.user?.cash.inGame
+    })
+  }
+
+  return maximumBetSeatIds
+}
+
 const getRaiserSeatId = (table: TypeTable): number => {
   const maximumBet = getMaximumBet(table)
 
@@ -392,18 +413,18 @@ const getRaiserSeatId = (table: TypeTable): number => {
     return getNewRoundGameTurnSeatId(table)
   }
 
-  const maximumBetSeatIds = getMaximumBetSeatIds(table)
+  const maximumBetSeatIdsForPhaseFinished = getMaximumBetSeatIdsForPhaseFinished(table)
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
   let raiserSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true, false, false, false, false)
-  let trying = 100
-  while (!maximumBetSeatIds.includes(raiserSeatId) && trying) {
+  let trying = 10
+  while (!maximumBetSeatIdsForPhaseFinished.includes(raiserSeatId) && trying) {
     raiserSeatId = getNextSeatId(table, raiserSeatId, false, true, false, false, false, false)
     trying = trying - 1
   }
 
   if (!trying) {
-    throw 'getRaiserSeatId error'
+    throw 'raiserSeatId error maximumBetSeatIds: ' + JSON.stringify(maximumBetSeatIdsForPhaseFinished)
   }
 
   return raiserSeatId
@@ -532,9 +553,7 @@ const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
 /////////////////////////////////// 5 START CONTROLLERS GENERAL ////////////////////
 
 export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
-  console.log('1')
   if (!isAtLeastTwoPlayers(table, false, true, false, false, false, false)) return true
-  console.log('2')
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
@@ -555,18 +574,12 @@ export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
   }
 
   const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, false, false, false, false, false)
-  const includeAllinNextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true, false, false, false, false)
+  // log('1 currentGameTurnSeatId', currentGameTurnSeatId)
+  // log('2 nextGameTurnSeatId', nextGameTurnSeatId)
   const raiserSeatId = getRaiserSeatId(table)
-  console.log('1 raiserSeatId', raiserSeatId)
-  console.log('2 currentGameTurnSeatId', currentGameTurnSeatId)
-  console.log('3 nextGameTurnSeatId', nextGameTurnSeatId)
-  console.log('4 includeAllinNextGameTurnSeatId', includeAllinNextGameTurnSeatId)
+  // log('3 raiserSeatId', raiserSeatId)
 
   if (currentGameTurnSeatId === nextGameTurnSeatId) {
-    return true
-  }
-
-  if (includeAllinNextGameTurnSeatId === nextGameTurnSeatId) {
     return true
   }
 
