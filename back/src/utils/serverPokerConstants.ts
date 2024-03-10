@@ -139,120 +139,57 @@ export const PAIR_LENGTHESE = {
   quads: 4,
 }
 
+export const USER_SEATOUT = {
+  cards: [],
+  winnerPotIds: [],
+  achievement: '',
+  isFold: false,
+  isSeatout: false,
+  isAutoAction: false,
+  isTableClosed: false,
+  isWaitForBB: false,
+  isStradle: false,
+  isSeatoutNextRound: false,
+  timer: null,
+  timeBank: SERVER_TIMEOUT_EXTRA,
+  // hot: null,
+}
+
 export const NEW_USER: TypeUser = {
-  username: '',
-  avatar: '',
+  username: 'username',
+  avatar: 'avatar',
   cash: {
     inBank: 0,
     inGame: 0,
     inPot: 0,
   },
-  cards: [],
-  winnerPotIds: [],
-  achievement: '',
-  isFold: false,
-  isSeatout: false,
-  isAutoAction: false,
-  isTableClosed: false,
-  isWaitForBB: false,
-  isStradle: false,
-  isSeatoutNextRound: false,
-  timer: null,
-  timeBank: SERVER_TIMEOUT_EXTRA,
-  // hot: null,
-}
-
-export const WAITING_USER: TypeUser = {
-  username: 'W8 player',
-  avatar: '1',
-  cash: {
-    inBank: 10000,
-    inGame: 0,
-    inPot: 0,
-  },
-  cards: [],
-  winnerPotIds: [],
-  achievement: '',
-  isFold: false,
-  isSeatout: false,
-  isAutoAction: false,
-  isTableClosed: false,
-  isWaitForBB: false,
-  isStradle: false,
-  isSeatoutNextRound: false,
-  timer: null,
-  timeBank: SERVER_TIMEOUT_EXTRA,
-  // hot: null,
-}
-
-export const SEATOUT_USER = {
-  cards: [],
-  winnerPotIds: [],
-  achievement: '',
-  isFold: false,
+  ...USER_SEATOUT,
 }
 
 export const EMPTY_POT_SEAT_IDS = [20]
 
 export const EMPTY_POT: TypePot[] = [{ id: 1, amount: 0, seatIds: EMPTY_POT_SEAT_IDS }]
 
+export const NEW_TABLE = {
+  id: 1,
+  title: 'title',
+  pasoor: TABLE_PASOORS.holdem,
+  blinds: { small: 1, big: 2 },
+  buyin: { min: 100, max: 200 },
+  total: 0,
+  phase: TABLE_PHASES.wait,
+  pots: EMPTY_POT,
+  cards: [],
+  roleTurn: null,
+  timer: null,
+  waitingUsers: [],
+}
+
 export const TABLES: TypeTable[] = [
   {
+    ...NEW_TABLE,
     id: 1,
-    title: 'Holdem 1$ 2$, Buy in: 100$ - 1K$',
-    pasoor: TABLE_PASOORS.omaha4,
-    blinds: {
-      small: 1,
-      big: 2,
-    },
-    buyin: {
-      min: 100,
-      max: 1000,
-    },
-    waitingUsers: [],
-    seats: [
-      {
-        id: 1,
-        role: null,
-        user: null,
-      },
-      {
-        id: 2,
-        role: null,
-        user: null,
-      },
-      {
-        id: 3,
-        role: null,
-        user: null,
-      },
-      {
-        id: 4,
-        role: null,
-        user: null,
-      },
-      {
-        id: 5,
-        role: null,
-        user: null,
-      },
-      {
-        id: 6,
-        role: null,
-        user: null,
-      },
-    ],
-    phase: TABLE_PHASES.wait,
-    pots: EMPTY_POT,
-    total: 0,
-    cards: [],
-    roleTurn: null,
-    timer: null,
-  },
-  {
-    id: 2,
     title: 'Holdem 5$ 10$, Buy in: 200$ - 2K$',
-    pasoor: TABLE_PASOORS.holdem,
     blinds: {
       small: 5,
       big: 10,
@@ -261,7 +198,6 @@ export const TABLES: TypeTable[] = [
       min: 200,
       max: 2000,
     },
-    waitingUsers: [],
     seats: [
       {
         id: 1,
@@ -294,78 +230,5 @@ export const TABLES: TypeTable[] = [
         user: null,
       },
     ],
-    phase: TABLE_PHASES.wait,
-    pots: EMPTY_POT,
-    total: 0,
-    cards: [],
-    roleTurn: null,
-    timer: null,
-  },
-  {
-    id: 3,
-    title: 'Holdem 0.01$ 0.02$, Buy in: 5$ - 20K$',
-    pasoor: TABLE_PASOORS.omaha5,
-    blinds: {
-      small: 0.01,
-      big: 0.02,
-    },
-    buyin: {
-      min: 5,
-      max: 20,
-    },
-    waitingUsers: [],
-    seats: [
-      {
-        id: 1,
-        role: null,
-        user: null,
-      },
-      {
-        id: 2,
-        role: null,
-        user: null,
-      },
-      {
-        id: 3,
-        role: null,
-        user: null,
-      },
-      {
-        id: 4,
-        role: null,
-        user: null,
-      },
-      {
-        id: 5,
-        role: null,
-        user: null,
-      },
-      {
-        id: 6,
-        role: null,
-        user: null,
-      },
-      {
-        id: 7,
-        role: null,
-        user: null,
-      },
-      {
-        id: 8,
-        role: null,
-        user: null,
-      },
-      {
-        id: 9,
-        role: null,
-        user: null,
-      },
-    ],
-    phase: TABLE_PHASES.wait,
-    pots: EMPTY_POT,
-    total: 0,
-    cards: [],
-    roleTurn: null,
-    timer: null,
   },
 ]

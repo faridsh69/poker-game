@@ -1,29 +1,18 @@
 import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { TypeTableProps } from 'src/interfaces'
 import { useTableCardsAnimation } from 'src/hooks/game/useTableCardsAnimation'
-import { isShowOrFinishPhase } from 'src/helpers/clientHelpersPoker'
+import { calculateIsRabbitcard } from 'src/helpers/clientHelpersPoker'
 
 export const TableCards = (props: TypeTableProps) => {
   const { table } = props
 
   const { cardClassNames, tableCardLength } = useTableCardsAnimation(table.phase)
-  const gameFinished = isShowOrFinishPhase(table)
 
   return (
     <div className='dnd-window-body-table-cards'>
       {table.cards.map((card, cardIndex) => {
-        let rabbitcard = false
-        if (cardIndex >= tableCardLength) {
-          if (!gameFinished) {
-            return null
-          } else {
-            rabbitcard = true
-
-            if (tableCardLength === 0 && cardIndex > 2) {
-              return null
-            }
-          }
-        }
+        const { hideCard, isRabbitcard } = calculateIsRabbitcard(table, tableCardLength, cardIndex)
+        if (hideCard) return null
 
         return (
           <GameCard
@@ -31,7 +20,7 @@ export const TableCards = (props: TypeTableProps) => {
             backcard={false}
             key={card.type + card.number}
             className={cardClassNames[cardIndex]}
-            rabbitcard={rabbitcard}
+            isRabbitcard={isRabbitcard}
           />
         )
       })}

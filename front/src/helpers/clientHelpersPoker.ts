@@ -215,7 +215,6 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
   const userSeat = getUserSeat(table, username)
 
   if (!userSeat) return false
-  if (!isFoldSeat(userSeat)) return false
   if (isWithoutCardsSeat(userSeat)) return false
   if (isSeatoutSeat(userSeat)) return false
   if (isAnyCardsVisible(userSeat)) return false
@@ -311,6 +310,8 @@ export const getRaiseActionAmount = (table: TypeTable, username: string, raise: 
 
   return raiseActionAmount
 }
+
+/////////////////////////////////// 5 Utils //////////////////////////////////
 
 export const checkIfLastActionIsAllIn = (action: string, seat: TypeSeat) => {
   if (isAllinSeat(seat)) {
@@ -412,4 +413,27 @@ export const getTableCardsLength = (phase: TypeTablePhase) => {
   }
 
   return 0
+}
+
+export const calculateIsRabbitcard = (
+  table: TypeTable,
+  tableCardLength: number,
+  cardIndex: number,
+) => {
+  const gameFinished = isShowOrFinishPhase(table)
+  let isRabbitcard = false
+  let hideCard = false
+
+  if (cardIndex >= tableCardLength) {
+    isRabbitcard = true
+
+    if (!gameFinished) {
+      hideCard = true
+    }
+    if (tableCardLength === 0 && cardIndex > 2) {
+      hideCard = true
+    }
+  }
+
+  return { hideCard, isRabbitcard }
 }

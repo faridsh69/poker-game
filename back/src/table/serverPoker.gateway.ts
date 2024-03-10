@@ -38,6 +38,7 @@ import {
   TypeTable,
 } from 'src/utils/serverPokerTypes'
 import { getDeadline, isAtLeastTwoPlayers } from './serverPokerServices'
+import { runTests } from './tests/testData'
 
 @WebSocketGateway({
   cors: {
@@ -119,6 +120,7 @@ export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
     @MessageBody() { tableId, username }: TypeHandleClientJoinTable,
     @ConnectedSocket() clientSocket: Socket,
   ) {
+    runTests()
     // Validations: check user not joined this table before
     this.tablesState = renderClientJoinTable(this.tablesState, tableId, username)
 

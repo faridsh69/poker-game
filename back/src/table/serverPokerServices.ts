@@ -29,9 +29,7 @@ import {
   TypeTablePhase,
   TypeTimer,
 } from 'src/utils/serverPokerTypes'
-import { SEATOUT_USER } from 'src/utils/serverPokerConstants'
-// import { TestTwoPair } from 'src/utils/testData'
-// import { TestSeperatePotTable } from 'src/utils/testData'
+import { USER_SEATOUT } from 'src/utils/serverPokerConstants'
 
 export const roundNumber = (number: number, digits = 2): number =>
   Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
@@ -45,9 +43,6 @@ export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueO
 export const getTable = (tables: TypeTable[], tableId: number): TypeTable => tables.find(t => t.id === tableId) as TypeTable
 
 export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
-  // console.log('t1 tablePots', getTablePots(TestSeperatePotTable))
-  // console.log('t2 getCardsScoreAndAchivement', getCardsScoreAndAchivement(TestTwoPair))
-
   return !!table.seats.find(s => s.user?.username === username)
 }
 
@@ -537,7 +532,9 @@ const getNextTablePhase = (currentPhase: TypeTablePhase): TypeTablePhase => {
 /////////////////////////////////// 5 START CONTROLLERS GENERAL ////////////////////
 
 export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
+  console.log('1')
   if (!isAtLeastTwoPlayers(table, false, true, false, false, false, false)) return true
+  console.log('2')
 
   const currentGameTurnSeatId = getCurrentGameTurnSeatId(table)
 
@@ -558,12 +555,18 @@ export const getIsPhaseFinished2 = (table: TypeTable): boolean => {
   }
 
   const nextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, false, false, false, false, false)
+  const includeAllinNextGameTurnSeatId = getNextSeatId(table, currentGameTurnSeatId, false, true, false, false, false, false)
   const raiserSeatId = getRaiserSeatId(table)
   console.log('1 raiserSeatId', raiserSeatId)
   console.log('2 currentGameTurnSeatId', currentGameTurnSeatId)
   console.log('3 nextGameTurnSeatId', nextGameTurnSeatId)
+  console.log('4 includeAllinNextGameTurnSeatId', includeAllinNextGameTurnSeatId)
 
   if (currentGameTurnSeatId === nextGameTurnSeatId) {
+    return true
+  }
+
+  if (includeAllinNextGameTurnSeatId === nextGameTurnSeatId) {
     return true
   }
 
@@ -1028,7 +1031,7 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
           role: null,
           user: {
             ...s.user,
-            ...SEATOUT_USER,
+            ...USER_SEATOUT,
           },
         }
       }

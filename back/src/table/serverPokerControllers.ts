@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
 
 import { TypeAction, TypeTable } from 'src/utils/serverPokerTypes'
-import { ACTION_NAMES, SERVER_CHANNELS, WAITING_USER } from 'src/utils/serverPokerConstants'
+import { ACTION_NAMES, SERVER_CHANNELS, NEW_USER } from 'src/utils/serverPokerConstants'
 import {
   clearTable,
   getClearTableTimer,
@@ -47,7 +47,7 @@ export const renderClientJoinTable = (tablesState: TypeTable[], tableId: number,
         : [
             ...t.waitingUsers,
             {
-              ...WAITING_USER, // NEW_USER
+              ...NEW_USER,
               username,
               // avatar
               // cash inBank
@@ -132,7 +132,7 @@ export const renderClientJoinSeat = (
               id: s.id,
               role: null,
               user: {
-                ...WAITING_USER, // NEW_USER
+                ...NEW_USER,
                 username,
                 // avatar
                 // cash inBank
@@ -156,7 +156,7 @@ export const renderClientLeaveSeat = (tablesState: TypeTable[], tableId: number,
         : [
             ...t.waitingUsers,
             {
-              ...WAITING_USER, // NEW_USER
+              ...NEW_USER,
               username,
               // avatar
               // cash inBank
@@ -215,7 +215,8 @@ export const renderClientJoinGame = (
             ...s.user,
             cash: {
               inGame: buyinAmount,
-              inBank: WAITING_USER.cash.inBank - buyinAmount,
+              // @todo change this wih real user data
+              inBank: NEW_USER.cash.inBank - buyinAmount,
               inPot: 0,
             },
             isSeatout: false,
