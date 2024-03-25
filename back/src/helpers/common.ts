@@ -49,6 +49,12 @@ export const stopPropagation = (e: Event) => e.stopPropagation()
 
 export const renderCamelCase = (str: string) => str.replace(/([a-z])([A-Z])/g, '$1 $2')
 
+export const toFormalCase = (string?: string): string => {
+  const uppercase = string ? string.charAt(0).toUpperCase() + string.slice(1) : ' '
+
+  return uppercase.replaceAll('_', ' ')
+}
+
 export const toBool = (value: boolean) => !!value
 
 export const convertNullToEmptyString = (value: string) => (value === null ? '' : value)

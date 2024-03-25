@@ -38,4 +38,16 @@ export class User {
 
   @Column({ type: 'varchar' })
   password!: string
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created_at!: string
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updated_at!: string
 }

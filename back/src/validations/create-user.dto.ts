@@ -7,7 +7,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(3, { message: 'Username must have atleast 3 characters.' })
   @IsAlphanumeric(undefined, {
-    message: 'Username does not allow other than alpha numeric chars.',
+    message: 'Username should be alpha numeric chars.',
   })
   username!: string
 
@@ -26,23 +26,29 @@ export class CreateUserDto {
   email!: string
 
   @IsString()
-  @MinLength(6, { message: 'Please provide valid Phone.' })
+  @MinLength(6, { message: 'Please provide valid Phone, at least 6 digits.' })
   @IsNotEmpty()
   phone!: string
 
   @IsString()
-  @IsEnum(USERS_STATUS_ENUM)
+  @IsEnum(USERS_STATUS_ENUM, {
+    message: 'Status must be one of the values: ' + USERS_STATUS_ENUM.join(', '),
+  })
   status!: string
 
   @IsString()
-  @IsEnum(USERS_ROLE_ENUM)
+  @IsEnum(USERS_ROLE_ENUM, {
+    message: 'Role must be one of the values: ' + USERS_ROLE_ENUM.join(', '),
+  })
   role!: string
 
   @IsString()
-  @IsEnum(USERS_GENDER_ENUM)
+  @IsEnum(USERS_GENDER_ENUM, {
+    message: 'Gender must be one of the values: ' + USERS_GENDER_ENUM.join(', '),
+  })
   gender!: string
 
-  @IsInt()
+  @IsInt({ message: 'Avatar must be a number.' })
   avatar_id!: number
 
   @IsInt()

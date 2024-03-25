@@ -10,7 +10,7 @@ import {
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
 
-import { ACTION_NAMES, CLIENT_CHANNELS, SERVER_CHANNELS, TABLES, TIMER_ACTION_NAMES } from 'src/utils/serverPokerConstants'
+import { ACTION_NAMES, CLIENT_CHANNELS, SERVER_CHANNELS, TABLES, TIMER_ACTION_NAMES } from 'src/configs/serverPokerConstants'
 import {
   renderClientJoinGame,
   renderClientJoinSeat,
@@ -27,7 +27,7 @@ import {
   renderServerClearTable,
   renderServerStartTable,
   renderUpdateClients,
-} from 'src/table/serverPokerControllers'
+} from 'src/controllers/poker.controller'
 import {
   TypeAction,
   TypeHandleClientCallAction,
@@ -36,9 +36,9 @@ import {
   TypeHandleClientShowCardAction,
   TypeHandleClientSitTable,
   TypeTable,
-} from 'src/utils/serverPokerTypes'
-import { getDeadline, isAtLeastTwoPlayers } from './serverPokerServices'
-import { runTests } from './tests/testData'
+} from 'src/interfaces/serverPokerTypes'
+import { getDeadline, isAtLeastTwoPlayers } from '../services/poker.service'
+import { runTests } from '../tests/testData'
 
 @WebSocketGateway({
   cors: {

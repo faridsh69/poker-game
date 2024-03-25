@@ -15,6 +15,6 @@ export const DATABASE_CONFIG = {
 
 export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']
 
-export const USERS_ROLE_ENUM = ['player', 'admin', 'agent']
+export const USERS_ROLE_ENUM = ['player', 'agent', 'admin']
 
 export const USERS_GENDER_ENUM = ['male', 'female', 'unspecified']

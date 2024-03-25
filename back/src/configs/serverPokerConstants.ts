@@ -12,7 +12,7 @@ import {
   TypeTablePhase,
   TypeTimerAction,
   TypeUser,
-} from 'src/utils/serverPokerTypes'
+} from 'src/interfaces/serverPokerTypes'
 
 export const KANIAT_PERCENT = 5
 

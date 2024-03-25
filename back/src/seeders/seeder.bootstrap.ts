@@ -1,0 +1,28 @@
+import { Logger } from '@nestjs/common'
+import { NestFactory } from '@nestjs/core'
+import { Seeder } from './seeder'
+import { SeederModule } from './seeder.module'
+
+async function seederBootstrap() {
+  NestFactory.createApplicationContext(SeederModule)
+    .then(appContext => {
+      console.log('XXXX 1')
+      const logger = appContext.get(Logger)
+      const seeder = appContext.get(Seeder)
+      seeder
+        .seed()
+        .then(() => {
+          logger.debug('Seeding complete!')
+        })
+        .catch(error => {
+          logger.error('Seeding failed!')
+          throw error
+        })
+        .finally(() => appContext.close())
+    })
+    .catch(error => {
+      throw error
+    })
+}
+
+seederBootstrap()
