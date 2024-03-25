@@ -18,6 +18,12 @@ const ROUTES: RoutesType = [
     errorElement: <ErrorPage />,
   },
   {
+    name: 'register',
+    path: '/register',
+    element: <Suspender pageName='Register' guest />,
+    errorElement: <ErrorPage />,
+  },
+  {
     name: 'admin',
     path: 'admin',
     element: <Suspender pageName='AdminLayout' auth />,
@@ -27,11 +33,6 @@ const ROUTES: RoutesType = [
         name: 'admin-list',
         path: ':model',
         element: <Suspender pageName='AdminList' auth />,
-      },
-      {
-        name: 'admin-profile',
-        path: 'profile',
-        element: <Suspender pageName='AdminProfile' auth />,
       },
       {
         name: 'admin-form',
@@ -47,6 +48,11 @@ const ROUTES: RoutesType = [
         name: 'admin-edit',
         path: ':model/:id/edit',
         element: <Suspender pageName='AdminForm' auth />,
+      },
+      {
+        name: 'admin-profile',
+        path: 'profile',
+        element: <Suspender pageName='AdminProfile' auth />,
       },
     ],
   },

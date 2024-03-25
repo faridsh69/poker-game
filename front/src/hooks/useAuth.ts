@@ -6,7 +6,7 @@ import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 
 import { removeToken, setToken } from 'src/helpers/auth'
 import { getLocalstorage, setLocalsotrage } from 'src/helpers/common'
-import { postLogin } from 'src/services/apis'
+import { postLogin, postRegister } from 'src/services/apis'
 
 export const useAuth = () => {
   const navigate = useNavigate()
@@ -21,6 +21,12 @@ export const useAuth = () => {
     },
   })
 
+  const registerMutation = useMutation(postRegister, {
+    onSuccess: () => {
+      toast.success('Registered successfully!')
+    },
+  })
+
   const handleLogout = useCallback(() => {
     removeToken()
     navigate('/login')
@@ -30,5 +36,6 @@ export const useAuth = () => {
     username,
     loginMutation,
     handleLogout,
+    registerMutation,
   }
 }

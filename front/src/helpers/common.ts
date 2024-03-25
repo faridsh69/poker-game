@@ -1,13 +1,12 @@
-// @ts-nocheck
 import { LOCAL_STORAGE_APP_KEY } from 'src/configs/constants'
 
-export const findInString = (string, value) => {
+export const findInString = (string: string, value: string) => {
   if (!string || !value) return true
 
   return string.toLowerCase().includes(value.toLowerCase())
 }
 
-export const downloadLink = (link, fileName) => {
+export const downloadLink = (link: string, fileName: string) => {
   const a = document.createElement('a')
   a.style.display = 'none'
   a.href = link
@@ -18,7 +17,7 @@ export const downloadLink = (link, fileName) => {
   document.body.removeChild(a)
 }
 
-export const replaceInArray = (array, find, replace) => {
+export const replaceInArray = (array: string[], find: string, replace: string) => {
   const index = array.indexOf(find)
 
   if (index !== -1) {
@@ -28,7 +27,8 @@ export const replaceInArray = (array, find, replace) => {
   return array
 }
 
-export const sortAlphabetically = (array, keyInObject, ordering = 'asc') => {
+// @ts-ignore
+export const sortAlphabetically = (array: string[], keyInObject: number, ordering = 'asc') => {
   const orderingNumber = ordering === 'asc' ? 1 : -1
 
   return array.sort((item1, item2) => {
@@ -51,7 +51,7 @@ export const sortAlphabetically = (array, keyInObject, ordering = 'asc') => {
   })
 }
 
-export const makeUniqueArray = initialArray => {
+export const makeUniqueArray = (initialArray: []) => {
   const arrayOfJsons = initialArray.map(value => JSON.stringify(value))
 
   return initialArray.filter(
@@ -59,31 +59,32 @@ export const makeUniqueArray = initialArray => {
   )
 }
 
-export const makeUniqueArrayByPropery = (initialArray, property) => {
+export const makeUniqueArrayByPropery = (initialArray: [], property: string) => {
   const arrayOfProperty = initialArray.map(object => object[property])
 
   return initialArray.filter((object, index) => arrayOfProperty.indexOf(object[property]) === index)
 }
 
-export const isBoolean = variable => typeof variable === 'boolean'
+export const isBoolean = (variable: boolean) => typeof variable === 'boolean'
 
-export const isString = variable => typeof variable === 'string'
+export const isString = (variable: string) => typeof variable === 'string'
 
-export const isNumber = variable => typeof variable === 'number'
+export const isNumber = (variable: number) => typeof variable === 'number'
 
-export const isObject = variable => typeof variable === 'object'
+export const isObject = (variable: object) => typeof variable === 'object'
 
-export const isArray = variable => Array.isArray(variable)
+export const isArray = (variable: []) => Array.isArray(variable)
 
-export const isUndefined = variable => typeof variable === 'undefined'
+export const isUndefined = (variable: object) => typeof variable === 'undefined'
 
-export const isObjectEmpty = object => !object || !isObject(object) || !Object.keys(object).length
+export const isObjectEmpty = (object: object) =>
+  !object || !isObject(object) || !Object.keys(object).length
 
-export const isThereCommonItemsInArrays = (array1, array2) =>
+export const isThereCommonItemsInArrays = (array1: [], array2: []) =>
   array1.some(item => array2.includes(item))
 
-export const getLocalstorage = (key, defaultValue = null): string => {
-  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY)
+export const getLocalstorage = (key: string, defaultValue: string = ''): string => {
+  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
   const data = JSON.parse(json)
 
   if (isObjectEmpty(data) || isUndefined(data[key])) {
@@ -93,34 +94,36 @@ export const getLocalstorage = (key, defaultValue = null): string => {
   return data[key]
 }
 
-export const setLocalsotrage = (key, value) => {
-  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY)
+export const setLocalsotrage = (key: string, value: string) => {
+  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
   const data = JSON.parse(json) || {}
   const newData = { ...data, [key]: value }
 
   localStorage.setItem(LOCAL_STORAGE_APP_KEY, JSON.stringify(newData))
 }
 
-export const removeLocalsotrage = key => {
-  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY)
+export const removeLocalsotrage = (key: string) => {
+  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
   const data = JSON.parse(json) || {}
   delete data[key]
 
   localStorage.setItem(LOCAL_STORAGE_APP_KEY, JSON.stringify(data))
 }
 
-export const shortenString = (string, maxLength, ending = '...') =>
+export const shortenString = (string: string, maxLength: number, ending = '...') =>
   string.length > maxLength ? `${string.slice(0, maxLength - ending.length)}${ending}` : string
 
-export const stopPropagation = e => e.stopPropagation()
+export const stopPropagation = (e: Event) => e.stopPropagation()
 
-export function debounceMethodWithAllPromises(funcx, debounceTime = 500) {
-  let timer = null
-  let resolves = []
+type TypeResolve = (value: unknown) => void
+export function debounceMethodWithAllPromises(funcx: TypeResolve, debounceTime = 500) {
+  let timer: ReturnType<typeof setTimeout>
+  let resolves: TypeResolve[] = []
 
-  return (...args) => {
+  return (...args: string[]) => {
     clearTimeout(timer)
     timer = setTimeout(() => {
+      // @ts-ignore
       const result = funcx(...args)
       resolves.forEach(r => r(result))
       resolves = []
@@ -133,14 +136,16 @@ export function debounceMethodWithAllPromises(funcx, debounceTime = 500) {
   }
 }
 
-export function debounceMethodWithPromise(funcx, debounceTime = 500) {
-  let timer = null
-  let lastResolvMethod = null
+export function debounceMethodWithPromise(funcx: TypeResolve, debounceTime = 500) {
+  let timer: ReturnType<typeof setTimeout>
+  let lastResolvMethod: TypeResolve | null = null
 
-  return (...args) => {
+  return (...args: string[]) => {
     clearTimeout(timer)
     timer = setTimeout(() => {
+      // @ts-ignore
       const result = funcx(...args)
+      // @ts-ignore
       lastResolvMethod(result)
       lastResolvMethod = null
     }, debounceTime)
@@ -152,12 +157,13 @@ export function debounceMethodWithPromise(funcx, debounceTime = 500) {
   }
 }
 
-export function debounceMethod(func, debounceTime = 500) {
-  let timer
+export function debounceMethod(func: TypeResolve, debounceTime = 500) {
+  let timer: ReturnType<typeof setTimeout>
 
-  return (...args) => {
+  return (...args: string[]) => {
     clearTimeout(timer)
     timer = setTimeout(() => {
+      // @ts-ignore
       func.apply(this, args)
     }, debounceTime)
   }
@@ -168,24 +174,25 @@ export const renderCamelCase = (str: string) => str.replace(/([a-z])([A-Z])/g, '
 export const toFormalCase = (string?: string): string => {
   const uppercase = string ? string.charAt(0).toUpperCase() + string.slice(1) : ' '
 
+  // @ts-ignore
   return uppercase.replaceAll('_', ' ')
 }
 
-export const toBool = value => !!value
+export const toBool = (value: boolean) => !!value
 
-export const convertNullToEmptyString = value => (value === null ? '' : value)
+export const convertNullToEmptyString = (value: string) => (value === null ? '' : value)
 
-export const capitalize = (string: strin) => {
+export const capitalize = (string: string) => {
   return string[0].toUpperCase() + string.slice(1)
 }
 
-export const lowerize = (string: strin) => {
+export const lowerize = (string: string) => {
   return string[0].toLowerCase() + string.slice(1)
 }
 
 export const playSound = (action: string) => {
   const correctAction = lowerize(action)
-  const sound = document.getElementById(`${correctAction}-sound-id`)
+  const sound = document.getElementById(`${correctAction}-sound-id`) as HTMLAudioElement
   if (!sound) return
 
   sound.muted = false
@@ -194,19 +201,19 @@ export const playSound = (action: string) => {
 
 export const stopSound = (action: string) => {
   const correctAction = lowerize(action)
-  const sound = document.getElementById(`${correctAction}-sound-id`)
+  const sound = document.getElementById(`${correctAction}-sound-id`) as HTMLAudioElement
   if (!sound) return
 
   sound.pause()
 }
 
-export const getMinutes = second => {
+export const getMinutes = (second: number) => {
   const minutes = Math.floor(second / 60) + ''
 
   return minutes.padStart(2, '0')
 }
 
-export const getSeconds = second => {
+export const getSeconds = (second: number) => {
   const seconds = Math.floor(second % 60) + ''
 
   return seconds.padStart(2, '0')

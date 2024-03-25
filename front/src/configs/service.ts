@@ -1,18 +1,6 @@
 import { QueryClient } from 'react-query'
 
-import {
-  createCategory,
-  createTag,
-  deleteCategory,
-  deleteTag,
-  getCategories,
-  getMenuData,
-  getTags,
-  getUsers,
-  updateCategory,
-  updateTag,
-  updateUser,
-} from 'src/services/apis'
+import { deleteUser, getUsers, postRegister, updateUser } from 'src/services/apis'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeApiKeyMap } from 'src/interfaces'
 
@@ -32,23 +20,10 @@ export const REACT_QUERY_CLIENT = new QueryClient({
 })
 
 export const API_KEY_MAP: TypeApiKeyMap = {
-  user: {
+  users: {
     listApi: getUsers,
+    createApi: postRegister,
     updateApi: updateUser,
-  },
-  category: {
-    listApi: getCategories,
-    createApi: createCategory,
-    updateApi: updateCategory,
-    deleteApi: deleteCategory,
-  },
-  tag: {
-    listApi: getTags,
-    createApi: createTag,
-    updateApi: updateTag,
-    deleteApi: deleteTag,
-  },
-  menu: {
-    listApi: getMenuData,
+    deleteApi: deleteUser,
   },
 }

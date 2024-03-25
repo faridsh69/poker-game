@@ -1,4 +1,3 @@
-import { memo, useState } from 'react'
 import {
   Box,
   Drawer,
@@ -13,23 +12,19 @@ import { useNavigate } from 'react-router-dom'
 
 import { ADMIN_SIDEBAR_ITEMS } from 'src/configs/constants'
 import { toFormalCase } from 'src/helpers/common'
-import { useCrud } from 'src/hooks/useCrud'
+import { TypeSidebarItem } from 'src/interfaces'
+import { useToggle } from 'src/hooks/useToggle'
 
-const AdminSidebar = (props: { drawerWidth: number }) => {
+export const AdminSidebar = (props: { drawerWidth: number }) => {
   const { drawerWidth } = props
 
-  const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
-  useCrud('category')
-  useCrud('tag')
 
-  const handleNavigate = (route: string) => {
-    navigate(route)
+  const handleNavigate = (item: TypeSidebarItem) => {
+    navigate(item.url || item.title)
   }
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
+  const [mobileOpen, handleDrawerToggle] = useToggle(false)
 
   const drawer = (
     <>
@@ -39,7 +34,7 @@ const AdminSidebar = (props: { drawerWidth: number }) => {
           const ItemIcon = item.icon
           return (
             <ListItem key={item.title} disablePadding>
-              <ListItemButton onClick={() => handleNavigate(item.url || item.title)}>
+              <ListItemButton onClick={() => handleNavigate(item)}>
                 <ListItemIcon>
                   <ItemIcon />
                 </ListItemIcon>
@@ -82,5 +77,3 @@ const AdminSidebar = (props: { drawerWidth: number }) => {
     </Box>
   )
 }
-
-export default memo(AdminSidebar)

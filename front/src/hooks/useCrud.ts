@@ -20,7 +20,7 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
 
       const response = await listApi()
 
-      return response.data
+      return response
     },
     placeholderData: [],
   })

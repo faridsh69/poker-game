@@ -6,84 +6,25 @@ import { useCrud } from 'src/hooks/useCrud'
 import { TableMui } from 'src/components/organisms/admin/TableMui'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { calculateBodyCells, calculateHeadCells } from 'src/helpers/table'
 
 const AdminList = () => {
   const { t } = useTranslation()
 
   const navigate = useNavigate()
-  const { model } = useParams()
+  const { model } = useParams() as { model: string }
 
   const { list, deleteMutation } = useCrud(model)
 
-  const handleDelete = useCallback(
-    id => {
-      deleteMutation.mutate(id)
-    },
-    [deleteMutation],
-  )
+  const handleDelete = useCallback((id: number) => {
+    deleteMutation.mutate(id)
+  }, [])
 
-  const handleEdit = id => navigate(`/admin/${model}/${id}/edit`)
+  const handleEdit = (id: number) => navigate(`/admin/${model}/${id}/edit`)
 
-  const headCells = [
-    {
-      id: 'id',
-      numeric: true,
-      disablePadding: true,
-      label: 'ID',
-    },
-    {
-      id: 'title',
-      numeric: false,
-      label: 'Title',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      label: 'Price',
-    },
-    {
-      id: 'description',
-      numeric: false,
-      label: 'Food Content',
-    },
-    // {
-    //   id: 'activated',
-    //   numeric: false,
-    //   label: 'Available',
-    // },
-    {
-      id: 'url',
-      numeric: false,
-      label: 'Url',
-    },
-    {
-      id: 'actions',
-      numeric: false,
-      label: 'Actions',
-    },
-    // category_id, created_at, updated_at
-  ]
+  const headCells = calculateHeadCells(list, model)
 
-  const bodyCells = [
-    {
-      name: 'id',
-    },
-    {
-      name: 'title',
-    },
-    {
-      name: 'price',
-    },
-    {
-      name: 'description',
-    },
-    // {
-    //   name: 'activated',
-    // },
-    {
-      name: 'url',
-    },
-  ]
+  const bodyCells = calculateBodyCells(list, model)
 
   return (
     <Box>

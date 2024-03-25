@@ -6,16 +6,15 @@ import { OAUTH_API_INFO } from 'src/configs/constants'
 import { LOGIN_SCHEMA } from 'src/configs/schemas'
 import { useAuth } from 'src/hooks/useAuth'
 import { PageLayout } from 'src/components/molecules/PageLayout'
-import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
 import { FormMui } from 'src/components/organisms/admin/FormMui'
 
-export const Login = () => {
+export const Register = () => {
   const { t } = useTranslation()
 
-  const { loginMutation } = useAuth()
+  const { registerMutation } = useAuth()
 
   const onSubmit = data => {
-    loginMutation.mutate({
+    registerMutation.mutate({
       username: data.email,
       password: data.password,
       ...OAUTH_API_INFO,
@@ -37,12 +36,12 @@ export const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            {t('Sign in')}
+            {t('Sign up')}
           </Typography>
           <FormMui
             schema={LOGIN_SCHEMA}
             onSubmit={onSubmit}
-            submitText={t('Sign In')}
+            submitText={t('Sign up')}
             defaultValues={{}}
             inputs={[
               {
@@ -55,11 +54,6 @@ export const Login = () => {
                 name: 'password',
                 autoComplete: 'current-password',
               },
-              {
-                name: 'remember',
-                component: CheckBoxController,
-                label: t('Remember me'),
-              },
             ]}
           />
           <Grid container>
@@ -69,8 +63,8 @@ export const Login = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href='/register' variant='body2'>
-                {t('dont have an account')}
+              <Link href='/login' variant='body2'>
+                {t('already have an account')}
               </Link>
             </Grid>
           </Grid>
@@ -80,4 +74,4 @@ export const Login = () => {
   )
 }
 
-export default Login
+export default Register

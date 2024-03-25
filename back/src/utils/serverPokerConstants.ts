@@ -176,6 +176,7 @@ export const NEW_TABLE = {
   pasoor: TABLE_PASOORS.holdem,
   blinds: { small: 1, big: 2 },
   buyin: { min: 100, max: 200 },
+
   total: 0,
   phase: TABLE_PHASES.wait,
   pots: EMPTY_POT,

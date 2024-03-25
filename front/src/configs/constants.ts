@@ -1,8 +1,10 @@
-import FastfoodIcon from '@mui/icons-material/Fastfood'
-import RestaurantIcon from '@mui/icons-material/Restaurant'
-import DinnerDiningIcon from '@mui/icons-material/DinnerDining'
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import HomeIcon from '@mui/icons-material/Home'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import TableBarIcon from '@mui/icons-material/TableBar'
+
 import packageJson from '../../package.json'
+import { TypeSidebarItem } from 'src/interfaces'
 
 const { VITE_CLIENT_ID, VITE_CLIENT_SECRET } = import.meta.env
 
@@ -27,22 +29,22 @@ export const OAUTH_API_INFO = {
 
 export const SERVER_DATE_FORMAT = 'YYYY-MM-DD'
 
-export const ADMIN_SIDEBAR_ITEMS = [
+export const ADMIN_SIDEBAR_ITEMS: TypeSidebarItem[] = [
   {
     title: 'Home',
     url: '/',
     icon: HomeIcon,
   },
   {
-    title: 'Profile',
-    icon: FastfoodIcon,
+    title: 'users',
+    icon: ManageAccountsIcon,
   },
   {
     title: 'Payments',
-    icon: RestaurantIcon,
+    icon: PointOfSaleIcon,
   },
   {
-    title: 'Settings',
-    icon: DinnerDiningIcon,
+    title: 'tables',
+    icon: TableBarIcon,
   },
 ]
