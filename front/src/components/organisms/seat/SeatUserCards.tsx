@@ -29,6 +29,7 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
               cardClassNames[cardIndex],
               card.isVisible ? USER_CARD_CLASS_NAMES.visible : '',
             )}
+            isRabbitcard={false}
           />
         )
       })}

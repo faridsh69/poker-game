@@ -1,4 +1,19 @@
-import { TypeCard, TypeSeat, TypeTable } from '.'
+import { ObjectSchema } from 'yup'
+
+import { TypeCard, TypeFormInput, TypeModel, TypeSeat, TypeTable } from '.'
+
+export type TypeDraggableWindowProps = {
+  top: number
+  left: number
+  id: string
+  topbar: JSX.Element
+  body: JSX.Element
+}
+
+export type TypeDndWindowProps = {
+  topbar: JSX.Element
+  body: JSX.Element
+}
 
 export type TypeSuspenderComponent = (props: {
   pageName: string
@@ -36,9 +51,13 @@ export type TypeGameCardProps = {
   cardIndex?: number
   className?: string
   backcard: boolean
-  isRabbitcard?: boolean
+  isRabbitcard: boolean
 }
 
-export type TypeHeadCells = { id: string; label: string; disablePadding: boolean; numeric: boolean }
-
-export type TypeBodyCells = { name: string }
+export type TypePropsFormMui = {
+  inputs: TypeFormInput[]
+  values: TypeModel | undefined
+  schema: ObjectSchema<TypeModel>
+  onSubmit: (data: TypeModel) => void
+  submitText: string
+}

@@ -1,5 +1,5 @@
 import { TypeTableProps } from 'src/interfaces'
-import { GameCard } from '../cards/GameCard'
+import { GameCard } from 'src/components/organisms/cards/GameCard'
 import { isShowOrFinishPhase } from 'src/helpers/clientHelpersPoker'
 
 export const TableRabbitCards = (props: TypeTableProps) => {
@@ -10,7 +10,14 @@ export const TableRabbitCards = (props: TypeTableProps) => {
   return (
     <div className='dnd-window-body-table-cards'>
       {table.cards.map(card => {
-        return <GameCard card={card} backcard={false} key={card.type + card.number} rabbitcard />
+        return (
+          <GameCard
+            card={card}
+            backcard={false}
+            key={card.type + card.number}
+            isRabbitcard={true}
+          />
+        )
       })}
     </div>
   )

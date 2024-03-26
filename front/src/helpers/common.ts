@@ -1,4 +1,5 @@
 import { LOCAL_STORAGE_APP_KEY } from 'src/configs/constants'
+import { TypeResolve } from 'src/interfaces'
 
 export const findInString = (string: string, value: string) => {
   if (!string || !value) return true
@@ -115,7 +116,6 @@ export const shortenString = (string: string, maxLength: number, ending = '...')
 
 export const stopPropagation = (e: Event) => e.stopPropagation()
 
-type TypeResolve = (value: unknown) => void
 export function debounceMethodWithAllPromises(funcx: TypeResolve, debounceTime = 500) {
   let timer: ReturnType<typeof setTimeout>
   let resolves: TypeResolve[] = []

@@ -4,28 +4,19 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button } from '@mui/material'
 
 import { InputController } from './controllers/InputController'
+import { TypeModel, TypePropsFormMui } from 'src/interfaces'
 
-export const FormMui = props => {
-  const { inputs, defaultValues, schema, onSubmit, submitText } = props
+export const FormMui = (props: TypePropsFormMui) => {
+  const { inputs, values, schema, onSubmit, submitText } = props
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
     mode: 'onTouched',
-    defaultValues,
+    values,
   })
 
   const onGeneralSubmit = useCallback(
-    data => {
-      delete data.avatar
-      delete data.name
-      delete data.images
-      delete data.videos
-      delete data.audios
-      delete data.documents
-      delete data.likes
-      delete data.category
-      delete data['main-image']
-
+    (data: TypeModel) => {
       onSubmit(data)
     },
     [onSubmit],

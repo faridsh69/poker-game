@@ -3,8 +3,7 @@ import { IsAlphanumeric, IsEmail, IsEnum, IsInt, IsNotEmpty, IsString, Matches, 
 import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
 import { IsUnique } from 'src/validations/customs/IsUnique'
 import { IsNullable } from 'src/validations/customs/IsNullable'
-
-const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,20}$/
+import { PASSWORD_REGEX } from 'src/configs/validation'
 
 export class CreateUserDto {
   @IsAlphanumeric()
@@ -53,7 +52,7 @@ export class CreateUserDto {
   agent_percent!: number
 
   @IsNotEmpty()
-  @Matches(passwordRegEx, {
+  @Matches(PASSWORD_REGEX, {
     message: `Password must contain Minimum 8 and maximum 20 characters, 
     at least one uppercase letter, 
     one lowercase letter, 

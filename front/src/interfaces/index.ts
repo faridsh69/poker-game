@@ -1,6 +1,4 @@
 export * from './type-services.ts'
-export * from './type-configs.ts'
-export * from './type-hooks.ts'
+export * from './type-helpers.ts'
 export * from './type-components.ts'
 export * from './type-game.ts'
-export * from './type-dnd.ts'

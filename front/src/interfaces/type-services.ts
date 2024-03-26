@@ -1,4 +1,3 @@
-import { QueryKey } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 export type TypeErrorHandlerInterceptor = (error: AxiosError) => Promise<AxiosError>
