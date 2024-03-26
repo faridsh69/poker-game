@@ -1,34 +1,15 @@
 import { NestFactory } from '@nestjs/core'
-import { BadRequestException, ValidationPipe } from '@nestjs/common'
 
-import { AppModule } from './app.module'
-import { toFormalCase } from './helpers/common'
+import { AppModule } from 'src/modules/app.module'
+import { GLOBAL_PIPES } from 'src/configs/validation'
 
-async function bootstrap() {
+const bootstrap = async () => {
   const app = await NestFactory.create(AppModule)
 
-  // #TODO fix cors later
   app.enableCors()
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      exceptionFactory: errors => {
-        const result = errors.map(error => {
-          const property = error.property
-          const formalProperty = toFormalCase(property)
-          const errorType = Object.keys(error.constraints || {})[0]
-          const constraint = error.constraints?.[errorType]
-          const message = constraint?.replace(property, formalProperty)
-
-          return { property, message }
-        })
-
-        return new BadRequestException(result)
-      },
-      stopAtFirstError: true,
-    }),
-  )
+  app.useGlobalPipes(GLOBAL_PIPES)
 
   await app.listen(process.env.PORT as string)
 }
+
 bootstrap()

@@ -11,6 +11,7 @@ export const DATABASE_CONFIG = {
   synchronize: true,
   logging: true,
   autoLoadEntities: true,
+  retryAttempts: 3,
 }
 
 export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']

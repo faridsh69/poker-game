@@ -3,11 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
 
 import { ServerPokerGateway } from 'src/providers/poker.gateway'
-import { UserModule } from './modules/user.module'
-import { DATABASE_CONFIG } from './configs/database'
+import { UsersModule } from './users.module'
+import { DATABASE_CONFIG } from '../configs/database'
 
 @Module({
-  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(DATABASE_CONFIG), UserModule],
+  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(DATABASE_CONFIG), UsersModule],
   providers: [ServerPokerGateway],
 })
 export class AppModule {}

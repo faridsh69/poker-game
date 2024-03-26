@@ -1,5 +1,6 @@
-import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+
+import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
 
 @Entity()
 export class User {
