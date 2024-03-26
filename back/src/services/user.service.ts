@@ -10,7 +10,6 @@ export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
   createUser(createUserDto: CreateUserDto): Promise<User> {
-    console.log('2 createUserDto', createUserDto)
     const user: User = new User()
     user.username = createUserDto.username
     user.first_name = createUserDto.first_name

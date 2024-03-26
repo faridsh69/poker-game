@@ -1,5 +1,8 @@
-import { IsAlphanumeric, IsEmail, IsEnum, IsInt, IsNotEmpty, IsString, Matches, MinLength } from 'class-validator'
+import { IsAlphanumeric, IsEmail, IsEnum, IsInt, IsNotEmpty, IsString, Matches, MinLength, Validate } from 'class-validator'
+
+import { User } from 'src/models/user.entity'
 import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
+import { UniqueValidator } from './UniqeValidator'
 
 const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,20}$/
 
@@ -9,6 +12,7 @@ export class CreateUserDto {
   @IsAlphanumeric(undefined, {
     message: 'Username should be alpha numeric chars.',
   })
+  @Validate(UniqueValidator, [User, 'username'])
   username!: string
 
   @IsString()
