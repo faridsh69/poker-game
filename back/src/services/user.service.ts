@@ -1,15 +1,28 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { CreateUserDto } from '../validations/create-user.dto'
-import { UpdateUserDto } from '../validations/update-user.dto'
-import { User } from '../models/user.entity'
+
+import { User } from 'src/models/user.entity'
+import { CreateUserDto } from 'src/validations/create-user.dto'
+import { UpdateUserDto } from 'src/validations/update-user.dto'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
+  constructor(@InjectRepository(User) private readonly modelRepository: Repository<User>) {}
 
-  createUser(createUserDto: CreateUserDto): Promise<User> {
+  find(): Promise<User[]> {
+    return this.modelRepository.find()
+  }
+
+  findOneBy(fieldName: string, value: string | number): Promise<User | null> {
+    return this.modelRepository.findOneBy({ [fieldName]: value })
+  }
+
+  delete(id: number): Promise<{ affected?: number | null }> {
+    return this.modelRepository.delete(id)
+  }
+
+  create(createUserDto: CreateUserDto): Promise<User> {
     const user: User = new User()
     user.username = createUserDto.username
     user.first_name = createUserDto.first_name
@@ -23,18 +36,10 @@ export class UserService {
     user.agent_percent = createUserDto.agent_percent
     user.password = createUserDto.password
 
-    return this.userRepository.save(user)
+    return this.modelRepository.save(user)
   }
 
-  findAllUser(): Promise<User[]> {
-    return this.userRepository.find()
-  }
-
-  viewUser(id: number): Promise<User | null> {
-    return this.userRepository.findOneBy({ id })
-  }
-
-  updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user: User = new User()
     user.id = id
     user.username = updateUserDto.username
@@ -49,10 +54,6 @@ export class UserService {
     user.agent_percent = updateUserDto.agent_percent
     user.password = updateUserDto.password
 
-    return this.userRepository.save(user)
-  }
-
-  removeUser(id: number): Promise<{ affected?: number | null }> {
-    return this.userRepository.delete(id)
+    return this.modelRepository.save(user)
   }
 }

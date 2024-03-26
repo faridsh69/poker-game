@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id!: number
@@ -19,9 +19,6 @@ export class User {
   @Column({ type: 'enum', enum: USERS_ROLE_ENUM, default: USERS_ROLE_ENUM[0] })
   role!: string
 
-  @Column({ type: 'int', default: 1 })
-  avatar_id!: number
-
   @Column({ type: 'varchar', length: 40, nullable: true, default: '' })
   phone!: string
 
@@ -34,7 +31,10 @@ export class User {
   @Column({ type: 'enum', enum: USERS_GENDER_ENUM, default: USERS_GENDER_ENUM[0] })
   gender!: string
 
-  @Column({ type: 'int', nullable: true, default: 0 })
+  @Column({ type: 'int', default: 1 })
+  avatar_id!: number
+
+  @Column({ type: 'int', default: 0 })
   agent_percent!: number
 
   @Column({ type: 'varchar' })

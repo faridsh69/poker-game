@@ -1,61 +1,55 @@
 import { IsAlphanumeric, IsEmail, IsEnum, IsInt, IsNotEmpty, IsString, Matches, MinLength, Validate } from 'class-validator'
 
-import { User } from 'src/models/user.entity'
 import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
-import { UniqueValidator } from './UniqeValidator'
+import { IsUnique } from 'src/validations/customs/IsUnique'
+import { IsNullable } from 'src/validations/customs/IsNullable'
 
 const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,20}$/
 
 export class CreateUserDto {
-  @IsNotEmpty()
+  @IsAlphanumeric()
   @MinLength(3, { message: 'Username must have atleast 3 characters.' })
-  @IsAlphanumeric(undefined, {
-    message: 'Username should be alpha numeric chars.',
-  })
-  @Validate(UniqueValidator, [User, 'username'])
+  @Validate(IsUnique, ['users', 'username'])
   username!: string
 
   @IsString()
   @MinLength(2, { message: 'First name must have atleast 2 characters.' })
-  @IsNotEmpty()
   first_name!: string
 
   @IsString()
   @MinLength(2, { message: 'Last name must have atleast 2 characters.' })
-  @IsNotEmpty()
   last_name!: string
 
   @IsNotEmpty()
   @IsEmail(undefined, { message: 'Please provide valid Email.' })
   email!: string
 
-  @IsString()
+  @IsNullable()
   @MinLength(6, { message: 'Please provide valid Phone, at least 6 digits.' })
-  @IsNotEmpty()
   phone!: string
 
-  @IsString()
   @IsEnum(USERS_STATUS_ENUM, {
     message: 'Status must be one of the values: ' + USERS_STATUS_ENUM.join(', '),
   })
   status!: string
 
-  @IsString()
   @IsEnum(USERS_ROLE_ENUM, {
     message: 'Role must be one of the values: ' + USERS_ROLE_ENUM.join(', '),
   })
   role!: string
 
-  @IsString()
+  @IsNullable()
   @IsEnum(USERS_GENDER_ENUM, {
     message: 'Gender must be one of the values: ' + USERS_GENDER_ENUM.join(', '),
   })
   gender!: string
 
+  @IsNullable()
   @IsInt({ message: 'Avatar must be a number.' })
   avatar_id!: number
 
-  @IsInt()
+  @IsNullable()
+  @IsInt({ message: 'Agent Percent must be a number.' })
   agent_percent!: number
 
   @IsNotEmpty()

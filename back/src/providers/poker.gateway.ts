@@ -46,7 +46,7 @@ import { runTests } from '../tests/testData'
     credentials: true,
   },
 })
-export class ServerPokerGateway implements OnGatewayInit, OnGatewayConnection {
+export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   @WebSocketServer()
   server!: Server
 

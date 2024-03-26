@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
 
-import { ServerPokerGateway } from 'src/providers/poker.gateway'
-import { UsersModule } from './users.module'
-import { DATABASE_CONFIG } from '../configs/database'
+import { DATABASE_CONFIG } from 'src/configs/database'
+import { PokerGateway } from 'src/providers/poker.gateway'
+import { UsersModule } from 'src/modules/users.module'
+import { IsUnique } from 'src/validations/customs/IsUnique'
 
 @Module({
   imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(DATABASE_CONFIG), UsersModule],
-  providers: [ServerPokerGateway],
+  providers: [PokerGateway, IsUnique],
 })
 export class AppModule {}

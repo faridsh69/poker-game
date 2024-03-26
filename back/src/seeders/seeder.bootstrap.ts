@@ -6,7 +6,6 @@ import { SeederModule } from './seeder.module'
 async function seederBootstrap() {
   NestFactory.createApplicationContext(SeederModule)
     .then(appContext => {
-      console.log('XXXX 1')
       const logger = appContext.get(Logger)
       const seeder = appContext.get(Seeder)
       seeder
