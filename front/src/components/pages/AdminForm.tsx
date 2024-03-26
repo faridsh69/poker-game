@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -17,9 +16,9 @@ const AdminForm = () => {
 
   const { model, id } = useParams()
 
-  const modelId = +id
+  const modelId = id ? +id : 0
 
-  const { list, createMutation, updateMutation } = useCrud(model)
+  const { list, createMutation, updateMutation } = useCrud(model as string)
 
   const modelObject = useMemo(() => list.find(item => item.id === modelId), [list, modelId])
 

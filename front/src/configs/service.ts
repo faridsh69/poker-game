@@ -1,4 +1,4 @@
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 
 import { deleteUser, getUsers, postRegister, updateUser } from 'src/services/apis'
 import { errorHandler } from 'src/helpers/errorHandler'
@@ -7,11 +7,10 @@ import { TypeApiKeyMap } from 'src/interfaces'
 export const REACT_QUERY_CLIENT = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 0,
+      retry: false,
       refetchOnWindowFocus: false,
-      staleTime: 10 * 60 * 1000,
-      cacheTime: 10 * 60 * 1000,
-      onError: errorHandler,
+      staleTime: Infinity,
+      throwOnError: errorHandler,
     },
     mutations: {
       onError: errorHandler,

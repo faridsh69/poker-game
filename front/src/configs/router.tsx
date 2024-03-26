@@ -26,7 +26,7 @@ const ROUTES: RoutesType = [
   {
     name: 'admin',
     path: 'admin',
-    element: <Suspender pageName='AdminLayout' auth />,
+    element: <Suspender pageName='AdminDashboard' auth />,
     errorElement: <ErrorPage />,
     children: [
       {

@@ -73,7 +73,7 @@ export const isNumber = (variable: number) => typeof variable === 'number'
 
 export const isObject = (variable: object) => typeof variable === 'object'
 
-export const isArray = (variable: []) => Array.isArray(variable)
+export const isArray = (variable: never): boolean => Array.isArray(variable)
 
 export const isUndefined = (variable: object) => typeof variable === 'undefined'
 
@@ -94,7 +94,7 @@ export const getLocalstorage = (key: string, defaultValue: string = ''): string 
   return data[key]
 }
 
-export const setLocalsotrage = (key: string, value: string) => {
+export const setLocalsotrage = (key: string, value: string | number) => {
   const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
   const data = JSON.parse(json) || {}
   const newData = { ...data, [key]: value }

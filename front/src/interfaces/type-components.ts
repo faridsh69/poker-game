@@ -38,3 +38,7 @@ export type TypeGameCardProps = {
   backcard: boolean
   isRabbitcard?: boolean
 }
+
+export type TypeHeadCells = { id: string; label: string; disablePadding: boolean; numeric: boolean }
+
+export type TypeBodyCells = { name: string }

@@ -1,11 +1,9 @@
-// @ts-nocheck
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 import { API_KEY_MAP } from 'src/configs/service'
 import { TypeUseCrud } from 'src/interfaces'
-import { errorHandler } from 'src/helpers/errorHandler'
 
 export const useCrud: TypeUseCrud = MODEL_SLUG => {
   const queryClient = useQueryClient()
@@ -24,11 +22,10 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
     },
     placeholderData: [],
   })
-  const list = data || []
 
   const createMutation = useMutation(createApi, {
     onSuccess: response => {
-      queryClient.setQueryData(MODEL_SLUG, list => {
+      queryClient.setQueryData(MODEL_SLUG, (list: string[]) => {
         if (list) {
           return [...list, response.data]
         }
@@ -76,7 +73,6 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
         list.map(item => (item.id === oldItem.id ? oldItem : item)),
       )
       queryClient.setQueryData('oldUpdatedItem', () => null)
-      errorHandler(error)
     },
   })
 

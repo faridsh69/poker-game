@@ -1,5 +1,10 @@
 import { createApiClient } from 'src/helpers/service'
-import { TypeApiMethod } from 'src/interfaces'
+import {
+  TypeCreateApiMethod,
+  TypeDeleteApiMethod,
+  TypeListApiMethod,
+  TypeUpdateApiMethod,
+} from 'src/interfaces'
 
 const { VITE_API_BASE_URL, VITE_SOCKET_URL } = import.meta.env
 
@@ -9,38 +14,41 @@ if (!VITE_API_BASE_URL) {
   throw new Error('Please copy .env.example to .env.local')
 }
 
-const VITE_AUTH_API_CLIENT = createApiClient(VITE_API_BASE_URL)
-const VITE_USER_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/user`, true)
+const VITE_AUTH_API_CLIENT = createApiClient(VITE_API_BASE_URL, false)
+const VITE_USER_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/users`, true)
 
-export const getUsers: TypeApiMethod = data =>
-  VITE_USER_API_CLIENT.get({
-    endpoint: '',
+///////////////////////////////////////////// AUTH //////////////////////////////////////////
+export const postLogin: TypeCreateApiMethod = data =>
+  VITE_AUTH_API_CLIENT.post({
+    endpoint: 'login',
     data,
   })
 
-export const postRegister: TypeApiMethod = data =>
+export const postRegister: TypeCreateApiMethod = data =>
+  VITE_AUTH_API_CLIENT.post({
+    endpoint: 'register',
+    data,
+  })
+
+///////////////////////////////////////////// USER //////////////////////////////////////////
+export const getUsers: TypeListApiMethod = () =>
+  VITE_USER_API_CLIENT.get({
+    endpoint: '',
+  })
+
+export const createUser: TypeCreateApiMethod = data =>
   VITE_USER_API_CLIENT.post({
     endpoint: '',
     data,
   })
 
-export const updateUser: TypeApiMethod = data =>
+export const updateUser: TypeUpdateApiMethod = data =>
   VITE_USER_API_CLIENT.put({
-    // @ts-ignore
     endpoint: `id/${data.id}`,
     data,
   })
 
-// @ts-ignore
-export const deleteUser: TypeApiMethod = (id: number) => {
-  console.log('XX ID', id)
+export const deleteUser: TypeDeleteApiMethod = (id: number) =>
   VITE_USER_API_CLIENT.remove({
     endpoint: `${id}`,
-  })
-}
-
-export const postLogin: TypeApiMethod = data =>
-  VITE_AUTH_API_CLIENT.post({
-    endpoint: 'oauth/token',
-    data,
   })

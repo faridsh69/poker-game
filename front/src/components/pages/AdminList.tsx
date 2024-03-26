@@ -16,9 +16,12 @@ const AdminList = () => {
 
   const { list, deleteMutation } = useCrud(model)
 
-  const handleDelete = useCallback((id: number) => {
-    deleteMutation.mutate(id)
-  }, [])
+  const handleDelete = useCallback(
+    (id: number) => {
+      deleteMutation.mutate(id)
+    },
+    [deleteMutation],
+  )
 
   const handleEdit = (id: number) => navigate(`/admin/${model}/${id}/edit`)
 
@@ -35,8 +38,8 @@ const AdminList = () => {
         list={list}
         headCells={headCells}
         bodyCells={bodyCells}
-        handleDelete={handleDelete}
         handleEdit={handleEdit}
+        handleDelete={handleDelete}
       />
     </Box>
   )

@@ -1,25 +1,27 @@
-import { isNumber, toFormalCase } from './common'
+import { isNumber, toFormalCase } from 'src/helpers/common'
+import { TypeBodyCells, TypeHeadCells } from 'src/interfaces'
 
-export const calculateHeadCells = (list: any[], model = 'users') => {
-  const headerCells = []
+export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCells[] => {
+  const headerCells: TypeHeadCells[] = []
   const firstItemOfModel = list[0]
 
   if (firstItemOfModel) {
     Object.keys(firstItemOfModel).map(key => {
+      // @ts-ignore
       const value = firstItemOfModel[key]
       headerCells.push({
         id: key,
-        disablePadding: key === 'id',
         label: toFormalCase(key),
         numeric: isNumber(value),
+        disablePadding: key === 'id',
       })
     })
   } else {
     headerCells.push({
       id: 'id',
+      label: 'ID',
       numeric: true,
       disablePadding: true,
-      label: 'ID',
     })
     if (model === 'users') {
       headerCells.push({
@@ -33,14 +35,15 @@ export const calculateHeadCells = (list: any[], model = 'users') => {
 
   headerCells.push({
     id: 'actions',
-    numeric: false,
     label: 'Actions',
+    numeric: false,
+    disablePadding: false,
   })
 
   return headerCells
 }
 
-export const calculateBodyCells = (list: any[], model = 'users') => {
+export const calculateBodyCells = (list: object[], model = 'users'): TypeBodyCells[] => {
   const firstItemOfModel = list[0]
   if (firstItemOfModel) {
     return Object.keys(firstItemOfModel).map(key => {
@@ -50,19 +53,19 @@ export const calculateBodyCells = (list: any[], model = 'users') => {
     })
   }
 
-  const defaultHeaders = [
+  const defaultBodyCells = [
     {
       name: 'id',
     },
   ]
 
   if (model === 'users') {
-    defaultHeaders.push({
+    defaultBodyCells.push({
       name: 'name',
     })
   }
 
-  return defaultHeaders
+  return defaultBodyCells
 }
 
 export const stableSort = <T>(array: readonly T[], comparator: (a: T, b: T) => number) => {

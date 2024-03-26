@@ -15,17 +15,26 @@ import { TableHeader } from './TableHeader'
 import { OrderType, getComparator, stableSort } from 'src/helpers/table'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import { TypeBodyCells, TypeHeadCells } from 'src/interfaces'
 
-export const TableMui = props => {
+type TypeProps = {
+  list: []
+  bodyCells: TypeBodyCells[]
+  headCells: TypeHeadCells[]
+  handleDelete: (id: number) => void
+  handleEdit: (id: number) => void
+}
+export const TableMui = (props: TypeProps) => {
   const { list, bodyCells, headCells, handleDelete, handleEdit } = props
   const [order, setOrder] = useState<OrderType>('asc')
-  const [orderBy, setOrderBy] = useState('calories')
+  const [orderBy, setOrderBy] = useState<string>('calories')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [selected, setSelected] = useState<readonly number[]>([])
 
   const visibleRows = useMemo(
     () =>
+      // @ts-ignore
       stableSort(list, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
@@ -40,11 +49,11 @@ export const TableMui = props => {
     setPage(0)
   }
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage)
   }
 
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+  const handleClick = (_: React.MouseEvent<unknown>, id: number) => {
     const selectedIndex = selected.indexOf(id)
     let newSelected: readonly number[] = []
 
@@ -65,6 +74,7 @@ export const TableMui = props => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
+      // @ts-ignore
       const newSelected = list.map(n => n.id)
       setSelected(newSelected)
       return
@@ -72,7 +82,7 @@ export const TableMui = props => {
     setSelected([])
   }
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
+  const handleRequestSort = (_: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)

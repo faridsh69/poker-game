@@ -1,40 +1,24 @@
-import { useMemo } from 'react'
-import { useAtom } from 'jotai'
-import { QueryClientProvider } from 'react-query'
-import { useTranslation } from 'react-i18next'
 import { ToastContainer } from 'react-toastify'
 import { RouterProvider } from 'react-router-dom'
+import { QueryClientProvider } from '@tanstack/react-query'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@emotion/react'
-import { createTheme } from '@mui/material'
 
-import { useInternetConnection } from 'src/hooks/useInternetConnection'
 import { REACT_QUERY_CLIENT } from 'src/configs/service'
-import { MUI_LOCALES } from 'src/configs/locale'
-import { themeAtom } from 'src/contexts/themeAtom'
-import { THEMES } from 'src/configs/theme'
 import { Router } from 'src/configs/router'
+import { MetaTags } from 'src/components/molecules/MetaTags'
+import { TOASTER_OPTIONS } from 'src/configs/toaster'
+import { useThemeWithLocale } from 'src/hooks/useThemeWithLocale'
 import 'src/configs/locale'
 import 'src/configs/styles'
-import { MetaTags } from './components/molecules/MetaTags'
 
 export const App = () => {
-  const [theme] = useAtom(themeAtom)
-  const { i18n } = useTranslation()
-
-  useInternetConnection()
-
-  const themeWithLocale = useMemo(
-    // @ts-ignore
-    () => createTheme(THEMES[theme], MUI_LOCALES[i18n.language]),
-    [i18n.language, theme],
-  )
-
+  const themeWithLocale = useThemeWithLocale()
   return (
     <ThemeProvider theme={themeWithLocale}>
       <CssBaseline />
       <MetaTags />
-      <ToastContainer pauseOnFocusLoss={false} position='bottom-right' />
+      <ToastContainer {...TOASTER_OPTIONS} />
       <QueryClientProvider client={REACT_QUERY_CLIENT}>
         <RouterProvider router={Router} />
       </QueryClientProvider>

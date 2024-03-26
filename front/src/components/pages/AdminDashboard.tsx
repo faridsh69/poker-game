@@ -5,7 +5,7 @@ import { PageLayout } from 'src/components/molecules/PageLayout'
 import { AdminSidebar } from 'src/components/organisms/admin/AdminSidebar'
 import { Breadcrumb } from '../molecules/Breadcrumb'
 
-const AdminLayout = () => {
+const AdminDashboard = () => {
   const drawerWidth = 240
 
   return (
@@ -24,4 +24,4 @@ const AdminLayout = () => {
   )
 }
 
-export default AdminLayout
+export default AdminDashboard
