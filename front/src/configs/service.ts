@@ -4,6 +4,15 @@ import { deleteUser, getUsers, postRegister, updateUser } from 'src/services/api
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeApiKeyMap } from 'src/interfaces'
 
+export const API_KEY_MAP: TypeApiKeyMap = {
+  users: {
+    listApi: getUsers,
+    createApi: postRegister,
+    updateApi: updateUser,
+    deleteApi: deleteUser,
+  },
+}
+
 export const REACT_QUERY_CLIENT = new QueryClient({
   defaultOptions: {
     queries: {
@@ -17,12 +26,3 @@ export const REACT_QUERY_CLIENT = new QueryClient({
     },
   },
 })
-
-export const API_KEY_MAP: TypeApiKeyMap = {
-  users: {
-    listApi: getUsers,
-    createApi: postRegister,
-    updateApi: updateUser,
-    deleteApi: deleteUser,
-  },
-}

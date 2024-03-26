@@ -12,16 +12,20 @@ export const useAuth = () => {
   const navigate = useNavigate()
   const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
 
-  const loginMutation = useMutation(postLogin, {
+  const loginMutation = useMutation({
+    mutationFn: postLogin,
     onSuccess: (response, payload) => {
+      // @ts-ignore
       setToken(response.access_token)
       navigate('/admin')
       toast.success('Logged in successfully!')
+      // @ts-ignore
       setLocalsotrage(LOCAL_STORAGE_AUTH_USER_EMAIL, payload.username)
     },
   })
 
-  const registerMutation = useMutation(postRegister, {
+  const registerMutation = useMutation({
+    mutationFn: postRegister,
     onSuccess: () => {
       toast.success('Registered successfully!')
     },

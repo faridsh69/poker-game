@@ -1,36 +1,37 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
+import { useMemo } from 'react'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { API_KEY_MAP } from 'src/configs/service'
-import { TypeUseCrud } from 'src/interfaces'
+import { TypeApis, TypeModel, TypeUseCrud } from 'src/interfaces'
 
 export const useCrud: TypeUseCrud = MODEL_SLUG => {
   const queryClient = useQueryClient()
+
   const { t } = useTranslation()
 
-  const { listApi, createApi, updateApi, deleteApi } = API_KEY_MAP[MODEL_SLUG] || {}
+  const { listApi, createApi, updateApi, deleteApi } = API_KEY_MAP[MODEL_SLUG] as TypeApis
 
   const { data, isFetching } = useQuery({
     queryKey: [MODEL_SLUG],
     queryFn: async () => {
-      if (!listApi) return []
-
       const response = await listApi()
 
-      return response
+      return response.data
     },
     placeholderData: [],
   })
 
-  const createMutation = useMutation(createApi, {
+  const createMutation = useMutation({
+    mutationFn: createApi,
     onSuccess: response => {
-      queryClient.setQueryData(MODEL_SLUG, (list: string[]) => {
+      queryClient.setQueryData([MODEL_SLUG], (list: TypeModel[]) => {
         if (list) {
-          return [...list, response.data]
+          return [...list, response]
         }
 
-        return [response.data]
+        return [response]
       })
       toast.success(t(MODEL_SLUG + ' created successfully'))
     },
@@ -38,10 +39,10 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
 
   useQuery({ queryKey: ['oldUpdatedItem'], queryFn: () => null })
 
-  // const debouncedUpdateApi = useDebounceMethodWithPromise(updateApi)
-  const updateMutation = useMutation(updateApi, {
+  const updateMutation = useMutation({
+    mutationFn: updateApi,
     onMutate: updatingItem => {
-      queryClient.setQueryData(MODEL_SLUG, list =>
+      queryClient.setQueryData([MODEL_SLUG], (list: TypeModel[]) =>
         list.map(item =>
           item.id !== updatingItem.id
             ? item
@@ -51,40 +52,29 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
               },
         ),
       )
-
-      const oldUpdatedItem = queryClient.getQueryData('oldUpdatedItem')
-      if (oldUpdatedItem) return oldUpdatedItem
-
-      const oldItem = list.find(item => item.id === updatingItem.id)
-      queryClient.setQueryData('oldUpdatedItem', () => oldItem)
-
-      return oldItem
     },
-    onSuccess: response => {
-      const updatedData = response.data
-      queryClient.setQueryData(MODEL_SLUG, list =>
-        list.map(item => (item.id === updatedData.id ? updatedData : item)),
-      )
+    onSuccess: () => {
       toast.success(t(MODEL_SLUG + ' updated successfully'))
-      queryClient.setQueryData('oldUpdatedItem', () => null)
-    },
-    onError: (error, __, oldItem) => {
-      queryClient.setQueryData(MODEL_SLUG, list =>
-        list.map(item => (item.id === oldItem.id ? oldItem : item)),
-      )
-      queryClient.setQueryData('oldUpdatedItem', () => null)
     },
   })
 
-  const deleteMutation = useMutation(deleteApi, {
+  const deleteMutation = useMutation({
+    mutationFn: deleteApi,
     onSuccess: (_, id) => {
       toast.success(t(MODEL_SLUG + ' deleted successfully'))
-      queryClient.setQueryData(MODEL_SLUG, list => {
-        if (list) return list.filter(item => item.id !== id)
+      queryClient.setQueryData([MODEL_SLUG], (list: TypeModel[]) => {
+        if (list) {
+          return list.filter(item => item.id !== id)
+        }
+
         return []
       })
     },
   })
+
+  const list = useMemo(() => {
+    return data || []
+  }, [data])
 
   return {
     list,

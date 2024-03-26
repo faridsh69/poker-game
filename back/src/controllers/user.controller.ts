@@ -8,8 +8,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  find() {
-    return this.userService.find()
+  async find() {
+    return { data: await this.userService.find() }
   }
 
   @Get(':id')

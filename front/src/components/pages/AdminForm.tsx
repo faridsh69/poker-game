@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
 import { FOOD_SCHEMA } from 'src/configs/schemas'
-import { toFormalCase } from 'src/helpers/common'
+// import { toFormalCase } from 'src/helpers/common'
 import { useCrud } from 'src/hooks/useCrud'
 import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
 import { EditorController } from 'src/components/organisms/admin/controllers/EditorController'
-import { SelectController } from 'src/components/organisms/admin/controllers/SelectController'
+// import { SelectController } from 'src/components/organisms/admin/controllers/SelectController'
 import { FormMui } from 'src/components/organisms/admin/FormMui'
 import { Loading } from 'src/components/molecules/Loading'
 
@@ -21,36 +21,6 @@ const AdminForm = () => {
   const { list, createMutation, updateMutation } = useCrud(model as string)
 
   const modelObject = useMemo(() => list.find(item => item.id === modelId), [list, modelId])
-
-  const { list: categories } = useCrud('category')
-  const { list: tags } = useCrud('tag')
-
-  const categoryOptions = useMemo(() => {
-    return categories
-      .filter(c => c.type === toFormalCase(model))
-      .map(c => ({
-        value: c.id,
-        label: c.title,
-      }))
-  }, [categories, model])
-
-  const tagOptions = useMemo(() => {
-    return tags
-      .filter(t => t.type === toFormalCase(model))
-      .map(t => ({
-        value: t.id,
-        label: t.title,
-      }))
-  }, [tags, model])
-
-  const relatedOptions = useMemo(() => {
-    return list
-      .filter(item => item.id !== modelId)
-      .map(t => ({
-        value: t.id,
-        label: t.title,
-      }))
-  }, [list, modelId])
 
   const onSubmit = data => {
     if (id) {
@@ -74,23 +44,23 @@ const AdminForm = () => {
         {
           name: 'title',
         },
-        {
-          name: 'category_id',
-          component: SelectController,
-          options: categoryOptions,
-        },
-        {
-          name: 'tags',
-          component: SelectController,
-          options: tagOptions,
-          multiple: true,
-        },
-        {
-          name: 'relateds',
-          component: SelectController,
-          options: relatedOptions,
-          multiple: true,
-        },
+        // {
+        //   name: 'category_id',
+        //   component: SelectController,
+        //   options: categoryOptions,
+        // },
+        // {
+        //   name: 'tags',
+        //   component: SelectController,
+        //   options: tagOptions,
+        //   multiple: true,
+        // },
+        // {
+        //   name: 'relateds',
+        //   component: SelectController,
+        //   options: relatedOptions,
+        //   multiple: true,
+        // },
         {
           name: 'url',
         },

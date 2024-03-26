@@ -1,9 +1,12 @@
 import { useMemo } from 'react'
 import { useAtom } from 'jotai'
+import { createTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { themeAtom } from 'src/contexts/themeAtom'
 import { useInternetConnection } from 'src/hooks/useInternetConnection'
+import { THEMES } from 'src/configs/theme'
+import { MUI_LOCALES } from 'src/configs/locale'
 
 export const useThemeWithLocale = () => {
   const [theme] = useAtom(themeAtom)

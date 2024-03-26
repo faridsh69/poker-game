@@ -1,3 +1,4 @@
+import { QueryKey } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 export type TypeErrorHandlerInterceptor = (error: AxiosError) => Promise<AxiosError>
@@ -24,19 +25,37 @@ export type CreateApiClientType = (
   remove: TypeAxiosMethod
 }
 
-export type TypeListApiMethod = () => Promise<AxiosResponse>
+type TypeModelSimple = { id: number }
 
-export type TypeCreateApiMethod = (data: object) => Promise<AxiosResponse>
+export interface TypeModel extends TypeModelSimple {}
 
-export type TypeUpdateApiMethod = (data: { id: number }) => Promise<AxiosResponse>
+export type TypeListApiMethod = () => Promise<AxiosResponse<TypeModel[]>>
+export type TypeCreateApiMethod = (data: TypeModel) => Promise<AxiosResponse<TypeModel>>
+export type TypeUpdateApiMethod = (data: TypeModel) => Promise<AxiosResponse<TypeModel>>
+export type TypeDeleteApiMethod = (id: number) => Promise<AxiosResponse<void>>
 
-export type TypeDeleteApiMethod = (id: number) => Promise<AxiosResponse>
-
+export type TypeApis = {
+  listApi: TypeListApiMethod
+  createApi: TypeCreateApiMethod
+  updateApi: TypeUpdateApiMethod
+  deleteApi: TypeDeleteApiMethod
+}
 export type TypeApiKeyMap = {
-  [key: string]: {
-    listApi: TypeListApiMethod
-    createApi: TypeCreateApiMethod
-    updateApi: TypeUpdateApiMethod
-    deleteApi: TypeDeleteApiMethod
+  [key: string]: TypeApis
+}
+
+export type TypeUseCrud = (key: string) => {
+  list: TypeModel[]
+
+  createMutation: {
+    mutate: (data: TypeModel) => void
+  }
+
+  updateMutation: {
+    mutate: (data: TypeModel) => void
+  }
+
+  deleteMutation: {
+    mutate: (id: number) => void
   }
 }

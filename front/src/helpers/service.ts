@@ -17,12 +17,11 @@ export const createApiClient: CreateApiClientType = (baseURL, auth = false) => {
   }
   axiosInstance.interceptors.response.use(responseInterceptor, errorHandlerInterceptor)
 
-  const get: TypeAxiosMethod = ({ endpoint, data, options }) => {
-    return axiosInstance.get(endpoint, {
+  const get: TypeAxiosMethod = ({ endpoint, data, options }) =>
+    axiosInstance.get(endpoint, {
       params: data,
       ...options,
     })
-  }
 
   const post: TypeAxiosMethod = ({ endpoint, data, options }) =>
     axiosInstance.post(endpoint, data, options)
@@ -30,13 +29,11 @@ export const createApiClient: CreateApiClientType = (baseURL, auth = false) => {
   const put: TypeAxiosMethod = ({ endpoint, data, options }) =>
     axiosInstance.put(endpoint, data, options)
 
-  const remove: TypeAxiosMethod = ({ endpoint, data, options }) => {
-    console.log('UUU endpoint, data, options', endpoint, data, options)
-    return axiosInstance.delete(endpoint, {
+  const remove: TypeAxiosMethod = ({ endpoint, data, options }) =>
+    axiosInstance.delete(endpoint, {
       params: data,
       ...options,
     })
-  }
 
   return { get, post, put, remove }
 }
