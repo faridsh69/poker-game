@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
 import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
 
@@ -40,15 +40,12 @@ export class User {
   @Column({ type: 'varchar' })
   password!: string
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  created_at!: string
+  @CreateDateColumn()
+  created_at!: Date
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updated_at!: string
+  @UpdateDateColumn()
+  updated_at!: Date
+
+  @DeleteDateColumn()
+  deleted_at?: Date
 }

@@ -11,6 +11,11 @@ export class CreateUserDto {
   @Validate(IsUnique, ['users', 'username'])
   username!: string
 
+  @IsNotEmpty()
+  @IsEmail(undefined, { message: 'Please provide valid Email.' })
+  @Validate(IsUnique, ['users', 'email'])
+  email!: string
+
   @IsString()
   @MinLength(2, { message: 'First name must have atleast 2 characters.' })
   first_name!: string
@@ -18,10 +23,6 @@ export class CreateUserDto {
   @IsString()
   @MinLength(2, { message: 'Last name must have atleast 2 characters.' })
   last_name!: string
-
-  @IsNotEmpty()
-  @IsEmail(undefined, { message: 'Please provide valid Email.' })
-  email!: string
 
   @IsNullable()
   @MinLength(6, { message: 'Please provide valid Phone, at least 6 digits.' })

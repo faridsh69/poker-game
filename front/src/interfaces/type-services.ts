@@ -25,6 +25,7 @@ export type CreateApiClientType = (
   get: TypeAxiosMethod
   post: TypeAxiosMethod
   put: TypeAxiosMethod
+  patch: TypeAxiosMethod
   remove: TypeAxiosMethod
 }
 

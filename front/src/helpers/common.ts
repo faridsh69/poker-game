@@ -67,7 +67,7 @@ export const makeUniqueArrayByPropery = (initialArray: [], property: string) => 
 
 export const isBoolean = (variable: boolean) => typeof variable === 'boolean'
 
-export const isString = (variable: string) => typeof variable === 'string'
+export const isString = (variable: never) => typeof variable === 'string'
 
 export const isNumber = (variable: number) => typeof variable === 'number'
 

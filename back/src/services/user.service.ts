@@ -18,8 +18,8 @@ export class UserService {
     return this.modelRepository.findOneBy({ [fieldName]: value })
   }
 
-  delete(id: number): Promise<{ affected?: number | null }> {
-    return this.modelRepository.delete(id)
+  softDelete(id: number): Promise<{ affected?: number | null }> {
+    return this.modelRepository.softDelete(id)
   }
 
   create(createUserDto: CreateUserDto): Promise<User> {

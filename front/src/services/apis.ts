@@ -43,8 +43,8 @@ export const createUser: TypeCreateApiMethod = data =>
   })
 
 export const updateUser: TypeUpdateApiMethod = data =>
-  VITE_USER_API_CLIENT.put({
-    endpoint: `id/${data.id}`,
+  VITE_USER_API_CLIENT.patch({
+    endpoint: `${data.id}`,
     data,
   })
 

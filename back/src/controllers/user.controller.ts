@@ -18,8 +18,8 @@ export class UserController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.userService.delete(+id)
+  softDelete(@Param('id') id: string) {
+    return this.userService.softDelete(+id)
   }
 
   @Post()
