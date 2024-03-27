@@ -53,11 +53,10 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @Matches(PASSWORD_REGEX, {
-    message: `Password must contain Minimum 8 and maximum 20 characters, 
+    message: `Password must contain Minimum 4 and maximum 40 characters, 
     at least one uppercase letter, 
     one lowercase letter, 
-    one number and 
-    one special character`,
+    one number`,
   })
   password!: string
 }
