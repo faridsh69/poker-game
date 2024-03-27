@@ -1,6 +1,10 @@
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
-export type TypeErrorHandlerInterceptor = (error: AxiosError) => Promise<AxiosError>
+type TypeErrorValidation = { message: string; property: string }
+
+export type TypeErrorHandlerInterceptor = (
+  error: AxiosError<{ message: TypeErrorValidation[] }>,
+) => Promise<AxiosError>
 
 export type TypeResponseInterceptor = (response: AxiosResponse) => AxiosResponse
 

@@ -22,22 +22,25 @@ export const USERS_SCHEMA = yup.object({
     .matches(REGEXS.alphabeticAndNumbers, {
       message: 'Only alphabetic and number allowed.',
     }),
-  first_name: yup.string().min(2, 'First name must have atleast 2 characters.'),
-  last_name: yup.string().min(2, 'Last name must have atleast 2 characters.'),
-  email: yup.string().email(),
+  first_name: yup.string().required().min(2, 'First name must have atleast 2 characters.'),
+  last_name: yup.string().required().min(2, 'Last name must have atleast 2 characters.'),
+  email: yup.string().required().email(),
   phone: yup.string().matches(REGEXS.phone, 'Phone number is not valid'),
   status: yup.mixed().oneOf(Object.values(USERS_STATUS_ENUM)).required(),
   role: yup.mixed().oneOf(Object.values(USERS_ROLE_ENUM)).required(),
   gender: yup.mixed().oneOf(Object.values(USERS_GENDER_ENUM)).required(),
   avatar_id: yup.number().required(),
   agent_percent: yup.number().required(),
-  password: yup.string().matches(
-    REGEXS.password,
-    `Password must contain Minimum 4 and maximum 40 characters, 
+  password: yup
+    .string()
+    .required()
+    .matches(
+      REGEXS.password,
+      `Password must contain Minimum 4 and maximum 40 characters, 
     at least one uppercase letter, 
     one lowercase letter
     and one number`,
-  ),
+    ),
 })
 
 export const PROFILE_SCHEMA = yup.object({
@@ -59,8 +62,6 @@ export const PROFILE_SCHEMA = yup.object({
 export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {
   register: LOGIN_SCHEMA,
   login: LOGIN_SCHEMA,
-  // @ts-ignore
   profile: PROFILE_SCHEMA,
-  // @ts-ignore
   users: USERS_SCHEMA,
 }

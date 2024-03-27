@@ -15,6 +15,8 @@ export const SelectController = (props: TypePropsInputController) => {
       control={control}
       name={name}
       render={({ field: { value, onChange }, fieldState: { error } }) => {
+        const selectValue = !multiple ? convertNullToEmptyString(value) : value || []
+
         return (
           <FormControl variant='standard' error={toBool(error)}>
             <InputLabel>{inputLabel}</InputLabel>
@@ -23,7 +25,7 @@ export const SelectController = (props: TypePropsInputController) => {
               onChange={data => {
                 onChange(data)
               }}
-              value={!multiple ? convertNullToEmptyString(value) : value || []}
+              value={selectValue}
               multiple={multiple}
               {...rest}
             >

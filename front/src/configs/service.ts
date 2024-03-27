@@ -1,13 +1,13 @@
 import { QueryClient } from '@tanstack/react-query'
 
-import { deleteUser, getUsers, postRegister, updateUser } from 'src/services/apis'
+import { createUser, deleteUser, getUsers, updateUser } from 'src/services/apis'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeApiKeyMap } from 'src/interfaces'
 
 export const API_KEY_MAP: TypeApiKeyMap = {
   users: {
     listApi: getUsers,
-    createApi: postRegister,
+    createApi: createUser,
     updateApi: updateUser,
     deleteApi: deleteUser,
   },

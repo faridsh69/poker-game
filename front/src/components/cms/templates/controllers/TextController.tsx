@@ -6,7 +6,15 @@ import { toFormalCase, toBool, convertNullToEmptyString } from 'src/helpers/comm
 import { TypePropsInputController } from 'src/interfaces'
 
 export const TextController = (props: TypePropsInputController) => {
-  const { control, name, label, type, autoComplete = 'off', autoFocus = false, ...rest } = props
+  const {
+    control,
+    name,
+    label,
+    type,
+    autoComplete = 'new-password',
+    autoFocus = false,
+    ...rest
+  } = props
 
   const inputType = type || 'text'
   const inputLabel = label || toFormalCase(name)
@@ -29,6 +37,7 @@ export const TextController = (props: TypePropsInputController) => {
       render={({ field: { value = '', onChange }, fieldState: { error } }) => {
         return (
           <TextField
+            name={name}
             type={inputType}
             label={inputLabel}
             value={convertNullToEmptyString(value)}
