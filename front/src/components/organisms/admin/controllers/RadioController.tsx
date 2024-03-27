@@ -9,18 +9,14 @@ import {
 } from '@mui/material'
 
 import { toFormalCase, toBool } from 'src/helpers/common'
+import { TypePropsInputController } from 'src/interfaces'
 
-export const RadioController = props => {
+export const RadioController = (props: TypePropsInputController) => {
   const { control, name, label, options = [] } = props
 
   const inputLabel = label || toFormalCase(name)
 
-  // const handleChange = useCallback(
-  //   (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
-  //     onChange(e.target.value)
-  //   },
-  //   [name],
-  // )
+  const inputOptions = options.map(option => ({ label: option, value: option }))
 
   return (
     <Controller
@@ -30,8 +26,13 @@ export const RadioController = props => {
         return (
           <FormControl error={toBool(error)} sx={{ my: 2 }}>
             <FormLabel>{inputLabel}</FormLabel>
-            <RadioGroup value={value} name={name} defaultChecked={value} onChange={onChange}>
-              {options.map(option => {
+            <RadioGroup
+              value={value}
+              name={name}
+              defaultChecked={toBool(value)}
+              onChange={onChange}
+            >
+              {inputOptions.map(option => {
                 return (
                   <FormControlLabel
                     label={option.label}

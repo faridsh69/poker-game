@@ -3,24 +3,22 @@ import { useTranslation } from 'react-i18next'
 
 import { useCrud } from 'src/hooks/useCrud'
 import { getLocalstorage } from 'src/helpers/common'
-import { PROFILE_SCHEMA } from 'src/configs/schemas'
 import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 import { FormMui } from 'src/components/organisms/admin/FormMui'
 import { Loading } from 'src/components/molecules/Loading'
-import { RadioController } from 'src/components/organisms/admin/controllers/RadioController'
-import { DateController } from 'src/components/organisms/admin/controllers/DateController'
-import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
+import { MODEL_FORMS_NAMES } from 'src/configs/forms'
+import { getFormInputs, getFormSchema } from 'src/helpers/forms'
+import { TypeModel } from 'src/interfaces'
 
 const AdminProfile = () => {
   const { t } = useTranslation()
   const { list: users, updateMutation } = useCrud('user')
+
   const authEmail = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
+
   const authUser = useMemo(() => users.find(u => u.email == authEmail), [users, authEmail])
 
-  const onSubmit = data => {
-    delete data.tags
-    delete data.relateds
-
+  const onSubmit = (data: TypeModel) => {
     updateMutation.mutate(data)
   }
 
@@ -29,58 +27,11 @@ const AdminProfile = () => {
   return (
     <div>
       <FormMui
-        schema={PROFILE_SCHEMA}
+        inputs={getFormInputs(MODEL_FORMS_NAMES.profile)}
+        schema={getFormSchema(MODEL_FORMS_NAMES.profile)}
+        values={authUser}
         onSubmit={onSubmit}
         submitText={t('Update')}
-        defaultValues={authUser}
-        inputs={[
-          {
-            name: 'first_name',
-          },
-          {
-            name: 'last_name',
-          },
-          {
-            name: 'activated',
-            component: CheckBoxController,
-          },
-          {
-            name: 'gender',
-            component: RadioController,
-            options: [
-              {
-                value: '1',
-                label: 'male',
-              },
-              {
-                value: '0',
-                label: 'female',
-              },
-            ],
-          },
-          {
-            name: 'birth_date',
-            component: DateController,
-          },
-          {
-            name: 'description',
-            multiline: true,
-            rows: 3,
-          },
-          {
-            name: 'email',
-          },
-          {
-            name: 'national_code',
-            type: 'number',
-          },
-          {
-            name: 'phone',
-          },
-          {
-            name: 'website',
-          },
-        ]}
       />
     </div>
   )

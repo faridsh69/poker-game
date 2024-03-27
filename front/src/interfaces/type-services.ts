@@ -24,9 +24,7 @@ export type CreateApiClientType = (
   remove: TypeAxiosMethod
 }
 
-type TypeModelSimple = { id: number }
-
-export interface TypeModel extends TypeModelSimple {}
+export type TypeModel = { [key: string]: string | number }
 
 export type TypeListApiMethod = () => Promise<AxiosResponse<TypeModel[]>>
 export type TypeCreateApiMethod = (data: TypeModel) => Promise<AxiosResponse<TypeModel>>

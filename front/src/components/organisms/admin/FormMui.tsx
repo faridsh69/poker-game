@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button } from '@mui/material'
 
-import { InputController } from './controllers/InputController'
+import { TextController } from './controllers/TextController'
 import { TypeModel, TypePropsFormMui } from 'src/interfaces'
 
 export const FormMui = (props: TypePropsFormMui) => {
@@ -29,9 +29,9 @@ export const FormMui = (props: TypePropsFormMui) => {
       sx={{ mt: 1, display: 'flex', flexDirection: 'column', minWidth: '333px' }}
     >
       {inputs.map(input => {
-        const { component: InputComponent = InputController, name, ...rest } = input
+        const { component: InputController = TextController, name, ...rest } = input
 
-        return <InputComponent control={control} name={name} {...rest} key={name} />
+        return <InputController control={control} name={name} key={name} {...rest} />
       })}
       <Button type='submit' fullWidth variant='contained' sx={{ mt: 1, mb: 2 }}>
         {submitText}

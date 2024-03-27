@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import * as yup from 'yup'
+import { TypeModel, TypePropsInputController } from '.'
 
 export type RoutesType = RouteType[]
 
@@ -18,14 +20,23 @@ export type TypeSidebarItem = {
 
 export type TypeResolve = (value: unknown) => void
 
-export type OrderType = 'asc' | 'desc'
+export type TypeOrder = 'asc' | 'desc'
 
 export type TypeFormInput = {
+  component?: (props: TypePropsInputController) => JSX.Element
   name: string
+  label?: string
   type?: string
-  component?: FC
+  options?: string[]
+  multiple?: boolean
+  autoComplete?: string
+  autoFocus?: boolean
 }
 
 export type TypeHeadCells = { id: string; label: string; disablePadding: boolean; numeric: boolean }
 
 export type TypeBodyCells = { name: string }
+
+export type TypeSchema = yup.ObjectSchema<TypeModel>
+
+export type TypeModelFormKeys = 'users' | 'register' | 'login' | 'profile'

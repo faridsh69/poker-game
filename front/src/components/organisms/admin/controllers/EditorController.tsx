@@ -4,8 +4,9 @@ import { FormLabel, FormControl, FormHelperText } from '@mui/material'
 
 import { toFormalCase, toBool } from 'src/helpers/common'
 import { TEXT_EDITOR_FORMATS, TEXT_EDITOR_MODULES } from 'src/configs/textEditor'
+import { TypePropsInputController } from 'src/interfaces'
 
-export const EditorController = props => {
+export const EditorController = (props: TypePropsInputController) => {
   const { control, name, label } = props
 
   return (
@@ -16,7 +17,7 @@ export const EditorController = props => {
         <FormControl error={toBool(error)} style={{ height: '250px' }}>
           <FormLabel>{label || toFormalCase(name)}</FormLabel>
           <ReactQuill
-            value={value}
+            value={value as string}
             onChange={onChange}
             modules={TEXT_EDITOR_MODULES}
             formats={TEXT_EDITOR_FORMATS}

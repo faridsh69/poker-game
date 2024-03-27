@@ -3,17 +3,19 @@ import { Container, Avatar, Box, Grid, Link, Typography } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
 import { OAUTH_API_INFO } from 'src/configs/constants'
-import { LOGIN_SCHEMA } from 'src/configs/schemas'
 import { useAuth } from 'src/hooks/useAuth'
 import { PageLayout } from 'src/components/molecules/PageLayout'
 import { FormMui } from 'src/components/organisms/admin/FormMui'
+import { MODEL_FORMS_NAMES } from 'src/configs/forms'
+import { TypeModel } from 'src/interfaces'
+import { getFormInputs, getFormSchema } from 'src/helpers/forms'
 
 export const Register = () => {
   const { t } = useTranslation()
 
   const { registerMutation } = useAuth()
 
-  const onSubmit = data => {
+  const onSubmit = (data: TypeModel) => {
     registerMutation.mutate({
       username: data.email,
       password: data.password,
@@ -39,22 +41,11 @@ export const Register = () => {
             {t('Sign up')}
           </Typography>
           <FormMui
-            schema={LOGIN_SCHEMA}
+            inputs={getFormInputs(MODEL_FORMS_NAMES.register)}
+            schema={getFormSchema(MODEL_FORMS_NAMES.register)}
+            values={{}}
             onSubmit={onSubmit}
             submitText={t('Sign up')}
-            defaultValues={{}}
-            inputs={[
-              {
-                name: 'email',
-                label: 'Email Address',
-                autoComplete: 'email',
-                autoFocus: true,
-              },
-              {
-                name: 'password',
-                autoComplete: 'current-password',
-              },
-            ]}
           />
           <Grid container>
             <Grid item xs>

@@ -1,6 +1,17 @@
-import { ObjectSchema } from 'yup'
+import { ChangeEvent, MouseEvent } from 'react'
+import { Control } from 'react-hook-form'
 
-import { TypeCard, TypeFormInput, TypeModel, TypeSeat, TypeTable } from '.'
+import {
+  TypeBodyCells,
+  TypeCard,
+  TypeFormInput,
+  TypeHeadCells,
+  TypeModel,
+  TypeOrder,
+  TypeSchema,
+  TypeSeat,
+  TypeTable,
+} from '.'
 
 export type TypeDraggableWindowProps = {
   top: number
@@ -57,7 +68,36 @@ export type TypeGameCardProps = {
 export type TypePropsFormMui = {
   inputs: TypeFormInput[]
   values: TypeModel | undefined
-  schema: ObjectSchema<TypeModel>
+  schema: TypeSchema
   onSubmit: (data: TypeModel) => void
   submitText: string
+}
+
+export type TypePropsInputController = {
+  control: Control<TypeModel>
+  name: string
+  label?: string
+  type?: string
+  options?: string[]
+  multiple?: boolean
+  autoComplete?: string
+  autoFocus?: boolean
+}
+
+export type TypePropsTableHeader = {
+  onSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void
+  order: TypeOrder
+  orderBy: string
+  numSelected: number
+  rowCount: number
+  onRequestSort: (event: MouseEvent<unknown>, property: string) => void
+  headCells: TypeHeadCells[]
+}
+
+export type TypePropsTableMui = {
+  list: TypeModel[]
+  bodyCells: TypeBodyCells[]
+  headCells: TypeHeadCells[]
+  handleDelete: (id: number) => void
+  handleEdit: (id: number) => void
 }

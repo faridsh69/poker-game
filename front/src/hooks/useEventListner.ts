@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export const useEventListener = (eventName, action, dependencies = []) => {
+export const useEventListener = (eventName: string, action: () => void, dependencies = []) => {
   useEffect(() => {
     window.addEventListener(eventName, action)
 
@@ -10,12 +10,17 @@ export const useEventListener = (eventName, action, dependencies = []) => {
   }, dependencies)
 }
 
-export const useEventListenerWithTimeout = (eventName, action, dependencies = [], timeout = 0) => {
+export const useEventListenerWithTimeout = (
+  eventName: string,
+  action: () => void,
+  dependencies = [],
+  timeout = 0,
+) => {
   useEventListener(
     eventName,
-    e => {
+    () => {
       setTimeout(() => {
-        action(e)
+        action()
       }, timeout)
     },
     dependencies,

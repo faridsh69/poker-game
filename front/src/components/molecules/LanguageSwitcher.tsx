@@ -16,7 +16,7 @@ export const LanguageSwitcher = () => {
         {Object.keys(FLAG_LOCALES).map(locale => (
           <MenuItem value={locale} key={locale}>
             {locale.toUpperCase()}
-            <img src={FLAG_LOCALES[locale]} alt={locale} />
+            <img src={FLAG_LOCALES[locale as keyof typeof FLAG_LOCALES]} alt={locale} />
           </MenuItem>
         ))}
       </Select>

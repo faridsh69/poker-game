@@ -3,18 +3,19 @@ import { Container, Avatar, Box, Grid, Link, Typography } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
 import { OAUTH_API_INFO } from 'src/configs/constants'
-import { LOGIN_SCHEMA } from 'src/configs/schemas'
 import { useAuth } from 'src/hooks/useAuth'
 import { PageLayout } from 'src/components/molecules/PageLayout'
-import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
 import { FormMui } from 'src/components/organisms/admin/FormMui'
+import { MODEL_FORMS_NAMES } from 'src/configs/forms'
+import { getFormInputs, getFormSchema } from 'src/helpers/forms'
+import { TypeModel } from 'src/interfaces'
 
 export const Login = () => {
   const { t } = useTranslation()
 
   const { loginMutation } = useAuth()
 
-  const onSubmit = data => {
+  const onSubmit = (data: TypeModel) => {
     loginMutation.mutate({
       username: data.email,
       password: data.password,
@@ -40,27 +41,11 @@ export const Login = () => {
             {t('Sign in')}
           </Typography>
           <FormMui
-            schema={LOGIN_SCHEMA}
+            inputs={getFormInputs(MODEL_FORMS_NAMES.login)}
+            schema={getFormSchema(MODEL_FORMS_NAMES.login)}
+            values={{}}
             onSubmit={onSubmit}
             submitText={t('Sign In')}
-            defaultValues={{}}
-            inputs={[
-              {
-                name: 'email',
-                label: 'Email Address',
-                autoComplete: 'email',
-                autoFocus: true,
-              },
-              {
-                name: 'password',
-                autoComplete: 'current-password',
-              },
-              {
-                name: 'remember',
-                component: CheckBoxController,
-                label: t('Remember me'),
-              },
-            ]}
           />
           <Grid container>
             <Grid item xs>

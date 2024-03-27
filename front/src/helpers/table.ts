@@ -1,5 +1,5 @@
 import { isNumber, toFormalCase } from 'src/helpers/common'
-import { OrderType, TypeBodyCells, TypeHeadCells } from 'src/interfaces'
+import { TypeOrder, TypeBodyCells, TypeHeadCells } from 'src/interfaces'
 
 export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCells[] => {
   const headerCells: TypeHeadCells[] = []
@@ -91,7 +91,7 @@ const descendingComparator = <T>(a: T, b: T, orderBy: keyof T) => {
 }
 
 export const getComparator = <Key extends keyof string>(
-  order: OrderType,
+  order: TypeOrder,
   orderBy: Key,
 ): ((a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number) => {
   return order === 'desc'

@@ -1,5 +1,6 @@
+import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
 import { SelectController } from 'src/components/organisms/admin/controllers/SelectController'
-import { TypeFormInput } from 'src/interfaces'
+import { TypeFormInput, TypeModelFormKeys } from 'src/interfaces'
 
 export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']
 
@@ -7,7 +8,70 @@ export const USERS_ROLE_ENUM = ['player', 'agent', 'admin']
 
 export const USERS_GENDER_ENUM = ['male', 'female', 'unspecified']
 
-export const USER_FORM: TypeFormInput[] = [
+export const REGISTER_FORM: TypeFormInput[] = [
+  {
+    name: 'email',
+    label: 'Email Address',
+    autoComplete: 'email',
+    autoFocus: true,
+  },
+  {
+    name: 'password',
+    autoComplete: 'current-password',
+  },
+]
+
+export const LOGIN_FORM: TypeFormInput[] = [
+  {
+    name: 'email',
+    label: 'Email Address',
+    autoComplete: 'email',
+    autoFocus: true,
+  },
+  {
+    name: 'password',
+    autoComplete: 'current-password',
+  },
+  {
+    name: 'remember',
+    component: CheckBoxController,
+    label: 'Remember me',
+  },
+]
+
+export const PROFILE_FORM: TypeFormInput[] = [
+  {
+    name: 'first_name',
+  },
+  {
+    name: 'last_name',
+  },
+  {
+    name: 'email',
+    type: 'email',
+  },
+  {
+    name: 'phone',
+  },
+  {
+    name: 'username',
+  },
+  {
+    name: 'gender',
+    component: SelectController,
+    options: USERS_GENDER_ENUM,
+  },
+  {
+    name: 'avatar_id',
+    type: 'number',
+  },
+  {
+    name: 'password',
+    type: 'password',
+  },
+]
+
+export const USERS_FORM: TypeFormInput[] = [
   {
     name: 'username',
   },
@@ -53,6 +117,16 @@ export const USER_FORM: TypeFormInput[] = [
   },
 ]
 
-export const MODEL_FORMS = {
-  users: USER_FORM,
+export const MODEL_FORMS_NAMES: { [key in TypeModelFormKeys]: TypeModelFormKeys } = {
+  register: 'register',
+  login: 'login',
+  profile: 'profile',
+  users: 'users',
+}
+
+export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
+  register: REGISTER_FORM,
+  login: LOGIN_FORM,
+  profile: PROFILE_FORM,
+  users: USERS_FORM,
 }

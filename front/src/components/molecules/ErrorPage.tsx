@@ -6,7 +6,7 @@ import ErrorImg from 'src/images/errors/500.png'
 import { META_TAGS } from 'src/configs/constants'
 
 export const ErrorPage = () => {
-  const error = useRouteError()
+  const error = useRouteError() as Error
 
   errorHandler(error)
 
@@ -16,7 +16,7 @@ export const ErrorPage = () => {
       <strong>
         <Link to='/'>Retry</Link>
       </strong>
-      <pre>{error.statusText || error.message}</pre>
+      <pre>{error.message || error.name}</pre>
       <img src={ErrorImg} alt='error' />
     </Alert>
   )

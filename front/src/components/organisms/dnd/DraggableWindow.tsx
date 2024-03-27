@@ -16,6 +16,7 @@ export const DraggableWindow = (props: TypeDraggableWindowProps) => {
       className={classNames('dnd', isDragging && 'dragging')}
       style={{
         ...positionsStyle,
+        // @ts-ignore
         '--translate-x': `${transform?.x ?? 0}px`,
         '--translate-y': `${transform?.y ?? 0}px`,
       }}

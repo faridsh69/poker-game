@@ -12,24 +12,20 @@ import {
   TableRow,
 } from '@mui/material'
 import { TableHeader } from './TableHeader'
-import { OrderType, getComparator, stableSort } from 'src/helpers/table'
+import { getComparator, stableSort } from 'src/helpers/table'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { TypeBodyCells, TypeHeadCells } from 'src/interfaces'
+import { TypeOrder, TypePropsTableMui } from 'src/interfaces'
 
-type TypeProps = {
-  list: []
-  bodyCells: TypeBodyCells[]
-  headCells: TypeHeadCells[]
-  handleDelete: (id: number) => void
-  handleEdit: (id: number) => void
-}
-export const TableMui = (props: TypeProps) => {
+export const TableMui = (props: TypePropsTableMui) => {
   const { list, bodyCells, headCells, handleDelete, handleEdit } = props
-  const [order, setOrder] = useState<OrderType>('asc')
-  const [orderBy, setOrderBy] = useState<string>('calories')
+
+  const [order, setOrder] = useState<TypeOrder>('asc')
+  const [orderBy, setOrderBy] = useState<string>('id')
+
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+
   const [selected, setSelected] = useState<readonly number[]>([])
 
   const visibleRows = useMemo(
@@ -74,9 +70,8 @@ export const TableMui = (props: TypeProps) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      // @ts-ignore
       const newSelected = list.map(n => n.id)
-      setSelected(newSelected)
+      setSelected(newSelected as number[])
       return
     }
     setSelected([])
@@ -104,17 +99,19 @@ export const TableMui = (props: TypeProps) => {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id)
+                // @ts-ignore
+                const rowId = row.id
+                const isItemSelected = isSelected(rowId)
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
                   <TableRow
                     hover
-                    onClick={event => handleClick(event, row.id)}
+                    onClick={event => handleClick(event, rowId)}
                     role='checkbox'
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={rowId}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
@@ -130,16 +127,17 @@ export const TableMui = (props: TypeProps) => {
                     {bodyCells.map(cell => {
                       return (
                         <TableCell key={cell.name} align='left'>
+                          {/* @ts-ignore */}
                           {row[cell.name]}
                         </TableCell>
                       )
                     })}
 
                     <TableCell align='right'>
-                      <IconButton onClick={() => handleEdit(row.id)}>
+                      <IconButton onClick={() => handleEdit(rowId)}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton onClick={() => handleDelete(row.id)}>
+                      <IconButton onClick={() => handleDelete(rowId)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
