@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { User } from 'src/models/user.entity'
 import { CreateUserDto } from 'src/validations/create-user.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
+import { SEEDER_USERS } from 'src/seeders/user.seeder'
 
 @Injectable()
 export class UserService {
@@ -22,38 +23,53 @@ export class UserService {
     return this.modelRepository.softDelete(id)
   }
 
-  create(createUserDto: CreateUserDto): Promise<User> {
-    const user: User = new User()
-    user.username = createUserDto.username
-    user.first_name = createUserDto.first_name
-    user.last_name = createUserDto.last_name
-    user.email = createUserDto.email
-    user.phone = createUserDto.phone
-    user.status = createUserDto.status
-    user.role = createUserDto.role
-    user.gender = createUserDto.gender
-    user.avatar_id = createUserDto.avatar_id
-    user.agent_percent = createUserDto.agent_percent
-    user.password = createUserDto.password
+  create(createModelDto: CreateUserDto): Promise<User> {
+    const model: User = new User()
+    model.username = createModelDto.username
+    model.first_name = createModelDto.first_name
+    model.last_name = createModelDto.last_name
+    model.email = createModelDto.email
+    model.phone = createModelDto.phone
+    model.status = createModelDto.status
+    model.role = createModelDto.role
+    model.gender = createModelDto.gender
+    model.avatar_id = createModelDto.avatar_id
+    model.agent_percent = createModelDto.agent_percent
+    model.password = createModelDto.password
 
-    return this.modelRepository.save(user)
+    return this.modelRepository.save(model)
   }
 
-  update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user: User = new User()
-    user.id = id
-    user.username = updateUserDto.username
-    user.first_name = updateUserDto.first_name
-    user.last_name = updateUserDto.last_name
-    user.email = updateUserDto.email
-    user.phone = updateUserDto.phone
-    user.status = updateUserDto.status
-    user.role = updateUserDto.role
-    user.gender = updateUserDto.gender
-    user.avatar_id = updateUserDto.avatar_id
-    user.agent_percent = updateUserDto.agent_percent
-    user.password = updateUserDto.password
+  update(id: number, updateModelDto: UpdateUserDto): Promise<User> {
+    const model: User = new User()
+    model.id = id
+    model.username = updateModelDto.username
+    model.first_name = updateModelDto.first_name
+    model.last_name = updateModelDto.last_name
+    model.email = updateModelDto.email
+    model.phone = updateModelDto.phone
+    model.status = updateModelDto.status
+    model.role = updateModelDto.role
+    model.gender = updateModelDto.gender
+    model.avatar_id = updateModelDto.avatar_id
+    model.agent_percent = updateModelDto.agent_percent
+    model.password = updateModelDto.password
 
-    return this.modelRepository.save(user)
+    return this.modelRepository.save(model)
+  }
+
+  seed(): Array<Promise<User | null>> {
+    return SEEDER_USERS.map(async record => {
+      return await this.modelRepository
+        .findOne({ where: { email: record.email } })
+        .then(async dbRecord => {
+          if (dbRecord) {
+            return Promise.resolve(null)
+          }
+
+          return Promise.resolve(await this.modelRepository.save(record))
+        })
+        .catch(error => Promise.reject(error))
+    })
   }
 }

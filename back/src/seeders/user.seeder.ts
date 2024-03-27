@@ -1,7 +1,7 @@
-import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
 import { User } from 'src/models/user.entity'
+import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
 
-export const DATABASE_USERS = [
+export const SEEDER_USERS = [
   {
     id: 1,
     username: 'sagtole',
