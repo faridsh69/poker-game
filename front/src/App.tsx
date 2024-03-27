@@ -6,7 +6,7 @@ import { ThemeProvider } from '@emotion/react'
 
 import { REACT_QUERY_CLIENT } from 'src/configs/service'
 import { Router } from 'src/configs/router'
-import { MetaTags } from 'src/components/molecules/MetaTags'
+import { MetaTags } from 'src/components/cms/molecules/MetaTags'
 import { TOASTER_OPTIONS } from 'src/configs/toaster'
 import { useThemeWithLocale } from 'src/hooks/useThemeWithLocale'
 import 'src/configs/locale'

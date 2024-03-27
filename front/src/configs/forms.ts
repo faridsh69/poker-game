@@ -1,5 +1,5 @@
-import { CheckBoxController } from 'src/components/organisms/admin/controllers/CheckboxController'
-import { SelectController } from 'src/components/organisms/admin/controllers/SelectController'
+import { CheckBoxController } from 'src/components/cms/templates/controllers/CheckboxController'
+import { SelectController } from 'src/components/cms/templates/controllers/SelectController'
 import { TypeFormInput, TypeModelFormKeys } from 'src/interfaces'
 
 export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']
