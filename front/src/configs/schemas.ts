@@ -26,9 +26,9 @@ export const USERS_SCHEMA = yup.object({
   last_name: yup.string().required().min(2, 'Last name must have atleast 2 characters.'),
   email: yup.string().required().email(),
   phone: yup.string().matches(REGEXS.phone, 'Phone number is not valid'),
-  status: yup.mixed().oneOf(Object.values(USERS_STATUS_ENUM)).required(),
-  role: yup.mixed().oneOf(Object.values(USERS_ROLE_ENUM)).required(),
-  gender: yup.mixed().oneOf(Object.values(USERS_GENDER_ENUM)).required(),
+  status: yup.mixed<string>().oneOf(USERS_STATUS_ENUM).required(),
+  role: yup.mixed<string>().oneOf(USERS_ROLE_ENUM).required(),
+  gender: yup.mixed<string>().oneOf(USERS_GENDER_ENUM).required(),
   avatar_id: yup.number().required(),
   agent_percent: yup.number().required(),
   password: yup

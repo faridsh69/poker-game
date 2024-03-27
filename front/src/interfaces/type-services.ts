@@ -28,7 +28,7 @@ export type CreateApiClientType = (
   remove: TypeAxiosMethod
 }
 
-export type TypeModel = { [key: string]: string | number }
+export type TypeModel = { [key: string]: string | number | undefined }
 
 export type TypeListApiMethod = () => Promise<AxiosResponse<TypeModel[]>>
 export type TypeCreateApiMethod = (data: TypeModel) => Promise<AxiosResponse<TypeModel>>

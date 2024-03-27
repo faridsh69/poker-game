@@ -16,7 +16,7 @@ export const DateController = (props: TypePropsInputController) => {
   const inputLabel = label || toFormalCase(name)
 
   const changeToDatePickerFormat = useCallback(
-    (value: string | number) => (value ? moment(value) : null),
+    (value: string | number | undefined) => (value ? moment(value) : null),
     [],
   )
 
