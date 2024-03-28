@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 import { User } from 'src/models/user.entity'
 import { CreateUserDto } from 'src/validations/create-user.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
-import { SEEDER_USERS } from 'src/seeders/user.seeder'
+import { USERS_SEEDER } from 'src/seeders/users.seeder'
 
 @Injectable()
 export class UserService {
@@ -59,7 +59,7 @@ export class UserService {
   }
 
   seed(): Array<Promise<User | null>> {
-    return SEEDER_USERS.map(async record => {
+    return USERS_SEEDER.map(async record => {
       return await this.modelRepository
         .findOne({ where: { email: record.email } })
         .then(async dbRecord => {

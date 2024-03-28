@@ -4,7 +4,7 @@ import { CreateUserDto } from 'src/validations/create-user.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
 
 @Controller('users')
-export class UserController {
+export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
@@ -23,12 +23,12 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto)
+  create(@Body() createModelDto: CreateUserDto) {
+    return this.userService.create(createModelDto)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto)
+  update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
+    return this.userService.update(+id, updateModelDto)
   }
 }

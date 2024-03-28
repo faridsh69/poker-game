@@ -9,16 +9,16 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number
 
-  @Column({ type: 'varchar', length: 15 })
+  @Column({ type: 'varchar', length: 15 }) // change to 10
   username!: string
 
   @Column({ type: 'varchar', length: 40 })
   email!: string
 
-  @Column({ type: 'enum', enum: USERS_STATUS_ENUM, default: USERS_STATUS_ENUM[0] })
+  @Column({ type: 'enum', enum: Object.values(USERS_STATUS_ENUM), default: USERS_STATUS_ENUM.needConfirm })
   status!: string
 
-  @Column({ type: 'enum', enum: USERS_ROLE_ENUM, default: USERS_ROLE_ENUM[0] })
+  @Column({ type: 'enum', enum: Object.values(USERS_ROLE_ENUM), default: USERS_ROLE_ENUM.player })
   role!: string
 
   @Column({ type: 'varchar', length: 40, nullable: true, default: '' })
@@ -30,7 +30,7 @@ export class User {
   @Column({ type: 'varchar', length: 15, nullable: true, default: '' })
   last_name!: string
 
-  @Column({ type: 'enum', enum: USERS_GENDER_ENUM, default: USERS_GENDER_ENUM[0] })
+  @Column({ type: 'enum', enum: Object.values(USERS_GENDER_ENUM), default: USERS_GENDER_ENUM.male })
   gender!: string
 
   @Column({ type: 'int', default: 1 })

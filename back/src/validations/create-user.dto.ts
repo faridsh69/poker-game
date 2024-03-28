@@ -28,19 +28,19 @@ export class CreateUserDto {
   @MinLength(6, { message: 'Please provide valid Phone, at least 6 digits.' })
   phone!: string
 
-  @IsEnum(USERS_STATUS_ENUM, {
-    message: `Status must be one of the values: ${USERS_STATUS_ENUM.join(', ')}.`,
+  @IsEnum(Object.values(USERS_STATUS_ENUM), {
+    message: `Status must be one of the values: ${Object.values(USERS_STATUS_ENUM).join(', ')}.`,
   })
   status!: string
 
-  @IsEnum(USERS_ROLE_ENUM, {
-    message: `Role must be one of the values: ${USERS_ROLE_ENUM.join(', ')}.`,
+  @IsEnum(Object.values(USERS_ROLE_ENUM), {
+    message: `Role must be one of the values: ${Object.values(USERS_ROLE_ENUM).join(', ')}.`,
   })
   role!: string
 
   @IsNullable()
-  @IsEnum(USERS_GENDER_ENUM, {
-    message: `Gender must be one of the values: ${USERS_GENDER_ENUM.join(', ')}.`,
+  @IsEnum(Object.values(USERS_GENDER_ENUM), {
+    message: `Gender must be one of the values: ${Object.values(USERS_GENDER_ENUM).join(', ')}.`,
   })
   gender!: string
 

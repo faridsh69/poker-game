@@ -1,5 +1,3 @@
-// import { AuroraMysqlConnectionCredentialsOptions } from 'typeorm/driver/aurora-mysql/AuroraMysqlConnectionCredentialsOptions'
-
 export const DATABASE_CONFIG = {
   type: 'postgres' as 'aurora-mysql',
   host: 'localhost',
@@ -14,8 +12,21 @@ export const DATABASE_CONFIG = {
   retryAttempts: 3,
 }
 
-export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']
+export const USERS_STATUS_ENUM: { [key: string]: string } = {
+  needConfirm: 'needConfirm',
+  suspended: 'suspended',
+  blocked: 'blocked',
+  active: 'active',
+}
 
-export const USERS_ROLE_ENUM = ['player', 'agent', 'admin']
+export const USERS_ROLE_ENUM: { [key: string]: string } = {
+  player: 'player',
+  agent: 'agent',
+  admin: 'admin',
+}
 
-export const USERS_GENDER_ENUM = ['male', 'female', 'unspecified']
+export const USERS_GENDER_ENUM: { [key: string]: string } = {
+  male: 'male',
+  female: 'female',
+  unspecified: 'unspecified',
+}
