@@ -9,11 +9,16 @@ import { TypeModel, TypePropsFormMui } from 'src/interfaces'
 export const FormMui = (props: TypePropsFormMui) => {
   const { inputs, values, schema, onSubmit, submitText } = props
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
     mode: 'onTouched',
     values,
   })
+  console.log('1 errors', errors)
 
   const onGeneralSubmit = useCallback(
     (data: TypeModel) => {

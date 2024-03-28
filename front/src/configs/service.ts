@@ -1,6 +1,15 @@
 import { QueryClient } from '@tanstack/react-query'
 
-import { createUser, deleteUser, getUsers, updateUser } from 'src/services/apis'
+import {
+  createTable,
+  createUser,
+  deleteTable,
+  deleteUser,
+  getTables,
+  getUsers,
+  updateTable,
+  updateUser,
+} from 'src/services/apis'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeApiKeyMap } from 'src/interfaces'
 
@@ -10,6 +19,12 @@ export const API_KEY_MAP: TypeApiKeyMap = {
     createApi: createUser,
     updateApi: updateUser,
     deleteApi: deleteUser,
+  },
+  tables: {
+    listApi: getTables,
+    createApi: createTable,
+    updateApi: updateTable,
+    deleteApi: deleteTable,
   },
 }
 

@@ -1,6 +1,7 @@
 import { CheckBoxController } from 'src/components/cms/templates/controllers/CheckboxController'
 import { SelectController } from 'src/components/cms/templates/controllers/SelectController'
 import { TypeFormInput, TypeModelFormKeys } from 'src/interfaces'
+import { TABLE_PASOORS } from './clientConstantsPoker'
 
 export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']
 
@@ -117,11 +118,43 @@ export const USERS_FORM: TypeFormInput[] = [
   },
 ]
 
+export const TABLES_FORM: TypeFormInput[] = [
+  {
+    name: 'title',
+  },
+  {
+    name: 'pasoor',
+    component: SelectController,
+    options: Object.values(TABLE_PASOORS),
+  },
+  {
+    name: 'blinds_small',
+    type: 'number',
+  },
+  {
+    name: 'blinds_big',
+    type: 'number',
+  },
+  {
+    name: 'buyin_min',
+    type: 'number',
+  },
+  {
+    name: 'buyin_max',
+    type: 'number',
+  },
+  {
+    name: 'seats',
+    type: 'number',
+  },
+]
+
 export const MODEL_FORMS_NAMES: { [key in TypeModelFormKeys]: TypeModelFormKeys } = {
   register: 'register',
   login: 'login',
   profile: 'profile',
   users: 'users',
+  tables: 'tables',
 }
 
 export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
@@ -129,4 +162,5 @@ export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
   login: LOGIN_FORM,
   profile: PROFILE_FORM,
   users: USERS_FORM,
+  tables: TABLES_FORM,
 }

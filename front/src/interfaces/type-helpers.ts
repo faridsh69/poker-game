@@ -39,4 +39,4 @@ export type TypeBodyCells = { name: string }
 
 export type TypeSchema = yup.ObjectSchema<TypeModel>
 
-export type TypeModelFormKeys = 'users' | 'register' | 'login' | 'profile'
+export type TypeModelFormKeys = 'users' | 'register' | 'login' | 'profile' | 'tables'

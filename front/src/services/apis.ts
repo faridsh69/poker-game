@@ -16,6 +16,7 @@ if (!VITE_API_BASE_URL) {
 
 const VITE_AUTH_API_CLIENT = createApiClient(VITE_API_BASE_URL, false)
 const VITE_USER_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/users`, true)
+const VITE_TABLE_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/tables`, true)
 
 ///////////////////////////////////////////// AUTH //////////////////////////////////////////
 export const postLogin: TypeCreateApiMethod = data =>
@@ -50,5 +51,29 @@ export const updateUser: TypeUpdateApiMethod = data =>
 
 export const deleteUser: TypeDeleteApiMethod = (id: number) =>
   VITE_USER_API_CLIENT.remove({
+    endpoint: `${id}`,
+  })
+
+///////////////////////////////////////////// TABLE //////////////////////////////////////////
+
+export const getTables: TypeListApiMethod = () =>
+  VITE_TABLE_API_CLIENT.get({
+    endpoint: '',
+  })
+
+export const createTable: TypeCreateApiMethod = data =>
+  VITE_TABLE_API_CLIENT.post({
+    endpoint: '',
+    data,
+  })
+
+export const updateTable: TypeUpdateApiMethod = data =>
+  VITE_TABLE_API_CLIENT.patch({
+    endpoint: `${data.id}`,
+    data,
+  })
+
+export const deleteTable: TypeDeleteApiMethod = (id: number) =>
+  VITE_TABLE_API_CLIENT.remove({
     endpoint: `${id}`,
   })

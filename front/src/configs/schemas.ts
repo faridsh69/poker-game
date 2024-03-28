@@ -2,6 +2,7 @@ import * as yup from 'yup'
 
 import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/forms'
 import { TypeModelFormKeys, TypeSchema } from 'src/interfaces'
+import { TABLE_PASOORS } from './clientConstantsPoker'
 
 const REGEXS = {
   alphabeticAndNumbers: /^[^!@#$%^&*+=<>:;|~]*$/,
@@ -9,12 +10,12 @@ const REGEXS = {
   password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,30}$/,
 }
 
-export const LOGIN_SCHEMA = yup.object({
+const LOGIN_SCHEMA = yup.object({
   email: yup.string().email().required(),
   password: yup.string().min(6).required(),
 })
 
-export const USERS_SCHEMA = yup.object({
+const USERS_SCHEMA = yup.object({
   username: yup
     .string()
     .required()
@@ -43,7 +44,7 @@ export const USERS_SCHEMA = yup.object({
     ),
 })
 
-export const PROFILE_SCHEMA = yup.object({
+const PROFILE_SCHEMA = yup.object({
   first_name: yup.string().required(),
   last_name: yup.string().required(),
 
@@ -59,9 +60,20 @@ export const PROFILE_SCHEMA = yup.object({
   ),
 })
 
+const TABLES_SCHEMA = yup.object({
+  title: yup.string().required().min(3),
+  pasoor: yup.mixed<string>().oneOf(Object.values(TABLE_PASOORS)).required(),
+  blinds_small: yup.number().required(),
+  blinds_big: yup.number().required(),
+  buyin_min: yup.number().required(),
+  buyin_max: yup.number().required(),
+  seats: yup.number().required(),
+})
+
 export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {
   register: LOGIN_SCHEMA,
   login: LOGIN_SCHEMA,
   profile: PROFILE_SCHEMA,
   users: USERS_SCHEMA,
+  tables: TABLES_SCHEMA,
 }
