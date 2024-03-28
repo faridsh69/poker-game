@@ -1,10 +1,11 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { API_KEY_MAP } from 'src/configs/service'
 import { TypeApis, TypeModel, TypeUseCrud } from 'src/interfaces'
+import { errorHandler } from 'src/helpers/errorHandler'
 
 export const useCrud: TypeUseCrud = MODEL_SLUG => {
   const queryClient = useQueryClient()
@@ -13,7 +14,7 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
 
   const { listApi, createApi, updateApi, deleteApi } = API_KEY_MAP[MODEL_SLUG] as TypeApis
 
-  const { data, isFetching } = useQuery({
+  const { data, error, isFetching } = useQuery({
     queryKey: [MODEL_SLUG],
     queryFn: async () => {
       const response = await listApi()
@@ -22,6 +23,12 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
     },
     placeholderData: [],
   })
+
+  useEffect(() => {
+    if (!error) return
+
+    errorHandler(error as Error)
+  }, [error])
 
   const createMutation = useMutation({
     mutationFn: createApi,

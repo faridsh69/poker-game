@@ -2,6 +2,8 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import HomeIcon from '@mui/icons-material/Home'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import TableBarIcon from '@mui/icons-material/TableBar'
+import PaidIcon from '@mui/icons-material/Paid'
+import HistoryIcon from '@mui/icons-material/History'
 
 import packageJson from '../../package.json'
 import { TypeSidebarItem } from 'src/interfaces'
@@ -40,11 +42,19 @@ export const ADMIN_SIDEBAR_ITEMS: TypeSidebarItem[] = [
     icon: ManageAccountsIcon,
   },
   {
-    title: 'Payments',
+    title: 'tables',
+    icon: TableBarIcon,
+  },
+  {
+    title: 'payments',
     icon: PointOfSaleIcon,
   },
   {
-    title: 'tables',
-    icon: TableBarIcon,
+    title: 'transactions',
+    icon: PaidIcon,
+  },
+  {
+    title: 'table logs',
+    icon: HistoryIcon,
   },
 ]

@@ -1,12 +1,16 @@
 import { QueryClient } from '@tanstack/react-query'
 
 import {
+  createPayment,
   createTable,
   createUser,
+  deletePayment,
   deleteTable,
   deleteUser,
+  getPayments,
   getTables,
   getUsers,
+  updatePayment,
   updateTable,
   updateUser,
 } from 'src/services/apis'
@@ -26,6 +30,12 @@ export const API_KEY_MAP: TypeApiKeyMap = {
     updateApi: updateTable,
     deleteApi: deleteTable,
   },
+  payments: {
+    listApi: getPayments,
+    createApi: createPayment,
+    updateApi: updatePayment,
+    deleteApi: deletePayment,
+  },
 }
 
 export const REACT_QUERY_CLIENT = new QueryClient({
@@ -34,7 +44,6 @@ export const REACT_QUERY_CLIENT = new QueryClient({
       retry: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-      throwOnError: errorHandler,
     },
     mutations: {
       onError: errorHandler,
