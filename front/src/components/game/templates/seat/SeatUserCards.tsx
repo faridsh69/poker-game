@@ -2,7 +2,7 @@ import classNames from 'classnames'
 
 import { GameCard } from 'src/components/game/molecules/cards/GameCard'
 import { showBackcard } from 'src/helpers/clientHelpersPoker'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 import { TypeSeatProps, TypeTable } from 'src/interfaces'
 import { USER_CARD_CLASS_NAMES } from 'src/configs/clientConstantsPoker'
 import { useUserCardsAnimation } from 'src/hooks/game/useUserCardsAnimation'
@@ -10,7 +10,7 @@ import { useUserCardsAnimation } from 'src/hooks/game/useUserCardsAnimation'
 export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
   const { seat, table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const { cardClassNames } = useUserCardsAnimation(table, seat)
 

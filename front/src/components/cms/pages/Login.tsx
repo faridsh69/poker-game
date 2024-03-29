@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { Container, Avatar, Box, Grid, Link, Typography } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
-import { OAUTH_API_INFO } from 'src/configs/constants'
 import { useAuth } from 'src/hooks/useAuth'
 import { PageLayout } from 'src/components/cms/templates/PageLayout'
 import { FormMui } from 'src/components/cms/templates/FormMui'
@@ -17,9 +16,9 @@ export const Login = () => {
 
   const onSubmit = (data: TypeModel) => {
     loginMutation.mutate({
-      username: data.email,
+      email: data.email,
       password: data.password,
-      ...OAUTH_API_INFO,
+      remember: !!data.remember,
     })
   }
 

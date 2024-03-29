@@ -67,13 +67,13 @@ export const makeUniqueArrayByPropery = (initialArray: [], property: string) => 
 
 export const isBoolean = (variable: boolean) => typeof variable === 'boolean'
 
-export const isString = (variable: never) => typeof variable === 'string'
+export const isString = (variable: unknown) => typeof variable === 'string'
 
 export const isNumber = (variable: number) => typeof variable === 'number'
 
 export const isObject = (variable: object) => typeof variable === 'object'
 
-export const isArray = (variable: never): boolean => Array.isArray(variable)
+export const isArray = (variable: []): boolean => Array.isArray(variable)
 
 export const isUndefined = (variable: object) => typeof variable === 'undefined'
 
@@ -84,30 +84,40 @@ export const isThereCommonItemsInArrays = (array1: [], array2: []) =>
   array1.some(item => array2.includes(item))
 
 export const getLocalstorage = (key: string, defaultValue: string = ''): string => {
-  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
-  const data = JSON.parse(json)
+  try {
+    const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
+    const data = JSON.parse(json) || {}
 
-  if (isObjectEmpty(data) || isUndefined(data[key])) {
+    if (isObjectEmpty(data) || isUndefined(data[key])) return defaultValue
+
+    return data[key]
+  } catch (error) {
     return defaultValue
   }
-
-  return data[key]
 }
 
-export const setLocalsotrage = (key: string, value: string | number) => {
-  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
-  const data = JSON.parse(json) || {}
-  const newData = { ...data, [key]: value }
+export const setLocalsotrage = (key: string, value: unknown): void => {
+  try {
+    const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
+    const data = JSON.parse(json) || {}
+    const newData = { ...data, [key]: value }
 
-  localStorage.setItem(LOCAL_STORAGE_APP_KEY, JSON.stringify(newData))
+    localStorage.setItem(LOCAL_STORAGE_APP_KEY, JSON.stringify(newData))
+  } catch (error) {
+    localStorage.setItem(LOCAL_STORAGE_APP_KEY, JSON.stringify({ [key]: value }))
+  }
 }
 
-export const removeLocalsotrage = (key: string) => {
-  const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
-  const data = JSON.parse(json) || {}
-  delete data[key]
+export const removeLocalsotrage = (key: string): void => {
+  try {
+    const json = localStorage.getItem(LOCAL_STORAGE_APP_KEY) || ''
+    const data = JSON.parse(json) || {}
+    delete data[key]
 
-  localStorage.setItem(LOCAL_STORAGE_APP_KEY, JSON.stringify(data))
+    localStorage.setItem(LOCAL_STORAGE_APP_KEY, JSON.stringify(data))
+  } catch (error) {
+    //
+  }
 }
 
 export const shortenString = (string: string, maxLength: number, ending = '...') =>
@@ -179,7 +189,7 @@ export const toFormalCase = (string?: string): string => {
 
 export const toBool = (value: unknown) => !!value
 
-export const convertNullToEmptyString = (value: string | number | undefined) =>
+export const convertNullToEmptyString = (value: unknown) =>
   value === null || value === undefined ? '' : value
 
 export const capitalize = (string: string) => {

@@ -8,12 +8,12 @@ import { FoldAction } from 'src/components/game/templates/actions/details/FoldAc
 import { TimeBank } from 'src/components/game/templates/actions/details/TimeBank'
 import { useRaiseActions } from 'src/hooks/game/useRaiseActions'
 import { TypeTableProps } from 'src/interfaces'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 
 export const RaiseOrFoldOrCallActions = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const { raise, realRestOfRaise, raiseLimits, changeRaiseAmount, handleRaiseAction } =
     useRaiseActions(table)

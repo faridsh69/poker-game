@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, MouseEvent } from 'react'
 import {
   Box,
   Checkbox,
@@ -45,11 +45,11 @@ export const TableMui = (props: TypePropsTableMui) => {
     setPage(0)
   }
 
-  const handleChangePage = (_: unknown, newPage: number) => {
-    setPage(newPage)
+  const handleChangePage = (_: MouseEvent<HTMLButtonElement> | null, page: number) => {
+    setPage(page)
   }
 
-  const handleClick = (_: React.MouseEvent<unknown>, id: number) => {
+  const handleClick = (_: React.MouseEvent, id: number) => {
     const selectedIndex = selected.indexOf(id)
     let newSelected: readonly number[] = []
 
@@ -77,7 +77,7 @@ export const TableMui = (props: TypePropsTableMui) => {
     setSelected([])
   }
 
-  const handleRequestSort = (_: React.MouseEvent<unknown>, property: string) => {
+  const handleRequestSort = (_: React.MouseEvent, property: string) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)

@@ -1,14 +1,14 @@
 import timerImage from 'src/images/game/timer.png'
 import { CountDownTimer } from 'src/components/game/molecules/CountDownTimer'
 import { TypeTableProps } from 'src/interfaces'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { useSeatTimer } from 'src/hooks/useSeatTimer'
 
 export const JoingameTimer = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const authSeat = getUserSeat(table, username)
   const remainingSeconds = useSeatTimer(authSeat, 'leaveSeat')

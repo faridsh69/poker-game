@@ -28,8 +28,8 @@ export type TypeDndWindowProps = {
 
 export type TypeSuspenderComponent = (props: {
   pageName: string
-  auth?: boolean
-  guest?: boolean
+  canAuth?: boolean
+  canGuest?: boolean
 }) => JSX.Element
 
 export type TypeConfirmModalComponent = {
@@ -90,7 +90,7 @@ export type TypePropsTableHeader = {
   orderBy: string
   numSelected: number
   rowCount: number
-  onRequestSort: (event: MouseEvent<unknown>, property: string) => void
+  onRequestSort: (event: MouseEvent, property: string) => void
   headCells: TypeHeadCells[]
 }
 

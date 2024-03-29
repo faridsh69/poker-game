@@ -4,13 +4,13 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { Money } from 'src/components/game/molecules/Money'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 import { TypeTable } from 'src/interfaces'
 
 export const TablesItem = (props: { table: TypeTable }) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const { handleJoinTable } = useSocketActions(table.id)
 

@@ -5,7 +5,7 @@ import {
   isUserGameTurn,
   canSeeTableActionsPreTurn,
 } from 'src/helpers/clientHelpersPoker'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 import { TypeTableProps } from 'src/interfaces'
 import { Money } from 'src/components/game/molecules/Money'
 import { CheckboxAction } from './details/CheckboxAction'
@@ -15,7 +15,7 @@ import { PRE_MOVED_VALUES } from 'src/configs/clientConstantsPoker'
 export const TableActionsPreTurn = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const [premoveChecked, setPremoveChecked] = useState<string>('')
 

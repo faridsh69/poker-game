@@ -8,12 +8,12 @@ import {
 import { RadioAction } from 'src/components/game/templates/actions/details/RadioAction'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { TypeTableProps } from 'src/interfaces'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 
 export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const { handleStradle, handleSeatoutNextRound } = useSocketActions(table.id)
 

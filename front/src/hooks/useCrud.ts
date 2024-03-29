@@ -33,12 +33,13 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
   const createMutation = useMutation({
     mutationFn: createApi,
     onSuccess: response => {
+      const createdModel = response.data
       queryClient.setQueryData([MODEL_SLUG], (list: TypeModel[]) => {
         if (list) {
-          return [...list, response]
+          return [...list, createdModel]
         }
 
-        return [response]
+        return [createdModel]
       })
       toast.success(t(MODEL_SLUG + ' created successfully'))
     },

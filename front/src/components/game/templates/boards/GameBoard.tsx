@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useAtom } from 'jotai'
 
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { TablesList } from 'src/components/game/templates/table/TablesList'
 import { DndWindow } from 'src/components/game/templates/dnd/DndWindow'
@@ -13,7 +13,7 @@ import { ConfirmModal } from 'src/components/game/templates/modals/ConfirmModal'
 import { BuyinModal } from 'src/components/game/templates/modals/BuyinModal'
 
 export const GameBoard = () => {
-  const { username } = useAuth()
+  const username = getAuthUsername()
   const [allTables] = useAtom(allTablesAtom)
 
   const userTables = useMemo(() => {

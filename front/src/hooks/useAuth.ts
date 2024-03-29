@@ -3,24 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
-import { getLocalstorage, setLocalsotrage } from 'src/helpers/common'
-import { LOCAL_STORAGE_AUTH_USER_EMAIL } from 'src/configs/constants'
 import { postLogin, postRegister } from 'src/services/apis'
-import { removeToken, setToken } from 'src/helpers/auth'
+import { getAuthUsername, removeAccessToken, setAccessToken } from 'src/helpers/auth'
 
 export const useAuth = () => {
   const navigate = useNavigate()
-  const username = getLocalstorage(LOCAL_STORAGE_AUTH_USER_EMAIL)
+
+  const username = getAuthUsername()
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
-    onSuccess: (response, payload) => {
-      // @ts-ignore
-      setToken(response.access_token)
-      navigate('/admin')
+    onSuccess: response => {
+      const loginResponse = response.data
+      setAccessToken(loginResponse)
+
       toast.success('Logged in successfully!')
-      // @ts-ignore
-      setLocalsotrage(LOCAL_STORAGE_AUTH_USER_EMAIL, payload.username)
+      // navigate('/admin')
     },
   })
 
@@ -32,7 +30,7 @@ export const useAuth = () => {
   })
 
   const handleLogout = useCallback(() => {
-    removeToken()
+    removeAccessToken()
     navigate('/login')
   }, [navigate])
 

@@ -12,7 +12,7 @@ const REGEXS = {
 
 const LOGIN_SCHEMA = yup.object({
   email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
+  password: yup.string().required(),
 })
 
 const USERS_SCHEMA = yup.object({

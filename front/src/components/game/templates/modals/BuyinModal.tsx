@@ -17,10 +17,10 @@ import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { Money } from 'src/components/game/molecules/Money'
 import { useSeatTimer } from 'src/hooks/useSeatTimer'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 
 export const BuyinModal = () => {
-  const { username } = useAuth()
+  const username = getAuthUsername()
   const [buyinModal, setBuyinModal] = useAtom(buyinModalAtom)
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
   const [inputValue, setInputValue] = useState<number>(0)

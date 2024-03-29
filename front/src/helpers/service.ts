@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 
-import { getToken } from 'src/helpers/auth'
+import { getAccessToken } from 'src/helpers/auth'
 import {
   CreateApiClientType,
   TypeAxiosMethod,
@@ -49,18 +49,18 @@ const RequestInterceptor: TypeRequestInterceptor = config => {
 }
 
 const authInterceptor: TypeRequestInterceptor = config => {
-  const accessToken = getToken()
+  const accessToken = getAccessToken()
   config.headers!.Authorization = `Bearer ${accessToken}`
 
   return config
 }
 
-const responseInterceptor: TypeResponseInterceptor = response => response?.data || response
+const responseInterceptor: TypeResponseInterceptor = response => response
 
 const errorHandlerInterceptor: TypeErrorHandlerInterceptor = error => {
   const message = error.response?.data?.message
   if (message) {
-    if (isString(message as never)) {
+    if (isString(message)) {
       return Promise.reject({ message })
     }
 

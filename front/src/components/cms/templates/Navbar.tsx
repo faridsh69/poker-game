@@ -1,23 +1,21 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { AppBar, Box, IconButton, Button, Toolbar, Typography, MenuItem, Menu } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import AccountCircle from '@mui/icons-material/AccountCircle'
-import { useAuth } from 'src/hooks/useAuth'
-import { getToken } from 'src/helpers/auth'
 import { useState } from 'react'
-import { ThemeSwitcher } from '../molecules/ThemeSwitcher'
-import { LanguageSwitcher } from '../molecules/LanguageSwitcher'
+import { Link, useNavigate } from 'react-router-dom'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import MenuIcon from '@mui/icons-material/Menu'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import { AppBar, Box, IconButton, Button, Toolbar, Typography, MenuItem, Menu } from '@mui/material'
+
+import { LanguageSwitcher } from 'src/components/cms/molecules/LanguageSwitcher'
+import { ThemeSwitcher } from 'src/components/cms/molecules/ThemeSwitcher'
 import { META_TAGS } from 'src/configs/constants'
+import { useAuth } from 'src/hooks/useAuth'
 
 export const Navbar = () => {
-  const { username } = useAuth()
   const navigate = useNavigate()
-  const { handleLogout } = useAuth()
 
-  const accessToken = getToken()
+  const { username, handleLogout } = useAuth()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -55,12 +53,12 @@ export const Navbar = () => {
         <Box sx={{ flexGrow: 1 }} />
         <LanguageSwitcher />
         <ThemeSwitcher />
-        {!accessToken && (
+        {!username && (
           <Button color='inherit' component={Link} to='/login'>
             Login
           </Button>
         )}
-        {accessToken && (
+        {username && (
           <IconButton size='large' onClick={handleProfileMenuOpen} color='inherit'>
             <AccountCircle />
           </IconButton>

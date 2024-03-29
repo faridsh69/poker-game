@@ -1,13 +1,13 @@
-import { CheckboxAction } from './details/CheckboxAction'
+import { CheckboxAction } from 'src/components/game/templates/actions//details/CheckboxAction'
 import { TypeTableProps } from 'src/interfaces'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 import { canSeeTableActionsJoinPlay, isUserWaitForBB } from 'src/helpers/clientHelpersPoker'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 
 export const TableActionsJoinPlay = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
   const { handleWaitForBB } = useSocketActions(table.id)
 
   const isWaitingForBB = isUserWaitForBB(table, username)

@@ -1,11 +1,12 @@
-import { useAtom } from 'jotai'
-import { useAuth } from '../useAuth'
-import { socketAtom } from 'src/contexts/socketAtom'
 import { useCallback } from 'react'
+import { useAtom } from 'jotai'
+
+import { socketAtom } from 'src/contexts/socketAtom'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
+import { getAuthUsername } from 'src/helpers/auth'
 
 export const useSocketActions = (tableId: number) => {
-  const { username } = useAuth()
+  const username = getAuthUsername()
   const [socket] = useAtom(socketAtom)
 
   const handleJoinTable = useCallback(

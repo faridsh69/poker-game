@@ -1,13 +1,13 @@
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
-import { ActionButton } from './ActionButton'
+import { ActionButton } from 'src/components/game/templates/actions/details/ActionButton'
 import { TypeTableProps } from 'src/interfaces'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
-import { useAuth } from 'src/hooks/useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 
 export const TimeBank = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const authSeat = getUserSeat(table, username)
   const timeBank = authSeat?.user.timeBank

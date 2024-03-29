@@ -2,18 +2,18 @@ import { Suspense, lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { Loading } from 'src/components/cms/molecules/Loading'
-import { getToken } from 'src/helpers/auth'
+import { getAccessToken } from 'src/helpers/auth'
 import { TypeSuspenderComponent } from 'src/interfaces'
 
 export const Suspender: TypeSuspenderComponent = props => {
-  const { pageName = 'AdminDashboard', auth = false, guest = false } = props
-  const accessToken = getToken()
+  const { pageName = 'AdminDashboard', canAuth = false, canGuest = false } = props
+  const accessToken = getAccessToken()
 
-  if (auth && !accessToken) {
+  if (canAuth && !accessToken) {
     return <Navigate to='/login' replace={true} />
   }
 
-  if (guest && accessToken) {
+  if (canGuest && accessToken) {
     return <Navigate to='/admin' replace={true} />
   }
 

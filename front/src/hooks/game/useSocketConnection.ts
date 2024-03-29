@@ -1,5 +1,5 @@
-import { useAtom } from 'jotai'
 import { useCallback, useEffect, useState } from 'react'
+import { useAtom } from 'jotai'
 import socketIO from 'socket.io-client'
 import { toast } from 'react-toastify'
 
@@ -8,13 +8,12 @@ import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPok
 import { socketAtom } from 'src/contexts/socketAtom'
 import { SOCKET_URL } from 'src/services/apis'
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
-
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
-import { useAuth } from '../useAuth'
+import { getAuthUsername } from 'src/helpers/auth'
 
 export const useSocketConnection = () => {
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const [isConnected, setIsConnected] = useState<boolean>(false)
 

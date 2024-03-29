@@ -1,14 +1,22 @@
 import { getLocalstorage, removeLocalsotrage, setLocalsotrage } from 'src/helpers/common'
-import {
-  LOCAL_STORAGE_ACCESS_TOKEN_KEY,
-  LOCAL_STORAGE_AUTH_USER_EMAIL,
-} from 'src/configs/constants'
+import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from 'src/configs/constants'
+import { TypeModel } from 'src/interfaces'
 
-export const getToken = () => getLocalstorage(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
+export const getAccessToken = (): string => {
+  const user = getLocalstorage(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
 
-export const setToken = (token: string) => setLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY, token)
-
-export const removeToken = () => {
-  removeLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
-  removeLocalsotrage(LOCAL_STORAGE_AUTH_USER_EMAIL)
+  // @ts-ignore
+  return user?.access_token
 }
+
+export const getAuthUsername = () => {
+  const user = getLocalstorage(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
+
+  // @ts-ignore
+  return user?.username
+}
+
+export const setAccessToken = (user: TypeModel) =>
+  setLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY, user)
+
+export const removeAccessToken = () => removeLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY)

@@ -1,11 +1,11 @@
+import { getAuthUsername } from 'src/helpers/auth'
 import { getUserSeat } from 'src/helpers/clientHelpersPoker'
-import { useAuth } from 'src/hooks/useAuth'
 import { TypeTableProps } from 'src/interfaces'
 
 export const TableActionsAchievements = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const authSeat = getUserSeat(table, username)
 

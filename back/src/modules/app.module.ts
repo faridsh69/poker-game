@@ -7,9 +7,10 @@ import { DATABASE_CONFIG } from 'src/configs/database'
 import { UsersModule } from 'src/modules/users.module'
 import { TablesModule } from 'src/modules/tables.module'
 import { IsUnique } from 'src/validations/customs/IsUnique'
+import { AuthModule } from 'src/modules/auth.module'
 
 @Module({
-  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(DATABASE_CONFIG), PokerGateway, UsersModule, TablesModule],
+  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(DATABASE_CONFIG), PokerGateway, AuthModule, UsersModule, TablesModule],
   providers: [IsUnique],
 })
 export class AppModule {}

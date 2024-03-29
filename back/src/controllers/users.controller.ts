@@ -8,27 +8,27 @@ export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async find() {
+  public async find() {
     return { data: await this.userService.find() }
   }
 
   @Get(':id')
-  findOneBy(@Param('id') id: string) {
-    return this.userService.findOneBy('id', +id)
+  public async findOneBy(@Param('id') id: string) {
+    return { data: await this.userService.findOneBy('id', +id) }
   }
 
   @Delete(':id')
-  softDelete(@Param('id') id: string) {
-    return this.userService.softDelete(+id)
+  public async softDelete(@Param('id') id: string) {
+    return await this.userService.softDelete(+id)
   }
 
   @Post()
-  create(@Body() createModelDto: CreateUserDto) {
-    return this.userService.create(createModelDto)
+  public async create(@Body() createModelDto: CreateUserDto) {
+    return await this.userService.create(createModelDto)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
-    return this.userService.update(+id, updateModelDto)
+  public async update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
+    return await this.userService.update(+id, updateModelDto)
   }
 }

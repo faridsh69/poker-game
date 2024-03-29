@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useAuth } from '../useAuth'
+
 import { getRaiseActionAmount, getRaiseLimits } from 'src/helpers/clientHelpersPoker'
 import { TypeTable } from 'src/interfaces'
-
-import { useSocketActions } from './useSocketActions'
+import { getAuthUsername } from 'src/helpers/auth'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
 
 export const useRaiseActions = (table: TypeTable) => {
-  const { username } = useAuth()
+  const username = getAuthUsername()
   const { handleRaiseAction } = useSocketActions(table.id)
   const [raise, setRaise] = useState<number>(0)
 

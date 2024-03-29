@@ -35,8 +35,8 @@ export const LOGIN_FORM: TypeFormInput[] = [
   },
   {
     name: 'remember',
-    component: CheckBoxController,
     label: 'Remember me',
+    component: CheckBoxController,
   },
 ]
 

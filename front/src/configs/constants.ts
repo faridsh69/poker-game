@@ -8,11 +8,8 @@ import HistoryIcon from '@mui/icons-material/History'
 import packageJson from '../../package.json'
 import { TypeSidebarItem } from 'src/interfaces'
 
-const { VITE_CLIENT_ID, VITE_CLIENT_SECRET } = import.meta.env
-
 export const LOCAL_STORAGE_APP_KEY = 'PER'
-export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'access_token'
-export const LOCAL_STORAGE_AUTH_USER_EMAIL = 'auth_email'
+export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'user_with_access_token'
 
 export const META_TAGS = {
   title: `Royal Poker V ${packageJson.version}`,
@@ -21,12 +18,6 @@ export const META_TAGS = {
   image: 'vite.svg',
   author: '',
   domain: '',
-}
-
-export const OAUTH_API_INFO = {
-  grant_type: 'password',
-  client_id: +VITE_CLIENT_ID,
-  client_secret: VITE_CLIENT_SECRET,
 }
 
 export const SERVER_DATE_FORMAT = 'YYYY-MM-DD'

@@ -9,13 +9,13 @@ import {
 } from 'src/helpers/clientHelpersPoker'
 import { SeatEmpty } from 'src/components/game/templates/seat/SeatEmpty'
 import { TypeTableProps } from 'src/interfaces'
-import { useAuth } from 'src/hooks/useAuth'
-import { SeatUser } from '../seat/SeatUser'
+import { getAuthUsername } from 'src/helpers/auth'
+import { SeatUser } from 'src/components/game/templates/seat/SeatUser'
 
 export const TableSeats = (props: TypeTableProps) => {
   const { table } = props
 
-  const { username } = useAuth()
+  const username = getAuthUsername()
 
   const isAuthUserWaitingTable = isUserWaitingTable(table, username)
 
