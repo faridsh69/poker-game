@@ -13,8 +13,7 @@ export const useThemeWithLocale = () => {
   const { i18n } = useTranslation()
 
   const themeWithLocale = useMemo(
-    // @ts-ignore
-    () => createTheme(THEMES[theme], MUI_LOCALES[i18n.language]),
+    () => createTheme(THEMES[theme as string], MUI_LOCALES[i18n.language]),
     [i18n.language, theme],
   )
 

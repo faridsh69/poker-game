@@ -1,4 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+
+import { User } from 'src/models/user.entity'
 import { UserService } from 'src/services/user.service'
 import { CreateUserDto } from 'src/validations/create-user.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
@@ -8,13 +10,13 @@ export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  public async find() {
-    return { data: await this.userService.find() }
+  public async find(): Promise<User[]> {
+    return await this.userService.find()
   }
 
   @Get(':id')
-  public async findOneBy(@Param('id') id: string) {
-    return { data: await this.userService.findOneBy('id', +id) }
+  public async findOneBy(@Param('id') id: string): Promise<User | null> {
+    return await this.userService.findOneBy('id', +id)
   }
 
   @Delete(':id')
@@ -23,12 +25,12 @@ export class UsersController {
   }
 
   @Post()
-  public async create(@Body() createModelDto: CreateUserDto) {
+  public async create(@Body() createModelDto: CreateUserDto): Promise<User> {
     return await this.userService.create(createModelDto)
   }
 
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
+  public async update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto): Promise<User> {
     return await this.userService.update(+id, updateModelDto)
   }
 }

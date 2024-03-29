@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common'
-import { TypeUserWithToken } from 'src/interfaces/types'
 
+import { TypeUserWithToken } from 'src/interfaces/types'
 import { AuthService } from 'src/services/auth.service'
 import { LoginUserDto } from 'src/validations/login-user.dto'
 

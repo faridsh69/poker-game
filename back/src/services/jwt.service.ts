@@ -25,8 +25,8 @@ export class JwtService {
   public generateAccessToken(user: User, remember: boolean): string {
     const payload: TypePayload = {
       id: user.id,
-      email: user.email,
-      username: user.username,
+      email: user.email, // Revemo
+      username: user.username, // Revemo
     }
 
     const expiresIn = remember ? JWT_CONFIG.rememberExpires : JWT_CONFIG.accessTokenExpires

@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { FormControl, Select, MenuItem } from '@mui/material'
 
-import { DE_LANGUAGE, EN_LANGUAGE, FLAG_LOCALES } from 'src/configs/locale'
+import { FLAG_LOCALES, LANGUAGES } from 'src/configs/locale'
 
 export const LanguageSwitcher = () => {
   const { i18n } = useTranslation()
 
   const changeLanguage = () => {
-    i18n.changeLanguage(i18n.resolvedLanguage === EN_LANGUAGE ? DE_LANGUAGE : EN_LANGUAGE)
+    i18n.changeLanguage(i18n.resolvedLanguage === LANGUAGES.en ? LANGUAGES.de : LANGUAGES.en)
   }
 
   return (

@@ -16,9 +16,9 @@ export const useAuth = () => {
     onSuccess: response => {
       const loginResponse = response.data
       setAccessToken(loginResponse)
-
       toast.success('Logged in successfully!')
-      // navigate('/admin')
+
+      navigate('/admin')
     },
   })
 

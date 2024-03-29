@@ -14,45 +14,45 @@ const ROUTES: RoutesType = [
   {
     name: 'login',
     path: '/login',
-    element: <Suspender pageName='Login' guest />,
+    element: <Suspender pageName='Login' canGuest />,
     errorElement: <ErrorPage />,
   },
   {
     name: 'register',
     path: '/register',
-    element: <Suspender pageName='Register' guest />,
+    element: <Suspender pageName='Register' canGuest />,
     errorElement: <ErrorPage />,
   },
   {
     name: 'admin',
     path: 'admin',
-    element: <Suspender pageName='AdminDashboard' auth />,
+    element: <Suspender pageName='AdminDashboard' canAuth />,
     errorElement: <ErrorPage />,
     children: [
       {
         name: 'admin-list',
         path: ':model',
-        element: <Suspender pageName='AdminList' auth />,
+        element: <Suspender pageName='AdminList' canAuth />,
       },
       {
         name: 'admin-form',
         path: ':model/create',
-        element: <Suspender pageName='AdminForm' auth />,
+        element: <Suspender pageName='AdminForm' canAuth />,
       },
       {
         name: 'admin-show',
         path: ':model/:id',
-        element: <Suspender pageName='AdminShow' auth />,
+        element: <Suspender pageName='AdminShow' canAuth />,
       },
       {
         name: 'admin-edit',
         path: ':model/:id/edit',
-        element: <Suspender pageName='AdminForm' auth />,
+        element: <Suspender pageName='AdminForm' canAuth />,
       },
       {
         name: 'admin-profile',
         path: 'profile',
-        element: <Suspender pageName='AdminProfile' auth />,
+        element: <Suspender pageName='AdminProfile' canAuth />,
       },
     ],
   },

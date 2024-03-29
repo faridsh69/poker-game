@@ -7,6 +7,7 @@ import { TypeSuspenderComponent } from 'src/interfaces'
 
 export const Suspender: TypeSuspenderComponent = props => {
   const { pageName = 'AdminDashboard', canAuth = false, canGuest = false } = props
+
   const accessToken = getAccessToken()
 
   if (canAuth && !accessToken) {

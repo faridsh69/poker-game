@@ -1,11 +1,11 @@
-import { grey } from '@mui/material/colors'
+import { ThemeOptions } from '@mui/material'
 
-export const LIGHT_THEME = {
+export const LIGHT_THEME: ThemeOptions = {
   components: {
     MuiToolbar: {
       styleOverrides: {
         root: {
-          minHeight: '40px !important',
+          minHeight: '50px !important',
         },
       },
     },
@@ -21,16 +21,12 @@ export const LIGHT_THEME = {
     },
     MuiFormHelperText: {
       styleOverrides: {
-        root: {
-          marginLeft: '0px',
-        },
+        root: {},
       },
     },
     MuiFormControlLabel: {
       styleOverrides: {
-        label: {
-          color: 'white',
-        },
+        label: {},
       },
     },
     MuiInputBase: {
@@ -57,7 +53,6 @@ export const LIGHT_THEME = {
     MuiCheckbox: {
       styleOverrides: {
         root: {},
-        outlined: {},
       },
     },
     MuiSelect: {
@@ -67,9 +62,7 @@ export const LIGHT_THEME = {
     },
     MuiCssBaseline: {
       styleOverrides: {
-        body: {
-          // margin: '0px',
-        },
+        body: {},
       },
     },
   },
@@ -80,30 +73,35 @@ export const LIGHT_THEME = {
       md: 900,
       lg: 1200,
       xl: 1536,
-
-      mobile: 0,
-      tablet: 640,
-      laptop: 1024,
-      desktop: 1200,
-      bigDesktop: 1800,
     },
   },
   palette: {
     mode: 'light',
-    // primary: {
-    //   main: '#f00',
-    // },
-    secondary: grey,
+    primary: {
+      main: '#1976d2',
+      light: '#42a5f5',
+      dark: '#1565c0',
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#9c27b0',
+      light: '#ba68c8',
+      dark: '#7b1fa2',
+      contrastText: '#fff',
+    },
   },
 }
 
-export const LIGHT_THEME_NAME = 'light'
-export const DARK_THEME_NAME = 'dark'
+export const THEME_NAMES = {
+  light: 'light',
+  dark: 'dark',
+}
 
-export const THEMES = {
-  [LIGHT_THEME_NAME]: LIGHT_THEME,
-  [DARK_THEME_NAME]: {
+export const THEMES: { [key: string]: ThemeOptions } = {
+  [THEME_NAMES.light]: LIGHT_THEME,
+  [THEME_NAMES.dark]: {
     ...LIGHT_THEME,
+    // @ts-ignore
     palette: {
       mode: 'dark',
     },

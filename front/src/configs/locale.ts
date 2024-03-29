@@ -8,17 +8,19 @@ import deFlag from 'src/images/flags/de.png'
 import deLocales from 'src/locales/de.json'
 import enLocales from 'src/locales/en.json'
 
-export const EN_LANGUAGE = 'en'
-export const DE_LANGUAGE = 'de'
+export const LANGUAGES = {
+  en: 'en',
+  de: 'de',
+}
 
 export const MUI_LOCALES = {
-  [EN_LANGUAGE]: enUS,
-  [DE_LANGUAGE]: deDE,
+  [LANGUAGES.en]: enUS,
+  [LANGUAGES.de]: deDE,
 }
 
 export const FLAG_LOCALES = {
-  [EN_LANGUAGE]: enFlag,
-  [DE_LANGUAGE]: deFlag,
+  [LANGUAGES.en]: enFlag,
+  [LANGUAGES.de]: deFlag,
 }
 
 i18next
@@ -33,7 +35,7 @@ i18next
         translation: deLocales,
       },
     },
-    fallbackLng: EN_LANGUAGE,
+    fallbackLng: LANGUAGES.en,
     debug: false,
   })
 

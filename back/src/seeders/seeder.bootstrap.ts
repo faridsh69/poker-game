@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
+
 import { SeederService } from 'src/seeders/seeder.service'
 import { SeederModule } from 'src/seeders/seeder.module'
 

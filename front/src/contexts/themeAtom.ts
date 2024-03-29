@@ -1,5 +1,5 @@
 import { atomWithStorage, createJSONStorage } from 'jotai/utils'
-import { LIGHT_THEME_NAME } from 'src/configs/theme'
+import { THEME_NAMES } from 'src/configs/theme'
 
 const sessionJsonStorage = createJSONStorage(() => sessionStorage)
-export const themeAtom = atomWithStorage('selected-theme', LIGHT_THEME_NAME, sessionJsonStorage)
+export const themeAtom = atomWithStorage('selected-theme', THEME_NAMES.light, sessionJsonStorage)
