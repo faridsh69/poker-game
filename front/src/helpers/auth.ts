@@ -1,6 +1,6 @@
 import {
   getLocalstorage,
-  refreshBrowser,
+  // refreshBrowser,
   removeLocalsotrage,
   setLocalsotrage,
 } from 'src/helpers/common'
@@ -26,7 +26,7 @@ export const removeAccessToken = () => removeLocalsotrage(LOCAL_STORAGE_ACCESS_T
 
 export const forceLogout = (error: AxiosError) => {
   if (error.response?.status === UNAUTHORIZED_HTTP_CODE) {
-    // removeAccessToken()
+    removeAccessToken()
     // refreshBrowser()
   }
 }

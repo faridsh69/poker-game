@@ -10,7 +10,8 @@ import { SOCKET_URL } from 'src/services/apis'
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
-import { getAuthUsername } from 'src/helpers/auth'
+import { getAccessToken, getAuthUsername } from 'src/helpers/auth'
+import { errorHandler } from 'src/helpers/errorHandler'
 
 export const useSocketConnection = () => {
   const username = getAuthUsername()
@@ -22,7 +23,14 @@ export const useSocketConnection = () => {
   const [, setLastAction] = useAtom(lastActionAtom)
 
   useEffect(() => {
-    const socketInstance = socketIO(SOCKET_URL)
+    const accessToken = getAccessToken()
+    const socketInstance = socketIO(SOCKET_URL, {
+      extraHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    socketInstance.on('connect_error', error => errorHandler(error))
 
     setSocket(socketInstance)
     socketInstance.on(SERVER_CHANNELS.connect, () => setIsConnected(true))
