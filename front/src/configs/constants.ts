@@ -10,6 +10,7 @@ import { TypeSidebarItem } from 'src/interfaces'
 
 export const LOCAL_STORAGE_APP_KEY = 'PER'
 export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'user_with_access_token'
+export const UNAUTHORIZED_HTTP_CODE = 401
 
 export const META_TAGS = {
   title: `Royal Poker V ${packageJson.version}`,

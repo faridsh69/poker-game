@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common'
+import { AuthGuard } from 'src/guards/auth.gaurd'
 
 import { TableService } from 'src/services/table.service'
 import { CreateTableDto } from 'src/validations/create-table.dto'
 import { UpdateTableDto } from 'src/validations/update-table.dto'
 
 @Controller('tables')
+@UseGuards(AuthGuard)
 export class TablesController {
   constructor(private readonly tableService: TableService) {}
 

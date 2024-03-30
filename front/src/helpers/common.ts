@@ -228,3 +228,7 @@ export const getSeconds = (second: number) => {
 
   return seconds.padStart(2, '0')
 }
+
+export const refreshBrowser = () => {
+  window.location.reload()
+}

@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 
-import { getAccessToken } from 'src/helpers/auth'
+import { forceLogout, getAccessToken } from 'src/helpers/auth'
+import { isString } from 'src/helpers/common'
 import {
   CreateApiClientType,
   TypeAxiosMethod,
@@ -8,7 +9,6 @@ import {
   TypeRequestInterceptor,
   TypeResponseInterceptor,
 } from 'src/interfaces'
-import { isString } from './common'
 
 export const createApiClient: CreateApiClientType = (baseURL, auth = false) => {
   const axiosInstance: AxiosInstance = axios.create({ baseURL })
@@ -58,6 +58,8 @@ const authInterceptor: TypeRequestInterceptor = config => {
 const responseInterceptor: TypeResponseInterceptor = response => response
 
 const errorHandlerInterceptor: TypeErrorHandlerInterceptor = error => {
+  forceLogout(error)
+
   const message = error.response?.data?.message
   if (message) {
     if (isString(message)) {

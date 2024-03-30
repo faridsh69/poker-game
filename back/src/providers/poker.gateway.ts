@@ -39,6 +39,8 @@ import {
 } from 'src/interfaces/serverPokerTypes'
 import { getDeadline, isAtLeastTwoPlayers } from '../services/poker.service'
 import { runTests } from '../tests/testData'
+import { AuthGuard } from 'src/guards/auth.gaurd'
+import { UseGuards } from '@nestjs/common'
 
 @WebSocketGateway({
   cors: {
@@ -46,6 +48,7 @@ import { runTests } from '../tests/testData'
     credentials: true,
   },
 })
+@UseGuards(AuthGuard)
 export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   @WebSocketServer()
   server!: Server
