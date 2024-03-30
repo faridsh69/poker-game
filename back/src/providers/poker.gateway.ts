@@ -9,7 +9,9 @@ import {
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 import { instrument } from '@socket.io/admin-ui'
+import { JwtService } from '@nestjs/jwt'
 
+import { SocketAuthMiddleware } from 'src/middlewares/SocketAuthMiddleware'
 import { ACTION_NAMES, CLIENT_CHANNELS, SERVER_CHANNELS, TABLES, TIMER_ACTION_NAMES } from 'src/configs/serverPokerConstants'
 import {
   renderClientJoinGame,
@@ -37,9 +39,8 @@ import {
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/interfaces/serverPokerTypes'
-import { getDeadline, isAtLeastTwoPlayers } from '../services/poker.service'
-import { runTests } from '../tests/testData'
-import { SocketAuthMiddleware } from 'src/middlewares/AuthMiddleware'
+import { getDeadline, isAtLeastTwoPlayers } from 'src/services/poker.service'
+import { runTests } from 'src/tests/testData'
 
 @WebSocketGateway({
   cors: {
@@ -48,6 +49,8 @@ import { SocketAuthMiddleware } from 'src/middlewares/AuthMiddleware'
   },
 })
 export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
+  constructor(private readonly jwtService: JwtService) {}
+
   @WebSocketServer()
   server!: Server
 
@@ -58,7 +61,7 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   afterInit(client: Socket) {
-    client.use(SocketAuthMiddleware as any)
+    client.use(SocketAuthMiddleware(this.jwtService) as any)
     instrument(this.server, {
       auth: false,
       mode: 'development',

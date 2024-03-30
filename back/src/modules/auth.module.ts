@@ -21,16 +21,6 @@ import { envConfig } from 'src/configs/envConfig'
         }
       },
     }),
-    //   secretOrKeyProvider: (
-    //     requestType: JwtSecretRequestType,
-    //   ) => {
-    //     if (requestType === JwtSecretRequestType.SIGN) {
-    //       return envConfig().privateKey
-    //     }
-    //     if (requestType === JwtSecretRequestType.VERIFY) {
-    //       return envConfig().publicKey
-    //     }
-    //     return envConfig().secretKey
   ],
   controllers: [AuthController],
   providers: [AuthService],

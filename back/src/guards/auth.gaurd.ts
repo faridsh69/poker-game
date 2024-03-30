@@ -1,20 +1,23 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { WsException } from '@nestjs/websockets'
 import { Request } from 'express'
 import { Socket } from 'socket.io'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private readonly jwtService: JwtService) {}
+
   canActivate(context: ExecutionContext) {
     const request: Request = context.switchToHttp().getRequest()
-    const authorization = AuthGuard.getAuthorizationFromHttp(request)
+    const authorization = this.getAuthorizationFromHttp(request)
 
-    AuthGuard.verifyHeaderAuthorization(authorization)
+    this.verifyHeaderAuthorization(authorization)
 
     return true
   }
 
-  static verifyHeaderAuthorization(authorization: string | undefined, isWs = false) {
+  verifyHeaderAuthorization(authorization: string | undefined, isWs = false) {
     const [type, accessToken] = authorization?.split(' ') || []
     const token = type === 'Bearer' ? accessToken : undefined
 
@@ -27,7 +30,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       console.log('1 token', token)
-      const payload = JwtService.verify(token)
+      const payload = this.jwtService.verify(token)
       console.log('2 payload', payload)
       // request['user'] = payload
     } catch {
@@ -38,11 +41,11 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-  static getAuthorizationFromHttp(request: Request): string | undefined {
+  getAuthorizationFromHttp(request: Request): string | undefined {
     return request.headers.authorization
   }
 
-  static getAuthorizationFromSocket(client: Socket): string | undefined {
+  getAuthorizationFromSocket(client: Socket): string | undefined {
     return client.handshake?.headers?.authorization
   }
 }
