@@ -26,7 +26,7 @@ export const removeAccessToken = () => removeLocalsotrage(LOCAL_STORAGE_ACCESS_T
 
 export const forceLogout = (error: AxiosError) => {
   if (error.response?.status === UNAUTHORIZED_HTTP_CODE) {
-    removeAccessToken()
-    refreshBrowser()
+    // removeAccessToken()
+    // refreshBrowser()
   }
 }
