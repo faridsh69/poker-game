@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt'
 
 import { UserService } from 'src/services/user.service'
 import { LoginUserDto } from 'src/validations/login-user.dto'
-import { TypeUserWithToken } from 'src/interfaces/types'
+import { TypeUserMinimalObject, TypeUserWithToken } from 'src/interfaces/types'
 import { throwException } from 'src/helpers/http'
 
 @Injectable()
@@ -21,8 +21,8 @@ export class AuthService {
       return throwException("Your email and password don't match.")
     }
 
-    const payload = { sub: user.id, username: user.username }
-    const accessToken = this.jwtService.sign(payload)
+    const userMinimalObject: TypeUserMinimalObject = { id: user.id, username: user.username, email: user.email }
+    const accessToken = this.jwtService.sign(userMinimalObject)
 
     return {
       ...user,

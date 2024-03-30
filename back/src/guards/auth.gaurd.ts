@@ -4,6 +4,8 @@ import { WsException } from '@nestjs/websockets'
 import { Request } from 'express'
 import { Socket } from 'socket.io'
 
+import { TypeUserMinimalObject } from 'src/interfaces/types'
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
@@ -12,12 +14,14 @@ export class AuthGuard implements CanActivate {
     const request: Request = context.switchToHttp().getRequest()
     const authorization = this.getAuthorizationFromHttp(request)
 
-    this.verifyHeaderAuthorization(authorization)
+    const userMinimalObject = this.verifyHeaderAuthorization(authorization)
+    // @ts-ignore
+    request['userx'] = userMinimalObject
 
     return true
   }
 
-  verifyHeaderAuthorization(authorization: string | undefined, isWs = false) {
+  verifyHeaderAuthorization(authorization: string | undefined, isWs = false): TypeUserMinimalObject {
     const [type, accessToken] = authorization?.split(' ') || []
     const token = type === 'Bearer' ? accessToken : undefined
 
@@ -29,10 +33,7 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      console.log('1 token', token)
-      const payload = this.jwtService.verify(token)
-      console.log('2 payload', payload)
-      // request['user'] = payload
+      return this.jwtService.verify(token) as TypeUserMinimalObject
     } catch {
       if (isWs) {
         throw new WsException('Please login again, your token expired.')

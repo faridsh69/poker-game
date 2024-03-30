@@ -142,26 +142,22 @@ export type TypeTable = {
 
 export type TypeHandleClientJoinTable = {
   tableId: number
-  username: string
 }
 
 export type TypeHandleClientSitTable = {
   tableId: number
   seatId: number
   buyinAmount: number
-  username: string
 }
 
 export type TypeHandleClientCallAction = {
   tableId: number
   callActionAmount: number
-  username: string
 }
 
 export type TypeHandleClientRaiseAction = {
   tableId: number
   raiseActionAmount: number
-  username: string
 }
 
 export type TypeScoreAndAchivement = { score: number; achievement: string }
@@ -176,6 +172,5 @@ export type TypeLastAction = {
 
 export type TypeHandleClientShowCardAction = {
   tableId: number
-  username: string
   cardIndexes: number[]
 }

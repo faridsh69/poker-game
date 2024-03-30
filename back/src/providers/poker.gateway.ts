@@ -56,16 +56,23 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
 
   private tablesState: TypeTable[] = TABLES
 
-  updateTablesState = (tables: TypeTable[]) => {
+  private updateTablesState = (tables: TypeTable[]) => {
     this.tablesState = tables
+  }
+
+  private getUsername = (client: Socket): string => {
+    // @ts-ignore
+    return client.userx.username
   }
 
   afterInit(client: Socket) {
     client.use(SocketAuthMiddleware(this.jwtService) as any)
+
     instrument(this.server, {
       auth: false,
       mode: 'development',
     })
+
     setInterval(() => {
       const nowtime = getDeadline()
       for (const table of this.tablesState) {
@@ -113,40 +120,37 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
     }, 1000)
   }
 
-  handleConnection(clientSocket: Socket) {
-    clientSocket.emit(SERVER_CHANNELS.updateTables, {
+  handleConnection(socket: Socket) {
+    socket.emit(SERVER_CHANNELS.updateTables, {
       tables: this.tablesState,
       checkJoinTabls: true,
     })
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinTable)
-  handleClientJoinTable(
-    @MessageBody() { tableId, username }: TypeHandleClientJoinTable,
-    @ConnectedSocket() clientSocket: Socket,
-  ) {
+  handleClientJoinTable(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
     runTests()
+    const username = this.getUsername(socket)
     // Validations: check user not joined this table before
     this.tablesState = renderClientJoinTable(this.tablesState, tableId, username)
 
-    clientSocket.join('' + tableId)
+    socket.join('' + tableId)
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveTable)
-  handleClientLeaveTable(
-    @MessageBody() { tableId, username }: TypeHandleClientJoinTable,
-    @ConnectedSocket() clientSocket: Socket,
-  ) {
+  handleClientLeaveTable(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     // Validations: check user is joined before as waiting user in this table
     this.tablesState = renderClientLeaveTable(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
-    clientSocket.leave('' + tableId)
+    socket.leave('' + tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
-  handleClientJoinSeat(@MessageBody() { tableId, seatId, username }: TypeHandleClientSitTable) {
+  handleClientJoinSeat(@MessageBody() { tableId, seatId }: TypeHandleClientSitTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     // Validations: check user is joined before as waiting user in this table, also he is not seated
     this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, username)
 
@@ -162,48 +166,61 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   // }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
-  handleClientJoinGame(@MessageBody() { tableId, username, buyinAmount }: TypeHandleClientSitTable) {
+  handleClientJoinGame(@MessageBody() { tableId, buyinAmount }: TypeHandleClientSitTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     this.tablesState = renderClientJoinGame(this.tablesState, tableId, username, buyinAmount)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.waitForBB)
-  handleClientWaitForBB(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  handleClientWaitForBB(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     this.tablesState = renderClientWaitForBB(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.leaveGame)
-  handleClientLeaveGame(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  handleClientLeaveGame(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     this.tablesState = renderClientLeaveGame(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.foldAction)
-  handleClientFoldAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  handleClientFoldAction(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     // Validations: check if user is able to fold, also is itt his tturn ....
     this.handleClientAction(tableId, username, ACTION_NAMES.fold)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.checkAction)
-  handleClientCheckAction(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  handleClientCheckAction(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     // Validations: check user can do check or he should call/fold, also is it user turn
     // check two person are seating in table, check table phase is not waiting
     this.handleClientAction(tableId, username, ACTION_NAMES.check)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.callAction)
-  handleClientCallAction(@MessageBody() { tableId, callActionAmount, username }: TypeHandleClientCallAction) {
+  handleClientCallAction(
+    @MessageBody() { tableId, callActionAmount }: TypeHandleClientCallAction,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    const username = this.getUsername(socket)
     // Validations: check user can call this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
     this.handleClientAction(tableId, username, ACTION_NAMES.call, callActionAmount)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.raiseAction)
-  handleClientRaiseAction(@MessageBody() { tableId, raiseActionAmount, username }: TypeHandleClientRaiseAction) {
+  handleClientRaiseAction(
+    @MessageBody() { tableId, raiseActionAmount }: TypeHandleClientRaiseAction,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    const username = this.getUsername(socket)
     // Validations: check user can raise this amount, also is it user turn
     // check two person are seating in table, check table phase is not waiting
     this.handleClientAction(tableId, username, ACTION_NAMES.raise, raiseActionAmount)
@@ -222,7 +239,11 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.showCardAction)
-  handleClientShowCardAction(@MessageBody() { tableId, username, cardIndexes }: TypeHandleClientShowCardAction) {
+  handleClientShowCardAction(
+    @MessageBody() { tableId, cardIndexes }: TypeHandleClientShowCardAction,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    const username = this.getUsername(socket)
     // Validations: check if use can do show his cards
     this.tablesState = renderClientShowCardAction(this.tablesState, tableId, username, cardIndexes)
 
@@ -230,14 +251,16 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.stradle)
-  handleClientStradle(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  handleClientStradle(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     this.tablesState = renderClientStradle(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.seatoutNextRound)
-  handleClientSeatoutNextRound(@MessageBody() { tableId, username }: TypeHandleClientJoinTable) {
+  handleClientSeatoutNextRound(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+    const username = this.getUsername(socket)
     this.tablesState = renderClientSeatoutNextRound(this.tablesState, tableId, username)
 
     renderUpdateClients(this.server, this.tablesState, tableId)

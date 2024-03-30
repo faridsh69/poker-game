@@ -14,6 +14,7 @@ export class UsersController {
   find() {
     return this.userService.find()
   }
+  // find(@Req() request: Request) { request.user
 
   @Post()
   create(@Body() createModelDto: CreateUserDto) {
