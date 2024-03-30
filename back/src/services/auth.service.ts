@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 
 import { UserService } from 'src/services/user.service'
-import { JwtService } from 'src/services/jwt.service'
 import { LoginUserDto } from 'src/validations/login-user.dto'
 import { TypeUserWithToken } from 'src/interfaces/types'
 import { throwException } from 'src/helpers/http'
@@ -21,7 +21,8 @@ export class AuthService {
       return throwException("Your email and password don't match.")
     }
 
-    const accessToken = this.jwtService.generateAccessToken(user, loginUserDto.remember)
+    const payload = { sub: user.id, username: user.username }
+    const accessToken = await this.jwtService.signAsync(payload)
 
     return {
       ...user,

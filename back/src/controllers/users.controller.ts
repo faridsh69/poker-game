@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common'
+import { AuthGuard } from 'src/guards/auth.gaurd'
 
-import { User } from 'src/models/user.entity'
 import { UserService } from 'src/services/user.service'
 import { CreateUserDto } from 'src/validations/create-user.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
@@ -9,28 +9,24 @@ import { UpdateUserDto } from 'src/validations/update-user.dto'
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
-  public async find(): Promise<User[]> {
-    return await this.userService.find()
-  }
-
-  @Get(':id')
-  public async findOneBy(@Param('id') id: string): Promise<User | null> {
-    return await this.userService.findOneBy('id', +id)
-  }
-
-  @Delete(':id')
-  public async softDelete(@Param('id') id: string) {
-    return await this.userService.softDelete(+id)
+  find() {
+    return this.userService.find()
   }
 
   @Post()
-  public async create(@Body() createModelDto: CreateUserDto): Promise<User> {
-    return await this.userService.create(createModelDto)
+  create(@Body() createModelDto: CreateUserDto) {
+    return this.userService.create(createModelDto)
   }
 
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto): Promise<User> {
-    return await this.userService.update(+id, updateModelDto)
+  update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
+    return this.userService.update(+id, updateModelDto)
+  }
+
+  @Delete(':id')
+  softDelete(@Param('id') id: string) {
+    return this.userService.softDelete(+id)
   }
 }
