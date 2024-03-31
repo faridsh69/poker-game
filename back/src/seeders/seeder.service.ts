@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { UsersService } from 'src/services/users.service'
 import { TablesService } from 'src/services/tables.service'
 import { PaymentsService } from 'src/services/payments.service'
+import { TransactionsService } from 'src/services/transactions.service'
 
 @Injectable()
 export class SeederService {
@@ -11,6 +12,7 @@ export class SeederService {
     private readonly usersService: UsersService,
     private readonly tablesService: TablesService,
     private readonly paymentsService: PaymentsService,
+    private readonly transactionsService: TransactionsService,
   ) {}
   async seed() {
     await this.seeds()
@@ -25,7 +27,12 @@ export class SeederService {
   }
 
   async seeds() {
-    return await Promise.all([...this.usersService.seed(), ...this.tablesService.seed(), ...this.paymentsService.seed()])
+    return await Promise.all([
+      ...this.usersService.seed(),
+      ...this.tablesService.seed(),
+      ...this.paymentsService.seed(),
+      ...this.transactionsService.seed(),
+    ])
       .then(createdModels => {
         this.logger.debug('No. of models created : ' + createdModels.filter(nullValue => nullValue).length)
         return Promise.resolve(true)

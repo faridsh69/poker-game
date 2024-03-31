@@ -9,6 +9,5 @@ import { PaymentsController } from 'src/controllers/payments.controller'
   imports: [TypeOrmModule.forFeature([Payment])],
   controllers: [PaymentsController],
   providers: [PaymentsService],
-  // exports: [PaymentsService],
 })
 export class PaymentsModule {}

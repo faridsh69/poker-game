@@ -8,7 +8,8 @@ import { UsersModule } from 'src/modules/users.module'
 import { TablesModule } from 'src/modules/tables.module'
 import { IsUnique } from 'src/validations/customs/IsUnique'
 import { AuthModule } from 'src/modules/auth.module'
-import { PaymentsModule } from './payments.module'
+import { PaymentsModule } from 'src/modules/payments.module'
+import { TransactionsModule } from 'src/modules/transactions.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PaymentsModule } from './payments.module'
     UsersModule,
     TablesModule,
     PaymentsModule,
+    TransactionsModule,
   ],
   providers: [IsUnique],
 })

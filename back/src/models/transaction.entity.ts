@@ -1,9 +1,8 @@
+import { TRANSACTIONS_REASONS } from 'src/configs/database'
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
-import { PAYMENTS_GATEWAYS, PAYMENTS_STATUSES } from 'src/configs/database'
-
-@Entity('payments')
-export class Payment {
+@Entity('transactions')
+export class Transaction {
   @PrimaryGeneratedColumn()
   id!: number
 
@@ -19,14 +18,14 @@ export class Payment {
   @Column({ type: 'varchar', length: 100 })
   description!: string
 
-  @Column({ type: 'enum', enum: Object.values(PAYMENTS_GATEWAYS) })
-  gateway!: string
+  @Column({ type: 'enum', enum: Object.values(TRANSACTIONS_REASONS) })
+  reason!: string
 
-  @Column({ type: 'enum', enum: Object.values(PAYMENTS_STATUSES), default: PAYMENTS_STATUSES.pending })
-  status!: string
+  @Column({ type: 'int' })
+  table_id!: number
 
-  @Column({ type: 'varchar', length: 100 })
-  wallet!: string
+  @Column({ type: 'int' })
+  bonus_code_id!: number
 
   @CreateDateColumn()
   created_at!: Date

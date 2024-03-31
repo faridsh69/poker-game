@@ -42,3 +42,12 @@ export const PAYMENTS_STATUSES: { [key: string]: string } = {
   reject: 'reject',
   success: 'success',
 }
+
+export const TRANSACTIONS_REASONS: { [key: string]: string } = {
+  buyin: 'buyin',
+  leaveSeat: 'leaveSeat',
+  transfer: 'transfer',
+  reward: 'reward',
+  rakeBack: 'rakeBack',
+  bonusCode: 'bonusCode',
+}
