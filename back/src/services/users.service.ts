@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 import { User } from 'src/models/user.entity'
 import { CreateUserDto } from 'src/validations/create-user.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
-import { USERS_SEEDER } from 'src/seeders/users.seeder'
+import { USERS_SEEDER } from 'src/seeders/sources/users.seeder'
 
 @Injectable()
 export class UsersService {

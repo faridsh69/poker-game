@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { Table } from 'src/models/table.entity'
-import { TABLES_SEEDER } from 'src/seeders/tables.seeder'
+import { TABLES_SEEDER } from 'src/seeders/sources/tables.seeder'
 import { CreateTableDto } from 'src/validations/create-table.dto'
 import { UpdateTableDto } from 'src/validations/update-table.dto'
 

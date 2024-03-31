@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { Transaction } from 'src/models/transaction.entity'
-import { TRANSACTIONS_SEEDER } from 'src/seeders/transactions.seeder'
+import { TRANSACTIONS_SEEDER } from 'src/seeders/sources/transactions.seeder'
 import { CreateTransactionDto } from 'src/validations/create-transaction.dto'
 import { UpdateTransactionDto } from 'src/validations/update-transaction.dto'
 

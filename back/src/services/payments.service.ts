@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { Payment } from 'src/models/payment.entity'
-import { PAYMENTS_SEEDER } from 'src/seeders/payments.seeder'
+import { PAYMENTS_SEEDER } from 'src/seeders/sources/payments.seeder'
 import { CreatePaymentDto } from 'src/validations/create-payment.dto'
 import { UpdatePaymentDto } from 'src/validations/update-payment.dto'
 

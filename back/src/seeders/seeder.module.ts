@@ -11,9 +11,11 @@ import { TablesService } from 'src/services/tables.service'
 import { PaymentsService } from 'src/services/payments.service'
 import { TransactionsService } from 'src/services/transactions.service'
 import { Transaction } from 'src/models/transaction.entity'
+import { History } from 'src/models/history.entity'
+import { HistoriesService } from 'src/services/histories.service'
 
 @Module({
-  imports: [TypeOrmModule.forRoot(DATABASE_CONFIG), TypeOrmModule.forFeature([User, Table, Payment, Transaction])],
-  providers: [Logger, SeederService, UsersService, TablesService, PaymentsService, TransactionsService],
+  imports: [TypeOrmModule.forRoot(DATABASE_CONFIG), TypeOrmModule.forFeature([User, Table, Payment, Transaction, History])],
+  providers: [Logger, SeederService, UsersService, TablesService, PaymentsService, TransactionsService, HistoriesService],
 })
 export class SeederModule {}

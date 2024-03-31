@@ -10,6 +10,7 @@ import { IsUnique } from 'src/validations/customs/IsUnique'
 import { AuthModule } from 'src/modules/auth.module'
 import { PaymentsModule } from 'src/modules/payments.module'
 import { TransactionsModule } from 'src/modules/transactions.module'
+import { HistoriesModule } from './history.module'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TransactionsModule } from 'src/modules/transactions.module'
     TablesModule,
     PaymentsModule,
     TransactionsModule,
+    HistoriesModule,
   ],
   providers: [IsUnique],
 })

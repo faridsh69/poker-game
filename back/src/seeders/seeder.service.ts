@@ -4,6 +4,7 @@ import { UsersService } from 'src/services/users.service'
 import { TablesService } from 'src/services/tables.service'
 import { PaymentsService } from 'src/services/payments.service'
 import { TransactionsService } from 'src/services/transactions.service'
+import { HistoriesService } from 'src/services/histories.service'
 
 @Injectable()
 export class SeederService {
@@ -13,6 +14,7 @@ export class SeederService {
     private readonly tablesService: TablesService,
     private readonly paymentsService: PaymentsService,
     private readonly transactionsService: TransactionsService,
+    private readonly historiesService: HistoriesService,
   ) {}
   async seed() {
     await this.seeds()
@@ -32,6 +34,7 @@ export class SeederService {
       ...this.tablesService.seed(),
       ...this.paymentsService.seed(),
       ...this.transactionsService.seed(),
+      ...this.historiesService.seed(),
     ])
       .then(createdModels => {
         this.logger.debug('No. of models created : ' + createdModels.filter(nullValue => nullValue).length)
