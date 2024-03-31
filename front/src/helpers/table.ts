@@ -1,4 +1,4 @@
-import { isNumber, toFormalCase } from 'src/helpers/common'
+import { toFormalCase } from 'src/helpers/common'
 import { TypeOrder, TypeBodyCells, TypeHeadCells } from 'src/interfaces'
 
 export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCells[] => {
@@ -7,12 +7,12 @@ export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCel
 
   if (firstItemOfModel) {
     Object.keys(firstItemOfModel).map(key => {
-      // @ts-ignore
-      const value = firstItemOfModel[key]
+      if (key === 'deleted_at') return
+
       headerCells.push({
         id: key,
         label: toFormalCase(key),
-        numeric: isNumber(value),
+        numeric: false,
         disablePadding: key === 'id',
       })
     })
@@ -46,11 +46,13 @@ export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCel
 export const calculateBodyCells = (list: object[], model = 'users'): TypeBodyCells[] => {
   const firstItemOfModel = list[0]
   if (firstItemOfModel) {
-    return Object.keys(firstItemOfModel).map(key => {
-      return {
-        name: key,
-      }
-    })
+    return Object.keys(firstItemOfModel)
+      .filter(key => key !== 'deleted_at')
+      .map(key => {
+        return {
+          name: key,
+        }
+      })
   }
 
   const defaultBodyCells = [

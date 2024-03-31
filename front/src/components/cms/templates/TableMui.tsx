@@ -128,7 +128,7 @@ export const TableMui = (props: TypePropsTableMui) => {
                       return (
                         <TableCell key={cell.name} align='left'>
                           {/* @ts-ignore */}
-                          {row[cell.name]}
+                          <div>{row[cell.name].toString()}</div>
                         </TableCell>
                       )
                     })}

@@ -1,21 +1,29 @@
 import { QueryClient } from '@tanstack/react-query'
 
-import {
-  createPayment,
-  createTable,
-  createUser,
-  deletePayment,
-  deleteTable,
-  deleteUser,
-  getPayments,
-  getTables,
-  getUsers,
-  updatePayment,
-  updateTable,
-  updateUser,
-} from 'src/services/apis'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeApiKeyMap } from 'src/interfaces'
+import {
+  createHistory,
+  createPayment,
+  createTable,
+  createTransaction,
+  createUser,
+  deleteHistory,
+  deletePayment,
+  deleteTable,
+  deleteTransaction,
+  deleteUser,
+  getHistories,
+  getPayments,
+  getTables,
+  getTransactions,
+  getUsers,
+  updateHistory,
+  updatePayment,
+  updateTable,
+  updateTransaction,
+  updateUser,
+} from 'src/services/apis'
 
 export const API_KEY_MAP: TypeApiKeyMap = {
   users: {
@@ -35,6 +43,18 @@ export const API_KEY_MAP: TypeApiKeyMap = {
     createApi: createPayment,
     updateApi: updatePayment,
     deleteApi: deletePayment,
+  },
+  transactions: {
+    listApi: getTransactions,
+    createApi: createTransaction,
+    updateApi: updateTransaction,
+    deleteApi: deleteTransaction,
+  },
+  histories: {
+    listApi: getHistories,
+    createApi: createHistory,
+    updateApi: updateHistory,
+    deleteApi: deleteHistory,
   },
 }
 

@@ -47,6 +47,7 @@ export const ADMIN_SIDEBAR_ITEMS: TypeSidebarItem[] = [
   },
   {
     title: 'table logs',
+    url: 'histories',
     icon: HistoryIcon,
   },
 ]
