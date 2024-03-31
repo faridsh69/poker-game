@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Unique } from 'typeorm'
 
-import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
+import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
 
 @Entity('users')
 @Unique(['username'])
@@ -15,10 +15,10 @@ export class User {
   @Column({ type: 'varchar', length: 40 })
   email!: string
 
-  @Column({ type: 'enum', enum: Object.values(USERS_STATUS_ENUM), default: USERS_STATUS_ENUM.needConfirm })
+  @Column({ type: 'enum', enum: Object.values(USERS_STATUSES), default: USERS_STATUSES.needConfirm })
   status!: string
 
-  @Column({ type: 'enum', enum: Object.values(USERS_ROLE_ENUM), default: USERS_ROLE_ENUM.player })
+  @Column({ type: 'enum', enum: Object.values(USERS_ROLES), default: USERS_ROLES.player })
   role!: string
 
   @Column({ type: 'varchar', length: 40, nullable: true, default: '' })
@@ -30,7 +30,7 @@ export class User {
   @Column({ type: 'varchar', length: 15, nullable: true, default: '' })
   last_name!: string
 
-  @Column({ type: 'enum', enum: Object.values(USERS_GENDER_ENUM), default: USERS_GENDER_ENUM.male })
+  @Column({ type: 'enum', enum: Object.values(USERS_GENDERS), default: USERS_GENDERS.male })
   gender!: string
 
   @Column({ type: 'int', default: 1 })

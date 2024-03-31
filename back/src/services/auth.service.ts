@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
-import { UserService } from 'src/services/user.service'
+import { UsersService } from 'src/services/users.service'
 import { LoginUserDto } from 'src/validations/login-user.dto'
 import { TypeUserMinimalObject, TypeUserWithToken } from 'src/interfaces/types'
 import { throwException } from 'src/helpers/http'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UserService, private readonly jwtService: JwtService) {}
+  constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
 
   public async login(loginUserDto: LoginUserDto): Promise<TypeUserWithToken> {
     const user = await this.usersService.findOneBy('email', loginUserDto.email)

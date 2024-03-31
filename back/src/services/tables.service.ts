@@ -8,14 +8,14 @@ import { CreateTableDto } from 'src/validations/create-table.dto'
 import { UpdateTableDto } from 'src/validations/update-table.dto'
 
 @Injectable()
-export class TableService {
+export class TablesService {
   constructor(@InjectRepository(Table) private readonly modelRepository: Repository<Table>) {}
 
-  find(): Promise<Table[]> {
+  find() {
     return this.modelRepository.find()
   }
 
-  findOneBy(fieldName: string, value: string | number): Promise<Table | null> {
+  findOneBy(fieldName: string, value: string | number) {
     return this.modelRepository.findOneBy({ [fieldName]: value })
   }
 
@@ -23,8 +23,8 @@ export class TableService {
     return this.modelRepository.softDelete(id)
   }
 
-  create(createModelDto: CreateTableDto): Promise<Table> {
-    const model: Table = new Table()
+  create(createModelDto: CreateTableDto) {
+    const model = new Table()
     model.title = createModelDto.title
     model.pasoor = createModelDto.pasoor
     model.blinds_small = createModelDto.blinds_small
@@ -36,8 +36,8 @@ export class TableService {
     return this.modelRepository.save(model)
   }
 
-  update(id: number, updateModelDto: UpdateTableDto): Promise<Table> {
-    const model: Table = new Table()
+  update(id: number, updateModelDto: UpdateTableDto) {
+    const model = new Table()
     model.id = id
     model.title = updateModelDto.title
     model.pasoor = updateModelDto.pasoor

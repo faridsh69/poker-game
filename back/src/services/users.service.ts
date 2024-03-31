@@ -8,14 +8,14 @@ import { UpdateUserDto } from 'src/validations/update-user.dto'
 import { USERS_SEEDER } from 'src/seeders/users.seeder'
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(@InjectRepository(User) private readonly modelRepository: Repository<User>) {}
 
-  find(): Promise<User[]> {
+  find() {
     return this.modelRepository.find()
   }
 
-  findOneBy(fieldName: string, value: string | number): Promise<User | null> {
+  findOneBy(fieldName: string, value: string | number) {
     return this.modelRepository.findOneBy({ [fieldName]: value })
   }
 
@@ -23,8 +23,8 @@ export class UserService {
     return this.modelRepository.softDelete(id)
   }
 
-  create(createModelDto: CreateUserDto): Promise<User> {
-    const model: User = new User()
+  create(createModelDto: CreateUserDto) {
+    const model = new User()
     model.username = createModelDto.username
     model.first_name = createModelDto.first_name
     model.last_name = createModelDto.last_name
@@ -40,8 +40,8 @@ export class UserService {
     return this.modelRepository.save(model)
   }
 
-  update(id: number, updateModelDto: UpdateUserDto): Promise<User> {
-    const model: User = new User()
+  update(id: number, updateModelDto: UpdateUserDto) {
+    const model = new User()
     model.id = id
     model.username = updateModelDto.username
     model.first_name = updateModelDto.first_name

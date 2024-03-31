@@ -12,21 +12,33 @@ export const DATABASE_CONFIG = {
   retryAttempts: 3,
 }
 
-export const USERS_STATUS_ENUM: { [key: string]: string } = {
+export const USERS_STATUSES: { [key: string]: string } = {
   needConfirm: 'needConfirm',
   suspended: 'suspended',
   blocked: 'blocked',
   active: 'active',
 }
 
-export const USERS_ROLE_ENUM: { [key: string]: string } = {
+export const USERS_ROLES: { [key: string]: string } = {
   player: 'player',
   agent: 'agent',
   admin: 'admin',
 }
 
-export const USERS_GENDER_ENUM: { [key: string]: string } = {
+export const USERS_GENDERS: { [key: string]: string } = {
   male: 'male',
   female: 'female',
   unspecified: 'unspecified',
+}
+
+export const PAYMENTS_GATEWAYS: { [key: string]: string } = {
+  btc: 'btc',
+  usdt: 'usdt',
+  perfectMoney: 'perfectMoney',
+}
+
+export const PAYMENTS_STATUSES: { [key: string]: string } = {
+  pending: 'pending',
+  reject: 'reject',
+  success: 'success',
 }

@@ -1,0 +1,39 @@
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
+
+import { PAYMENTS_GATEWAYS, PAYMENTS_STATUSES } from 'src/configs/database'
+
+@Entity('payments')
+export class Payment {
+  @PrimaryGeneratedColumn()
+  id!: number
+
+  @Column({ type: 'int' })
+  user_id!: number
+
+  @Column({ type: 'int' })
+  price!: number
+
+  @Column({ type: 'boolean' })
+  user_giving!: boolean
+
+  @Column({ type: 'varchar', length: 100 })
+  description!: string
+
+  @Column({ type: 'enum', enum: Object.values(PAYMENTS_GATEWAYS), default: PAYMENTS_GATEWAYS.usdt })
+  gateway!: string
+
+  @Column({ type: 'enum', enum: Object.values(PAYMENTS_STATUSES), default: PAYMENTS_STATUSES.pending })
+  status!: string
+
+  @Column({ type: 'varchar', length: 100 })
+  wallet!: string
+
+  @CreateDateColumn()
+  created_at!: Date
+
+  @UpdateDateColumn()
+  updated_at!: Date
+
+  @DeleteDateColumn()
+  deleted_at?: Date
+}

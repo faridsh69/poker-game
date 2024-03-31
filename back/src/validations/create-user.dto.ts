@@ -1,6 +1,6 @@
 import { IsAlphanumeric, IsEmail, IsEnum, IsInt, IsNotEmpty, IsString, Matches, MinLength, Validate } from 'class-validator'
 
-import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/database'
+import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
 import { IsUnique } from 'src/validations/customs/IsUnique'
 import { IsNullable } from 'src/validations/customs/IsNullable'
 import { PASSWORD_REGEX } from 'src/configs/validation'
@@ -28,19 +28,19 @@ export class CreateUserDto {
   @MinLength(6, { message: 'Please provide valid Phone, at least 6 digits.' })
   phone!: string
 
-  @IsEnum(Object.values(USERS_STATUS_ENUM), {
-    message: `Status must be one of the values: ${Object.values(USERS_STATUS_ENUM).join(', ')}.`,
+  @IsEnum(Object.values(USERS_STATUSES), {
+    message: `Status must be one of the values: ${Object.values(USERS_STATUSES).join(', ')}.`,
   })
   status!: string
 
-  @IsEnum(Object.values(USERS_ROLE_ENUM), {
-    message: `Role must be one of the values: ${Object.values(USERS_ROLE_ENUM).join(', ')}.`,
+  @IsEnum(Object.values(USERS_ROLES), {
+    message: `Role must be one of the values: ${Object.values(USERS_ROLES).join(', ')}.`,
   })
   role!: string
 
   @IsNullable()
-  @IsEnum(Object.values(USERS_GENDER_ENUM), {
-    message: `Gender must be one of the values: ${Object.values(USERS_GENDER_ENUM).join(', ')}.`,
+  @IsEnum(Object.values(USERS_GENDERS), {
+    message: `Gender must be one of the values: ${Object.values(USERS_GENDERS).join(', ')}.`,
   })
   gender!: string
 

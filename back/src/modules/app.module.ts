@@ -8,9 +8,18 @@ import { UsersModule } from 'src/modules/users.module'
 import { TablesModule } from 'src/modules/tables.module'
 import { IsUnique } from 'src/validations/customs/IsUnique'
 import { AuthModule } from 'src/modules/auth.module'
+import { PaymentsModule } from './payments.module'
 
 @Module({
-  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(DATABASE_CONFIG), PokerGateway, AuthModule, UsersModule, TablesModule],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(DATABASE_CONFIG),
+    PokerGateway,
+    AuthModule,
+    UsersModule,
+    TablesModule,
+    PaymentsModule,
+  ],
   providers: [IsUnique],
 })
 export class AppModule {}
