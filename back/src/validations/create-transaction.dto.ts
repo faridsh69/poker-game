@@ -15,7 +15,7 @@ export class CreateTransactionDto {
   @IsString()
   description!: string
 
-  @IsEnum(Object.values(PAYMENTS_GATEWAYS), {
+  @IsEnum(Object.values(TRANSACTIONS_REASONS), {
     message: `Reason must be one of the values: ${Object.values(TRANSACTIONS_REASONS).join(', ')}.`,
   })
   reason!: string
