@@ -4,6 +4,7 @@ import {
   TypeCreateApiMethod,
   TypeDeleteApiMethod,
   TypeListApiMethod,
+  TypeShowApiMethod,
   TypeUpdateApiMethod,
 } from 'src/interfaces'
 
@@ -35,6 +36,11 @@ export const postRegister: TypeCreateApiMethod = data =>
 export const getUsers: TypeListApiMethod = () =>
   VITE_ADMIN_API_CLIENT.get({
     endpoint: API_URLS.users,
+  })
+
+export const getUser: TypeShowApiMethod = id =>
+  VITE_ADMIN_API_CLIENT.get({
+    endpoint: `${API_URLS.users}/${id}`,
   })
 
 export const createUser: TypeCreateApiMethod = data =>

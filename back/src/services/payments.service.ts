@@ -68,4 +68,22 @@ export class PaymentsService {
         .catch(error => Promise.reject(error))
     })
   }
+
+  async findUserBalance(userId: number): Promise<number> {
+    const sumPositive = await this.queryFindSumPrice(userId, true)
+    const sumNegative = await this.queryFindSumPrice(userId, false)
+
+    const sum = +sumPositive.sum_price - +sumNegative.sum_price
+
+    return sum
+  }
+
+  async queryFindSumPrice(userId: number, userGiving: boolean) {
+    return await this.modelRepository
+      .createQueryBuilder('payments')
+      .where('user_id = :userId', { userId })
+      .andWhere('user_giving = :userGiving', { userGiving })
+      .select('SUM(price)', 'sum_price')
+      .getRawOne()
+  }
 }

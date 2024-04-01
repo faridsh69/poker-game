@@ -7,14 +7,18 @@ import { API_KEY_MAP } from 'src/configs/service'
 import { TypeApis, TypeModel, TypeUseCrud } from 'src/interfaces'
 import { errorHandler } from 'src/helpers/errorHandler'
 
-export const useCrud: TypeUseCrud = MODEL_SLUG => {
+export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
   const queryClient = useQueryClient()
 
   const { t } = useTranslation()
 
-  const { listApi, createApi, updateApi, deleteApi } = API_KEY_MAP[MODEL_SLUG] as TypeApis
+  const { listApi, showApi, createApi, updateApi, deleteApi } = API_KEY_MAP[MODEL_SLUG] as TypeApis
 
-  const { data, error, isFetching } = useQuery({
+  const {
+    data: listApiData,
+    error: listApiError,
+    isFetching,
+  } = useQuery({
     queryKey: [MODEL_SLUG],
     queryFn: async () => {
       const response = await listApi()
@@ -24,11 +28,31 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
     placeholderData: [],
   })
 
-  useEffect(() => {
-    if (!error) return
+  const list = useMemo(() => {
+    return listApiData || []
+  }, [listApiData])
 
-    errorHandler(error as Error)
-  }, [error])
+  const { data: single, error: showApiError } = useQuery({
+    queryKey: [MODEL_SLUG, modelId],
+    queryFn: async () => {
+      console.log('1 modelId', modelId)
+      if (!modelId) return {}
+
+      const response = await showApi(modelId)
+      console.log('1 response', response)
+      return response.data
+    },
+    placeholderData: {},
+  })
+
+  useEffect(() => {
+    if (listApiError) {
+      errorHandler(listApiError as Error)
+    }
+    if (showApiError) {
+      errorHandler(showApiError as Error)
+    }
+  }, [listApiError, showApiError])
 
   const createMutation = useMutation({
     mutationFn: createApi,
@@ -80,12 +104,9 @@ export const useCrud: TypeUseCrud = MODEL_SLUG => {
     },
   })
 
-  const list = useMemo(() => {
-    return data || []
-  }, [data])
-
   return {
     list,
+    single,
     isFetching,
     createMutation,
     updateMutation,

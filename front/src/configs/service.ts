@@ -17,6 +17,7 @@ import {
   getPayments,
   getTables,
   getTransactions,
+  getUser,
   getUsers,
   updateHistory,
   updatePayment,
@@ -28,30 +29,35 @@ import {
 export const API_KEY_MAP: TypeApiKeyMap = {
   users: {
     listApi: getUsers,
+    showApi: getUser,
     createApi: createUser,
     updateApi: updateUser,
     deleteApi: deleteUser,
   },
   tables: {
     listApi: getTables,
+    showApi: getUser,
     createApi: createTable,
     updateApi: updateTable,
     deleteApi: deleteTable,
   },
   payments: {
     listApi: getPayments,
+    showApi: getUser,
     createApi: createPayment,
     updateApi: updatePayment,
     deleteApi: deletePayment,
   },
   transactions: {
     listApi: getTransactions,
+    showApi: getUser,
     createApi: createTransaction,
     updateApi: updateTransaction,
     deleteApi: deleteTransaction,
   },
   histories: {
     listApi: getHistories,
+    showApi: getUser,
     createApi: createHistory,
     updateApi: updateHistory,
     deleteApi: deleteHistory,
