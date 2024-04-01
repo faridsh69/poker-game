@@ -16,6 +16,7 @@ import { getComparator, stableSort } from 'src/helpers/table'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { TypeOrder, TypePropsTableMui } from 'src/interfaces'
+import { isUndefined } from 'src/helpers/common'
 
 export const TableMui = (props: TypePropsTableMui) => {
   const { list, bodyCells, headCells, handleDelete, handleEdit } = props
@@ -125,10 +126,11 @@ export const TableMui = (props: TypePropsTableMui) => {
                       />
                     </TableCell>
                     {bodyCells.map(cell => {
+                      // @ts-ignore
+                      const val = row[cell.name]
                       return (
                         <TableCell key={cell.name} align='left'>
-                          {/* @ts-ignore */}
-                          <div>{row[cell.name] ? row[cell.name].toString() : row[cell.name]}</div>
+                          <div>{!isUndefined(val) && val !== null ? val.toString() : val}</div>
                         </TableCell>
                       )
                     })}

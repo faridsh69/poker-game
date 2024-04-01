@@ -1,9 +1,23 @@
 import { CheckBoxController } from 'src/components/cms/templates/controllers/CheckboxController'
 import { SelectController } from 'src/components/cms/templates/controllers/SelectController'
 import { TypeFormInput, TypeModelFormKeys } from 'src/interfaces'
-import { TABLE_PASOORS } from './clientConstantsPoker'
+import { SEAT_ROLES, TABLE_PASOORS, TABLE_PHASES } from './clientConstantsPoker'
+import { EditorController } from 'src/components/cms/templates/controllers/EditorController'
 
 export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']
+
+export const PAYMENTS_GATEWAYS = ['btc', 'usdt', 'perfectMoney']
+
+export const PAYMENTS_STATUSES = ['pending', 'reject', 'success']
+
+export const TRANSACTIONS_REASONS = [
+  'buyin',
+  'leaveSeat',
+  'transfer',
+  'reward',
+  'rakeBack',
+  'bonusCode',
+]
 
 export const USERS_ROLE_ENUM = ['player', 'agent', 'admin']
 
@@ -143,12 +157,112 @@ export const TABLES_FORM: TypeFormInput[] = [
   },
 ]
 
+export const PAYMENTS_FORM: TypeFormInput[] = [
+  {
+    name: 'user_id',
+    type: 'number',
+  },
+  {
+    name: 'price',
+    type: 'number',
+  },
+  {
+    name: 'user_giving',
+    type: 'boolean',
+    component: CheckBoxController,
+  },
+  {
+    name: 'description',
+  },
+  {
+    name: 'gateway',
+    component: SelectController,
+    options: PAYMENTS_GATEWAYS,
+  },
+  {
+    name: 'status',
+    component: SelectController,
+    options: PAYMENTS_STATUSES,
+  },
+  {
+    name: 'wallet',
+  },
+]
+
+export const TRANSACTIONS_FORM: TypeFormInput[] = [
+  {
+    name: 'user_id',
+    type: 'number',
+  },
+  {
+    name: 'price',
+    type: 'number',
+  },
+  {
+    name: 'user_giving',
+    type: 'boolean',
+    component: CheckBoxController,
+  },
+  {
+    name: 'description',
+  },
+  {
+    name: 'reason',
+    component: SelectController,
+    options: TRANSACTIONS_REASONS,
+  },
+  {
+    name: 'table_id',
+    type: 'number',
+  },
+  {
+    name: 'bonus_code_id',
+    type: 'number',
+  },
+]
+
+export const HISTORIES_FORM = [
+  {
+    name: 'table_id',
+    type: 'number',
+  },
+  {
+    name: 'total',
+    type: 'number',
+  },
+  {
+    name: 'roleTurn',
+    component: SelectController,
+    options: Object.values(SEAT_ROLES),
+  },
+  {
+    name: 'phase',
+    component: SelectController,
+    options: Object.values(TABLE_PHASES),
+  },
+  {
+    name: 'seats',
+    component: EditorController,
+  },
+  {
+    name: 'cards',
+    component: EditorController,
+  },
+  {
+    name: 'pots',
+    component: EditorController,
+  },
+]
+
 export const MODEL_FORMS_NAMES: { [key in TypeModelFormKeys]: TypeModelFormKeys } = {
   register: 'register',
   login: 'login',
   profile: 'profile',
   users: 'users',
   tables: 'tables',
+  payments: 'payments',
+  transactions: 'transactions',
+  histories: 'histories',
 }
 
 export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
@@ -157,4 +271,7 @@ export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
   profile: PROFILE_FORM,
   users: USERS_FORM,
   tables: TABLES_FORM,
+  payments: PAYMENTS_FORM,
+  transactions: TRANSACTIONS_FORM,
+  histories: HISTORIES_FORM,
 }

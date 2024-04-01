@@ -1,8 +1,15 @@
 import * as yup from 'yup'
 
-import { USERS_GENDER_ENUM, USERS_ROLE_ENUM, USERS_STATUS_ENUM } from 'src/configs/forms'
 import { TypeModelFormKeys, TypeSchema } from 'src/interfaces'
-import { TABLE_PASOORS } from './clientConstantsPoker'
+import { SEAT_ROLES, TABLE_PASOORS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import {
+  PAYMENTS_GATEWAYS,
+  PAYMENTS_STATUSES,
+  TRANSACTIONS_REASONS,
+  USERS_GENDER_ENUM,
+  USERS_ROLE_ENUM,
+  USERS_STATUS_ENUM,
+} from 'src/configs/forms'
 
 const REGEXS = {
   alphabeticAndNumbers: /^[^!@#$%^&*+=<>:;|~]*$/,
@@ -68,10 +75,43 @@ const TABLES_SCHEMA = yup.object({
   seats: yup.number().required(),
 })
 
+const PAYMENTS_SCHEMA = yup.object({
+  user_id: yup.number().required(),
+  price: yup.number().required(),
+  user_giving: yup.boolean().required(),
+  description: yup.string().required(),
+  gateway: yup.mixed<string>().oneOf(PAYMENTS_GATEWAYS).required(),
+  status: yup.mixed<string>().oneOf(PAYMENTS_STATUSES).required(),
+  wallet: yup.string().required(),
+})
+
+const TRANSACTIONS_SCHEMA = yup.object({
+  user_id: yup.number().required(),
+  price: yup.number().required(),
+  user_giving: yup.boolean().required(),
+  description: yup.string().required(),
+  reason: yup.mixed<string>().oneOf(TRANSACTIONS_REASONS).required(),
+  table_id: yup.number().required(),
+  bonus_code_id: yup.number().required(),
+})
+
+const HISTORIES_SCHEMA = yup.object({
+  table_id: yup.number().required(),
+  total: yup.number().required(),
+  roleTurn: yup.mixed<string>().oneOf(Object.values(SEAT_ROLES)).required(),
+  phase: yup.mixed<string>().oneOf(Object.values(TABLE_PHASES)).required(),
+  seats: yup.string().required(),
+  cards: yup.string().required(),
+  pots: yup.string().required(),
+})
+
 export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {
   register: LOGIN_SCHEMA,
   login: LOGIN_SCHEMA,
   profile: PROFILE_SCHEMA,
   users: USERS_SCHEMA,
   tables: TABLES_SCHEMA,
+  payments: PAYMENTS_SCHEMA,
+  transactions: TRANSACTIONS_SCHEMA,
+  histories: HISTORIES_SCHEMA,
 }
