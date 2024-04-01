@@ -30,7 +30,7 @@ export const Navbar = () => {
   return (
     <AppBar position='static' sx={{ zIndex: 1201, height: '50px' }}>
       <Toolbar>
-        <IconButton
+        {/* <IconButton
           size='large'
           edge='start'
           color='inherit'
@@ -38,7 +38,7 @@ export const Navbar = () => {
           sx={{ mr: 2 }}
         >
           <MenuIcon />
-        </IconButton>
+        </IconButton> */}
         <Typography
           variant='h6'
           noWrap

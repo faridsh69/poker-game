@@ -11,6 +11,7 @@ import { PageLayout } from 'src/components/cms/templates/PageLayout'
 import { WindowTopBar } from 'src/components/game/templates/boards/WindowTopBar'
 import { ConfirmModal } from 'src/components/game/templates/modals/ConfirmModal'
 import { BuyinModal } from 'src/components/game/templates/modals/BuyinModal'
+import { BoardTabs } from './BoardTabs'
 
 export const GameBoard = () => {
   const username = getAuthUsername()
@@ -25,9 +26,14 @@ export const GameBoard = () => {
       <div className='home'>
         <ConfirmModal />
         <BuyinModal />
-        <div className='home-tables'>
-          <TablesList />
-        </div>
+        <DndWindow
+          topbar={
+            <div className='dnd-window-topbar-flex'>
+              <div className='dnd-window-topbar-flex-title'>{username} Account</div>
+            </div>
+          }
+          body={<BoardTabs />}
+        />
         <div className='home-runtables'>
           {userTables.map(userTable => {
             return (

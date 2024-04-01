@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, TableCell, TableRow } from '@mui/material'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 
 import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
@@ -15,25 +15,23 @@ export const TablesItem = (props: { table: TypeTable }) => {
   const { handleJoinTable } = useSocketActions(table.id)
 
   return (
-    <div className='home-tables-table'>
-      <div className='home-tables-table-content'>
-        <div>
-          <b>{table.pasoor === 'holdem' && 'Holdem'}</b>
-          <b>{table.pasoor === 'omaha4' && 'Omaha 4 Cards'}</b>
-          <b>{table.pasoor === 'omaha5' && 'Omaha 5 Cards'}</b>
-        </div>
-        <div>
-          Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
-        </div>
-        <div>
-          Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
-        </div>
-        <div>
-          Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length} -{' '}
-          {table.phase}
-        </div>
-      </div>
-      <div className='home-tables-table-action'>
+    <TableRow>
+      <TableCell>
+        <b>{table.pasoor === 'holdem' && 'Holdem'}</b>
+        <b>{table.pasoor === 'omaha4' && 'Omaha 4 Cards'}</b>
+        <b>{table.pasoor === 'omaha5' && 'Omaha 5 Cards'}</b>
+      </TableCell>
+      <TableCell>
+        Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
+      </TableCell>
+      <TableCell>
+        Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
+      </TableCell>
+      <TableCell>
+        Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length} -{' '}
+        {table.phase}
+      </TableCell>
+      <TableCell>
         <Button
           size='small'
           variant='contained'
@@ -44,7 +42,7 @@ export const TablesItem = (props: { table: TypeTable }) => {
         >
           JOIN TABLE
         </Button>
-      </div>
-    </div>
+      </TableCell>
+    </TableRow>
   )
 }
