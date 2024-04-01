@@ -189,6 +189,44 @@ export const PAYMENTS_FORM: TypeFormInput[] = [
   },
 ]
 
+export const DEPOSIT_FORM: TypeFormInput[] = [
+  {
+    name: 'price',
+    type: 'number',
+    autoFocus: true,
+  },
+  {
+    name: 'description',
+  },
+  {
+    name: 'gateway',
+    component: SelectController,
+    options: PAYMENTS_GATEWAYS,
+  },
+  {
+    name: 'wallet',
+  },
+]
+
+export const WITHDRAW_FORM: TypeFormInput[] = [
+  {
+    name: 'price',
+    type: 'number',
+    autoFocus: true,
+  },
+  {
+    name: 'description',
+  },
+  {
+    name: 'gateway',
+    component: SelectController,
+    options: PAYMENTS_GATEWAYS,
+  },
+  {
+    name: 'wallet',
+  },
+]
+
 export const TRANSACTIONS_FORM: TypeFormInput[] = [
   {
     name: 'user_id',
@@ -263,6 +301,8 @@ export const MODEL_FORMS_NAMES: { [key in TypeModelFormKeys]: TypeModelFormKeys 
   payments: 'payments',
   transactions: 'transactions',
   histories: 'histories',
+  deposit: 'deposit',
+  withdraw: 'withdraw',
 }
 
 export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
@@ -274,4 +314,6 @@ export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
   payments: PAYMENTS_FORM,
   transactions: TRANSACTIONS_FORM,
   histories: HISTORIES_FORM,
+  deposit: DEPOSIT_FORM,
+  withdraw: WITHDRAW_FORM,
 }

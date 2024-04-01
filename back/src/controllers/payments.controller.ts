@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common'
 
 import { AuthGuard } from 'src/guards/auth.gaurd'
 import { PaymentsService } from 'src/services/payments.service'
@@ -16,8 +16,8 @@ export class PaymentsController {
   }
 
   @Post()
-  create(@Body() createModelDto: CreatePaymentDto) {
-    return this.modelService.create(createModelDto)
+  create(@Body() createModelDto: CreatePaymentDto, @Req() request: Request) {
+    return this.modelService.create(createModelDto, request)
   }
 
   @Patch(':id')

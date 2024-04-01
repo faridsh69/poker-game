@@ -25,19 +25,15 @@ const AdminList = () => {
 
   const handleEdit = (id: number) => navigate(`/admin/${model}/${id}/edit`)
 
-  const headCells = calculateHeadCells(list, model)
-
-  const bodyCells = calculateBodyCells(list, model)
-
   return (
     <Box>
-      <Button component={Link} to={`/admin/${model}/create`}>
+      <Button component={Link} to={`/admin/${model}/create`} variant='outlined' sx={{ my: 2 }}>
         {t('Create New Record')}
       </Button>
       <TableMui
         list={list}
-        headCells={headCells}
-        bodyCells={bodyCells}
+        headCells={calculateHeadCells(list, model)}
+        bodyCells={calculateBodyCells(list, model)}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />

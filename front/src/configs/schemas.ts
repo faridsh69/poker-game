@@ -85,6 +85,13 @@ const PAYMENTS_SCHEMA = yup.object({
   wallet: yup.string().required(),
 })
 
+const DEPOSIT_SCHEMA = yup.object({
+  price: yup.number().required(),
+  description: yup.string().required(),
+  gateway: yup.mixed<string>().oneOf(PAYMENTS_GATEWAYS).required(),
+  wallet: yup.string().required(),
+})
+
 const TRANSACTIONS_SCHEMA = yup.object({
   user_id: yup.number().required(),
   price: yup.number().required(),
@@ -114,4 +121,5 @@ export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {
   payments: PAYMENTS_SCHEMA,
   transactions: TRANSACTIONS_SCHEMA,
   histories: HISTORIES_SCHEMA,
+  deposit: DEPOSIT_SCHEMA,
 }

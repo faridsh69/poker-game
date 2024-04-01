@@ -86,7 +86,7 @@ export const TableMui = (props: TypePropsTableMui) => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '98%', ml: 2 }}>
+      <Paper sx={{ width: '98%' }}>
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size='medium'>
             <TableHeader
@@ -135,14 +135,16 @@ export const TableMui = (props: TypePropsTableMui) => {
                       )
                     })}
 
-                    <TableCell align='right'>
-                      <IconButton onClick={() => handleEdit(rowId)}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton onClick={() => handleDelete(rowId)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
+                    {handleEdit && handleDelete && (
+                      <TableCell align='right'>
+                        <IconButton onClick={() => handleEdit(rowId)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton onClick={() => handleDelete(rowId)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    )}
                   </TableRow>
                 )
               })}

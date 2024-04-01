@@ -100,6 +100,6 @@ export type TypePropsTableMui = {
   list: TypeModel[]
   bodyCells: TypeBodyCells[]
   headCells: TypeHeadCells[]
-  handleDelete: (id: number) => void
-  handleEdit: (id: number) => void
+  handleEdit?: (id: number) => void
+  handleDelete?: (id: number) => void
 }

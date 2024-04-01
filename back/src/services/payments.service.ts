@@ -23,15 +23,19 @@ export class PaymentsService {
     return this.modelRepository.softDelete(id)
   }
 
-  create(createModelDto: CreatePaymentDto) {
+  create(createModelDto: CreatePaymentDto, request?: Request) {
     const model = new Payment()
-    model.user_id = createModelDto.user_id
+    // @ts-ignore
+    model.user_id = createModelDto.user_id || request.userx.id
     model.price = createModelDto.price
     model.user_giving = createModelDto.user_giving
     model.description = createModelDto.description
     model.gateway = createModelDto.gateway
     model.status = createModelDto.status
     model.wallet = createModelDto.wallet
+
+    // if user role is not admin
+    // status === pending, user_id == gaurd auth id
 
     return this.modelRepository.save(model)
   }

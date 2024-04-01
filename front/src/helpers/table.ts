@@ -1,3 +1,4 @@
+import { MODEL_FORMS_NAMES } from 'src/configs/forms'
 import { toFormalCase } from 'src/helpers/common'
 import { TypeOrder, TypeBodyCells, TypeHeadCells } from 'src/interfaces'
 
@@ -99,4 +100,29 @@ export const getComparator = <Key extends keyof string>(
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy)
+}
+
+export const filterTableHeaderCells = (
+  headCells: TypeHeadCells[],
+  model = MODEL_FORMS_NAMES.deposit,
+): TypeHeadCells[] => {
+  if (model === MODEL_FORMS_NAMES.deposit || MODEL_FORMS_NAMES.withdraw) {
+    return headCells.filter(
+      header =>
+        header.label !== 'User id' && header.label !== 'User giving' && header.id !== 'actions',
+    )
+  }
+
+  return headCells
+}
+
+export const filterTableBodyCells = (
+  bodyCells: TypeBodyCells[],
+  model = MODEL_FORMS_NAMES.deposit,
+): TypeBodyCells[] => {
+  if (model === MODEL_FORMS_NAMES.deposit || MODEL_FORMS_NAMES.withdraw) {
+    return bodyCells.filter(body => body.name !== 'user_id' && body.name !== 'user_giving')
+  }
+
+  return bodyCells
 }
