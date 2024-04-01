@@ -1,6 +1,6 @@
 import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
 
-import { PAYMENTS_GATEWAYS, TRANSACTIONS_REASONS } from 'src/configs/database'
+import { TRANSACTIONS_REASONS } from 'src/configs/database'
 
 export class CreateTransactionDto {
   @IsInt()

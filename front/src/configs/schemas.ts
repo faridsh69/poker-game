@@ -92,6 +92,13 @@ const DEPOSIT_SCHEMA = yup.object({
   wallet: yup.string().required(),
 })
 
+const WITHDRAW_SCHEMA = yup.object({
+  price: yup.number().required(),
+  description: yup.string().required(),
+  gateway: yup.mixed<string>().oneOf(PAYMENTS_GATEWAYS).required(),
+  wallet: yup.string().required(),
+})
+
 const TRANSACTIONS_SCHEMA = yup.object({
   user_id: yup.number().required(),
   price: yup.number().required(),
@@ -100,6 +107,18 @@ const TRANSACTIONS_SCHEMA = yup.object({
   reason: yup.mixed<string>().oneOf(TRANSACTIONS_REASONS).required(),
   table_id: yup.number().required(),
   bonus_code_id: yup.number().required(),
+})
+
+const TRANSFER_SCHEMA = yup.object({
+  username: yup
+    .string()
+    .required()
+    .min(3, 'Username must have atleast 3 characters.')
+    .matches(REGEXS.alphabeticAndNumbers, {
+      message: 'Only alphabetic and number allowed.',
+    }),
+  price: yup.number().required(),
+  description: yup.string().required(),
 })
 
 const HISTORIES_SCHEMA = yup.object({
@@ -122,4 +141,6 @@ export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {
   transactions: TRANSACTIONS_SCHEMA,
   histories: HISTORIES_SCHEMA,
   deposit: DEPOSIT_SCHEMA,
+  withdraw: WITHDRAW_SCHEMA,
+  transfer: TRANSFER_SCHEMA,
 }

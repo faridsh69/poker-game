@@ -259,6 +259,19 @@ export const TRANSACTIONS_FORM: TypeFormInput[] = [
   },
 ]
 
+export const TRANSFER_FORM: TypeFormInput[] = [
+  {
+    name: 'username',
+  },
+  {
+    name: 'price',
+    type: 'number',
+  },
+  {
+    name: 'description',
+  },
+]
+
 export const HISTORIES_FORM = [
   {
     name: 'table_id',
@@ -303,6 +316,7 @@ export const MODEL_FORMS_NAMES: { [key in TypeModelFormKeys]: TypeModelFormKeys 
   histories: 'histories',
   deposit: 'deposit',
   withdraw: 'withdraw',
+  transfer: 'transfer',
 }
 
 export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
@@ -316,4 +330,5 @@ export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
   histories: HISTORIES_FORM,
   deposit: DEPOSIT_FORM,
   withdraw: WITHDRAW_FORM,
+  transfer: TRANSFER_FORM,
 }

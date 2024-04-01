@@ -51,3 +51,4 @@ export type TypeModelFormKeys =
   | 'histories'
   | 'deposit'
   | 'withdraw'
+  | 'transfer'

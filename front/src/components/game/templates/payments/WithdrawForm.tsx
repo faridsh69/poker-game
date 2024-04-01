@@ -20,6 +20,7 @@ export const WithdrawForm = () => {
   const { list, createMutation } = useCrud(API_URLS.payments)
 
   const authId = getAuthId()
+
   const onSubmit = (data: TypeModel) => {
     createMutation.mutate({
       user_id: authId,
@@ -36,8 +37,19 @@ export const WithdrawForm = () => {
     return list.filter(payment => payment.user_id === authId && payment.user_giving === false)
   }, [list])
 
-  const headCells = calculateHeadCells(list, API_URLS.payments)
-  const bodyCells = calculateBodyCells(list, API_URLS.payments)
+  const headCells = useMemo(() => {
+    return filterTableHeaderCells(
+      calculateHeadCells(list, API_URLS.payments),
+      MODEL_FORMS_NAMES.withdraw,
+    )
+  }, [list])
+
+  const bodyCells = useMemo(() => {
+    return filterTableBodyCells(
+      calculateBodyCells(list, API_URLS.payments),
+      MODEL_FORMS_NAMES.withdraw,
+    )
+  }, [list])
 
   return (
     <Box sx={{ p: 3 }}>
@@ -54,11 +66,7 @@ export const WithdrawForm = () => {
       />
       <Box sx={{ p: 0, maxWidth: 600 }}>
         <Typography variant='h6'>Withdraw History</Typography>
-        <TableMui
-          list={payments}
-          headCells={filterTableHeaderCells(headCells, MODEL_FORMS_NAMES.withdraw)}
-          bodyCells={filterTableBodyCells(bodyCells, MODEL_FORMS_NAMES.withdraw)}
-        />
+        <TableMui list={payments} headCells={headCells} bodyCells={bodyCells} />
       </Box>
     </Box>
   )
