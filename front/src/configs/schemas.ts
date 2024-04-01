@@ -6,7 +6,7 @@ import { TABLE_PASOORS } from './clientConstantsPoker'
 
 const REGEXS = {
   alphabeticAndNumbers: /^[^!@#$%^&*+=<>:;|~]*$/,
-  phone: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]{6,16}$/g,
+  phone: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]{4,16}$/g,
   password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,30}$/,
 }
 
@@ -26,7 +26,11 @@ const USERS_SCHEMA = yup.object({
   first_name: yup.string().required().min(2, 'First name must have atleast 2 characters.'),
   last_name: yup.string().required().min(2, 'Last name must have atleast 2 characters.'),
   email: yup.string().required().email(),
-  phone: yup.string().matches(REGEXS.phone, 'Phone number is not valid'),
+  phone: yup
+    .string()
+    .transform(value => (!value ? null : value))
+    .nullable()
+    .matches(REGEXS.phone, 'Phone number is not valid'),
   status: yup.mixed<string>().oneOf(USERS_STATUS_ENUM).required(),
   role: yup.mixed<string>().oneOf(USERS_ROLE_ENUM).required(),
   gender: yup.mixed<string>().oneOf(USERS_GENDER_ENUM).required(),
@@ -47,17 +51,11 @@ const USERS_SCHEMA = yup.object({
 const PROFILE_SCHEMA = yup.object({
   first_name: yup.string().required(),
   last_name: yup.string().required(),
-
-  email: yup.string().email().required(),
-  phone: yup.string().matches(REGEXS.phone, 'Phone number is not valid'),
-
-  password: yup.string().matches(
-    REGEXS.password,
-    `Password must contain Minimum 4 and maximum 40 characters, 
-    at least one uppercase letter, 
-    one lowercase letter
-    and one number`,
-  ),
+  phone: yup
+    .string()
+    .transform(value => (!value ? null : value))
+    .nullable()
+    .matches(REGEXS.phone, 'Phone number is not valid'),
 })
 
 const TABLES_SCHEMA = yup.object({

@@ -17,6 +17,9 @@ export const REGISTER_FORM: TypeFormInput[] = [
     autoFocus: true,
   },
   {
+    name: 'username',
+  },
+  {
     name: 'password',
     autoComplete: 'current-password',
   },
@@ -48,14 +51,7 @@ export const PROFILE_FORM: TypeFormInput[] = [
     name: 'last_name',
   },
   {
-    name: 'email',
-    type: 'email',
-  },
-  {
     name: 'phone',
-  },
-  {
-    name: 'username',
   },
   {
     name: 'gender',
@@ -66,19 +62,17 @@ export const PROFILE_FORM: TypeFormInput[] = [
     name: 'avatar_id',
     type: 'number',
   },
-  {
-    name: 'password',
-    type: 'password',
-  },
 ]
 
 export const USERS_FORM: TypeFormInput[] = [
   {
     name: 'username',
+    disableOnUpdate: true,
   },
   {
     name: 'email',
     type: 'email',
+    disableOnUpdate: true,
   },
   {
     name: 'status',

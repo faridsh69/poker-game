@@ -36,6 +36,7 @@ const AdminForm = () => {
       values={modelObject}
       onSubmit={onSubmit}
       submitText={id ? t('Update') : t('Create')}
+      isUpdating={!!id}
     />
   )
 }

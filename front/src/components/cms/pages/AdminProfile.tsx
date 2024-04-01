@@ -3,26 +3,27 @@ import { useTranslation } from 'react-i18next'
 
 import { getFormInputs, getFormSchema } from 'src/helpers/forms'
 import { MODEL_FORMS_NAMES } from 'src/configs/forms'
-import { getAuthUsername } from 'src/helpers/auth'
+import { getAuthId } from 'src/helpers/auth'
 import { TypeModel } from 'src/interfaces'
 import { useCrud } from 'src/hooks/useCrud'
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { Loading } from 'src/components/cms/molecules/Loading'
+import { API_URLS } from 'src/configs/constants'
 
 const AdminProfile = () => {
   const { t } = useTranslation()
 
-  const username = getAuthUsername()
+  const authId = getAuthId()
 
-  const { list: users, updateMutation } = useCrud('user')
+  const { list: users, updateMutation } = useCrud(API_URLS.users)
 
-  const authUser = useMemo(() => users.find(u => u.username == username), [users, username])
+  const authUser = useMemo(() => users.find(u => u.id == authId), [users, authId])
 
   const onSubmit = (data: TypeModel) => {
     updateMutation.mutate(data)
   }
 
-  if (username && !authUser) return <Loading />
+  if (authId && !authUser) return <Loading />
 
   return (
     <div>
@@ -32,6 +33,7 @@ const AdminProfile = () => {
         values={authUser}
         onSubmit={onSubmit}
         submitText={t('Update')}
+        isUpdating={true}
       />
     </div>
   )

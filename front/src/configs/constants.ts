@@ -51,3 +51,12 @@ export const ADMIN_SIDEBAR_ITEMS: TypeSidebarItem[] = [
     icon: HistoryIcon,
   },
 ]
+
+export const API_URLS: { [key: string]: string } = {
+  auth: 'auth',
+  users: 'users',
+  tables: 'tables',
+  payments: 'payments',
+  transactions: 'transactions',
+  histories: 'histories',
+}

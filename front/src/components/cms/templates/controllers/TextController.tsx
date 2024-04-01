@@ -13,6 +13,7 @@ export const TextController = (props: TypePropsInputController) => {
     type,
     autoComplete = 'new-password',
     autoFocus = false,
+    disabled = false,
     ...rest
   } = props
 
@@ -44,6 +45,7 @@ export const TextController = (props: TypePropsInputController) => {
             onChange={e => handleOnChange(e, onChange)}
             helperText={toFormalCase(error?.message)}
             error={toBool(error)}
+            disabled={disabled}
             autoComplete={autoComplete}
             autoFocus={autoFocus}
             margin='normal'

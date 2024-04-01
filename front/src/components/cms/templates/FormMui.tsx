@@ -5,9 +5,14 @@ import { Box, Button } from '@mui/material'
 
 import { TextController } from './controllers/TextController'
 import { TypeModel, TypePropsFormMui } from 'src/interfaces'
+import { useTranslation } from 'react-i18next'
 
 export const FormMui = (props: TypePropsFormMui) => {
-  const { inputs, values, schema, onSubmit, submitText } = props
+  const { inputs, values, schema, onSubmit, isUpdating = false } = props
+
+  const { t } = useTranslation()
+
+  const submitText = isUpdating ? t('Update') : t('Create')
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
@@ -29,9 +34,24 @@ export const FormMui = (props: TypePropsFormMui) => {
       sx={{ mt: 1, display: 'flex', flexDirection: 'column', minWidth: '333px' }}
     >
       {inputs.map(input => {
-        const { component: InputController = TextController, name, ...rest } = input
+        const {
+          component: InputController = TextController,
+          name,
+          disableOnUpdate,
+          ...rest
+        } = input
 
-        return <InputController control={control} name={name} key={name} {...rest} />
+        const disabled = isUpdating ? disableOnUpdate : false
+
+        return (
+          <InputController
+            control={control}
+            name={name}
+            key={name}
+            disabled={!!disabled}
+            {...rest}
+          />
+        )
       })}
       <Button type='submit' fullWidth variant='contained' sx={{ mt: 1, mb: 2 }}>
         {submitText}

@@ -16,6 +16,7 @@ export const ErrorPage = () => {
       <strong>
         <Link to='/'>Retry</Link>
       </strong>
+      {/* @ts-ignore */}
       <pre>{error.message || error.name || error.data}</pre>
       <img src={ErrorImg} alt='error' />
     </Alert>

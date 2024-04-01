@@ -43,17 +43,18 @@ export class UsersService {
   update(id: number, updateModelDto: UpdateUserDto) {
     const model = new User()
     model.id = id
-    model.username = updateModelDto.username
     model.first_name = updateModelDto.first_name
     model.last_name = updateModelDto.last_name
-    model.email = updateModelDto.email
     model.phone = updateModelDto.phone
-    model.status = updateModelDto.status
-    model.role = updateModelDto.role
     model.gender = updateModelDto.gender
     model.avatar_id = updateModelDto.avatar_id
+    // model.username = updateModelDto.username
+    // model.email = updateModelDto.email
+    // model.password = updateModelDto.password
+    // Need check authorization of user role
+    model.status = updateModelDto.status
+    model.role = updateModelDto.role
     model.agent_percent = updateModelDto.agent_percent
-    model.password = updateModelDto.password
 
     return this.modelRepository.save(model)
   }

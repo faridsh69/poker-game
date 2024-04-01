@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AccountCircle from '@mui/icons-material/AccountCircle'
-import MenuIcon from '@mui/icons-material/Menu'
+// import MenuIcon from '@mui/icons-material/Menu'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
@@ -53,6 +53,11 @@ export const Navbar = () => {
         {!username && (
           <Button color='inherit' component={Link} to='/login'>
             Login
+          </Button>
+        )}
+        {!username && (
+          <Button color='inherit' component={Link} to='/register'>
+            Register
           </Button>
         )}
         {username && (

@@ -70,12 +70,14 @@ export type TypePropsFormMui = {
   values: TypeModel | undefined
   schema: TypeSchema
   onSubmit: (data: TypeModel) => void
+  isUpdating: boolean
   submitText: string
 }
 
 export type TypePropsInputController = {
   control: Control<TypeModel>
   name: string
+  disabled: boolean
   label?: string
   type?: string
   options?: string[]

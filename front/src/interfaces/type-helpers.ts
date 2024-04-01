@@ -31,6 +31,7 @@ export type TypeFormInput = {
   multiple?: boolean
   autoComplete?: string
   autoFocus?: boolean
+  disableOnUpdate?: boolean
 }
 
 export type TypeHeadCells = { id: string; label: string; disablePadding: boolean; numeric: boolean }

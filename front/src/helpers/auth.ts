@@ -19,6 +19,12 @@ export const getAuthUsername = (): string => {
   return user?.username as string
 }
 
+export const getAuthId = (): number => {
+  const user = getLocalstorage<TypeModel>(LOCAL_STORAGE_ACCESS_TOKEN_KEY, {})
+
+  return user?.id as number
+}
+
 export const setAccessToken = (user: TypeModel) =>
   setLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY, user)
 

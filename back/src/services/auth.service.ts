@@ -1,16 +1,25 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 
 import { UsersService } from 'src/services/users.service'
 import { LoginUserDto } from 'src/validations/login-user.dto'
 import { TypeUserMinimalObject, TypeUserWithToken } from 'src/interfaces/types'
 import { throwException } from 'src/helpers/http'
+import { RegisterUserDto } from 'src/validations/register.user.dto'
+import { User } from 'src/models/user.entity'
+import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  public async login(loginUserDto: LoginUserDto): Promise<TypeUserWithToken> {
+  async login(loginUserDto: LoginUserDto): Promise<TypeUserWithToken> {
     const user = await this.usersService.findOneBy('email', loginUserDto.email)
 
     if (!user) {
@@ -29,5 +38,19 @@ export class AuthService {
       password: 'kose-nanat',
       access_token: accessToken,
     }
+  }
+
+  register(registerUserDto: RegisterUserDto) {
+    const user = new User()
+    user.username = registerUserDto.username
+    user.email = registerUserDto.email
+    user.password = registerUserDto.password
+    user.status = USERS_STATUSES.needConfirm
+    user.role = USERS_ROLES.player
+    user.gender = USERS_GENDERS.male
+    user.avatar_id = 1
+    user.agent_percent = 0
+
+    return this.userRepository.save(user)
   }
 }

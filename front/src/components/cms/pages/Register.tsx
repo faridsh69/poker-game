@@ -16,7 +16,8 @@ export const Register = () => {
 
   const onSubmit = (data: TypeModel) => {
     registerMutation.mutate({
-      username: data.email,
+      email: data.email,
+      username: data.username,
       password: data.password,
     })
   }
@@ -44,6 +45,7 @@ export const Register = () => {
             values={{}}
             onSubmit={onSubmit}
             submitText={t('Sign up')}
+            isUpdating={false}
           />
           <Grid container>
             <Grid item xs>
@@ -57,6 +59,22 @@ export const Register = () => {
               </Link>
             </Grid>
           </Grid>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
         </Box>
       </Container>
     </PageLayout>
