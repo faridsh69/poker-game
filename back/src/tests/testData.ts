@@ -1,7 +1,7 @@
-import { CARD_NUMBERS, CARD_TYPES, NEW_USER, NEW_TABLE, SEAT_ROLES } from '../configs/serverPokerConstants'
-import { TypeTable } from '../interfaces/serverPokerTypes'
-import { getIsPhaseFinished2 } from '../services/poker.service'
-import { getCardsScoreAndAchivement } from '../services/winner.service'
+import { CARD_NUMBERS, CARD_TYPES, NEW_USER, NEW_TEST_TABLE, SEAT_ROLES } from 'src/configs/serverPokerConstants'
+import { TypeTable } from 'src/interfaces/serverPokerTypes'
+import { getIsPhaseFinished2 } from 'src/services/poker.service'
+import { getCardsScoreAndAchivement } from 'src/services/winner.service'
 
 export const runTests = () => {
   return
@@ -18,7 +18,7 @@ export const runTests = () => {
 }
 
 const TestTableIsPhaseFinished: TypeTable = {
-  ...NEW_TABLE,
+  ...NEW_TEST_TABLE,
   roleTurn: SEAT_ROLES.big,
   seats: [
     {

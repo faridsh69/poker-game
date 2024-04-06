@@ -48,14 +48,33 @@ export class UsersService {
     model.phone = updateModelDto.phone
     model.gender = updateModelDto.gender
     model.avatar_id = updateModelDto.avatar_id
-    // model.username = updateModelDto.username
-    // model.email = updateModelDto.email
-    // model.password = updateModelDto.password
-    // Need check authorization of user role
     model.status = updateModelDto.status
     model.role = updateModelDto.role
     model.agent_percent = updateModelDto.agent_percent
 
+    return this.modelRepository.save(model)
+  }
+
+  updateProfile(id: number, updateModelDto: UpdateUserDto) {
+    const model = new User()
+    model.id = id
+    model.first_name = updateModelDto.first_name
+    model.last_name = updateModelDto.last_name
+    model.phone = updateModelDto.phone
+    model.gender = updateModelDto.gender
+    model.avatar_id = updateModelDto.avatar_id
+
+    return this.modelRepository.update(id, model)
+  }
+
+  updatePassword(id: number, password: string) {
+    const model = new User()
+    model.password = password
+
+    return this.modelRepository.update(id, model)
+  }
+
+  save(model: User) {
     return this.modelRepository.save(model)
   }
 

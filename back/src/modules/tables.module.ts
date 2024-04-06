@@ -9,6 +9,5 @@ import { TablesService } from 'src/services/tables.service'
   imports: [TypeOrmModule.forFeature([Table])],
   controllers: [TablesController],
   providers: [TablesService],
-  // exports: [TablesService],
 })
 export class TablesModule {}

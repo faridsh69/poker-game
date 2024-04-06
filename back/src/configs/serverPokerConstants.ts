@@ -7,7 +7,6 @@ import {
   TypePot,
   TypeSeatRole,
   TypeServerChannels,
-  TypeTable,
   TypeTablePasoor,
   TypeTablePhase,
   TypeTimerAction,
@@ -170,13 +169,7 @@ export const EMPTY_POT_SEAT_IDS = [20]
 
 export const EMPTY_POT: TypePot[] = [{ id: 1, amount: 0, seatIds: EMPTY_POT_SEAT_IDS }]
 
-export const NEW_TABLE = {
-  id: 1,
-  title: 'title',
-  pasoor: TABLE_PASOORS.holdem,
-  blinds: { small: 1, big: 2 },
-  buyin: { min: 100, max: 200 },
-
+export const EMPTY_TABLE = {
   total: 0,
   phase: TABLE_PHASES.wait,
   pots: EMPTY_POT,
@@ -186,50 +179,59 @@ export const NEW_TABLE = {
   waitingUsers: [],
 }
 
-export const TABLES: TypeTable[] = [
-  {
-    ...NEW_TABLE,
-    id: 1,
-    title: 'Holdem 5$ 10$, Buy in: 200$ - 2K$',
-    blinds: {
-      small: 5,
-      big: 10,
-    },
-    buyin: {
-      min: 200,
-      max: 2000,
-    },
-    seats: [
-      {
-        id: 1,
-        role: null,
-        user: null,
-      },
-      {
-        id: 2,
-        role: null,
-        user: null,
-      },
-      {
-        id: 3,
-        role: null,
-        user: null,
-      },
-      {
-        id: 4,
-        role: null,
-        user: null,
-      },
-      {
-        id: 5,
-        role: null,
-        user: null,
-      },
-      {
-        id: 6,
-        role: null,
-        user: null,
-      },
-    ],
-  },
-]
+export const NEW_TEST_TABLE = {
+  ...EMPTY_TABLE,
+  id: 1,
+  title: 'title',
+  pasoor: TABLE_PASOORS.holdem,
+  blinds: { small: 1, big: 2 },
+  buyin: { min: 100, max: 200 },
+}
+
+// export const TABLES: TypeTable[] = [
+//   {
+//     ...NEW_TABLE,
+//     id: 1,
+//     title: 'Holdem 5$ 10$, Buy in: 200$ - 2K$',
+//     blinds: {
+//       small: 5,
+//       big: 10,
+//     },
+//     buyin: {
+//       min: 200,
+//       max: 2000,
+//     },
+//     seats: [
+//       {
+//         id: 1,
+//         role: null,
+//         user: null,
+//       },
+//       {
+//         id: 2,
+//         role: null,
+//         user: null,
+//       },
+//       {
+//         id: 3,
+//         role: null,
+//         user: null,
+//       },
+//       {
+//         id: 4,
+//         role: null,
+//         user: null,
+//       },
+//       {
+//         id: 5,
+//         role: null,
+//         user: null,
+//       },
+//       {
+//         id: 6,
+//         role: null,
+//         user: null,
+//       },
+//     ],
+//   },
+// ]

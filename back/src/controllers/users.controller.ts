@@ -20,7 +20,7 @@ export class UsersController {
   async findAll() {
     return this.userService.find()
   }
-  // find(@Req() request: Request) { request.userx
+  // find(@Req() request: Request) { request.userx }
 
   @Get(':id')
   async findOne(@Param('id') id: number) {
@@ -39,7 +39,20 @@ export class UsersController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
+    // Need check authorization of user role, updateProfile, updatePassword
     return this.userService.update(+id, updateModelDto)
+  }
+
+  @Patch(':id/profile')
+  updateProfile(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
+    // Need check authorization of user role, updateProfile, updatePassword
+    return this.userService.updateProfile(+id, updateModelDto)
+  }
+
+  @Patch(':id/password')
+  updatePassword(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
+    // Need check authorization of user role, updateProfile, updatePassword
+    return this.userService.updatePassword(+id, updateModelDto.password)
   }
 
   @Delete(':id')

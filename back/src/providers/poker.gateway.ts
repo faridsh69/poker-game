@@ -1,3 +1,8 @@
+import { Server, Socket } from 'socket.io'
+import { instrument } from '@socket.io/admin-ui'
+import { Module } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import {
   ConnectedSocket,
   MessageBody,
@@ -7,12 +12,23 @@ import {
   OnGatewayConnection,
   OnGatewayInit,
 } from '@nestjs/websockets'
-import { Server, Socket } from 'socket.io'
-import { instrument } from '@socket.io/admin-ui'
-import { JwtService } from '@nestjs/jwt'
 
+import { runTests } from 'src/tests/testData'
+import { TablesService } from 'src/services/tables.service'
+import { Table } from 'src/models/table.entity'
+import { CORS_ORIGINS } from 'src/configs/envConfig'
 import { SocketAuthMiddleware } from 'src/middlewares/SocketAuthMiddleware'
-import { ACTION_NAMES, CLIENT_CHANNELS, SERVER_CHANNELS, TABLES, TIMER_ACTION_NAMES } from 'src/configs/serverPokerConstants'
+import { getDeadline, isAtLeastTwoPlayers } from 'src/services/poker.service'
+import { ACTION_NAMES, CLIENT_CHANNELS, SERVER_CHANNELS, TIMER_ACTION_NAMES } from 'src/configs/serverPokerConstants'
+import {
+  TypeAction,
+  TypeHandleClientCallAction,
+  TypeHandleClientJoinTable,
+  TypeHandleClientRaiseAction,
+  TypeHandleClientShowCardAction,
+  TypeHandleClientSitTable,
+  TypeTable,
+} from 'src/interfaces/serverPokerTypes'
 import {
   renderClientJoinGame,
   renderClientJoinSeat,
@@ -30,31 +46,24 @@ import {
   renderServerStartTable,
   renderUpdateClients,
 } from 'src/controllers/poker.controller'
-import {
-  TypeAction,
-  TypeHandleClientCallAction,
-  TypeHandleClientJoinTable,
-  TypeHandleClientRaiseAction,
-  TypeHandleClientShowCardAction,
-  TypeHandleClientSitTable,
-  TypeTable,
-} from 'src/interfaces/serverPokerTypes'
-import { getDeadline, isAtLeastTwoPlayers } from 'src/services/poker.service'
-import { runTests } from 'src/tests/testData'
 
+@Module({
+  imports: [TypeOrmModule.forFeature([Table])],
+  providers: [TablesService],
+})
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:2000', 'https://admin.socket.io', 'http://85.215.241.88'],
+    origin: CORS_ORIGINS,
     credentials: true,
   },
 })
 export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService, private readonly tablesService: TablesService) {}
 
   @WebSocketServer()
   server!: Server
 
-  private tablesState: TypeTable[] = TABLES
+  private tablesState: TypeTable[] = []
 
   private updateTablesState = (tables: TypeTable[]) => {
     this.tablesState = tables
@@ -65,7 +74,7 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
     return client.userx.username
   }
 
-  afterInit(client: Socket) {
+  async afterInit(client: Socket) {
     client.use(SocketAuthMiddleware(this.jwtService) as any)
 
     instrument(this.server, {
@@ -117,7 +126,11 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
           }
         }
       }
-    }, 1000)
+    }, 4000)
+    const tables = await this.tablesService.getWithSeats()
+    console.log('1 tables', tables)
+    // @ts-ignore
+    this.updateTablesState(tables)
   }
 
   handleConnection(socket: Socket) {

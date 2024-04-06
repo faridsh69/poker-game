@@ -6,6 +6,7 @@ import { Table } from 'src/models/table.entity'
 import { TABLES_SEEDER } from 'src/seeders/sources/tables.seeder'
 import { CreateTableDto } from 'src/validations/create-table.dto'
 import { UpdateTableDto } from 'src/validations/update-table.dto'
+import { EMPTY_TABLE } from 'src/configs/serverPokerConstants'
 
 @Injectable()
 export class TablesService {
@@ -62,6 +63,36 @@ export class TablesService {
           return Promise.resolve(await this.modelRepository.save(record))
         })
         .catch(error => Promise.reject(error))
+    })
+  }
+
+  async getWithSeats() {
+    const tables = await this.modelRepository.find()
+
+    return tables.map(table => {
+      const seats = []
+      for (let id = 1; id <= table.seats; id++) {
+        seats.push({
+          id,
+          role: null,
+          user: null,
+        })
+      }
+      const blinds = {
+        small: table.blinds_small,
+        big: table.blinds_big,
+      }
+      const buyin = {
+        min: table.buyin_min,
+        max: table.buyin_max,
+      }
+      return {
+        ...EMPTY_TABLE,
+        ...table,
+        seats,
+        blinds,
+        buyin,
+      }
     })
   }
 }
