@@ -15,12 +15,13 @@ import { API_URLS } from 'src/configs/constants'
 import { TypeModel } from 'src/interfaces'
 import { getAuthId } from 'src/helpers/auth'
 import { useMemo } from 'react'
+import { useAuth } from 'src/hooks/useAuth'
 
 export const WithdrawForm = () => {
   const authId = getAuthId()
+  const { authUser } = useAuth()
 
   const { list, createMutation } = useCrud(API_URLS.payments)
-  const { single } = useCrud(API_URLS.users, authId)
 
   const onSubmit = (data: TypeModel) => {
     createMutation.mutate({
@@ -55,7 +56,7 @@ export const WithdrawForm = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant='h6'>Withdraw Form</Typography>
-      <Typography>Available for withdraw: {single.balance}$</Typography>
+      <Typography>Available for withdraw: {authUser?.balance || 0}$</Typography>
 
       <FormMui
         inputs={getFormInputs(MODEL_FORMS_NAMES.withdraw)}

@@ -8,11 +8,11 @@ import { TypeModel, TypePropsFormMui } from 'src/interfaces'
 import { useTranslation } from 'react-i18next'
 
 export const FormMui = (props: TypePropsFormMui) => {
-  const { inputs, values, schema, onSubmit, isUpdating = false } = props
+  const { inputs, values, schema, onSubmit, isUpdating = false, submitText } = props
 
   const { t } = useTranslation()
 
-  const submitText = isUpdating ? t('Update') : t('Create')
+  const defaultSubmitText = submitText ? submitText : isUpdating ? t('Update') : t('Create')
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
@@ -54,7 +54,7 @@ export const FormMui = (props: TypePropsFormMui) => {
         )
       })}
       <Button type='submit' fullWidth variant='contained' sx={{ mt: 1, mb: 2 }}>
-        {submitText}
+        {defaultSubmitText}
       </Button>
     </Box>
   )

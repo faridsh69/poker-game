@@ -15,8 +15,8 @@ export class UsersService {
     return this.modelRepository.find()
   }
 
-  findOneBy(fieldName: string, value: string | number) {
-    return this.modelRepository.findOneBy({ [fieldName]: value })
+  findOneBy(fieldName: string, value: string | number, withDeleted = false) {
+    return this.modelRepository.findOne({ where: { [fieldName]: value }, withDeleted })
   }
 
   softDelete(id: number): Promise<{ affected?: number | null }> {

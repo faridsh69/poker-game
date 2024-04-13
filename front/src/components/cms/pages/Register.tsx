@@ -37,25 +37,20 @@ export const Register = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            {t('Sign up')}
+            {t('Register')}
           </Typography>
           <FormMui
             inputs={getFormInputs(MODEL_FORMS_NAMES.register)}
             schema={getFormSchema(MODEL_FORMS_NAMES.register)}
             values={{}}
             onSubmit={onSubmit}
-            submitText={t('Sign up')}
+            submitText={t('Register')}
             isUpdating={false}
           />
           <Grid container>
-            <Grid item xs>
-              <Link href='#' variant='body2'>
-                {t('Forgot password?')}
-              </Link>
-            </Grid>
-            <Grid item>
+            <Grid item pl={4}>
               <Link href='/login' variant='body2'>
-                {t('already have an account')}
+                {t('Already have an account? Login')}
               </Link>
             </Grid>
           </Grid>

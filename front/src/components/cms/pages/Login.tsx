@@ -37,14 +37,14 @@ export const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            {t('Sign in')}
+            {t('Login')}
           </Typography>
           <FormMui
             inputs={getFormInputs(MODEL_FORMS_NAMES.login)}
             schema={getFormSchema(MODEL_FORMS_NAMES.login)}
             values={{}}
             onSubmit={onSubmit}
-            submitText={t('Sign In')}
+            submitText={t('Login')}
             isUpdating={false}
           />
           <Grid container>

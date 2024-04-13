@@ -6,11 +6,13 @@ import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { Money } from 'src/components/game/molecules/Money'
 import { getAuthUsername } from 'src/helpers/auth'
 import { TypeTable } from 'src/interfaces'
+import { useAuth } from 'src/hooks/useAuth'
 
 export const TablesItem = (props: { table: TypeTable }) => {
   const { table } = props
 
   const username = getAuthUsername()
+  const { authUser } = useAuth()
 
   const { handleJoinTable } = useSocketActions(table.id)
 
@@ -37,7 +39,7 @@ export const TablesItem = (props: { table: TypeTable }) => {
           variant='contained'
           color='success'
           startIcon={<PlayCircleOutlineIcon />}
-          disabled={!canUserJoinTable(table, username)}
+          disabled={!canUserJoinTable(table, username, authUser?.balance as number)}
           onClick={() => handleJoinTable(table.id)}
         >
           JOIN TABLE

@@ -157,8 +157,8 @@ export const canSeeSeatUserTimer = (table: TypeTable, username: string): boolean
   return true
 }
 
-export const canUserJoinTable = (table: TypeTable, username: string): boolean => {
-  return !isUserJoinedTable(table, username)
+export const canUserJoinTable = (table: TypeTable, username: string, balance: number): boolean => {
+  return !isUserJoinedTable(table, username) && balance >= table.buyin.min
 }
 
 export const canSeeTableActionsJoinGame = (table: TypeTable, username: string): boolean => {

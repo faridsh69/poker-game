@@ -14,14 +14,14 @@ export class AuthService {
   constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
 
   async login(loginUserDto: LoginUserDto): Promise<TypeUserWithToken> {
-    const user = await this.usersService.findOneBy('email', loginUserDto.email)
+    const user = await this.usersService.findOneBy('email', loginUserDto.email, true)
 
     if (!user) {
-      return throwException('The specified user email does not exists.')
+      return throwException('The specified user email does not exists.', false, 400)
     }
 
     if (user.password !== loginUserDto.password) {
-      return throwException("Your email and password don't match.")
+      return throwException("Your email and password don't match.", false, 400)
     }
 
     const userMinimalObject: TypeUserMinimalObject = { id: user.id, username: user.username, email: user.email }

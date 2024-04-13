@@ -64,6 +64,9 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
 
         return [createdModel]
       })
+      if (createdModel.user_id) {
+        queryClient.invalidateQueries({ queryKey: ['users', createdModel.user_id] })
+      }
       toast.success(t(MODEL_SLUG + ' created successfully'))
     },
   })
