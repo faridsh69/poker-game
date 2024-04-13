@@ -35,11 +35,10 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
   const { data: single, error: showApiError } = useQuery({
     queryKey: [MODEL_SLUG, modelId],
     queryFn: async () => {
-      console.log('1 modelId', modelId)
       if (!modelId) return {}
 
       const response = await showApi(modelId)
-      console.log('1 response', response)
+
       return response.data
     },
     placeholderData: {},

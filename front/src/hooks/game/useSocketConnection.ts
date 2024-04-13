@@ -10,27 +10,44 @@ import { SOCKET_URL } from 'src/services/apis'
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
-import { getAccessToken, getAuthUsername } from 'src/helpers/auth'
+import { forceLogout, getAccessToken, getAuthUsername } from 'src/helpers/auth'
 import { errorHandler } from 'src/helpers/errorHandler'
+import {
+  BAD_REQUEST_HTTP_CODE,
+  UNAUTHORIZED_ERROR,
+  UNAUTHORIZED_HTTP_CODE,
+} from 'src/configs/constants'
 
 export const useSocketConnection = () => {
   const username = getAuthUsername()
+  const accessToken = getAccessToken()
 
-  const [isConnected, setIsConnected] = useState<boolean>(false)
+  const [isConnected, setIsConnected] = useState<boolean>(true)
 
   const [, setSocket] = useAtom(socketAtom)
   const [, setAllTables] = useAtom(allTablesAtom)
   const [, setLastAction] = useAtom(lastActionAtom)
 
   useEffect(() => {
-    const accessToken = getAccessToken()
+    if (!accessToken) return
+
     const socketInstance = socketIO(SOCKET_URL, {
       extraHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
 
-    socketInstance.on('connect_error', error => errorHandler(error))
+    socketInstance.on('connect_error', (error: Error) => {
+      setIsConnected(false)
+      errorHandler(error)
+      forceLogout({
+        // @ts-ignore
+        response: {
+          status:
+            error.message === UNAUTHORIZED_ERROR ? UNAUTHORIZED_HTTP_CODE : BAD_REQUEST_HTTP_CODE,
+        },
+      })
+    })
 
     setSocket(socketInstance)
     socketInstance.on(SERVER_CHANNELS.connect, () => setIsConnected(true))

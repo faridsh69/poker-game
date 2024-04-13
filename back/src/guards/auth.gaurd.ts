@@ -1,8 +1,8 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
+import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { WsException } from '@nestjs/websockets'
 import { Request } from 'express'
 import { Socket } from 'socket.io'
+import { throwException } from 'src/helpers/http'
 
 import { TypeUserMinimalObject } from 'src/interfaces/types'
 
@@ -26,19 +26,13 @@ export class AuthGuard implements CanActivate {
     const token = type === 'Bearer' ? accessToken : undefined
 
     if (!token) {
-      if (isWs) {
-        throw new WsException('There is no token in header.')
-      }
-      throw new UnauthorizedException('There is no token in header.')
+      return throwException('There is no token in header.', isWs, HttpStatus.UNAUTHORIZED)
     }
 
     try {
       return this.jwtService.verify(token) as TypeUserMinimalObject
     } catch {
-      if (isWs) {
-        throw new WsException('Please login again, your token expired.')
-      }
-      throw new UnauthorizedException('Please login again, your token expired.')
+      return throwException('Please login again, your token expired.', isWs, HttpStatus.UNAUTHORIZED)
     }
   }
 

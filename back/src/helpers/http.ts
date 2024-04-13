@@ -1,8 +1,12 @@
-import { HttpException, HttpStatus } from '@nestjs/common'
+import { HttpException } from '@nestjs/common'
+import { WsException } from '@nestjs/websockets'
 
-export const throwException = (error: string | unknown) => {
-  // @ts-ignore
-  const message = error?.message || error
+export const throwException = (error: string, isWs = false, code = 400) => {
+  const message = error
 
-  throw new HttpException(message, HttpStatus.BAD_REQUEST)
+  if (isWs) {
+    throw new WsException(message)
+  }
+
+  throw new HttpException(message, code)
 }

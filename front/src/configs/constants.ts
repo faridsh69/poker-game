@@ -10,7 +10,9 @@ import { TypeSidebarItem } from 'src/interfaces'
 
 export const LOCAL_STORAGE_APP_KEY = 'PER'
 export const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'user_with_access_token'
+export const BAD_REQUEST_HTTP_CODE = 400
 export const UNAUTHORIZED_HTTP_CODE = 401
+export const UNAUTHORIZED_ERROR = 'Please login again, your token expired.'
 
 export const META_TAGS = {
   title: `Royal Poker V ${packageJson.version}`,
