@@ -7,16 +7,16 @@ import { useSocketConnection } from 'src/hooks/game/useSocketConnection'
 import { PageLayout } from 'src/components/cms/templates/PageLayout'
 import { Loading } from 'src/components/cms/molecules/Loading'
 import { GameBoard } from 'src/components/game/templates/boards/GameBoard'
-import { getAuthUsername } from 'src/helpers/auth'
+import { isLoggedin } from 'src/helpers/auth'
 
 const Home = () => {
-  const username = getAuthUsername()
+  const isLoggedinUser = isLoggedin()
   const [socket] = useAtom(socketAtom)
   const [allTables] = useAtom(allTablesAtom)
 
   const { isConnected } = useSocketConnection()
 
-  if (!username) {
+  if (!isLoggedinUser) {
     return (
       <PageLayout>
         <Alert severity='info' variant='outlined' sx={{ m: 3 }}>

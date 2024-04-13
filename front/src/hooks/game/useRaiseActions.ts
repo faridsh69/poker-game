@@ -7,6 +7,7 @@ import { useSocketActions } from 'src/hooks/game/useSocketActions'
 
 export const useRaiseActions = (table: TypeTable) => {
   const username = getAuthUsername()
+
   const { handleRaiseAction } = useSocketActions(table.id)
   const [raise, setRaise] = useState<number>(0)
 

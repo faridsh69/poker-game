@@ -20,13 +20,14 @@ import {
 
 export const useSocketConnection = () => {
   const username = getAuthUsername()
-  const accessToken = getAccessToken()
 
   const [isConnected, setIsConnected] = useState<boolean>(true)
 
   const [, setSocket] = useAtom(socketAtom)
   const [, setAllTables] = useAtom(allTablesAtom)
   const [, setLastAction] = useAtom(lastActionAtom)
+
+  const accessToken = getAccessToken()
 
   useEffect(() => {
     if (!accessToken) return

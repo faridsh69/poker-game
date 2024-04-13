@@ -28,7 +28,7 @@ export const GameBoard = () => {
         <DndWindow
           topbar={
             <div className='dnd-window-topbar-flex'>
-              <div className='dnd-window-topbar-flex-title'>{username} Account</div>
+              <div className='dnd-window-topbar-flex-title'>{username} account</div>
             </div>
           }
           body={<BoardTabs />}

@@ -8,21 +8,22 @@ import { LOCAL_STORAGE_ACCESS_TOKEN_KEY, UNAUTHORIZED_HTTP_CODE } from 'src/conf
 import { TypeModel } from 'src/interfaces'
 import { AxiosError } from 'axios'
 
+const getAuthUser = () => {
+  return getLocalstorage<TypeModel>(LOCAL_STORAGE_ACCESS_TOKEN_KEY, {})
+}
+
+export const isLoggedin = (): boolean => !!getAuthUser().access_token
+
 export const getAccessToken = (): string => {
-  const user = getLocalstorage<TypeModel>(LOCAL_STORAGE_ACCESS_TOKEN_KEY, {})
-  return user?.access_token as string
+  return getAuthUser().access_token as string
 }
 
 export const getAuthUsername = (): string => {
-  const user = getLocalstorage<TypeModel>(LOCAL_STORAGE_ACCESS_TOKEN_KEY, {})
-
-  return user?.username as string
+  return getAuthUser().username as string
 }
 
 export const getAuthId = (): number => {
-  const user = getLocalstorage<TypeModel>(LOCAL_STORAGE_ACCESS_TOKEN_KEY, {})
-
-  return user?.id as number
+  return getAuthUser()?.id as number
 }
 
 export const setAccessToken = (user: TypeModel) =>

@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
 import { postLogin, postRegister } from 'src/services/apis'
-import { getAuthId, getAuthUsername, removeAccessToken, setAccessToken } from 'src/helpers/auth'
+import { getAuthId, removeAccessToken, setAccessToken } from 'src/helpers/auth'
 import { API_URLS } from 'src/configs/constants'
 import { useCrud } from 'src/hooks/useCrud'
 
@@ -12,7 +12,7 @@ export const useAuth = () => {
   const navigate = useNavigate()
 
   const authId = getAuthId()
-  const username = getAuthUsername()
+
   const { single: authUser } = useCrud(API_URLS.users, authId)
 
   const loginMutation = useMutation({
@@ -41,7 +41,6 @@ export const useAuth = () => {
   }, [navigate])
 
   return {
-    username,
     authUser,
     loginMutation,
     handleLogout,

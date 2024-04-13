@@ -3,63 +3,53 @@ import { useAtom } from 'jotai'
 
 import { socketAtom } from 'src/contexts/socketAtom'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
-import { getAuthUsername } from 'src/helpers/auth'
 
 export const useSocketActions = (tableId: number) => {
-  const username = getAuthUsername()
   const [socket] = useAtom(socketAtom)
 
   const handleJoinTable = useCallback(
     (tableId: number) => {
-      socket.emit(CLIENT_CHANNELS.joinTable, { tableId, username })
+      socket.emit(CLIENT_CHANNELS.joinTable, { tableId })
     },
-    [socket, username],
+    [socket],
   )
 
   const handleLeaveTable = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.leaveTable, { tableId, username })
-  }, [socket, username, tableId])
+    socket.emit(CLIENT_CHANNELS.leaveTable, { tableId })
+  }, [socket, tableId])
 
   const handleJoinSeat = useCallback(
     (seatId: number) => {
-      socket.emit(CLIENT_CHANNELS.joinSeat, { tableId, username, seatId })
+      socket.emit(CLIENT_CHANNELS.joinSeat, { tableId, seatId })
     },
-    [socket, username, tableId],
+    [socket, tableId],
   )
-
-  // const handleLeaveSeat = useCallback(() => {
-  //   socket.emit(CLIENT_CHANNELS.leaveSeat, { tableId, username })
-  // }, [socket, username, tableId])
 
   const handleJoinGame = useCallback(
     (buyinAmount: number) => {
-      socket.emit(CLIENT_CHANNELS.joinGame, { tableId, username, buyinAmount })
+      socket.emit(CLIENT_CHANNELS.joinGame, { tableId, buyinAmount })
     },
-    [socket, username, tableId],
+    [socket, tableId],
   )
 
   const handleWaitForBB = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.waitForBB, { tableId, username })
-  }, [socket, username, tableId])
-
-  // const handleLeaveGame = useCallback(() => {
-  //   socket.emit(CLIENT_CHANNELS.leaveGame, { tableId, username })
-  // }, [socket, username, tableId])
+    socket.emit(CLIENT_CHANNELS.waitForBB, { tableId })
+  }, [socket, tableId])
 
   // START ACTIONS
   const handleCheckAction = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.checkAction, { tableId, username })
-  }, [socket, username, tableId])
+    socket.emit(CLIENT_CHANNELS.checkAction, { tableId })
+  }, [socket, tableId])
 
   const handleFoldAction = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.foldAction, { tableId, username })
-  }, [socket, username, tableId])
+    socket.emit(CLIENT_CHANNELS.foldAction, { tableId })
+  }, [socket, tableId])
 
   const handleCallAction = useCallback(
     (callActionAmount: number) => {
-      socket.emit(CLIENT_CHANNELS.callAction, { tableId, username, callActionAmount })
+      socket.emit(CLIENT_CHANNELS.callAction, { tableId, callActionAmount })
     },
-    [socket, username, tableId],
+    [socket, tableId],
   )
 
   const handleRaiseAction = useCallback(
@@ -67,42 +57,39 @@ export const useSocketActions = (tableId: number) => {
       socket.emit(CLIENT_CHANNELS.raiseAction, {
         tableId,
         raiseActionAmount,
-        username,
       })
     },
-    [socket, username, tableId],
+    [socket, tableId],
   )
 
   const handleTimeBankAction = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.timeBankAction, { tableId, username })
-  }, [socket, username, tableId])
+    socket.emit(CLIENT_CHANNELS.timeBankAction, { tableId })
+  }, [socket, tableId])
 
   const handleShowCardAction = useCallback(
     (cardIndexes: number[]) => {
-      socket.emit(CLIENT_CHANNELS.showCardAction, { tableId, username, cardIndexes })
+      socket.emit(CLIENT_CHANNELS.showCardAction, { tableId, cardIndexes })
     },
-    [socket, username, tableId],
+    [socket, tableId],
   )
   // FINISH ACTIONS
 
   const handleStradle = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.stradle, { tableId, username })
-  }, [socket, username, tableId])
+    socket.emit(CLIENT_CHANNELS.stradle, { tableId })
+  }, [socket, tableId])
 
   const handleSeatoutNextRound = useCallback(() => {
-    socket.emit(CLIENT_CHANNELS.seatoutNextRound, { tableId, username })
-  }, [socket, username, tableId])
+    socket.emit(CLIENT_CHANNELS.seatoutNextRound, { tableId })
+  }, [socket, tableId])
 
   return {
     handleJoinTable,
     handleLeaveTable,
 
     handleJoinSeat,
-    // handleLeaveSeat,
 
     handleJoinGame,
     handleWaitForBB,
-    // handleLeaveGame,
 
     handleCheckAction,
     handleFoldAction,

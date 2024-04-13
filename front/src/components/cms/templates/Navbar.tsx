@@ -11,11 +11,13 @@ import { LanguageSwitcher } from 'src/components/cms/molecules/LanguageSwitcher'
 import { ThemeSwitcher } from 'src/components/cms/molecules/ThemeSwitcher'
 import { META_TAGS } from 'src/configs/constants'
 import { useAuth } from 'src/hooks/useAuth'
+import { isLoggedin } from 'src/helpers/auth'
 
 export const Navbar = () => {
   const navigate = useNavigate()
 
-  const { username, handleLogout } = useAuth()
+  const { authUser, handleLogout } = useAuth()
+  const isLoggedinUser = isLoggedin()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -45,22 +47,22 @@ export const Navbar = () => {
           component='div'
           sx={{ display: { xs: 'none', sm: 'block' } }}
         >
-          {META_TAGS.title} - {username ? username : 'Guest'}
+          {META_TAGS.title} - {isLoggedinUser ? authUser?.username : 'Guest'}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <LanguageSwitcher />
         <ThemeSwitcher />
-        {!username && (
+        {!isLoggedinUser && (
           <Button color='inherit' component={Link} to='/login'>
             Login
           </Button>
         )}
-        {!username && (
+        {!isLoggedinUser && (
           <Button color='inherit' component={Link} to='/register'>
             Register
           </Button>
         )}
-        {username && (
+        {isLoggedinUser && (
           <IconButton size='large' onClick={handleProfileMenuOpen} color='inherit'>
             <AccountCircle />
           </IconButton>
