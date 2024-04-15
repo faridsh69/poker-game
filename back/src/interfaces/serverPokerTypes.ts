@@ -94,7 +94,7 @@ export type TypeTimer = {
 
 export type TypeUser = {
   username: string
-  avatar: string
+  avatar: number
   cash: TypeCash
   cards: TypeCard[]
   winnerPotIds: number[]

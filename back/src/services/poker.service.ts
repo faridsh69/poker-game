@@ -42,6 +42,15 @@ export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueO
 
 export const getTable = (tables: TypeTable[], tableId: number): TypeTable => tables.find(t => t.id === tableId) as TypeTable
 
+export const getAuthUserSeat = (tables: TypeTable[], tableId: number, username: string): TypeSeat | undefined =>
+  getTable(tables, tableId)?.seats?.find(s => s.user?.username === username)
+
+export const getAuthUserCashInGame = (tables: TypeTable[], tableId: number, username: string): number => {
+  const authSeat = getAuthUserSeat(tables, tableId, username)
+
+  return authSeat?.user?.cash?.inGame || 0
+}
+
 export const isUserSeatedTable = (table: TypeTable, username: string): boolean => {
   return !!table.seats.find(s => s.user?.username === username)
 }

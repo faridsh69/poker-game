@@ -156,7 +156,7 @@ export const USER_SEATOUT = {
 
 export const NEW_USER: TypeUser = {
   username: 'username',
-  avatar: 'avatar',
+  avatar: 1,
   cash: {
     inBank: 0,
     inGame: 0,

@@ -32,6 +32,7 @@ import {
   isWaitPhase,
   resetTable,
 } from 'src/services/poker.service'
+import { User } from 'src/models/user.entity'
 
 export const renderClientJoinTable = (tablesState: TypeTable[], tableId: number, username: string): TypeTable[] => {
   return tablesState.map(t => {
@@ -111,12 +112,12 @@ export const renderClientLeaveTable = (tablesState: TypeTable[], tableId: number
   })
 }
 
-export const renderClientJoinSeat = (
-  tablesState: TypeTable[],
-  tableId: number,
-  seatId: number,
-  username: string,
-): TypeTable[] => {
+export const renderClientJoinSeat = (tablesState: TypeTable[], tableId: number, seatId: number, user: User): TypeTable[] => {
+  const username = user.username
+  const avatar = user.avatar_id
+  // @ts-ignore
+  const inBank = user.balance
+
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
@@ -134,8 +135,12 @@ export const renderClientJoinSeat = (
               user: {
                 ...NEW_USER,
                 username,
-                // avatar
-                // cash inBank
+                avatar,
+                cash: {
+                  inBank: inBank,
+                  inGame: 0,
+                  inPot: 0,
+                },
                 isSeatout: true,
                 timer: getLeaveSeatTimer(false),
               },
@@ -215,8 +220,7 @@ export const renderClientJoinGame = (
             ...s.user,
             cash: {
               inGame: buyinAmount,
-              // @todo change this wih real user data
-              inBank: NEW_USER.cash.inBank - buyinAmount,
+              inBank: s.user.cash.inBank - buyinAmount,
               inPot: 0,
             },
             isSeatout: false,

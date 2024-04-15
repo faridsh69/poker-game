@@ -1,11 +1,14 @@
 import { useCallback } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useAtom } from 'jotai'
 
 import { socketAtom } from 'src/contexts/socketAtom'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
+import { getAuthId } from 'src/helpers/auth'
 
 export const useSocketActions = (tableId: number) => {
   const [socket] = useAtom(socketAtom)
+  const queryClient = useQueryClient()
 
   const handleJoinTable = useCallback(
     (tableId: number) => {
@@ -28,6 +31,7 @@ export const useSocketActions = (tableId: number) => {
   const handleJoinGame = useCallback(
     (buyinAmount: number) => {
       socket.emit(CLIENT_CHANNELS.joinGame, { tableId, buyinAmount })
+      queryClient.invalidateQueries({ queryKey: ['users', getAuthId()] })
     },
     [socket, tableId],
   )
