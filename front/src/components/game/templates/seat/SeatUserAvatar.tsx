@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { TypeSeatProps } from 'src/interfaces'
 import UserAvatarsImage from 'src/images/game/avatars.png'
-import { getRandomNumber } from 'src/helpers/clientHelpersPoker'
 
 export const SeatUserAvatar = (props: TypeSeatProps) => {
   const { seat } = props
@@ -11,8 +10,7 @@ export const SeatUserAvatar = (props: TypeSeatProps) => {
       <div
         className={classNames(
           'dnd-window-body-table-seats-seat-user-avatar-image',
-          `avatar-${seat.user.avatar}`,
-          `avatar-${getRandomNumber(10) + 1}`,
+          `avatar-${seat.user.avatar_id}`,
         )}
         style={{ backgroundImage: `url(${UserAvatarsImage})` }}
       />

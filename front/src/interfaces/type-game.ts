@@ -117,7 +117,7 @@ type TypeTimer = {
 
 export type TypeUser = {
   username: string
-  avatar: string
+  avatar_id: string
   cash: TypeCash
   cards: TypeCard[]
   isDealer: boolean

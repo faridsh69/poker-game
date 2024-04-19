@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import {
   ANIMATION_CSS_USER_CARD_DURATION,
-  ANIMATION_PASS_CARD_DELAY,
+  ANIMATION_CSS_USER_CARD_DELAY,
   USER_CARDS_FOLD_CLASS_NAME,
   USER_CARDS_HIDE_CLASS_NAME,
   USER_CARDS_SHOW_CLASS_NAME,
@@ -37,8 +37,8 @@ export const useUserCardsAnimation = (table: TypeTable, seat: TypeSeat) => {
       // @ts-ignore
       const classAnimate = USER_CARD_CLASS_NAMES[`animatePass${cardIndex + 1}`]
       const animDelay =
-        turnInPassingCards * ANIMATION_PASS_CARD_DELAY +
-        playersCount * ANIMATION_PASS_CARD_DELAY * cardIndex
+        turnInPassingCards * ANIMATION_CSS_USER_CARD_DELAY +
+        playersCount * ANIMATION_CSS_USER_CARD_DELAY * cardIndex
 
       // add animation
       setTimeout(() => {

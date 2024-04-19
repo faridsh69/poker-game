@@ -198,12 +198,12 @@ export const USER_CARDS_FOLD_CLASS_NAME = [
   USER_CARD_CLASS_NAMES.animateFold2,
 ]
 
-export const ANIMATION_PASS_CARD_DELAY = 300
+export const ANIMATION_CSS_USER_CARD_DELAY = 300 // Dont change it
 export const ANIMATION_CSS_USER_CARD_DURATION = 500 // Dont change it
 
-export const ANIMATION_CSS_TABLE_CARD_DURATION = 900 // Dont change it
+export const ANIMATION_CSS_TABLE_CARD_DURATION = 500 // Dont change it
 
-export const ANIMATION_CSS_POT_DURATION = 700 // Dont change it 300
+export const ANIMATION_CSS_POT_DURATION = 300 // Dont change it
 
 export const TABLE_CARD_CLASS_NAMES = {
   hide: 'table-card-hide',

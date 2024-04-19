@@ -1,4 +1,4 @@
-$tableCardAnimationTimeout: 0.9s;
+@import './anim_variables.scss';
 
 * {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
@@ -191,7 +191,7 @@ html {
           }
 
           .table-card-flop-1 {
-            animation: flop1CardsAnimation $tableCardAnimationTimeout ease-out;
+            animation: flop1CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
           }
 
           @keyframes flop2CardsAnimation {
@@ -213,7 +213,7 @@ html {
           }
 
           .table-card-flop-2 {
-            animation: flop2CardsAnimation $tableCardAnimationTimeout ease-out;
+            animation: flop2CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
           }
 
           @keyframes flop3CardsAnimation {
@@ -235,7 +235,7 @@ html {
           }
 
           .table-card-flop-3 {
-            animation: flop3CardsAnimation $tableCardAnimationTimeout ease-out;
+            animation: flop3CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
           }
 
           @keyframes phaseTurnCardsAnimation {
@@ -251,7 +251,7 @@ html {
           }
 
           .table-card-turn {
-            animation: phaseTurnCardsAnimation $tableCardAnimationTimeout ease-out;
+            animation: phaseTurnCardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
           }
 
           @keyframes phaseRiverCardsAnimation {
@@ -267,7 +267,7 @@ html {
           }
 
           .table-card-river {
-            animation: phaseRiverCardsAnimation $tableCardAnimationTimeout ease-out;
+            animation: phaseRiverCardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
           }
         }
 

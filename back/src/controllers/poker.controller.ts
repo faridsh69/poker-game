@@ -38,7 +38,6 @@ export const renderClientJoinTable = (tablesState: TypeTable[], tableId: number,
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 
-    // const isWaitingUser = isUserWaitingTable(t, username)
     const isSeatedUser = isUserSeatedTable(t, username)
 
     return {
@@ -50,8 +49,6 @@ export const renderClientJoinTable = (tablesState: TypeTable[], tableId: number,
             {
               ...NEW_USER,
               username,
-              // avatar
-              // cash inBank
             },
           ],
       seats: t.seats.map(s => {
@@ -114,7 +111,7 @@ export const renderClientLeaveTable = (tablesState: TypeTable[], tableId: number
 
 export const renderClientJoinSeat = (tablesState: TypeTable[], tableId: number, seatId: number, user: User): TypeTable[] => {
   const username = user.username
-  const avatar = user.avatar_id
+  const avatar_id = user.avatar_id
   // @ts-ignore
   const inBank = user.balance
 
@@ -135,7 +132,7 @@ export const renderClientJoinSeat = (tablesState: TypeTable[], tableId: number, 
               user: {
                 ...NEW_USER,
                 username,
-                avatar,
+                avatar_id,
                 cash: {
                   inBank: inBank,
                   inGame: 0,
@@ -163,8 +160,6 @@ export const renderClientLeaveSeat = (tablesState: TypeTable[], tableId: number,
             {
               ...NEW_USER,
               username,
-              // avatar
-              // cash inBank
             },
           ],
       seats: t.seats.map(s => {

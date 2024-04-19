@@ -21,7 +21,7 @@ export const USERS_SEEDER = [
     email: 'ali.hasani@gmail.com',
     status: USERS_STATUSES.active,
     role: USERS_ROLES.admin,
-    avatar_id: 2,
+    avatar_id: 3,
     phone: '00989123423322',
     first_name: 'ali',
     last_name: 'hasani',
