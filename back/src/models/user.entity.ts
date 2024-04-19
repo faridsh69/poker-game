@@ -9,7 +9,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number
 
-  @Column({ type: 'varchar', length: 15 }) // change to 10
+  @Column({ type: 'varchar', length: 10 })
   username!: string
 
   @Column({ type: 'varchar', length: 40 })

@@ -50,7 +50,9 @@ const RequestInterceptor: TypeRequestInterceptor = config => {
 
 const authInterceptor: TypeRequestInterceptor = config => {
   const accessToken = getAccessToken()
-  config.headers!.Authorization = `Bearer ${accessToken}`
+  if (accessToken) {
+    config.headers!.Authorization = `Bearer ${accessToken}`
+  }
 
   return config
 }
@@ -58,7 +60,7 @@ const authInterceptor: TypeRequestInterceptor = config => {
 const responseInterceptor: TypeResponseInterceptor = response => response
 
 const errorHandlerInterceptor: TypeErrorHandlerInterceptor = error => {
-  forceLogout(error)
+  forceLogout(error.message)
 
   const message = error.response?.data?.message
   if (message) {

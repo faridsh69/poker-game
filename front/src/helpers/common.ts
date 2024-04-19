@@ -59,7 +59,7 @@ export const makeUniqueArray = (initialArray: []) => {
   )
 }
 
-export const makeUniqueArrayByPropery = (initialArray: [], property: string) => {
+export const makeUniqueArrayByPropery = (initialArray: any[], property: string) => {
   const arrayOfProperty = initialArray.map(object => object[property])
 
   return initialArray.filter((object, index) => arrayOfProperty.indexOf(object[property]) === index)

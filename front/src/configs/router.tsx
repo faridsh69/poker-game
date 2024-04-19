@@ -12,6 +12,12 @@ const ROUTES: RoutesType = [
     errorElement: <ErrorPage />,
   },
   {
+    name: 'test',
+    path: '/test',
+    element: <Suspender pageName='Test' />,
+    errorElement: <ErrorPage />,
+  },
+  {
     name: 'login',
     path: '/login',
     element: <Suspender pageName='Login' canGuest />,

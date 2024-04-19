@@ -5,7 +5,7 @@ export const DATABASE_CONFIG = {
   password: '1',
   username: 'postgres',
   entities: [],
-  database: 'per',
+  database: 'per2',
   synchronize: true,
   logging: true,
   autoLoadEntities: true,

@@ -4,9 +4,8 @@ import {
   removeLocalsotrage,
   setLocalsotrage,
 } from 'src/helpers/common'
-import { LOCAL_STORAGE_ACCESS_TOKEN_KEY, UNAUTHORIZED_HTTP_CODE } from 'src/configs/constants'
+import { EXPIRED_ERROR, LOCAL_STORAGE_ACCESS_TOKEN_KEY } from 'src/configs/constants'
 import { TypeModel } from 'src/interfaces'
-import { AxiosError } from 'axios'
 
 const getAuthUser = () => {
   return getLocalstorage<TypeModel>(LOCAL_STORAGE_ACCESS_TOKEN_KEY, {})
@@ -31,8 +30,8 @@ export const setAccessToken = (user: TypeModel) =>
 
 export const removeAccessToken = () => removeLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
 
-export const forceLogout = (error: AxiosError) => {
-  if (error.response?.status === UNAUTHORIZED_HTTP_CODE) {
+export const forceLogout = (errorMessage: string) => {
+  if (errorMessage === EXPIRED_ERROR) {
     removeAccessToken()
     refreshBrowser()
   }

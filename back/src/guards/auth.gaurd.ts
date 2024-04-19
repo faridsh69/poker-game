@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     const token = type === 'Bearer' ? accessToken : undefined
 
     if (!token) {
-      return throwException('There is no token in header.', isWs, HttpStatus.UNAUTHORIZED)
+      return throwException('You are not logged in', isWs, HttpStatus.UNAUTHORIZED)
     }
 
     try {

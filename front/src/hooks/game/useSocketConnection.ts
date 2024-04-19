@@ -12,11 +12,6 @@ import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
 import { forceLogout, getAccessToken, getAuthUsername } from 'src/helpers/auth'
 import { errorHandler } from 'src/helpers/errorHandler'
-import {
-  BAD_REQUEST_HTTP_CODE,
-  UNAUTHORIZED_ERROR,
-  UNAUTHORIZED_HTTP_CODE,
-} from 'src/configs/constants'
 
 export const useSocketConnection = () => {
   const username = getAuthUsername()
@@ -41,13 +36,7 @@ export const useSocketConnection = () => {
     socketInstance.on('connect_error', (error: Error) => {
       setIsConnected(false)
       errorHandler(error)
-      forceLogout({
-        // @ts-ignore
-        response: {
-          status:
-            error.message === UNAUTHORIZED_ERROR ? UNAUTHORIZED_HTTP_CODE : BAD_REQUEST_HTTP_CODE,
-        },
-      })
+      forceLogout(error.message)
     })
 
     setSocket(socketInstance)
