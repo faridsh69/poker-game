@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react'
+import { formatInputTypeFloat, getAcceptableValue } from 'src/helpers/common'
 
 export const RaiseInput = (props: {
   value: number
@@ -9,38 +10,23 @@ export const RaiseInput = (props: {
 }) => {
   const { value, min, step, max, changeRaiseAmount } = props
 
-  const [inputValue, setInputValue] = useState(0)
+  const [inputValue, setInputValue] = useState<string>('0')
 
   const [focused, setFocused] = useState(false)
 
   useEffect(() => {
     if (focused) return
 
-    setInputValue(value)
+    setInputValue(value + '')
   }, [focused, value])
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let newValue = +e.target.value
+    const inputValue = e.target.value
+    const formatedInput = formatInputTypeFloat(inputValue, max, 2)
+    const acceptableValue = getAcceptableValue(formatedInput, min, max, step)
 
-    if (isNaN(newValue)) {
-      newValue = value
-    } else if (newValue < min) {
-      newValue = min
-    } else if (newValue < min + step && newValue !== min) {
-      newValue = min + step
-    } else if (newValue > max) {
-      newValue = max
-    }
-
-    changeRaiseAmount(newValue)
-
-    let newInputValue = +e.target.value
-
-    if (isNaN(newInputValue)) {
-      newInputValue = value
-    }
-
-    setInputValue(newInputValue)
+    setInputValue(formatedInput)
+    changeRaiseAmount(acceptableValue)
   }
 
   const handleOnFocus = () => {

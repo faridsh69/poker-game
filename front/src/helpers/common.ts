@@ -1,5 +1,6 @@
 import { LOCAL_STORAGE_APP_KEY } from 'src/configs/constants'
 import { TypeResolve } from 'src/interfaces'
+import { roundNumber } from './clientHelpersPoker'
 
 export const findInString = (string: string, value: string) => {
   if (!string || !value) return true
@@ -69,13 +70,13 @@ export const isBoolean = (variable: boolean) => typeof variable === 'boolean'
 
 export const isString = (variable: unknown) => typeof variable === 'string'
 
-export const isNumber = (variable: number) => typeof variable === 'number'
+export const isNumber = (variable: number | string) => typeof variable === 'number'
 
 export const isObject = (variable: object) => typeof variable === 'object'
 
 export const isArray = (variable: []): boolean => Array.isArray(variable)
 
-export const isUndefined = (variable: object) => typeof variable === 'undefined'
+export const isUndefined = (variable: unknown) => typeof variable === 'undefined'
 
 export const isObjectEmpty = (object: object) =>
   !object || !isObject(object) || !Object.keys(object).length
@@ -231,4 +232,46 @@ export const getSeconds = (second: number) => {
 
 export const refreshBrowser = () => {
   window.location.reload()
+}
+
+export const formatInputTypeFloat = (value: string, maximum = 9999999, decimals = 2): string => {
+  if (isUndefined(value)) return '0'
+
+  if (value === '') return ''
+
+  if (value === '.') return '0.'
+
+  if (value.slice(-1) === '.') return value
+
+  if (value.slice(-2) === '.0') return value
+
+  if (!isNaN(+value)) {
+    if (maximum && +value > maximum) {
+      return '' + maximum
+    }
+
+    return '' + roundNumber(+value, decimals)
+  }
+
+  return '0'
+}
+export const getAcceptableValue = (value: string, min: number, max: number, step: number) => {
+  const numberValue = +value
+  if (isNaN(numberValue)) {
+    return min
+  }
+
+  if (numberValue < min) {
+    return min
+  }
+
+  if (numberValue < min + step && numberValue !== min) {
+    return min + step
+  }
+
+  if (numberValue > max) {
+    return max
+  }
+
+  return min
 }
