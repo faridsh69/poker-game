@@ -213,6 +213,8 @@ export const canSeeTableActionsPreTurn = (table: TypeTable, username: string): b
   return true
 }
 
+// show bood o fold nabood nashe
+// finish bood hame betonan
 export const canSeeTableActionsShowCards = (table: TypeTable, username: string): boolean => {
   const userSeat = getUserSeat(table, username)
 
@@ -221,7 +223,8 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
   if (isSeatoutSeat(userSeat)) return false
   if (isAnyCardsVisible(userSeat)) return false
   if (!isShowOrFinishPhase(table)) return false
-  if (!isWinnerSeat(userSeat)) return false
+
+  if (isShowPhase(table) && !isFoldSeat(userSeat)) return false
 
   return true
 }
