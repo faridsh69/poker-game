@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useAtom } from 'jotai'
 
 import sitoutImage from 'src/images/game/sitout.png'
@@ -23,15 +23,23 @@ export const TableActionsJoinGame = (props: TypeTableProps) => {
     setBuyinModal({ show: false })
   }, [])
 
-  const handleConfirmJoinGame = () => {
+  const handleConfirmJoinGame = useCallback(() => {
     setBuyinModal({
       show: true,
       table,
       onBuyin,
     })
-  }
+  }, [table])
 
-  if (!canSeeTableActionsJoinGame(table, username)) return null
+  const canSee = canSeeTableActionsJoinGame(table, username)
+
+  useEffect(() => {
+    if (!canSee) return
+
+    handleConfirmJoinGame()
+  }, [canSee])
+
+  if (!canSee) return null
 
   return (
     <div className='dnd-window-body-table-actions-joingame'>
