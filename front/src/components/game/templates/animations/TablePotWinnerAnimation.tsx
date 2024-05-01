@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 
 import { ANIMATION_CSS_WIN_POT_DURATION } from 'src/configs/clientConstantsPoker'
@@ -9,9 +9,11 @@ import { Money } from 'src/components/game/molecules/Money'
 export const TablePotWinnerAnimation = (props: TypeTableProps & { amount: number }) => {
   const { table, amount } = props
 
-  const winnerSeats = table.seats.filter(s => isWinnerSeat(s))
+  const winnerSeats = useMemo(() => {
+    return table.seats.filter(s => isWinnerSeat(s))
+  }, [table.seats])
 
-  // #1 only show animation when phase changed
+  // #1 only show animation when we have winners changed
   const [showAnimation, setShowAnimation] = useState(false)
 
   // #2 stop show animation on Refresh
@@ -19,6 +21,8 @@ export const TablePotWinnerAnimation = (props: TypeTableProps & { amount: number
 
   // #1 && #2
   useEffect(() => {
+    if (!winnerSeats.length) return
+
     setLastTablePhase(table.phase)
 
     if (lastTablePhase === table.phase) return
@@ -27,7 +31,7 @@ export const TablePotWinnerAnimation = (props: TypeTableProps & { amount: number
     setTimeout(() => {
       setShowAnimation(false)
     }, ANIMATION_CSS_WIN_POT_DURATION)
-  }, [table.phase])
+  }, [winnerSeats.length])
 
   if (!showAnimation) return null
 

@@ -9,13 +9,17 @@ export const TablePot = (props: TypeTableProps & { tablePot: TypePot }) => {
 
   const winnerSeats = table.seats.filter(s => isWinnerSeat(s))
 
-  if (!tablePot.amount) return null
+  const showMoney = !!tablePot.amount && !winnerSeats.length
 
   return (
     <div className='dnd-window-body-table-pots-pot'>
       <TablePotCollectingAnimation table={table} />
       <TablePotWinnerAnimation table={table} amount={tablePot.amount} />
-      {!winnerSeats.length && <Money money={tablePot.amount} showChips />}
+      {showMoney && (
+        <div className='dnd-window-body-table-pots-pot-money'>
+          <Money money={tablePot.amount} showChips />
+        </div>
+      )}
     </div>
   )
 }
