@@ -40,7 +40,8 @@ const getRandomNumber = (to: number): number => {
 
 export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueOf() / 1000) + timeout
 
-export const getTable = (tables: TypeTable[], tableId: number): TypeTable => tables.find(t => t.id === tableId) as TypeTable
+export const getTable = (tables: TypeTable[], tableId: number): TypeTable =>
+  tables.find(t => t.id === tableId) as TypeTable
 
 export const getAuthUserSeat = (tables: TypeTable[], tableId: number, username: string): TypeSeat | undefined =>
   getTable(tables, tableId)?.seats?.find(s => s.user?.username === username)
@@ -1086,7 +1087,11 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
   }
 }
 
-const calculateNewTablePhase = (table: TypeTable, atLeastTwoPlayers: boolean, allPlayersAllIn: boolean): TypeTablePhase => {
+const calculateNewTablePhase = (
+  table: TypeTable,
+  atLeastTwoPlayers: boolean,
+  allPlayersAllIn: boolean,
+): TypeTablePhase => {
   if (allPlayersAllIn) {
     return TABLE_PHASES.show
   }
@@ -1112,7 +1117,10 @@ const filterScoreAndAchievementsBySeatIds = (scoreAndAchievements: TypeScoreAndA
   return output
 }
 
-const calculateWinnerOfEachPot = (scoreAndAchievements: TypeScoreAndAchivements, tablePots: TypePot[]): TypePotWinner[] => {
+const calculateWinnerOfEachPot = (
+  scoreAndAchievements: TypeScoreAndAchivements,
+  tablePots: TypePot[],
+): TypePotWinner[] => {
   const pots: TypePotWinner[] = []
 
   for (const tablePot of tablePots) {

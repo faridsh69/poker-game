@@ -117,7 +117,9 @@ const getQuadsScore = (cards: TypeCard[], pairOrSetOrQuadsCards: TypeCard[][]): 
   const restOfCards = cards.filter(c => !quadsCards.find(pc => pc.type === c.type && pc.number === c.number))
 
   return (
-    WINNER_LEVELS.quads * Math.pow(100, 5) + getCardScoreWithLevel(quadsCards[0], 4) + getCardScoreWithLevel(restOfCards[0], 3)
+    WINNER_LEVELS.quads * Math.pow(100, 5) +
+    getCardScoreWithLevel(quadsCards[0], 4) +
+    getCardScoreWithLevel(restOfCards[0], 3)
   )
 }
 
@@ -132,7 +134,9 @@ const getFullHouseScore = (pairOrSetOrQuadsCards: TypeCard[][]): number => {
   const pairCards = pairOrSetOrQuadsCards[1]
 
   return (
-    WINNER_LEVELS.fullHouse * Math.pow(100, 5) + getCardScoreWithLevel(setCards[0], 4) + getCardScoreWithLevel(pairCards[0], 3)
+    WINNER_LEVELS.fullHouse * Math.pow(100, 5) +
+    getCardScoreWithLevel(setCards[0], 4) +
+    getCardScoreWithLevel(pairCards[0], 3)
   )
 }
 

@@ -2,6 +2,10 @@ export const envConfig = (): { [key: string]: string } => {
   const config = {
     port: process.env.PORT as string,
     secretKey: process.env.JWT_SECRET_KEY as string,
+
+    dbPassword: process.env.DB_PASSWORD as string,
+    dbUsername: process.env.DB_USERNAME as string,
+    dbName: process.env.DB_NAME as string,
   }
 
   return config

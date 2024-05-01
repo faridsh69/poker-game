@@ -1,4 +1,4 @@
-import { makeUniqueArrayByPropery } from "src/helpers/common"
+import { makeUniqueArrayByPropery } from 'src/helpers/common'
 
 const Test = () => {
   const events: TypeEvent[] = [
@@ -79,18 +79,18 @@ const getEventsWithOverlaps = (events: TypeEvent[]) => {
   const eventsWithAllOverlaps = eventsWithOverlaps.map(event1 => {
     let overlappedEvents: TypeEvent[] = event1.overlappedEvents
     for (const overlappedEvent of event1.overlappedEvents) {
-      const overlappedFullDataEvent = eventsWithOverlaps.find(e => e.id === overlappedEvent.id) || {overlappedEvents: []}
-      
-      overlappedEvents = [
-        ...overlappedEvents,
-        ...overlappedFullDataEvent.overlappedEvents
-      ]
-    }
+      const overlappedFullDataEvent = eventsWithOverlaps.find(e => e.id === overlappedEvent.id) || {
+        overlappedEvents: [],
+      }
 
+      overlappedEvents = [...overlappedEvents, ...overlappedFullDataEvent.overlappedEvents]
+    }
 
     return {
       ...event1,
-      overlappedEvents: makeUniqueArrayByPropery(overlappedEvents, 'id').filter(ev => ev.id !== event1.id),
+      overlappedEvents: makeUniqueArrayByPropery(overlappedEvents, 'id').filter(
+        ev => ev.id !== event1.id,
+      ),
     }
   })
 

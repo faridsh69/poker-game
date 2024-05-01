@@ -1,15 +1,23 @@
-export const DATABASE_CONFIG = {
+import { envConfig } from './envConfig'
+
+const DATABASE_CONFIG = {
   type: 'postgres' as 'aurora-mysql',
   host: 'localhost',
   port: 5432,
-  password: '1',
-  username: 'postgres',
   entities: [],
-  database: 'per2',
   synchronize: true,
   logging: true,
   autoLoadEntities: true,
   retryAttempts: 3,
+}
+
+export const getDbConfig = () => {
+  return {
+    ...DATABASE_CONFIG,
+    database: envConfig().dbName,
+    password: envConfig().dbPassword,
+    username: envConfig().dbUsername,
+  }
 }
 
 export const USERS_STATUSES: { [key: string]: string } = {

@@ -96,7 +96,12 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
     return { ...user, balance }
   }
 
-  private saveTransaction = async (client: Socket, buyinAmount: number, tableId: number, userGiving: boolean): Promise<void> => {
+  private saveTransaction = async (
+    client: Socket,
+    buyinAmount: number,
+    tableId: number,
+    userGiving: boolean,
+  ): Promise<void> => {
     // @ts-ignore
     const user: User = client.userx
 
@@ -199,7 +204,10 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinSeat)
-  async handleClientJoinSeat(@MessageBody() { tableId, seatId }: TypeHandleClientSitTable, @ConnectedSocket() socket: Socket) {
+  async handleClientJoinSeat(
+    @MessageBody() { tableId, seatId }: TypeHandleClientSitTable,
+    @ConnectedSocket() socket: Socket,
+  ) {
     const user = await this.getAuthUser(socket)
     // Validations: check user is joined before as waiting user in this table, also he is not seated
     this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, user)
@@ -208,7 +216,10 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.joinGame)
-  handleClientJoinGame(@MessageBody() { tableId, buyinAmount }: TypeHandleClientSitTable, @ConnectedSocket() socket: Socket) {
+  handleClientJoinGame(
+    @MessageBody() { tableId, buyinAmount }: TypeHandleClientSitTable,
+    @ConnectedSocket() socket: Socket,
+  ) {
     const username = this.getAuthUsername(socket)
     this.tablesState = renderClientJoinGame(this.tablesState, tableId, username, buyinAmount)
 
@@ -273,7 +284,15 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   handleClientAction(tableId: number, username: string, actionName: TypeAction, amount?: number) {
-    renderGeneralClientActions(this.server, this.tablesState, this.updateTablesState, tableId, username, actionName, amount)
+    renderGeneralClientActions(
+      this.server,
+      this.tablesState,
+      this.updateTablesState,
+      tableId,
+      username,
+      actionName,
+      amount,
+    )
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.timeBankAction)
@@ -305,7 +324,10 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   }
 
   @SubscribeMessage(CLIENT_CHANNELS.seatoutNextRound)
-  handleClientSeatoutNextRound(@MessageBody() { tableId }: TypeHandleClientJoinTable, @ConnectedSocket() socket: Socket) {
+  handleClientSeatoutNextRound(
+    @MessageBody() { tableId }: TypeHandleClientJoinTable,
+    @ConnectedSocket() socket: Socket,
+  ) {
     const username = this.getAuthUsername(socket)
     this.tablesState = renderClientSeatoutNextRound(this.tablesState, tableId, username)
 

@@ -1,4 +1,14 @@
-import { IsAlphanumeric, IsEmail, IsEnum, IsInt, IsNotEmpty, IsString, Matches, MinLength, Validate } from 'class-validator'
+import {
+  IsAlphanumeric,
+  IsEmail,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MinLength,
+  Validate,
+} from 'class-validator'
 
 import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
 import { IsUnique } from 'src/validations/customs/IsUnique'

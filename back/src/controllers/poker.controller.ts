@@ -109,7 +109,12 @@ export const renderClientLeaveTable = (tablesState: TypeTable[], tableId: number
   })
 }
 
-export const renderClientJoinSeat = (tablesState: TypeTable[], tableId: number, seatId: number, user: User): TypeTable[] => {
+export const renderClientJoinSeat = (
+  tablesState: TypeTable[],
+  tableId: number,
+  seatId: number,
+  user: User,
+): TypeTable[] => {
   const username = user.username
   const avatar_id = user.avatar_id
   // @ts-ignore
@@ -449,7 +454,11 @@ export const renderClientStradle = (tablesState: TypeTable[], tableId: number, u
   })
 }
 
-export const renderClientSeatoutNextRound = (tablesState: TypeTable[], tableId: number, username: string): TypeTable[] => {
+export const renderClientSeatoutNextRound = (
+  tablesState: TypeTable[],
+  tableId: number,
+  username: string,
+): TypeTable[] => {
   return tablesState.map(t => {
     if (t.id !== tableId) return t
 

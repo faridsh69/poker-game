@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
 
 import { PokerGateway } from 'src/providers/poker.gateway'
-import { DATABASE_CONFIG } from 'src/configs/database'
+import { getDbConfig } from 'src/configs/database'
 import { UsersModule } from 'src/modules/users.module'
 import { TablesModule } from 'src/modules/tables.module'
 import { IsUnique } from 'src/validations/customs/IsUnique'
@@ -15,7 +15,7 @@ import { HistoriesModule } from './history.module'
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(DATABASE_CONFIG),
+    TypeOrmModule.forRoot(getDbConfig()),
     PokerGateway,
     AuthModule,
     UsersModule,

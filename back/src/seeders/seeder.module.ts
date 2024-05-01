@@ -1,10 +1,11 @@
 import { Logger, Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { ConfigModule } from '@nestjs/config'
 
 import { User } from 'src/models/user.entity'
 import { Table } from 'src/models/table.entity'
 import { Payment } from 'src/models/payment.entity'
-import { DATABASE_CONFIG } from 'src/configs/database'
+import { getDbConfig } from 'src/configs/database'
 import { SeederService } from 'src/seeders/seeder.service'
 import { UsersService } from 'src/services/users.service'
 import { TablesService } from 'src/services/tables.service'
@@ -15,7 +16,19 @@ import { History } from 'src/models/history.entity'
 import { HistoriesService } from 'src/services/histories.service'
 
 @Module({
-  imports: [TypeOrmModule.forRoot(DATABASE_CONFIG), TypeOrmModule.forFeature([User, Table, Payment, Transaction, History])],
-  providers: [Logger, SeederService, UsersService, TablesService, PaymentsService, TransactionsService, HistoriesService],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(getDbConfig()),
+    TypeOrmModule.forFeature([User, Table, Payment, Transaction, History]),
+  ],
+  providers: [
+    Logger,
+    SeederService,
+    UsersService,
+    TablesService,
+    PaymentsService,
+    TransactionsService,
+    HistoriesService,
+  ],
 })
 export class SeederModule {}

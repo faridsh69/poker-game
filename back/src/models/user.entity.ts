@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Unique } from 'typeorm'
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  Unique,
+} from 'typeorm'
 
 import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
 
