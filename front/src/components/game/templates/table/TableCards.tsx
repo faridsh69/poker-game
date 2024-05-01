@@ -12,6 +12,7 @@ export const TableCards = (props: TypeTableProps) => {
     <div className='dnd-window-body-table-cards'>
       {table.cards.map((card, cardIndex) => {
         const { hideCard, isRabbitcard } = calculateIsRabbitcard(table, tableCardLength, cardIndex)
+
         if (hideCard) return null
 
         return (

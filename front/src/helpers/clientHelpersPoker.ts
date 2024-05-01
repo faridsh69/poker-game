@@ -63,7 +63,7 @@ const isAnyCardsVisible = (seat: TypeSeat): boolean => !!seat.user.cards.find(c 
 
 const isTableClosedSeat = (seat: TypeSeat): boolean => !!seat?.user?.isTableClosed
 
-export const isWinnerSeat = (seat: TypeSeat): boolean => !!seat?.user.winnerPotIds.length
+export const isWinnerSeat = (seat: TypeSeat): boolean => !!seat?.user?.winnerPotIds?.length
 
 export const isStradleSeat = (seat: TypeSeat): boolean => !!seat?.user.isStradle
 

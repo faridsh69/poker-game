@@ -1,0 +1,41 @@
+@import './animation-durations.scss';
+
+.dnd-window-body-table-pots-pot {
+  @keyframes winning-pot-6-1 {
+    0% {
+      top: 0px;
+      left: 0px;
+    }
+    20% {
+      top: 24px;
+      left: 80px;
+    }
+    100% {
+      top: 24px;
+      left: 80px;
+    }
+  }
+
+  .seat-6-1-winning-pot {
+    animation: winning-pot-6-1 $ANIMATION_CSS_WIN_POT_DURATION ease-out;
+  }
+
+  @keyframes winning-pot-6-2 {
+    0% {
+      top: 0px;
+      left: 0px;
+    }
+    20% {
+      top: 20px;
+      left: -222px;
+    }
+    100% {
+      top: 20px;
+      left: -222px;
+    }
+  }
+
+  .seat-6-2-winning-pot {
+    animation: winning-pot-6-2 $ANIMATION_CSS_WIN_POT_DURATION ease-out;
+  }
+}

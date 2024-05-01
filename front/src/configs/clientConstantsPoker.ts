@@ -204,6 +204,7 @@ export const ANIMATION_CSS_USER_CARD_DURATION = 500 // Dont change it
 export const ANIMATION_CSS_TABLE_CARD_DURATION = 500 // Dont change it
 
 export const ANIMATION_CSS_POT_DURATION = 300 // Dont change it
+export const ANIMATION_CSS_WIN_POT_DURATION = 4000 // Dont change it
 
 export const TABLE_CARD_CLASS_NAMES = {
   hide: 'table-card-hide',

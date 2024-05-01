@@ -1,4 +1,4 @@
-@import './anim_variables.scss';
+@import './animation-durations.scss';
 
 * {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
@@ -299,6 +299,11 @@ html {
               .cash-money {
                 opacity: 0;
               }
+            }
+
+            .winning-pot {
+              transform: translateX(243px);
+              position: absolute;
             }
           }
         }

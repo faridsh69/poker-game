@@ -3,7 +3,7 @@ import goldCircleImage from 'src/images/game/gold-circle.png'
 import goldCircleHalfImage from 'src/images/game/gold-circle-half.png'
 import { isWinnerSeat } from 'src/helpers/clientHelpersPoker'
 
-export const SeatWinner = (props: TypeSeatProps) => {
+export const SeatWinnerAnimation = (props: TypeSeatProps) => {
   const { seat } = props
 
   if (!isWinnerSeat(seat)) return null
@@ -16,12 +16,12 @@ export const SeatWinner = (props: TypeSeatProps) => {
       <img
         className='dnd-window-body-table-seats-seat-user-winner-image'
         src={goldCircleImage}
-        alt='C'
+        alt='Gold'
       />
       <img
         className='dnd-window-body-table-seats-seat-user-winner-halfimage'
         src={goldCircleHalfImage}
-        alt='C'
+        alt='Moon'
       />
     </div>
   )

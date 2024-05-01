@@ -10,7 +10,7 @@ export const SeatUserAvatar = (props: TypeSeatProps) => {
       <div
         className={classNames(
           'dnd-window-body-table-seats-seat-user-avatar-image',
-          `avatar-${seat.user.avatar_id}`,
+          `avatar-${seat.user.avatar_id || 1}`,
         )}
         style={{ backgroundImage: `url(${UserAvatarsImage})` }}
       />
