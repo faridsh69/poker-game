@@ -40,7 +40,7 @@ module.exports = {
 
     'import/prefer-default-export': 'off',
     indent: ['off', 2, { SwitchCase: 1 }],
-    'no-console': 'warn',
+    'no-console': 'off',
     'max-len': ['off', { code: 160 }],
     'no-plusplus': [
       'off',
