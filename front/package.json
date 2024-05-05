@@ -1,17 +1,17 @@
 {
   "name": "per",
-  "private": true,
   "version": "1.4.9",
   "type": "module",
+  "private": true,
   "scripts": {
-    "start": "vite",
     "build": "vite build",
-    "preview": "vite preview",
     "check-ts": "tsc",
     "format": "npx prettier --write .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "mock-api": "json-server --watch mocks/foods.json --port 3001 --middlewares mocks/mock-api.cjs",
     "precommit": "lint-staged",
-    "mock-api": "json-server --watch mocks/foods.json --port 3001 --middlewares mocks/mock-api.cjs"
+    "preview": "vite preview",
+    "start": "vite"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
@@ -23,10 +23,6 @@
     "@mui/material": "^5.15.14",
     "@mui/x-date-pickers": "^7.0.0",
     "@tanstack/react-query": "^5.28.8",
-    "@types/i18next": "^13.0.0",
-    "@types/react-i18next": "^8.1.0",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/react-toastify": "^4.1.0",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "i18next": "^23.10.1",
@@ -46,19 +42,41 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/i18next": "^13.0.0",
     "@types/react": "^18.2.25",
     "@types/react-dom": "^18.2.11",
+    "@types/react-i18next": "^8.1.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-toastify": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "3.0.3",
+    "prettier": "^2.8.7",
+    "prettier-eslint": "^15.0.1",
+    "prettier-plugin-import-sort": "^0.0.7",
+    "prettier-plugin-pkg": "^0.17.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./src/configs/eslint.config.cjs"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn precommit"
+    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -66,9 +84,5 @@
       "prettier . --write"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn precommit"
-    }
-  }
+  "prettier": "./src/configs/prettier.config.cjs"
 }

@@ -1,12 +1,13 @@
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
-import { postLogin, postRegister } from 'src/services/apis'
-import { getAuthId, removeAccessToken, setAccessToken } from 'src/helpers/auth'
+import { useMutation } from '@tanstack/react-query'
+
 import { API_URLS } from 'src/configs/constants'
+import { getAuthId, removeAccessToken, setAccessToken } from 'src/helpers/auth'
 import { useCrud } from 'src/hooks/useCrud'
+import { postLogin, postRegister } from 'src/services/apis'
 
 export const useAuth = () => {
   const navigate = useNavigate()
