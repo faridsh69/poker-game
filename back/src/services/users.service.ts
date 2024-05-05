@@ -12,7 +12,6 @@ export class UsersService {
   constructor(@InjectRepository(User) private readonly modelRepository: Repository<User>) {}
 
   find() {
-    // const x = y
     return this.modelRepository.find()
   }
 
