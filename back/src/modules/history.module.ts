@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { HistoriesController } from 'src/controllers/histories.controller'
 
+import { HistoriesController } from 'src/controllers/histories.controller'
 import { History } from 'src/models/history.entity'
 import { HistoriesService } from 'src/services/histories.service'
 

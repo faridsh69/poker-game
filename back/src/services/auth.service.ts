@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
-import { TypeUserMinimalObject, TypeUserWithToken } from 'src/interfaces/types'
 import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
+import { throwException } from 'src/helpers/http'
+import { TypeUserMinimalObject, TypeUserWithToken } from 'src/interfaces/types'
+import { User } from 'src/models/user.entity'
 import { UsersService } from 'src/services/users.service'
 import { LoginUserDto } from 'src/validations/login-user.dto'
-import { throwException } from 'src/helpers/http'
 import { RegisterUserDto } from 'src/validations/register.user.dto'
-import { User } from 'src/models/user.entity'
 
 @Injectable()
 export class AuthService {

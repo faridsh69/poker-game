@@ -1,5 +1,5 @@
-import { TypeCard, TypeScoreAndAchivement } from 'src/interfaces/serverPokerTypes'
 import { CARD_NUMBERS, PAIR_LENGTHESE, WINNER_LEVELS } from 'src/configs/serverPokerConstants'
+import { TypeCard, TypeScoreAndAchivement } from 'src/interfaces/serverPokerTypes'
 
 // 9 Royal Flush = 9 * 100 ^ 5
 // 8 Straight Flush = 8 * 100 ^ 5 + 14 * 100 ^ 4 + 14 * 100 ^ 3 + 14 * 100 ^ 2 + 14 * 100 ^ 1 + 14 * 100 ^ 0

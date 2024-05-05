@@ -1,4 +1,4 @@
-import { ValidationOptions, ValidateIf } from 'class-validator'
+import { ValidateIf, ValidationOptions } from 'class-validator'
 
 export const IsNullable = (validationOptions?: ValidationOptions) => {
   return ValidateIf((_object, value) => value !== null && value !== undefined, validationOptions)

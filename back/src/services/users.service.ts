@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository, UpdateResult } from 'typeorm'
 
 import { User } from 'src/models/user.entity'
+import { USERS_SEEDER } from 'src/seeders/sources/users.seeder'
 import { CreateUserDto } from 'src/validations/create-user.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
-import { USERS_SEEDER } from 'src/seeders/sources/users.seeder'
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private readonly modelRepository: Repository<User>) {}
 
   find() {
+    // const x = y
     return this.modelRepository.find()
   }
 
@@ -51,6 +52,7 @@ export class UsersService {
     model.status = updateModelDto.status
     model.role = updateModelDto.role
     model.agent_percent = updateModelDto.agent_percent
+    model.password = updateModelDto.password
 
     return this.modelRepository.save(model)
   }
@@ -78,13 +80,13 @@ export class UsersService {
     return this.modelRepository.save(model)
   }
 
-  seed(): Array<Promise<User | null>> {
+  seed(): Array<Promise<User | UpdateResult | null>> {
     return USERS_SEEDER.map(async record => {
       return await this.modelRepository
-        .findOne({ where: { email: record.email } })
+        .findOne({ where: { id: record.id } })
         .then(async dbRecord => {
           if (dbRecord) {
-            return Promise.resolve(null)
+            return Promise.resolve(await this.modelRepository.update(record.id, record))
           }
 
           return Promise.resolve(await this.modelRepository.save(record))

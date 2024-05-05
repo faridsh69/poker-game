@@ -1,11 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
   Unique,
+  UpdateDateColumn,
 } from 'typeorm'
 
 import { TABLE_PASOORS } from 'src/configs/serverPokerConstants'

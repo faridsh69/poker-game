@@ -1,5 +1,4 @@
 import { IsAlphanumeric, IsEmail, IsNotEmpty, Matches, MinLength, Validate } from 'class-validator'
-
 import { PASSWORD_REGEX } from 'src/configs/validation'
 import { IsUnique } from 'src/validations/customs/IsUnique'
 

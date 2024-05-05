@@ -1,5 +1,4 @@
 import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
-
 import { PAYMENTS_GATEWAYS, PAYMENTS_STATUSES } from 'src/configs/database'
 
 export class CreatePaymentDto {

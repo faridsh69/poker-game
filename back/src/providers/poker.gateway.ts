@@ -1,34 +1,21 @@
-import { Server, Socket } from 'socket.io'
-import { instrument } from '@socket.io/admin-ui'
 import { Module } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  OnGatewayConnection,
-  OnGatewayInit,
 } from '@nestjs/websockets'
+import { instrument } from '@socket.io/admin-ui'
 
-import { runTests } from 'src/tests/testData'
-import { TablesService } from 'src/services/tables.service'
-import { Table } from 'src/models/table.entity'
+import { Server, Socket } from 'socket.io'
+import { TRANSACTIONS_REASONS } from 'src/configs/database'
 import { CORS_ORIGINS } from 'src/configs/envConfig'
-import { SocketAuthMiddleware } from 'src/middlewares/SocketAuthMiddleware'
-import { getAuthUserCashInGame, getDeadline, isAtLeastTwoPlayers } from 'src/services/poker.service'
 import { ACTION_NAMES, CLIENT_CHANNELS, SERVER_CHANNELS, TIMER_ACTION_NAMES } from 'src/configs/serverPokerConstants'
-import {
-  TypeAction,
-  TypeHandleClientCallAction,
-  TypeHandleClientJoinTable,
-  TypeHandleClientRaiseAction,
-  TypeHandleClientShowCardAction,
-  TypeHandleClientSitTable,
-  TypeTable,
-} from 'src/interfaces/serverPokerTypes'
 import {
   renderClientJoinGame,
   renderClientJoinSeat,
@@ -46,12 +33,25 @@ import {
   renderServerStartTable,
   renderUpdateClients,
 } from 'src/controllers/poker.controller'
-import { PaymentsService } from 'src/services/payments.service'
-import { TransactionsService } from 'src/services/transactions.service'
-import { User } from 'src/models/user.entity'
+import {
+  TypeAction,
+  TypeHandleClientCallAction,
+  TypeHandleClientJoinTable,
+  TypeHandleClientRaiseAction,
+  TypeHandleClientShowCardAction,
+  TypeHandleClientSitTable,
+  TypeTable,
+} from 'src/interfaces/serverPokerTypes'
+import { SocketAuthMiddleware } from 'src/middlewares/SocketAuthMiddleware'
 import { Payment } from 'src/models/payment.entity'
+import { Table } from 'src/models/table.entity'
 import { Transaction } from 'src/models/transaction.entity'
-import { TRANSACTIONS_REASONS } from 'src/configs/database'
+import { User } from 'src/models/user.entity'
+import { PaymentsService } from 'src/services/payments.service'
+import { getAuthUserCashInGame, getDeadline, isAtLeastTwoPlayers } from 'src/services/poker.service'
+import { TablesService } from 'src/services/tables.service'
+import { TransactionsService } from 'src/services/transactions.service'
+import { runTests } from 'src/tests/testData'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Table, Payment, Transaction])],

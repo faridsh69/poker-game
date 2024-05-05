@@ -1,5 +1,4 @@
 import { IsEnum, IsInt, IsString } from 'class-validator'
-
 import { SEAT_ROLES, TABLE_PHASES } from 'src/configs/serverPokerConstants'
 
 export class CreateHistoryDto {

@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { History } from 'src/models/history.entity'
+import { HISTORIES_SEEDER } from 'src/seeders/sources/histories.seeder'
 import { CreateHistoryDto } from 'src/validations/create-history.dto'
 import { UpdateHistoryDto } from 'src/validations/update-history.dto'
-import { HISTORIES_SEEDER } from 'src/seeders/sources/histories.seeder'
-import { History } from 'src/models/history.entity'
 
 @Injectable()
 export class HistoriesService {

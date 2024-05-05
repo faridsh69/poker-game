@@ -9,11 +9,10 @@ import {
   MinLength,
   Validate,
 } from 'class-validator'
-
 import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
-import { IsUnique } from 'src/validations/customs/IsUnique'
-import { IsNullable } from 'src/validations/customs/IsNullable'
 import { PASSWORD_REGEX } from 'src/configs/validation'
+import { IsNullable } from 'src/validations/customs/IsNullable'
+import { IsUnique } from 'src/validations/customs/IsUnique'
 
 export class CreateUserDto {
   @IsAlphanumeric()

@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
+
 import { Socket } from 'socket.io'
 import { throwException } from 'src/helpers/http'
-
 import { TypeUserMinimalObject } from 'src/interfaces/types'
 
 @Injectable()

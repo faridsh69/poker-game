@@ -1,7 +1,6 @@
 import { IsEnum, IsInt, MinLength, Validate } from 'class-validator'
-
-import { IsUnique } from 'src/validations/customs/IsUnique'
 import { TABLE_PASOORS } from 'src/configs/serverPokerConstants'
+import { IsUnique } from 'src/validations/customs/IsUnique'
 
 export class CreateTableDto {
   @MinLength(3, { message: 'Title must have atleast 3 characters.' })

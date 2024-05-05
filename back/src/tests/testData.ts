@@ -1,4 +1,4 @@
-import { CARD_NUMBERS, CARD_TYPES, NEW_USER, NEW_TEST_TABLE, SEAT_ROLES } from 'src/configs/serverPokerConstants'
+import { CARD_NUMBERS, CARD_TYPES, NEW_TEST_TABLE, NEW_USER, SEAT_ROLES } from 'src/configs/serverPokerConstants'
 import { TypeTable } from 'src/interfaces/serverPokerTypes'
 import { getIsPhaseFinished2 } from 'src/services/poker.service'
 import { getCardsScoreAndAchivement } from 'src/services/winner.service'

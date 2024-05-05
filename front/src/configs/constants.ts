@@ -1,9 +1,9 @@
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
-import HomeIcon from '@mui/icons-material/Home'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import TableBarIcon from '@mui/icons-material/TableBar'
 import PaidIcon from '@mui/icons-material/Paid'
 import HistoryIcon from '@mui/icons-material/History'
+import Diversity2Icon from '@mui/icons-material/Diversity2'
 
 import packageJson from '../../package.json'
 import { TypeSidebarItem } from 'src/interfaces'
@@ -26,9 +26,9 @@ export const SERVER_DATE_FORMAT = 'YYYY-MM-DD'
 
 export const ADMIN_SIDEBAR_ITEMS: TypeSidebarItem[] = [
   {
-    title: 'Home',
+    title: 'Game Lobby',
     url: '/',
-    icon: HomeIcon,
+    icon: Diversity2Icon,
   },
   {
     title: 'users',

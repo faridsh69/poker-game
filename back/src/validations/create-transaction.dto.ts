@@ -1,5 +1,4 @@
 import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
-
 import { TRANSACTIONS_REASONS } from 'src/configs/database'
 
 export class CreateTransactionDto {

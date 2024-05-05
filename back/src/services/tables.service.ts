@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { EMPTY_TABLE } from 'src/configs/serverPokerConstants'
 import { Table } from 'src/models/table.entity'
 import { TABLES_SEEDER } from 'src/seeders/sources/tables.seeder'
 import { CreateTableDto } from 'src/validations/create-table.dto'
 import { UpdateTableDto } from 'src/validations/update-table.dto'
-import { EMPTY_TABLE } from 'src/configs/serverPokerConstants'
 
 @Injectable()
 export class TablesService {

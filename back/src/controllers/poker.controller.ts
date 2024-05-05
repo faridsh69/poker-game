@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
-
+import { ACTION_NAMES, NEW_USER, SERVER_CHANNELS } from 'src/configs/serverPokerConstants'
 import { TypeAction, TypeTable } from 'src/interfaces/serverPokerTypes'
-import { ACTION_NAMES, SERVER_CHANNELS, NEW_USER } from 'src/configs/serverPokerConstants'
+import { User } from 'src/models/user.entity'
 import {
   clearTable,
   getClearTableTimer,
@@ -32,7 +32,6 @@ import {
   isWaitPhase,
   resetTable,
 } from 'src/services/poker.service'
-import { User } from 'src/models/user.entity'
 
 export const renderClientJoinTable = (tablesState: TypeTable[], tableId: number, username: string): TypeTable[] => {
   return tablesState.map(t => {

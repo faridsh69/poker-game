@@ -16,7 +16,7 @@ import {
   TABLE_PHASES,
   TIMER_ACTION_NAMES,
 } from 'src/configs/serverPokerConstants'
-import { getCardsScoreAndAchivement } from 'src/services/winner.service'
+import { USER_SEATOUT } from 'src/configs/serverPokerConstants'
 import {
   TypeCard,
   TypePot,
@@ -29,7 +29,7 @@ import {
   TypeTablePhase,
   TypeTimer,
 } from 'src/interfaces/serverPokerTypes'
-import { USER_SEATOUT } from 'src/configs/serverPokerConstants'
+import { getCardsScoreAndAchivement } from 'src/services/winner.service'
 
 export const roundNumber = (number: number, digits = 2): number =>
   Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits)
