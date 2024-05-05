@@ -1,6 +1,7 @@
 import { FC } from 'react'
-import * as yup from 'yup'
+
 import { TypeModel, TypePropsInputController } from '.'
+import * as yup from 'yup'
 
 export type RoutesType = RouteType[]
 

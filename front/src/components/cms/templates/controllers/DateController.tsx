@@ -1,13 +1,14 @@
 import { useCallback } from 'react'
 import { Controller } from 'react-hook-form'
-import moment, { Moment } from 'moment'
+
 import { FormControl, FormHelperText } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import moment, { Moment } from 'moment'
 
-import { toBool, toFormalCase } from 'src/helpers/common'
 import { SERVER_DATE_FORMAT } from 'src/configs/constants'
+import { toBool, toFormalCase } from 'src/helpers/common'
 import { TypePropsInputController } from 'src/interfaces'
 
 export const DateController = (props: TypePropsInputController) => {
@@ -15,17 +16,11 @@ export const DateController = (props: TypePropsInputController) => {
 
   const inputLabel = label || toFormalCase(name)
 
-  const changeToDatePickerFormat = useCallback(
-    (value: unknown) => (value ? moment(value) : null),
-    [],
-  )
+  const changeToDatePickerFormat = useCallback((value: unknown) => (value ? moment(value) : null), [])
 
-  const changeToServerDateFormat = useCallback(
-    (date: Moment | null, onChange: (date: string | null) => void) => {
-      onChange(date?.format(SERVER_DATE_FORMAT) || null)
-    },
-    [],
-  )
+  const changeToServerDateFormat = useCallback((date: Moment | null, onChange: (date: string | null) => void) => {
+    onChange(date?.format(SERVER_DATE_FORMAT) || null)
+  }, [])
 
   return (
     <Controller

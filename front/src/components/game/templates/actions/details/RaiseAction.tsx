@@ -1,5 +1,6 @@
-import { Money } from 'src/components/game/molecules/Money'
 import { ActionButton } from './ActionButton'
+
+import { Money } from 'src/components/game/molecules/Money'
 
 export const RaiseAction = (props: {
   raise: number

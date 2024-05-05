@@ -1,11 +1,10 @@
 import classNames from 'classnames'
-
 import { GameCard } from 'src/components/game/molecules/cards/GameCard'
-import { showBackcard } from 'src/helpers/clientHelpersPoker'
-import { getAuthUsername } from 'src/helpers/auth'
-import { TypeSeatProps, TypeTable } from 'src/interfaces'
 import { USER_CARD_CLASS_NAMES } from 'src/configs/clientConstantsPoker'
+import { getAuthUsername } from 'src/helpers/auth'
+import { showBackcard } from 'src/helpers/clientHelpersPoker'
 import { useUserCardsAnimation } from 'src/hooks/game/useUserCardsAnimation'
+import { TypeSeatProps, TypeTable } from 'src/interfaces'
 
 export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
   const { seat, table } = props
@@ -25,10 +24,7 @@ export const SeatUserCards = (props: TypeSeatProps & { table: TypeTable }) => {
             card={card}
             cardIndex={cardIndex}
             backcard={backcard}
-            className={classNames(
-              cardClassNames[cardIndex],
-              card.isVisible ? USER_CARD_CLASS_NAMES.visible : '',
-            )}
+            className={classNames(cardClassNames[cardIndex], card.isVisible ? USER_CARD_CLASS_NAMES.visible : '')}
             isRabbitcard={false}
           />
         )

@@ -1,5 +1,5 @@
-import { TypeTableProps } from 'src/interfaces'
 import { TablePot } from 'src/components/game/templates/table/TablePot'
+import { TypeTableProps } from 'src/interfaces'
 
 export const TablePots = (props: TypeTableProps) => {
   const { table } = props

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import { Suspender } from 'src/components/cms/templates/Suspender'
 import { ErrorPage } from 'src/components/cms/molecules/ErrorPage'
+import { Suspender } from 'src/components/cms/templates/Suspender'
 import { RoutesType } from 'src/interfaces'
 
 const ROUTES: RoutesType = [

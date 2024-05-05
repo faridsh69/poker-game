@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react'
 
 import {
-  ANIMATION_CSS_USER_CARD_DURATION,
   ANIMATION_CSS_USER_CARD_DELAY,
+  ANIMATION_CSS_USER_CARD_DURATION,
   USER_CARDS_FOLD_CLASS_NAME,
   USER_CARDS_HIDE_CLASS_NAME,
   USER_CARDS_SHOW_CLASS_NAME,
   USER_CARD_CLASS_NAMES,
 } from 'src/configs/clientConstantsPoker'
-import {
-  getNotSeatOutPlayers,
-  getTurnInPassingCards,
-  isPreflopPhase,
-} from 'src/helpers/clientHelpersPoker'
+import { getNotSeatOutPlayers, getTurnInPassingCards, isPreflopPhase } from 'src/helpers/clientHelpersPoker'
 import { playSound } from 'src/helpers/common'
 import { TypeSeat, TypeTable } from 'src/interfaces'
 
@@ -37,23 +33,18 @@ export const useUserCardsAnimation = (table: TypeTable, seat: TypeSeat) => {
       // @ts-ignore
       const classAnimate = USER_CARD_CLASS_NAMES[`animatePass${cardIndex + 1}`]
       const animDelay =
-        turnInPassingCards * ANIMATION_CSS_USER_CARD_DELAY +
-        playersCount * ANIMATION_CSS_USER_CARD_DELAY * cardIndex
+        turnInPassingCards * ANIMATION_CSS_USER_CARD_DELAY + playersCount * ANIMATION_CSS_USER_CARD_DELAY * cardIndex
 
       // add animation
       setTimeout(() => {
         if (cardIndex === 0) playSound('card')
-        setCardClassNames(classes =>
-          classes.map((cls, clsIndex) => (clsIndex === cardIndex ? classAnimate : cls)),
-        )
+        setCardClassNames(classes => classes.map((cls, clsIndex) => (clsIndex === cardIndex ? classAnimate : cls)))
       }, animDelay)
 
       // show cards
       const showCardsDelay = animDelay + ANIMATION_CSS_USER_CARD_DURATION
       setTimeout(() => {
-        setCardClassNames(classes =>
-          classes.map((cls, clsIndex) => (clsIndex === cardIndex ? '' : cls)),
-        )
+        setCardClassNames(classes => classes.map((cls, clsIndex) => (clsIndex === cardIndex ? '' : cls)))
       }, showCardsDelay)
     }
   }, [seat.user.cards])

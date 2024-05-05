@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useAtom } from 'jotai'
-import socketIO from 'socket.io-client'
 import { toast } from 'react-toastify'
 
-import { TypeServerChannelsUpdateTablesData, TypeSocket, TypeTable } from 'src/interfaces'
+import { useAtom } from 'jotai'
+
+import socketIO from 'socket.io-client'
 import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPoker'
-import { socketAtom } from 'src/contexts/socketAtom'
-import { SOCKET_URL } from 'src/services/apis'
-import { findUserTables } from 'src/helpers/clientHelpersPoker'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
+import { socketAtom } from 'src/contexts/socketAtom'
 import { forceLogout, getAccessToken, getAuthUsername } from 'src/helpers/auth'
+import { findUserTables } from 'src/helpers/clientHelpersPoker'
 import { errorHandler } from 'src/helpers/errorHandler'
+import { TypeServerChannelsUpdateTablesData, TypeSocket, TypeTable } from 'src/interfaces'
+import { SOCKET_URL } from 'src/services/apis'
 
 export const useSocketConnection = () => {
   const username = getAuthUsername()
@@ -48,7 +49,8 @@ export const useSocketConnection = () => {
         setLastAction(lastAction)
         setAllTables(tables)
 
-        console.log('1 tables', tables)
+        // eslint-disable-next-line no-console
+        console.info('1 tables', tables)
 
         if (checkJoinTabls) {
           handleAutoJoinTable(tables, socketInstance)

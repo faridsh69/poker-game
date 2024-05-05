@@ -1,9 +1,9 @@
-import { canSeeTableActionsShowCards, getUserSeat } from 'src/helpers/clientHelpersPoker'
-import { ActionButton } from 'src/components/game/templates/actions//details/ActionButton'
-import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { GameCard } from 'src/components/game/molecules/cards/GameCard'
-import { TypeTableProps } from 'src/interfaces'
+import { ActionButton } from 'src/components/game/templates/actions//details/ActionButton'
 import { getAuthUsername } from 'src/helpers/auth'
+import { canSeeTableActionsShowCards, getUserSeat } from 'src/helpers/clientHelpersPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import { TypeTableProps } from 'src/interfaces'
 
 export const TableActionsShowCards = (props: TypeTableProps) => {
   const { table } = props

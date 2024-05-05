@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { ANIMATION_CSS_POT_DURATION } from 'src/configs/clientConstantsPoker'
 import { Money } from 'src/components/game//molecules/Money'
+import { ANIMATION_CSS_POT_DURATION } from 'src/configs/clientConstantsPoker'
 
 export const SeatUserPotThrowingAnimation = (props: { inPot: number; lastUserPot: number }) => {
   const { inPot, lastUserPot } = props

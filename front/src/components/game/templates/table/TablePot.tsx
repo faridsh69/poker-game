@@ -1,8 +1,8 @@
-import { TablePotCollectingAnimation } from 'src/components/game/templates/animations/TablePotCollectingAnimation'
-import { TypePot, TypeTableProps } from 'src/interfaces'
 import { Money } from 'src/components/game/molecules/Money'
+import { TablePotCollectingAnimation } from 'src/components/game/templates/animations/TablePotCollectingAnimation'
 import { TablePotWinnerAnimation } from 'src/components/game/templates/animations/TablePotWinnerAnimation'
 import { isWinnerSeat } from 'src/helpers/clientHelpersPoker'
+import { TypePot, TypeTableProps } from 'src/interfaces'
 
 export const TablePot = (props: TypeTableProps & { tablePot: TypePot }) => {
   const { table, tablePot } = props

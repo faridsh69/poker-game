@@ -1,6 +1,6 @@
 import classNames from 'classnames'
-import { TypeSeatProps } from 'src/interfaces'
 import UserAvatarsImage from 'src/images/game/avatars.png'
+import { TypeSeatProps } from 'src/interfaces'
 
 export const SeatUserAvatar = (props: TypeSeatProps) => {
   const { seat } = props

@@ -10,12 +10,7 @@ export const useEventListener = (eventName: string, action: () => void, dependen
   }, dependencies)
 }
 
-export const useEventListenerWithTimeout = (
-  eventName: string,
-  action: () => void,
-  dependencies = [],
-  timeout = 0,
-) => {
+export const useEventListenerWithTimeout = (eventName: string, action: () => void, dependencies = [], timeout = 0) => {
   useEventListener(
     eventName,
     () => {

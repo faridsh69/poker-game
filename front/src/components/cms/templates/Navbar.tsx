@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
 import AccountCircle from '@mui/icons-material/AccountCircle'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 // import MenuIcon from '@mui/icons-material/Menu'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
-import { AppBar, Box, IconButton, Button, Toolbar, Typography, MenuItem, Menu } from '@mui/material'
+import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 
 import { LanguageSwitcher } from 'src/components/cms/molecules/LanguageSwitcher'
 import { ThemeSwitcher } from 'src/components/cms/molecules/ThemeSwitcher'
 import { META_TAGS } from 'src/configs/constants'
-import { useAuth } from 'src/hooks/useAuth'
 import { isLoggedin } from 'src/helpers/auth'
+import { useAuth } from 'src/hooks/useAuth'
 
 export const Navbar = () => {
   const navigate = useNavigate()
@@ -41,12 +42,7 @@ export const Navbar = () => {
         >
           <MenuIcon />
         </IconButton> */}
-        <Typography
-          variant='h6'
-          noWrap
-          component='div'
-          sx={{ display: { xs: 'none', sm: 'block' } }}
-        >
+        <Typography variant='h6' noWrap component='div' sx={{ display: { xs: 'none', sm: 'block' } }}>
           {META_TAGS.title} - {isLoggedinUser ? authUser?.username : 'Guest'}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />

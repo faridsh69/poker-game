@@ -1,7 +1,4 @@
-export const PotRaiseButton = (props: {
-  percent: number
-  changeRaiseAmount: (r: number, p?: number) => void
-}) => {
+export const PotRaiseButton = (props: { percent: number; changeRaiseAmount: (r: number, p?: number) => void }) => {
   const { changeRaiseAmount, percent } = props
 
   const handleChangeRaisePot = () => {

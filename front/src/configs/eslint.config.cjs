@@ -20,13 +20,9 @@ module.exports = {
   //     }
   //   },
 
-  //     rules: {
-  //       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-  //       '@typescript-eslint/ban-ts-comment': 'off',
-  //       'react-hooks/exhaustive-deps': 'off',
-  //     },
-
   rules: {
+    //       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    // '@typescript-eslint/ban-ts-comment': 'off',
     'prettier/prettier': [
       'error',
       {
@@ -55,8 +51,7 @@ module.exports = {
     'react/prop-types': 'off',
     indent: ['off', 2, { SwitchCase: 1 }],
     'no-console': 'warn',
-    'react-hooks/exhaustive-deps': 'warn',
-    'no-unused-vars': 'warn',
+    'react-hooks/exhaustive-deps': 'off',
     'max-len': ['off', { code: 160 }],
     'no-plusplus': [
       'off',
@@ -65,5 +60,7 @@ module.exports = {
       },
     ],
     'no-case-declarations': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
   },
 }

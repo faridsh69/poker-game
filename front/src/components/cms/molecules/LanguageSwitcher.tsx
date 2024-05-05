@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { FormControl, Select, MenuItem } from '@mui/material'
+
+import { FormControl, MenuItem, Select } from '@mui/material'
 
 import { FLAG_LOCALES, LANGUAGES } from 'src/configs/locale'
 

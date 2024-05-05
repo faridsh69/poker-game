@@ -1,4 +1,8 @@
-import React, { useState, useMemo, MouseEvent } from 'react'
+import React, { MouseEvent, useMemo, useState } from 'react'
+
+import { TableHeader } from './TableHeader'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import {
   Box,
   Checkbox,
@@ -11,12 +15,10 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material'
-import { TableHeader } from './TableHeader'
-import { getComparator, stableSort } from 'src/helpers/table'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import { TypeOrder, TypePropsTableMui } from 'src/interfaces'
+
 import { isUndefined } from 'src/helpers/common'
+import { getComparator, stableSort } from 'src/helpers/table'
+import { TypeOrder, TypePropsTableMui } from 'src/interfaces'
 
 export const TableMui = (props: TypePropsTableMui) => {
   const { list, bodyCells, headCells, handleDelete, handleEdit } = props
@@ -32,10 +34,7 @@ export const TableMui = (props: TypePropsTableMui) => {
   const visibleRows = useMemo(
     () =>
       // @ts-ignore
-      stableSort(list, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
+      stableSort(list, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, list],
   )
 
@@ -61,10 +60,7 @@ export const TableMui = (props: TypePropsTableMui) => {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      )
+      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1))
     }
     setSelected(newSelected)
   }

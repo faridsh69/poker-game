@@ -24,14 +24,11 @@ export const createApiClient: CreateApiClientType = (baseURL, auth = false) => {
       ...options,
     })
 
-  const post: TypeAxiosMethod = ({ endpoint, data, options }) =>
-    axiosInstance.post(endpoint, data, options)
+  const post: TypeAxiosMethod = ({ endpoint, data, options }) => axiosInstance.post(endpoint, data, options)
 
-  const put: TypeAxiosMethod = ({ endpoint, data, options }) =>
-    axiosInstance.put(endpoint, data, options)
+  const put: TypeAxiosMethod = ({ endpoint, data, options }) => axiosInstance.put(endpoint, data, options)
 
-  const patch: TypeAxiosMethod = ({ endpoint, data, options }) =>
-    axiosInstance.patch(endpoint, data, options)
+  const patch: TypeAxiosMethod = ({ endpoint, data, options }) => axiosInstance.patch(endpoint, data, options)
 
   const remove: TypeAxiosMethod = ({ endpoint, data, options }) =>
     axiosInstance.delete(endpoint, {

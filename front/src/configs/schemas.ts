@@ -1,6 +1,5 @@
 import * as yup from 'yup'
 
-import { TypeModelFormKeys, TypeSchema } from 'src/interfaces'
 import { SEAT_ROLES, TABLE_PASOORS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
 import {
   PAYMENTS_GATEWAYS,
@@ -10,6 +9,7 @@ import {
   USERS_ROLE_ENUM,
   USERS_STATUS_ENUM,
 } from 'src/configs/forms'
+import { TypeModelFormKeys, TypeSchema } from 'src/interfaces'
 
 const REGEXS = {
   alphabeticAndNumbers: /^[^!@#$%^&*+=<>:;|~]*$/,

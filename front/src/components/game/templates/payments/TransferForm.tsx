@@ -1,20 +1,16 @@
+import { useMemo } from 'react'
+
 import { Box, Typography } from '@mui/material'
 
-import {
-  calculateBodyCells,
-  calculateHeadCells,
-  filterTableBodyCells,
-  filterTableHeaderCells,
-} from 'src/helpers/table'
-import { MODEL_FORMS_NAMES, TRANSACTIONS_REASONS } from 'src/configs/forms'
-import { getFormInputs, getFormSchema } from 'src/helpers/forms'
-import { useCrud } from 'src/hooks/useCrud'
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { TableMui } from 'src/components/cms/templates/TableMui'
 import { API_URLS } from 'src/configs/constants'
-import { TypeModel } from 'src/interfaces'
+import { MODEL_FORMS_NAMES, TRANSACTIONS_REASONS } from 'src/configs/forms'
 import { getAuthId } from 'src/helpers/auth'
-import { useMemo } from 'react'
+import { getFormInputs, getFormSchema } from 'src/helpers/forms'
+import { calculateBodyCells, calculateHeadCells, filterTableBodyCells, filterTableHeaderCells } from 'src/helpers/table'
+import { useCrud } from 'src/hooks/useCrud'
+import { TypeModel } from 'src/interfaces'
 
 export const TransferForm = () => {
   const { list, createMutation } = useCrud(API_URLS.transactions)
@@ -32,24 +28,15 @@ export const TransferForm = () => {
   }
 
   const transactions = useMemo(() => {
-    return list.filter(
-      transaction =>
-        transaction.user_id === authId && transaction.reason === TRANSACTIONS_REASONS[2],
-    )
+    return list.filter(transaction => transaction.user_id === authId && transaction.reason === TRANSACTIONS_REASONS[2])
   }, [list])
 
   const headCells = useMemo(() => {
-    return filterTableHeaderCells(
-      calculateHeadCells(list, API_URLS.transactions),
-      MODEL_FORMS_NAMES.transfer,
-    )
+    return filterTableHeaderCells(calculateHeadCells(list, API_URLS.transactions), MODEL_FORMS_NAMES.transfer)
   }, [list])
 
   const bodyCells = useMemo(() => {
-    return filterTableBodyCells(
-      calculateBodyCells(list, API_URLS.transactions),
-      MODEL_FORMS_NAMES.transfer,
-    )
+    return filterTableBodyCells(calculateBodyCells(list, API_URLS.transactions), MODEL_FORMS_NAMES.transfer)
   }, [list])
 
   return (

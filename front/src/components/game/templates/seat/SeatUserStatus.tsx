@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
-import classNames from 'classnames'
+
 import { useAtom } from 'jotai'
 
+import classNames from 'classnames'
 import { CLIENT_TIMEOUT_STATUS } from 'src/configs/clientConstantsPoker'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
-import { TypeSeat } from 'src/interfaces'
 import { checkIfLastActionIsAllIn } from 'src/helpers/clientHelpersPoker'
 import { playSound } from 'src/helpers/common'
+import { TypeSeat } from 'src/interfaces'
 
 export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
   const { seat, tableId } = props
@@ -15,9 +16,7 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
   const [correctLastAction, setCorrectLastAction] = useState('')
 
   const showAction =
-    serverLastAction &&
-    seat.user.username === serverLastAction.username &&
-    tableId === serverLastAction.tableId
+    serverLastAction && seat.user.username === serverLastAction.username && tableId === serverLastAction.tableId
 
   useEffect(() => {
     if (!showAction) return
@@ -36,9 +35,7 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-status'>
-      <div className={classNames('user-status-box', `user-status-box-${correctLastAction}`)}>
-        {correctLastAction}
-      </div>
+      <div className={classNames('user-status-box', `user-status-box-${correctLastAction}`)}>{correctLastAction}</div>
     </div>
   )
 }

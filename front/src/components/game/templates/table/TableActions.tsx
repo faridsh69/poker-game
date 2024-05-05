@@ -1,11 +1,11 @@
-import { TypeTableProps } from 'src/interfaces'
-import { TableActionsPreTurn } from 'src/components/game/templates/actions/TableActionsPreTurn'
+import { TableActionsAchievements } from 'src/components/game/templates/actions/TableActionsAchievements'
 import { TableActionsGameTurn } from 'src/components/game/templates/actions/TableActionsGameTurn'
 import { TableActionsJoinGame } from 'src/components/game/templates/actions/TableActionsJoinGame'
 import { TableActionsJoinPlay } from 'src/components/game/templates/actions/TableActionsJoinPlay'
 import { TableActionsLeaveGame } from 'src/components/game/templates/actions/TableActionsLeaveGame'
+import { TableActionsPreTurn } from 'src/components/game/templates/actions/TableActionsPreTurn'
 import { TableActionsShowCards } from 'src/components/game/templates/actions/TableActionsShowCards'
-import { TableActionsAchievements } from 'src/components/game/templates/actions/TableActionsAchievements'
+import { TypeTableProps } from 'src/interfaces'
 
 export const TableActions = (props: TypeTableProps) => {
   const { table } = props

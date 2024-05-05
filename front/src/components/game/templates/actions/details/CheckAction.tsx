@@ -1,6 +1,6 @@
 import { ActionButton } from 'src/components/game/templates/actions/details/ActionButton'
-import { TypeTableProps } from 'src/interfaces'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import { TypeTableProps } from 'src/interfaces'
 
 export const CheckAction = (props: TypeTableProps) => {
   const { table } = props

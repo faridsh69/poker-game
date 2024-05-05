@@ -1,5 +1,6 @@
-import i18next from 'i18next'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+
+import i18next from 'i18next'
 
 import { META_TAGS } from 'src/configs/constants'
 

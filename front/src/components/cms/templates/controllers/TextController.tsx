@@ -1,8 +1,9 @@
 import { ChangeEvent, useCallback } from 'react'
 import { Controller } from 'react-hook-form'
+
 import { TextField } from '@mui/material'
 
-import { toFormalCase, toBool, convertNullToEmptyString } from 'src/helpers/common'
+import { convertNullToEmptyString, toBool, toFormalCase } from 'src/helpers/common'
 import { TypePropsInputController } from 'src/interfaces'
 
 export const TextController = (props: TypePropsInputController) => {
@@ -21,10 +22,7 @@ export const TextController = (props: TypePropsInputController) => {
   const inputLabel = label || toFormalCase(name)
 
   const handleOnChange = useCallback(
-    (
-      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      onChange: (data: string | number) => void,
-    ) => {
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onChange: (data: string | number) => void) => {
       const newValue = type === 'number' ? +e.target.value : e.target.value
       onChange(newValue)
     },

@@ -1,13 +1,13 @@
-import { useAtom } from 'jotai'
 import { Alert, AlertTitle } from '@mui/material'
+import { useAtom } from 'jotai'
 
+import { Loading } from 'src/components/cms/molecules/Loading'
+import { PageLayout } from 'src/components/cms/templates/PageLayout'
+import { GameBoard } from 'src/components/game/templates/boards/GameBoard'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { socketAtom } from 'src/contexts/socketAtom'
-import { useSocketConnection } from 'src/hooks/game/useSocketConnection'
-import { PageLayout } from 'src/components/cms/templates/PageLayout'
-import { Loading } from 'src/components/cms/molecules/Loading'
-import { GameBoard } from 'src/components/game/templates/boards/GameBoard'
 import { isLoggedin } from 'src/helpers/auth'
+import { useSocketConnection } from 'src/hooks/game/useSocketConnection'
 
 const Home = () => {
   const isLoggedinUser = isLoggedin()
@@ -48,4 +48,5 @@ const Home = () => {
   return <GameBoard />
 }
 
+// eslint-disable-next-line import/no-default-export
 export default Home

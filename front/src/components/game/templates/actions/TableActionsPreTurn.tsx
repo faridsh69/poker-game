@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import {
-  getCallActionAmount,
-  isUserGameTurn,
-  canSeeTableActionsPreTurn,
-} from 'src/helpers/clientHelpersPoker'
-import { getAuthUsername } from 'src/helpers/auth'
-import { TypeTableProps } from 'src/interfaces'
-import { Money } from 'src/components/game/molecules/Money'
 import { CheckboxAction } from './details/CheckboxAction'
-import { useSocketActions } from 'src/hooks/game/useSocketActions'
+
+import { Money } from 'src/components/game/molecules/Money'
 import { PRE_MOVED_VALUES } from 'src/configs/clientConstantsPoker'
+import { getAuthUsername } from 'src/helpers/auth'
+import { canSeeTableActionsPreTurn, getCallActionAmount, isUserGameTurn } from 'src/helpers/clientHelpersPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import { TypeTableProps } from 'src/interfaces'
 
 export const TableActionsPreTurn = (props: TypeTableProps) => {
   const { table } = props

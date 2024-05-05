@@ -1,13 +1,12 @@
 import classNames from 'classnames'
-
+import { RabbitGameCard } from 'src/components/game/molecules/cards/RabbitGameCard'
+import BackCardImage from 'src/components/game/molecules/cards/back/back4.svg'
 import { SignClubs } from 'src/components/game/molecules/cards/signs/SignClubs'
 import { SignDiamonds } from 'src/components/game/molecules/cards/signs/SignDiamonds'
-import { SignSpades } from 'src/components/game/molecules/cards/signs/SignSpades'
 import { SignHearts } from 'src/components/game/molecules/cards/signs/SignHearts'
-import { TypeGameCardProps } from 'src/interfaces'
-import BackCardImage from 'src/components/game/molecules/cards/back/back4.svg'
+import { SignSpades } from 'src/components/game/molecules/cards/signs/SignSpades'
 import { CARD_TYPES } from 'src/configs/clientConstantsPoker'
-import { RabbitGameCard } from 'src/components/game/molecules/cards/RabbitGameCard'
+import { TypeGameCardProps } from 'src/interfaces'
 
 export const GameCard = (props: TypeGameCardProps) => {
   const { card, cardIndex = -1, className = '', backcard = false, isRabbitcard = false } = props
@@ -23,8 +22,7 @@ export const GameCard = (props: TypeGameCardProps) => {
       <SignHearts />
     )
 
-  const cardIsRed =
-    !backcard && (card.type === CARD_TYPES.diamonds || card.type === CARD_TYPES.hearts)
+  const cardIsRed = !backcard && (card.type === CARD_TYPES.diamonds || card.type === CARD_TYPES.hearts)
 
   const allClassNames = classNames(
     'card-game',

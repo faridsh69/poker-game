@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useRouteError } from 'react-router-dom'
-import { errorHandler } from 'src/helpers/errorHandler'
+
 import { Alert, AlertTitle } from '@mui/material'
-import ErrorImg from 'src/images/errors/500.png'
+
 import { META_TAGS } from 'src/configs/constants'
+import { errorHandler } from 'src/helpers/errorHandler'
+import ErrorImg from 'src/images/errors/500.png'
 
 export const ErrorPage = () => {
   const error = useRouteError() as Error

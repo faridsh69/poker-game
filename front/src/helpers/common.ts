@@ -1,6 +1,7 @@
+import { roundNumber } from './clientHelpersPoker'
+
 import { LOCAL_STORAGE_APP_KEY } from 'src/configs/constants'
 import { TypeResolve } from 'src/interfaces'
-import { roundNumber } from './clientHelpersPoker'
 
 export const findInString = (string: string, value: string) => {
   if (!string || !value) return true
@@ -55,9 +56,7 @@ export const sortAlphabetically = (array: string[], keyInObject: number, orderin
 export const makeUniqueArray = (initialArray: []) => {
   const arrayOfJsons = initialArray.map(value => JSON.stringify(value))
 
-  return initialArray.filter(
-    (value, index) => arrayOfJsons.indexOf(JSON.stringify(value)) === index,
-  )
+  return initialArray.filter((value, index) => arrayOfJsons.indexOf(JSON.stringify(value)) === index)
 }
 
 export const makeUniqueArrayByPropery = (initialArray: any[], property: string) => {
@@ -78,11 +77,9 @@ export const isArray = (variable: []): boolean => Array.isArray(variable)
 
 export const isUndefined = (variable: unknown) => typeof variable === 'undefined'
 
-export const isObjectEmpty = (object: object) =>
-  !object || !isObject(object) || !Object.keys(object).length
+export const isObjectEmpty = (object: object) => !object || !isObject(object) || !Object.keys(object).length
 
-export const isThereCommonItemsInArrays = (array1: [], array2: []) =>
-  array1.some(item => array2.includes(item))
+export const isThereCommonItemsInArrays = (array1: [], array2: []) => array1.some(item => array2.includes(item))
 
 export const getLocalstorage = <T>(key: string, defaultValue: T): T => {
   try {
@@ -190,8 +187,7 @@ export const toFormalCase = (string?: string): string => {
 
 export const toBool = (value: unknown) => !!value
 
-export const convertNullToEmptyString = (value: unknown) =>
-  value === null || value === undefined ? '' : value
+export const convertNullToEmptyString = (value: unknown) => (value === null || value === undefined ? '' : value)
 
 export const capitalize = (string: string) => {
   return string[0].toUpperCase() + string.slice(1)

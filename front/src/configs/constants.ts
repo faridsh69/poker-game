@@ -1,11 +1,11 @@
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
-import TableBarIcon from '@mui/icons-material/TableBar'
-import PaidIcon from '@mui/icons-material/Paid'
-import HistoryIcon from '@mui/icons-material/History'
-import Diversity2Icon from '@mui/icons-material/Diversity2'
-
 import packageJson from '../../package.json'
+import Diversity2Icon from '@mui/icons-material/Diversity2'
+import HistoryIcon from '@mui/icons-material/History'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import PaidIcon from '@mui/icons-material/Paid'
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
+import TableBarIcon from '@mui/icons-material/TableBar'
+
 import { TypeSidebarItem } from 'src/interfaces'
 
 export const LOCAL_STORAGE_APP_KEY = 'PER'

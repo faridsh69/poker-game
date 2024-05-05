@@ -1,9 +1,5 @@
-import {
-  LAST_ACTION_ACTIONS,
-  SEAT_ROLES,
-  TABLE_PASOORS,
-  TABLE_PHASES,
-} from 'src/configs/clientConstantsPoker'
+import { LAST_ACTION_ACTIONS, SEAT_ROLES, TABLE_PASOORS, TABLE_PHASES } from 'src/configs/clientConstantsPoker'
+import { capitalize } from 'src/helpers/common'
 import {
   TypeCard,
   TypeRaiseLimits,
@@ -12,7 +8,6 @@ import {
   TypeTablePasoor,
   TypeTablePhase,
 } from 'src/interfaces/type-game'
-import { capitalize } from 'src/helpers/common'
 
 /////////////////////////////////// 1 SMALL METHODS //////////////////////////////////
 
@@ -44,8 +39,7 @@ export const isShowPhase = (table: TypeTable): boolean => table.phase === TABLE_
 
 export const isFinishPhase = (table: TypeTable): boolean => table.phase === TABLE_PHASES.finish
 
-export const isShowOrFinishPhase = (table: TypeTable): boolean =>
-  isShowPhase(table) || isFinishPhase(table)
+export const isShowOrFinishPhase = (table: TypeTable): boolean => isShowPhase(table) || isFinishPhase(table)
 
 export const isSeatoutSeat = (seat: TypeSeat): boolean => !!seat.user?.isSeatout
 
@@ -71,8 +65,7 @@ export const isSeatoutNextRoundSeat = (seat: TypeSeat): boolean => !!seat.user?.
 
 export const isDealerSeat = (seat: TypeSeat): boolean => seat.role === SEAT_ROLES.dealer
 
-export const isAuthSeat = (seat: TypeSeat, username: string): boolean =>
-  seat.user?.username === username
+export const isAuthSeat = (seat: TypeSeat, username: string): boolean => seat.user?.username === username
 
 export const getUserSeat = (table: TypeTable, username: string): TypeSeat | null =>
   table.seats.find(s => s.user?.username === username) || null
@@ -117,18 +110,12 @@ export const isUserGameTurn = (table: TypeTable, username: string): boolean => {
 export const getNotSeatOutPlayers = (table: TypeTable): TypeSeat[] =>
   table.seats.filter(s => s.user && !isSeatoutSeat(s))
 
-export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean =>
-  getNotSeatOutPlayers(table).length > 1
+export const isAtLeastTwoNotSeatOutPlayers = (table: TypeTable): boolean => getNotSeatOutPlayers(table).length > 1
 
 export const findUserTables = (allTables: TypeTable[], username: string): TypeTable[] =>
   allTables.filter(t => isUserJoinedTable(t, username))
 
-export const showBackcard = (
-  seat: TypeSeat,
-  username: string,
-  table: TypeTable,
-  card: TypeCard,
-) => {
+export const showBackcard = (seat: TypeSeat, username: string, table: TypeTable, card: TypeCard) => {
   if (isShowPhase(table)) return false
   if (card.isVisible) return false
   if (isAuthSeat(seat, username)) return false
@@ -184,8 +171,7 @@ export const canSeeTableActionsJoinPlay = (table: TypeTable, username: string): 
 export const canSeeTableActionsLeaveGame = (table: TypeTable, username: string): boolean =>
   isUserPlayingGame(table, username)
 
-export const canSeeTableActionsStradle = (table: TypeTable): boolean =>
-  getNotSeatOutPlayers(table).length > 3
+export const canSeeTableActionsStradle = (table: TypeTable): boolean => getNotSeatOutPlayers(table).length > 3
 
 export const canSeeTableActionsGameTurn = (table: TypeTable, username: string): boolean => {
   const userSeat = getUserSeat(table, username)
@@ -421,11 +407,7 @@ export const getTableCardsLength = (phase: TypeTablePhase) => {
   return 0
 }
 
-export const calculateIsRabbitcard = (
-  table: TypeTable,
-  tableCardLength: number,
-  cardIndex: number,
-) => {
+export const calculateIsRabbitcard = (table: TypeTable, tableCardLength: number, cardIndex: number) => {
   const gameFinished = isShowOrFinishPhase(table)
   let isRabbitcard = false
   let hideCard = false

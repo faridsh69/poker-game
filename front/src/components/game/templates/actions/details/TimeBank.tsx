@@ -1,8 +1,8 @@
-import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { ActionButton } from 'src/components/game/templates/actions/details/ActionButton'
-import { TypeTableProps } from 'src/interfaces'
-import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { getAuthUsername } from 'src/helpers/auth'
+import { getUserSeat } from 'src/helpers/clientHelpersPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import { TypeTableProps } from 'src/interfaces'
 
 export const TimeBank = (props: TypeTableProps) => {
   const { table } = props

@@ -1,8 +1,9 @@
+import { SEAT_ROLES, TABLE_PASOORS, TABLE_PHASES } from './clientConstantsPoker'
+
 import { CheckBoxController } from 'src/components/cms/templates/controllers/CheckboxController'
+import { EditorController } from 'src/components/cms/templates/controllers/EditorController'
 import { SelectController } from 'src/components/cms/templates/controllers/SelectController'
 import { TypeFormInput, TypeModelFormKeys } from 'src/interfaces'
-import { SEAT_ROLES, TABLE_PASOORS, TABLE_PHASES } from './clientConstantsPoker'
-import { EditorController } from 'src/components/cms/templates/controllers/EditorController'
 
 export const USERS_STATUS_ENUM = ['needConfirm', 'suspended', 'blocked', 'active']
 
@@ -10,14 +11,7 @@ export const PAYMENTS_GATEWAYS = ['btc', 'usdt', 'perfectMoney']
 
 export const PAYMENTS_STATUSES = ['pending', 'reject', 'success']
 
-export const TRANSACTIONS_REASONS = [
-  'buyin',
-  'leaveSeat',
-  'transfer',
-  'reward',
-  'rakeBack',
-  'bonusCode',
-]
+export const TRANSACTIONS_REASONS = ['buyin', 'leaveSeat', 'transfer', 'reward', 'rakeBack', 'bonusCode']
 
 export const USERS_ROLE_ENUM = ['player', 'agent', 'admin']
 

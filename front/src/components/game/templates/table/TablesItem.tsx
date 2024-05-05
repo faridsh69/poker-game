@@ -1,12 +1,12 @@
-import { Button, TableCell, TableRow } from '@mui/material'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+import { Button, TableCell, TableRow } from '@mui/material'
 
-import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
-import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { Money } from 'src/components/game/molecules/Money'
 import { getAuthUsername } from 'src/helpers/auth'
-import { TypeTable } from 'src/interfaces'
+import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { useAuth } from 'src/hooks/useAuth'
+import { TypeTable } from 'src/interfaces'
 
 export const TablesItem = (props: { table: TypeTable }) => {
   const { table } = props
@@ -30,8 +30,7 @@ export const TablesItem = (props: { table: TypeTable }) => {
         Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
       </TableCell>
       <TableCell>
-        Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length} -{' '}
-        {table.phase}
+        Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length} - {table.phase}
       </TableCell>
       <TableCell>
         <Button

@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { MODEL_FORMS } from 'src/configs/forms'
-import { useCrud } from 'src/hooks/useCrud'
-import { FormMui } from 'src/components/cms/templates/FormMui'
 import { Loading } from 'src/components/cms/molecules/Loading'
-import { TypeModel } from 'src/interfaces'
+import { FormMui } from 'src/components/cms/templates/FormMui'
+import { MODEL_FORMS } from 'src/configs/forms'
 import { getFormInputs, getFormSchema } from 'src/helpers/forms'
+import { useCrud } from 'src/hooks/useCrud'
+import { TypeModel } from 'src/interfaces'
 
 const AdminForm = () => {
   const { t } = useTranslation()
@@ -40,5 +40,5 @@ const AdminForm = () => {
     />
   )
 }
-
+// eslint-disable-next-line import/no-default-export
 export default AdminForm

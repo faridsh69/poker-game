@@ -1,3 +1,5 @@
+import { RadioAction } from 'src/components/game/templates/actions/details/RadioAction'
+import { getAuthUsername } from 'src/helpers/auth'
 import {
   canSeeTableActionsLeaveGame,
   canSeeTableActionsStradle,
@@ -5,10 +7,8 @@ import {
   isSeatoutNextRoundSeat,
   isStradleSeat,
 } from 'src/helpers/clientHelpersPoker'
-import { RadioAction } from 'src/components/game/templates/actions/details/RadioAction'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { TypeTableProps } from 'src/interfaces'
-import { getAuthUsername } from 'src/helpers/auth'
 
 export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const { table } = props
@@ -29,14 +29,8 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
 
   return (
     <div className='dnd-window-body-table-actions-leavegame'>
-      {canSeeStradle && (
-        <RadioAction checked={stradleChecked} onClick={handleStradle} label='Stradle' />
-      )}
-      <RadioAction
-        checked={sitoutNextRoundChecked}
-        onClick={handleSeatoutNextRound}
-        label='Sit out next hand'
-      />
+      {canSeeStradle && <RadioAction checked={stradleChecked} onClick={handleStradle} label='Stradle' />}
+      <RadioAction checked={sitoutNextRoundChecked} onClick={handleSeatoutNextRound} label='Sit out next hand' />
     </div>
   )
 }

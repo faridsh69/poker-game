@@ -1,8 +1,8 @@
+import { TablesItem } from './TablesItem'
+import { Paper, Table, TableBody, TableContainer } from '@mui/material'
 import { useAtom } from 'jotai'
 
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
-import { TablesItem } from './TablesItem'
-import { Paper, Table, TableBody, TableContainer } from '@mui/material'
 
 export const TablesList = () => {
   const [tables] = useAtom(allTablesAtom)

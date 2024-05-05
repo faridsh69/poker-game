@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { Container, Avatar, Box, Grid, Link, Typography } from '@mui/material'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
-import { useAuth } from 'src/hooks/useAuth'
-import { PageLayout } from 'src/components/cms/templates/PageLayout'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import { Avatar, Box, Container, Grid, Link, Typography } from '@mui/material'
+
 import { FormMui } from 'src/components/cms/templates/FormMui'
+import { PageLayout } from 'src/components/cms/templates/PageLayout'
 import { MODEL_FORMS_NAMES } from 'src/configs/forms'
 import { getFormInputs, getFormSchema } from 'src/helpers/forms'
+import { useAuth } from 'src/hooks/useAuth'
 import { TypeModel } from 'src/interfaces'
 
 export const Login = () => {
@@ -74,4 +75,5 @@ export const Login = () => {
   )
 }
 
+// eslint-disable-next-line import/no-default-export
 export default Login

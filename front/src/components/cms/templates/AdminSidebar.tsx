@@ -1,19 +1,11 @@
-import {
-  Box,
-  Drawer,
-  Toolbar,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material'
 
 import { ADMIN_SIDEBAR_ITEMS } from 'src/configs/constants'
 import { toFormalCase } from 'src/helpers/common'
-import { TypeSidebarItem } from 'src/interfaces'
 import { useToggle } from 'src/hooks/useToggle'
+import { TypeSidebarItem } from 'src/interfaces'
 
 export const AdminSidebar = (props: { drawerWidth: number }) => {
   const { drawerWidth } = props

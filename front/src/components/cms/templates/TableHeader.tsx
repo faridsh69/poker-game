@@ -1,10 +1,10 @@
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material'
 import { visuallyHidden } from '@mui/utils'
+
 import { TypePropsTableHeader } from 'src/interfaces'
 
 export const TableHeader = (props: TypePropsTableHeader) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } =
-    props
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } = props
 
   const createSortHandler = (property: string) => (event: React.MouseEvent) => {
     onRequestSort(event, property)

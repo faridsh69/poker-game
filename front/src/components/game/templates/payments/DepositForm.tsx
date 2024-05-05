@@ -1,20 +1,16 @@
 import { useMemo } from 'react'
+
 import { Box, Typography } from '@mui/material'
 
-import { MODEL_FORMS_NAMES, PAYMENTS_STATUSES } from 'src/configs/forms'
-import { getFormInputs, getFormSchema } from 'src/helpers/forms'
-import {
-  calculateBodyCells,
-  calculateHeadCells,
-  filterTableBodyCells,
-  filterTableHeaderCells,
-} from 'src/helpers/table'
-import { useCrud } from 'src/hooks/useCrud'
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { TableMui } from 'src/components/cms/templates/TableMui'
 import { API_URLS } from 'src/configs/constants'
-import { TypeModel } from 'src/interfaces'
+import { MODEL_FORMS_NAMES, PAYMENTS_STATUSES } from 'src/configs/forms'
 import { getAuthId } from 'src/helpers/auth'
+import { getFormInputs, getFormSchema } from 'src/helpers/forms'
+import { calculateBodyCells, calculateHeadCells, filterTableBodyCells, filterTableHeaderCells } from 'src/helpers/table'
+import { useCrud } from 'src/hooks/useCrud'
+import { TypeModel } from 'src/interfaces'
 
 export const DepositForm = () => {
   const { list, createMutation } = useCrud(API_URLS.payments)
@@ -38,17 +34,11 @@ export const DepositForm = () => {
   }, [list])
 
   const headCells = useMemo(() => {
-    return filterTableHeaderCells(
-      calculateHeadCells(list, API_URLS.payments),
-      MODEL_FORMS_NAMES.deposit,
-    )
+    return filterTableHeaderCells(calculateHeadCells(list, API_URLS.payments), MODEL_FORMS_NAMES.deposit)
   }, [list])
 
   const bodyCells = useMemo(() => {
-    return filterTableBodyCells(
-      calculateBodyCells(list, API_URLS.payments),
-      MODEL_FORMS_NAMES.deposit,
-    )
+    return filterTableBodyCells(calculateBodyCells(list, API_URLS.payments), MODEL_FORMS_NAMES.deposit)
   }, [list])
 
   return (

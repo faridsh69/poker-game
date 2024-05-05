@@ -1,10 +1,10 @@
-import { TableSeats } from 'src/components/game/templates/table/TableSeats'
 import { TableActions } from 'src/components/game/templates/table/TableActions'
-import { TableCards } from 'src/components/game/templates/table/TableCards'
 import { TableBackground } from 'src/components/game/templates/table/TableBackground'
+import { TableCards } from 'src/components/game/templates/table/TableCards'
+import { TablePots } from 'src/components/game/templates/table/TablePots'
+import { TableSeats } from 'src/components/game/templates/table/TableSeats'
 import { TableTotalPot } from 'src/components/game/templates/table/TableTotalPot'
 import { TypeTableProps } from 'src/interfaces'
-import { TablePots } from 'src/components/game/templates/table/TablePots'
 
 export const TableWindow = (props: TypeTableProps) => {
   const { table } = props

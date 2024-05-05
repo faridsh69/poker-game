@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react'
+
 import { formatInputTypeFloat, getAcceptableValue } from 'src/helpers/common'
 
 export const RaiseInput = (props: {

@@ -1,14 +1,15 @@
 import { useCallback, useEffect } from 'react'
+
 import { useAtom } from 'jotai'
 
-import sitoutImage from 'src/images/game/sitout.png'
-import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
-import { canSeeTableActionsJoinGame } from 'src/helpers/clientHelpersPoker'
-import { TypeTableProps } from 'src/interfaces'
-import { ActionButton } from 'src/components/game/templates/actions/details/ActionButton'
-import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { JoingameTimer } from 'src/components/game/templates/actions//details/JoingameTimer'
+import { ActionButton } from 'src/components/game/templates/actions/details/ActionButton'
+import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getAuthUsername } from 'src/helpers/auth'
+import { canSeeTableActionsJoinGame } from 'src/helpers/clientHelpersPoker'
+import { useSocketActions } from 'src/hooks/game/useSocketActions'
+import sitoutImage from 'src/images/game/sitout.png'
+import { TypeTableProps } from 'src/interfaces'
 
 export const TableActionsJoinGame = (props: TypeTableProps) => {
   const { table } = props

@@ -1,7 +1,9 @@
-import { ChipColumnProp } from 'src/interfaces'
-import { Chip } from './Chip'
 import { useMemo } from 'react'
+
+import { Chip } from './Chip'
+
 import { CHIP_UNITS } from 'src/configs/clientConstantsPoker'
+import { ChipColumnProp } from 'src/interfaces'
 
 export const Chips = (props: { money: number }) => {
   const { money } = props
@@ -26,7 +28,8 @@ export const Chips = (props: { money: number }) => {
         })
       }
       if (countCent < 0) {
-        console.log('#1 bug count mines:  money', money, countCent, unit)
+        // eslint-disable-next-line no-console
+        console.warn('#1 bug count mines:  money', money, countCent, unit)
       }
     }
 
@@ -41,13 +44,7 @@ export const Chips = (props: { money: number }) => {
         return (
           <div className='cash-chips-column' key={chipColumn.value}>
             {createArrayOfIntegers(chipColumn.count).map((_, chipIndex) => {
-              return (
-                <Chip
-                  backgroundPosition={chipColumn.backgroundPosition}
-                  chipIndex={chipIndex}
-                  key={chipIndex}
-                />
-              )
+              return <Chip backgroundPosition={chipColumn.backgroundPosition} chipIndex={chipIndex} key={chipIndex} />
             })}
           </div>
         )

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
+import { Money } from 'src/components/game/molecules/Money'
 import { SeatUserPotThrowingAnimation } from 'src/components/game/templates/animations/SeatUserPotThrowingAnimation'
 import { ANIMATION_CSS_POT_DURATION } from 'src/configs/clientConstantsPoker'
 import { TypeSeatProps } from 'src/interfaces'
-import { Money } from 'src/components/game/molecules/Money'
 
 export const SeatUserPot = (props: TypeSeatProps) => {
   const { seat } = props

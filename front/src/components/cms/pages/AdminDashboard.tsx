@@ -1,9 +1,10 @@
-import { Box } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 
-import { PageLayout } from 'src/components/cms/templates/PageLayout'
-import { AdminSidebar } from 'src/components/cms/templates/AdminSidebar'
 import { Breadcrumb } from '../molecules/Breadcrumb'
+import { Box } from '@mui/material'
+
+import { AdminSidebar } from 'src/components/cms/templates/AdminSidebar'
+import { PageLayout } from 'src/components/cms/templates/PageLayout'
 
 const AdminDashboard = () => {
   const drawerWidth = 240
@@ -12,10 +13,7 @@ const AdminDashboard = () => {
     <PageLayout>
       <Box sx={{ display: 'flex' }}>
         <AdminSidebar drawerWidth={drawerWidth} />
-        <Box
-          component='main'
-          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-        >
+        <Box component='main' sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
           <Breadcrumb />
           <Outlet />
         </Box>
@@ -24,4 +22,5 @@ const AdminDashboard = () => {
   )
 }
 
+// eslint-disable-next-line import/no-default-export
 export default AdminDashboard

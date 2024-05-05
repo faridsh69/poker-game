@@ -1,7 +1,8 @@
-import { Slider } from '@mui/material'
-import { TypeRaiseLimits } from 'src/interfaces'
 import { PotRaiseButton } from './PotRaiseButton'
 import { RaiseInput } from './RaiseInput'
+import { Slider } from '@mui/material'
+
+import { TypeRaiseLimits } from 'src/interfaces'
 
 export const RaiseActionFirstRow = (props: {
   raise: number

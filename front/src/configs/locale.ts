@@ -1,10 +1,11 @@
-import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector'
-import { enUS, deDE } from '@mui/material/locale'
 
-import enFlag from 'src/images/flags/us.png'
+import { deDE, enUS } from '@mui/material/locale'
+import i18next from 'i18next'
+import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector'
+
 import deFlag from 'src/images/flags/de.png'
+import enFlag from 'src/images/flags/us.png'
 import deLocales from 'src/locales/de.json'
 import enLocales from 'src/locales/en.json'
 

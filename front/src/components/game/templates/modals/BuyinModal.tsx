@@ -1,23 +1,16 @@
-import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  Modal,
-  OutlinedInput,
-  Slider,
-} from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
 
-import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
+import CloseIcon from '@mui/icons-material/Close'
+import { Button, FormControl, IconButton, InputAdornment, Modal, OutlinedInput, Slider } from '@mui/material'
+import { useAtom } from 'jotai'
+
 import { CountDownTimer } from 'src/components/game/molecules/CountDownTimer'
-import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
-import { getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { Money } from 'src/components/game/molecules/Money'
-import { useSeatTimer } from 'src/hooks/useSeatTimer'
+import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
+import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getAuthUsername } from 'src/helpers/auth'
+import { getUserSeat } from 'src/helpers/clientHelpersPoker'
+import { useSeatTimer } from 'src/hooks/useSeatTimer'
 
 export const BuyinModal = () => {
   const username = getAuthUsername()
@@ -73,8 +66,7 @@ export const BuyinModal = () => {
         </div>
         <div className='buyin-modal-container-body'>
           <div className='buyin-modal-container-body-title'>
-            <Money money={buyinModal.table.blinds.small} /> /{' '}
-            <Money money={buyinModal.table.blinds.big} />
+            <Money money={buyinModal.table.blinds.small} /> / <Money money={buyinModal.table.blinds.big} />
             {` NL Hold'em #${buyinModal.table.id}`}
           </div>
           <div className='buyin-modal-container-body-balance'>
@@ -135,11 +127,7 @@ export const BuyinModal = () => {
             Second(s) left.
           </div>
           <div className='buyin-modal-container-body-actions'>
-            <Button
-              color='success'
-              variant='contained'
-              onClick={() => buyinModal.onBuyin?.(buyinAmount)}
-            >
+            <Button color='success' variant='contained' onClick={() => buyinModal.onBuyin?.(buyinAmount)}>
               Ok
             </Button>
             <Button color='secondary' variant='contained' onClick={closeModel}>

@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from 'react'
-import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { API_KEY_MAP } from 'src/configs/service'
-import { TypeApis, TypeModel, TypeUseCrud } from 'src/interfaces'
 import { errorHandler } from 'src/helpers/errorHandler'
+import { TypeApis, TypeModel, TypeUseCrud } from 'src/interfaces'
 
 export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
   const queryClient = useQueryClient()

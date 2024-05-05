@@ -1,12 +1,13 @@
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+
 import { Box, Button } from '@mui/material'
 
-import { useCrud } from 'src/hooks/useCrud'
 import { TableMui } from 'src/components/cms/templates/TableMui'
-import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { calculateBodyCells, calculateHeadCells } from 'src/helpers/table'
+import { useCrud } from 'src/hooks/useCrud'
 
 const AdminList = () => {
   const { t } = useTranslation()
@@ -41,4 +42,5 @@ const AdminList = () => {
   )
 }
 
+// eslint-disable-next-line import/no-default-export
 export default AdminList

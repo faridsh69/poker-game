@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
-import { LinearProgress, CircularProgress } from '@mui/material'
+import { useEffect, useState } from 'react'
 
-import { getMinutes, getSeconds, playSound, stopSound } from 'src/helpers/common'
+import { CircularProgress, LinearProgress } from '@mui/material'
+
 import { CLIENT_TIMEOUT_FAULT } from 'src/configs/clientConstantsPoker'
+import { getMinutes, getSeconds, playSound, stopSound } from 'src/helpers/common'
 import { TypeTimerType } from 'src/interfaces'
 
 export const CountDownTimer = (props: {
@@ -59,21 +60,13 @@ export const CountDownTimer = (props: {
     <div className='timer-action'>
       {type === 'circle' && (
         <>
-          <CircularProgress
-            className='timer-action-circle'
-            variant='determinate'
-            value={realProgressValue}
-          />
+          <CircularProgress className='timer-action-circle' variant='determinate' value={realProgressValue} />
           <div className='timer-action-text'>{restTime}</div>
         </>
       )}
 
       {type === 'line' && (
-        <LinearProgress
-          className='timer-action-line'
-          variant='determinate'
-          value={realProgressValue}
-        />
+        <LinearProgress className='timer-action-line' variant='determinate' value={realProgressValue} />
       )}
 
       {type === 'text' && (

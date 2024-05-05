@@ -12,7 +12,5 @@ export const TableActionsAchievements = (props: TypeTableProps) => {
   if (!authSeat) return null
   if (!authSeat.user.achievement) return null
 
-  return (
-    <div className='dnd-window-body-table-actions-achievements'>{authSeat.user.achievement}</div>
-  )
+  return <div className='dnd-window-body-table-actions-achievements'>{authSeat.user.achievement}</div>
 }

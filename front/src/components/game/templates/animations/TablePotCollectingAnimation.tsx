@@ -1,10 +1,10 @@
-import classNames from 'classnames'
 import { useEffect, useMemo, useState } from 'react'
 
+import classNames from 'classnames'
+import { Money } from 'src/components/game/molecules/Money'
 import { ANIMATION_CSS_POT_DURATION } from 'src/configs/clientConstantsPoker'
 import { getMaximumBet, isFoldSeat, isWithoutCardsSeat } from 'src/helpers/clientHelpersPoker'
 import { TypeTablePhase, TypeTableProps, TypeUserPot } from 'src/interfaces'
-import { Money } from 'src/components/game/molecules/Money'
 
 export const TablePotCollectingAnimation = (props: TypeTableProps) => {
   const { table } = props
@@ -53,10 +53,7 @@ export const TablePotCollectingAnimation = (props: TypeTableProps) => {
     return (
       <div
         key={userPot.seatId}
-        className={classNames(
-          'collecting-pot',
-          `seat-${table.seats.length}-${userPot.seatId}-collecting-pot`,
-        )}
+        className={classNames('collecting-pot', `seat-${table.seats.length}-${userPot.seatId}-collecting-pot`)}
       >
         <Money money={userPot.inPot} showChips />
       </div>

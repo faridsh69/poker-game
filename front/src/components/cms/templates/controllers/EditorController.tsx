@@ -1,9 +1,10 @@
-import ReactQuill from 'react-quill'
 import { Controller } from 'react-hook-form'
-import { FormLabel, FormControl, FormHelperText } from '@mui/material'
+import ReactQuill from 'react-quill'
 
-import { toFormalCase, toBool } from 'src/helpers/common'
+import { FormControl, FormHelperText, FormLabel } from '@mui/material'
+
 import { TEXT_EDITOR_FORMATS, TEXT_EDITOR_MODULES } from 'src/configs/textEditor'
+import { toBool, toFormalCase } from 'src/helpers/common'
 import { TypePropsInputController } from 'src/interfaces'
 
 export const EditorController = (props: TypePropsInputController) => {

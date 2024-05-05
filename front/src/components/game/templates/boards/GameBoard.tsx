@@ -1,16 +1,17 @@
 import { useMemo } from 'react'
+
+import { BoardTabs } from './BoardTabs'
 import { useAtom } from 'jotai'
 
-import { findUserTables } from 'src/helpers/clientHelpersPoker'
-import { getAuthUsername } from 'src/helpers/auth'
-import { allTablesAtom } from 'src/contexts/allTablesAtom'
-import { DndWindow } from 'src/components/game/templates/dnd/DndWindow'
-import { TableWindow } from 'src/components/game/templates/table/TableWindow'
 import { PageLayout } from 'src/components/cms/templates/PageLayout'
 import { WindowTopBar } from 'src/components/game/templates/boards/WindowTopBar'
-import { ConfirmModal } from 'src/components/game/templates/modals/ConfirmModal'
+import { DndWindow } from 'src/components/game/templates/dnd/DndWindow'
 import { BuyinModal } from 'src/components/game/templates/modals/BuyinModal'
-import { BoardTabs } from './BoardTabs'
+import { ConfirmModal } from 'src/components/game/templates/modals/ConfirmModal'
+import { TableWindow } from 'src/components/game/templates/table/TableWindow'
+import { allTablesAtom } from 'src/contexts/allTablesAtom'
+import { getAuthUsername } from 'src/helpers/auth'
+import { findUserTables } from 'src/helpers/clientHelpersPoker'
 
 export const GameBoard = () => {
   const username = getAuthUsername()

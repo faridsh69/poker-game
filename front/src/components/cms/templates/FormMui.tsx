@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+
+import { TextController } from './controllers/TextController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button } from '@mui/material'
 
-import { TextController } from './controllers/TextController'
 import { TypeModel, TypePropsFormMui } from 'src/interfaces'
-import { useTranslation } from 'react-i18next'
 
 export const FormMui = (props: TypePropsFormMui) => {
   const { inputs, values, schema, onSubmit, isUpdating = false, submitText } = props
@@ -34,24 +35,11 @@ export const FormMui = (props: TypePropsFormMui) => {
       sx={{ mt: 1, display: 'flex', flexDirection: 'column', minWidth: '333px' }}
     >
       {inputs.map(input => {
-        const {
-          component: InputController = TextController,
-          name,
-          disableOnUpdate,
-          ...rest
-        } = input
+        const { component: InputController = TextController, name, disableOnUpdate, ...rest } = input
 
         const disabled = isUpdating ? disableOnUpdate : false
 
-        return (
-          <InputController
-            control={control}
-            name={name}
-            key={name}
-            disabled={!!disabled}
-            {...rest}
-          />
-        )
+        return <InputController control={control} name={name} key={name} disabled={!!disabled} {...rest} />
       })}
       <Button type='submit' fullWidth variant='contained' sx={{ mt: 1, mb: 2 }}>
         {defaultSubmitText}

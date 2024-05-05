@@ -1,9 +1,10 @@
 import { useCallback } from 'react'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { useAtom } from 'jotai'
 
-import { socketAtom } from 'src/contexts/socketAtom'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
+import { socketAtom } from 'src/contexts/socketAtom'
 import { getAuthId } from 'src/helpers/auth'
 
 export const useSocketActions = (tableId: number) => {

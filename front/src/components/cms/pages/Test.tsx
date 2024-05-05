@@ -88,9 +88,7 @@ const getEventsWithOverlaps = (events: TypeEvent[]) => {
 
     return {
       ...event1,
-      overlappedEvents: makeUniqueArrayByPropery(overlappedEvents, 'id').filter(
-        ev => ev.id !== event1.id,
-      ),
+      overlappedEvents: makeUniqueArrayByPropery(overlappedEvents, 'id').filter(ev => ev.id !== event1.id),
     }
   })
 
@@ -117,6 +115,7 @@ const getCountConflictsShowed = (showedEventIds: number[], overlappedEvents: Typ
   return count
 }
 
+// eslint-disable-next-line import/no-default-export
 export default Test
 
 // const getMaximumColumns = events => {

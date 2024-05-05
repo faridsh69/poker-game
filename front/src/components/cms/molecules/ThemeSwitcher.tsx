@@ -1,5 +1,5 @@
-import { useAtom } from 'jotai'
 import { Switch, styled } from '@mui/material'
+import { useAtom } from 'jotai'
 
 import { THEME_NAMES } from 'src/configs/theme'
 import { themeAtom } from 'src/contexts/themeAtom'
@@ -58,7 +58,5 @@ export const ThemeSwitcher = () => {
     setTheme(theme === THEME_NAMES.dark ? THEME_NAMES.light : THEME_NAMES.dark)
   }
 
-  return (
-    <MaterialUISwitch sx={{ m: 1 }} checked={theme === THEME_NAMES.dark} onChange={changeTheme} />
-  )
+  return <MaterialUISwitch sx={{ m: 1 }} checked={theme === THEME_NAMES.dark} onChange={changeTheme} />
 }

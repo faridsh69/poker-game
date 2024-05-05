@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import classNames from 'classnames'
 
-import { ANIMATION_CSS_WIN_POT_DURATION } from 'src/configs/clientConstantsPoker'
-import { TypeTablePhase, TypeTableProps } from 'src/interfaces'
-import { isWinnerSeat } from 'src/helpers/clientHelpersPoker'
+import classNames from 'classnames'
 import { Money } from 'src/components/game/molecules/Money'
+import { ANIMATION_CSS_WIN_POT_DURATION } from 'src/configs/clientConstantsPoker'
+import { isWinnerSeat } from 'src/helpers/clientHelpersPoker'
+import { TypeTablePhase, TypeTableProps } from 'src/interfaces'
 
 export const TablePotWinnerAnimation = (props: TypeTableProps & { amount: number }) => {
   const { table, amount } = props
@@ -39,10 +39,7 @@ export const TablePotWinnerAnimation = (props: TypeTableProps & { amount: number
     return (
       <div
         key={winnerSeat.id}
-        className={classNames(
-          'winning-pot',
-          `seat-${table.seats.length}-${winnerSeat.id}-winning-pot`,
-        )}
+        className={classNames('winning-pot', `seat-${table.seats.length}-${winnerSeat.id}-winning-pot`)}
       >
         <Money money={amount} showChips />
       </div>

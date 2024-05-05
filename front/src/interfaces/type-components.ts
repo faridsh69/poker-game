@@ -26,11 +26,7 @@ export type TypeDndWindowProps = {
   body: JSX.Element
 }
 
-export type TypeSuspenderComponent = (props: {
-  pageName: string
-  canAuth?: boolean
-  canGuest?: boolean
-}) => JSX.Element
+export type TypeSuspenderComponent = (props: { pageName: string; canAuth?: boolean; canGuest?: boolean }) => JSX.Element
 
 export type TypeConfirmModalComponent = {
   show: boolean

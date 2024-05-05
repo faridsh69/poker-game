@@ -1,6 +1,6 @@
 import { MODEL_FORMS_NAMES } from 'src/configs/forms'
 import { toFormalCase } from 'src/helpers/common'
-import { TypeOrder, TypeBodyCells, TypeHeadCells } from 'src/interfaces'
+import { TypeBodyCells, TypeHeadCells, TypeOrder } from 'src/interfaces'
 
 export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCells[] => {
   const headerCells: TypeHeadCells[] = []
@@ -8,7 +8,7 @@ export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCel
 
   if (firstItemOfModel) {
     Object.keys(firstItemOfModel).map(key => {
-      if (key === 'deleted_at') return
+      if (key === 'deleted_at') return null
 
       headerCells.push({
         id: key,
@@ -16,6 +16,7 @@ export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCel
         numeric: false,
         disablePadding: key === 'id',
       })
+      return null
     })
   } else {
     headerCells.push({
@@ -108,8 +109,7 @@ export const filterTableHeaderCells = (
 ): TypeHeadCells[] => {
   if (model === MODEL_FORMS_NAMES.deposit || MODEL_FORMS_NAMES.withdraw) {
     return headCells.filter(
-      header =>
-        header.label !== 'User id' && header.label !== 'User giving' && header.id !== 'actions',
+      header => header.label !== 'User id' && header.label !== 'User giving' && header.id !== 'actions',
     )
   }
 

@@ -1,7 +1,7 @@
 import { GameCard } from 'src/components/game/molecules/cards/GameCard'
-import { TypeTableProps } from 'src/interfaces'
-import { useTableCardsAnimation } from 'src/hooks/game/useTableCardsAnimation'
 import { calculateIsRabbitcard } from 'src/helpers/clientHelpersPoker'
+import { useTableCardsAnimation } from 'src/hooks/game/useTableCardsAnimation'
+import { TypeTableProps } from 'src/interfaces'
 
 export const TableCards = (props: TypeTableProps) => {
   const { table } = props

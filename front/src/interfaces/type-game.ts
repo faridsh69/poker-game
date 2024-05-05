@@ -2,6 +2,8 @@ import { Socket } from 'socket.io-client'
 
 export type TypeSocket = Socket
 
+export type TypeChannels = { [key in TypeClientChannelKeys]: TypeClientChannels }
+
 export type TypeTimerAction = 'leaveSeat' | 'checkfold' | 'restartTable'
 
 export type TypeTimerType = 'text' | 'circle' | 'line'
@@ -80,20 +82,7 @@ export type TypeSeat = {
   user: TypeUser
 }
 
-export type TypeCardNumber =
-  | '2'
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | '10'
-  | 'j'
-  | 'q'
-  | 'k'
-  | 'a'
+export type TypeCardNumber = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'j' | 'q' | 'k' | 'a'
 
 export type TypeCardType = 'diamonds' | 'clubs' | 'spades' | 'hearts'
 

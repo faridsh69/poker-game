@@ -1,6 +1,6 @@
-import { useAtom } from 'jotai'
-import { Button, IconButton, Modal } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import { Button, IconButton, Modal } from '@mui/material'
+import { useAtom } from 'jotai'
 
 import { confirmModalAtom } from 'src/contexts/confirmModalAtom'
 

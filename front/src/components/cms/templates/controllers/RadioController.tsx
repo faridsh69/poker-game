@@ -1,14 +1,8 @@
 import { Controller } from 'react-hook-form'
-import {
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  Radio,
-  FormHelperText,
-  FormControlLabel,
-} from '@mui/material'
 
-import { toFormalCase, toBool } from 'src/helpers/common'
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@mui/material'
+
+import { toBool, toFormalCase } from 'src/helpers/common'
 import { TypePropsInputController } from 'src/interfaces'
 
 export const RadioController = (props: TypePropsInputController) => {
@@ -26,12 +20,7 @@ export const RadioController = (props: TypePropsInputController) => {
         return (
           <FormControl error={toBool(error)} sx={{ my: 2 }}>
             <FormLabel>{inputLabel}</FormLabel>
-            <RadioGroup
-              value={value}
-              name={name}
-              defaultChecked={toBool(value)}
-              onChange={onChange}
-            >
+            <RadioGroup value={value} name={name} defaultChecked={toBool(value)} onChange={onChange}>
               {inputOptions.map(option => {
                 return (
                   <FormControlLabel

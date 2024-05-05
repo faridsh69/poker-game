@@ -1,10 +1,5 @@
-import {
-  getLocalstorage,
-  refreshBrowser,
-  removeLocalsotrage,
-  setLocalsotrage,
-} from 'src/helpers/common'
 import { EXPIRED_ERROR, LOCAL_STORAGE_ACCESS_TOKEN_KEY } from 'src/configs/constants'
+import { getLocalstorage, refreshBrowser, removeLocalsotrage, setLocalsotrage } from 'src/helpers/common'
 import { TypeModel } from 'src/interfaces'
 
 const getAuthUser = () => {
@@ -25,8 +20,7 @@ export const getAuthId = (): number => {
   return getAuthUser()?.id as number
 }
 
-export const setAccessToken = (user: TypeModel) =>
-  setLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY, user)
+export const setAccessToken = (user: TypeModel) => setLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY, user)
 
 export const removeAccessToken = () => removeLocalsotrage(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
 
