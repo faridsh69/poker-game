@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { EMPTY_TABLE } from 'src/configs/serverPokerConstants'
+import { seedData } from 'src/helpers/common'
 import { Table } from 'src/models/table.entity'
 import { TABLES_SEEDER } from 'src/seeders/sources/tables.seeder'
 import { CreateTableDto } from 'src/validations/create-table.dto'
@@ -52,18 +53,7 @@ export class TablesService {
   }
 
   seed(): Array<Promise<Table | null>> {
-    return TABLES_SEEDER.map(async record => {
-      return await this.modelRepository
-        .findOne({ where: { id: record.id } })
-        .then(async dbRecord => {
-          if (dbRecord) {
-            return Promise.resolve(null)
-          }
-
-          return Promise.resolve(await this.modelRepository.save(record))
-        })
-        .catch(error => Promise.reject(error))
-    })
+    return seedData(TABLES_SEEDER, this.modelRepository)
   }
 
   async getWithSeats() {

@@ -66,3 +66,18 @@ export const capitalize = (string: string) => {
 export const lowerize = (string: string) => {
   return string[0].toLowerCase() + string.slice(1)
 }
+
+export const seedData = (data: any[], repository: any) => {
+  return data.map(async record => {
+    return await repository
+      .findOne({ where: { id: record.id } })
+      .then(async (dbRecord: any) => {
+        if (dbRecord) {
+          return Promise.resolve(await repository.update(record.id, record))
+        }
+
+        return Promise.resolve(await repository.save(record))
+      })
+      .catch((error: any) => Promise.reject(error))
+  })
+}

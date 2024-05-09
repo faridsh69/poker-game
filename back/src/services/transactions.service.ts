@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { seedData } from 'src/helpers/common'
 import { Transaction } from 'src/models/transaction.entity'
 import { TRANSACTIONS_SEEDER } from 'src/seeders/sources/transactions.seeder'
 import { CreateTransactionDto } from 'src/validations/create-transaction.dto'
@@ -51,18 +52,7 @@ export class TransactionsService {
   }
 
   seed(): Array<Promise<Transaction | null>> {
-    return TRANSACTIONS_SEEDER.map(async record => {
-      return await this.modelRepository
-        .findOne({ where: { id: record.id } })
-        .then(async dbRecord => {
-          if (dbRecord) {
-            return Promise.resolve(null)
-          }
-
-          return Promise.resolve(await this.modelRepository.save(record))
-        })
-        .catch(error => Promise.reject(error))
-    })
+    return seedData(TRANSACTIONS_SEEDER, this.modelRepository)
   }
 
   async findUserBalance(userId: number): Promise<number> {

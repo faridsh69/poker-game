@@ -9,7 +9,7 @@ export const PAYMENTS_SEEDER = [
     user_giving: true,
     description: 'Seeder transaction',
     gateway: PAYMENTS_GATEWAYS.usdt,
-    status: PAYMENTS_STATUSES.pending,
+    status: PAYMENTS_STATUSES.reject,
     wallet: 'binance',
   },
   {

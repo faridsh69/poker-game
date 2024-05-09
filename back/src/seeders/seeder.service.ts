@@ -1,18 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common'
 
-import { UsersService } from 'src/services/users.service'
-
-// import { TablesService } from 'src/services/tables.service'
-// import { PaymentsService } from 'src/services/payments.service'
+import { PaymentsService } from 'src/services/payments.service'
+import { TablesService } from 'src/services/tables.service'
 // import { HistoriesService } from 'src/services/histories.service'
-// import { TransactionsService } from 'src/services/transactions.service'
+import { TransactionsService } from 'src/services/transactions.service'
+import { UsersService } from 'src/services/users.service'
 
 @Injectable()
 export class SeederService {
   constructor(
-    // private readonly tablesService: TablesService,
-    // private readonly paymentsService: PaymentsService,
-    // private readonly transactionsService: TransactionsService,
+    private readonly tablesService: TablesService,
+    private readonly paymentsService: PaymentsService,
+    private readonly transactionsService: TransactionsService,
     private readonly logger: Logger,
     private readonly usersService: UsersService,
   ) {
@@ -33,9 +32,9 @@ export class SeederService {
   async seeds() {
     return await Promise.all([
       ...this.usersService.seed(),
-      // ...this.tablesService.seed(),
-      // ...this.paymentsService.seed(),
-      // ...this.transactionsService.seed(),
+      ...this.tablesService.seed(),
+      ...this.paymentsService.seed(),
+      ...this.transactionsService.seed(),
       // ...this.historiesService.seed(),
     ])
       .then(createdModels => {

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Request } from 'express'
 import { Repository } from 'typeorm'
 
+import { seedData } from 'src/helpers/common'
 import { Payment } from 'src/models/payment.entity'
 import { PAYMENTS_SEEDER } from 'src/seeders/sources/payments.seeder'
 import { CreatePaymentDto } from 'src/validations/create-payment.dto'
@@ -56,18 +57,7 @@ export class PaymentsService {
   }
 
   seed(): Array<Promise<Payment | null>> {
-    return PAYMENTS_SEEDER.map(async record => {
-      return await this.modelRepository
-        .findOne({ where: { id: record.id } })
-        .then(async dbRecord => {
-          if (dbRecord) {
-            return Promise.resolve(null)
-          }
-
-          return Promise.resolve(await this.modelRepository.save(record))
-        })
-        .catch(error => Promise.reject(error))
-    })
+    return seedData(PAYMENTS_SEEDER, this.modelRepository)
   }
 
   async findUserBalance(userId: number): Promise<number> {
