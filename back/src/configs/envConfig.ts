@@ -6,6 +6,9 @@ export const envConfig = (): { [key: string]: string } => {
     dbPassword: process.env.DB_PASSWORD as string,
     dbUsername: process.env.DB_USERNAME as string,
     dbName: process.env.DB_NAME as string,
+
+    // @ts-ignore
+    hashSalt: +process.env.HASH_SALT as string,
   }
 
   return config

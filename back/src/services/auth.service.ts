@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { compare } from 'bcrypt'
 
 import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
 import { throwException } from 'src/helpers/http'
@@ -20,7 +21,9 @@ export class AuthService {
       return throwException('The specified user email does not exists.', false, 400)
     }
 
-    if (user.password !== loginUserDto.password) {
+    const isPasswordMatch = await compare(loginUserDto.password, user.password)
+
+    if (!isPasswordMatch) {
       return throwException("Your email and password don't match.", false, 400)
     }
 

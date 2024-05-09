@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { hash } from 'bcrypt'
 import { Repository, UpdateResult } from 'typeorm'
 
+import { envConfig } from 'src/configs/envConfig'
 import { User } from 'src/models/user.entity'
 import { USERS_SEEDER } from 'src/seeders/sources/users.seeder'
 import { CreateUserDto } from 'src/validations/create-user.dto'
@@ -51,7 +53,6 @@ export class UsersService {
     model.status = updateModelDto.status
     model.role = updateModelDto.role
     model.agent_percent = updateModelDto.agent_percent
-    model.password = updateModelDto.password
 
     return this.modelRepository.save(model)
   }
@@ -80,7 +81,11 @@ export class UsersService {
   }
 
   seed(): Array<Promise<User | UpdateResult | null>> {
-    return USERS_SEEDER.map(async record => {
+    return USERS_SEEDER.map(async user => {
+      const record = {
+        ...user,
+        password: await hash(user.password, envConfig().hashSalt),
+      }
       return await this.modelRepository
         .findOne({ where: { id: record.id } })
         .then(async dbRecord => {
