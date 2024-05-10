@@ -21,7 +21,9 @@ export const LIGHT_THEME: ThemeOptions = {
     },
     MuiFormHelperText: {
       styleOverrides: {
-        root: {},
+        root: {
+          marginLeft: 0,
+        },
       },
     },
     MuiFormControlLabel: {
@@ -41,7 +43,9 @@ export const LIGHT_THEME: ThemeOptions = {
     },
     MuiTextField: {
       styleOverrides: {
-        root: {},
+        root: {
+          marginTop: 0,
+        },
       },
     },
     MuiButton: {

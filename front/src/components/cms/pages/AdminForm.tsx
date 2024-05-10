@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom'
 import { Loading } from 'src/components/cms/molecules/Loading'
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { MODEL_FORMS } from 'src/configs/forms'
-import { getFormInputs, getFormSchema } from 'src/helpers/forms'
 import { useCrud } from 'src/hooks/useCrud'
 import { TypeModel } from 'src/interfaces'
 
@@ -31,8 +30,7 @@ const AdminForm = () => {
 
   return (
     <FormMui
-      inputs={getFormInputs(model)}
-      schema={getFormSchema(model)}
+      formName={model}
       values={modelObject}
       onSubmit={onSubmit}
       submitText={id ? t('Update') : t('Create')}

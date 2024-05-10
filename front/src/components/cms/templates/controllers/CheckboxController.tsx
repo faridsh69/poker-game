@@ -8,8 +8,6 @@ import { TypePropsInputController } from 'src/interfaces'
 export const CheckBoxController = (props: TypePropsInputController) => {
   const { control, name, label } = props
 
-  const inputLabel = label || toFormalCase(name)
-
   return (
     <Controller
       control={control}
@@ -17,7 +15,7 @@ export const CheckBoxController = (props: TypePropsInputController) => {
       render={({ field: { value, onChange }, fieldState: { error } }) => {
         return (
           <FormControl error={toBool(error)}>
-            <FormControlLabel label={inputLabel} control={<Checkbox checked={toBool(value)} />} onChange={onChange} />
+            <FormControlLabel label={label} control={<Checkbox checked={toBool(value)} />} onChange={onChange} />
             <FormHelperText>{toFormalCase(error?.message)}</FormHelperText>
           </FormControl>
         )

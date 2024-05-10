@@ -4,14 +4,13 @@ import { Box, Typography } from '@mui/material'
 
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { TableMui } from 'src/components/cms/templates/TableMui'
-import { API_URLS } from 'src/configs/constants'
 import { MODEL_FORMS_NAMES, PAYMENTS_STATUSES } from 'src/configs/forms'
 import { getAuthId } from 'src/helpers/auth'
-import { getFormInputs, getFormSchema } from 'src/helpers/forms'
 import { calculateBodyCells, calculateHeadCells, filterTableBodyCells, filterTableHeaderCells } from 'src/helpers/table'
 import { useAuth } from 'src/hooks/useAuth'
 import { useCrud } from 'src/hooks/useCrud'
 import { TypeModel } from 'src/interfaces'
+import { API_URLS } from 'src/services/apis'
 
 export const WithdrawForm = () => {
   const authId = getAuthId()
@@ -49,8 +48,7 @@ export const WithdrawForm = () => {
       <Typography>Available for withdraw: {authUser?.balance || 0}$</Typography>
 
       <FormMui
-        inputs={getFormInputs(MODEL_FORMS_NAMES.withdraw)}
-        schema={getFormSchema(MODEL_FORMS_NAMES.withdraw)}
+        formName={MODEL_FORMS_NAMES.withdraw}
         values={undefined}
         onSubmit={onSubmit}
         submitText={'Withdraw'}

@@ -17,6 +17,19 @@ const REGEXS = {
   password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,30}$/,
 }
 
+const INPUT_VALIDATIONS = {
+  password: yup
+    .string()
+    .required()
+    .matches(
+      REGEXS.password,
+      `Password must contain Minimum 4 and maximum 40 characters, 
+    at least one uppercase letter, 
+    one lowercase letter
+    and one number`,
+    ),
+}
+
 const LOGIN_SCHEMA = yup.object({
   email: yup.string().email().required(),
   password: yup.string().required(),
@@ -43,16 +56,7 @@ const USERS_SCHEMA = yup.object({
   gender: yup.mixed<string>().oneOf(USERS_GENDER_ENUM).required(),
   avatar_id: yup.number().required(),
   agent_percent: yup.number().required(),
-  password: yup
-    .string()
-    .required()
-    .matches(
-      REGEXS.password,
-      `Password must contain Minimum 4 and maximum 40 characters, 
-    at least one uppercase letter, 
-    one lowercase letter
-    and one number`,
-    ),
+  password: INPUT_VALIDATIONS.password,
 })
 
 const PROFILE_SCHEMA = yup.object({
@@ -63,6 +67,15 @@ const PROFILE_SCHEMA = yup.object({
     .transform(value => (!value ? null : value))
     .nullable()
     .matches(REGEXS.phone, 'Phone number is not valid'),
+})
+
+const PASSWORD_SCHEMA = yup.object({
+  current_password: yup.string().required(),
+  new_password: INPUT_VALIDATIONS.password,
+  repeated_new_password: yup
+    .string()
+    .required()
+    .oneOf([yup.ref('new_password')], 'Passwords must match'),
 })
 
 const TABLES_SCHEMA = yup.object({
@@ -143,4 +156,5 @@ export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {
   deposit: DEPOSIT_SCHEMA,
   withdraw: WITHDRAW_SCHEMA,
   transfer: TRANSFER_SCHEMA,
+  password: PASSWORD_SCHEMA,
 }

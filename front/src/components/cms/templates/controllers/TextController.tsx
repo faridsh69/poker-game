@@ -7,19 +7,7 @@ import { convertNullToEmptyString, toBool, toFormalCase } from 'src/helpers/comm
 import { TypePropsInputController } from 'src/interfaces'
 
 export const TextController = (props: TypePropsInputController) => {
-  const {
-    control,
-    name,
-    label,
-    type,
-    autoComplete = 'new-password',
-    autoFocus = false,
-    disabled = false,
-    ...rest
-  } = props
-
-  const inputType = type || 'text'
-  const inputLabel = label || toFormalCase(name)
+  const { control, name, label, type, autoComplete, autoFocus = false, disabled = false, ...rest } = props
 
   const handleOnChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onChange: (data: string | number) => void) => {
@@ -33,13 +21,19 @@ export const TextController = (props: TypePropsInputController) => {
     <Controller
       control={control}
       name={name}
-      render={({ field: { value = '', onChange }, fieldState: { error } }) => {
+      render={({ field: { value, onChange }, fieldState: { error } }) => {
+        const inputValue = convertNullToEmptyString(value)
+
+        if (type === 'hidden') {
+          return <input type={type} name={name} value={inputValue} />
+        }
+
         return (
           <TextField
             name={name}
-            type={inputType}
-            label={inputLabel}
-            value={convertNullToEmptyString(value)}
+            type={type}
+            label={label}
+            value={inputValue}
             onChange={e => handleOnChange(e, onChange)}
             helperText={toFormalCase(error?.message)}
             error={toBool(error)}

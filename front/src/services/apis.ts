@@ -1,4 +1,3 @@
-import { API_URLS } from 'src/configs/constants'
 import { createApiClient } from 'src/helpers/service'
 import {
   TypeCreateApiMethod,
@@ -14,6 +13,18 @@ export const SOCKET_URL = VITE_SOCKET_URL
 
 if (!VITE_API_BASE_URL) {
   throw new Error('Please copy .env.example to .env.local')
+}
+
+export const API_URLS: { [key: string]: string } = {
+  auth: 'auth',
+  users: 'users',
+  tables: 'tables',
+  payments: 'payments',
+  transactions: 'transactions',
+  histories: 'histories',
+
+  password: 'password',
+  profile: 'profile',
 }
 
 const VITE_AUTH_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/${API_URLS.auth}`, false)
@@ -58,6 +69,18 @@ export const updateUser: TypeUpdateApiMethod = data =>
 export const deleteUser: TypeDeleteApiMethod = (id: number) =>
   VITE_ADMIN_API_CLIENT.remove({
     endpoint: `${API_URLS.users}/${id}`,
+  })
+///////////////////////////////////////////// PROFILE //////////////////////////////////////////
+export const updateProfile: TypeUpdateApiMethod = data =>
+  VITE_ADMIN_API_CLIENT.patch({
+    endpoint: `${API_URLS.users}/${data.id}/profile`,
+    data,
+  })
+
+export const updatePassword: TypeUpdateApiMethod = data =>
+  VITE_ADMIN_API_CLIENT.patch({
+    endpoint: `${API_URLS.users}/${data.id}/password`,
+    data,
   })
 
 ///////////////////////////////////////////// TABLE //////////////////////////////////////////

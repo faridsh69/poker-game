@@ -17,6 +17,21 @@ export const USERS_ROLE_ENUM = ['player', 'agent', 'admin']
 
 export const USERS_GENDER_ENUM = ['male', 'female', 'unspecified']
 
+export const MODEL_FORMS_NAMES: { [key in TypeModelFormKeys]: TypeModelFormKeys } = {
+  register: 'register',
+  login: 'login',
+  profile: 'profile',
+  users: 'users',
+  tables: 'tables',
+  payments: 'payments',
+  transactions: 'transactions',
+  histories: 'histories',
+  deposit: 'deposit',
+  withdraw: 'withdraw',
+  transfer: 'transfer',
+  password: 'password',
+}
+
 export const REGISTER_FORM: TypeFormInput[] = [
   {
     name: 'email',
@@ -29,7 +44,7 @@ export const REGISTER_FORM: TypeFormInput[] = [
   },
   {
     name: 'password',
-    autoComplete: 'current-password',
+    autoComplete: 'new-password',
   },
 ]
 
@@ -69,6 +84,27 @@ export const PROFILE_FORM: TypeFormInput[] = [
   {
     name: 'avatar_id',
     type: 'number',
+  },
+]
+
+export const PASSWORD_FORM: TypeFormInput[] = [
+  {
+    name: 'id',
+    type: 'hidden',
+  },
+  {
+    name: 'current_password',
+    autoComplete: 'current-password',
+  },
+  {
+    name: 'new_password',
+    type: 'password',
+    autoComplete: 'new-password',
+  },
+  {
+    name: 'repeated_new_password',
+    type: 'password',
+    autoComplete: 'new-password',
   },
 ]
 
@@ -299,24 +335,11 @@ export const HISTORIES_FORM = [
   },
 ]
 
-export const MODEL_FORMS_NAMES: { [key in TypeModelFormKeys]: TypeModelFormKeys } = {
-  register: 'register',
-  login: 'login',
-  profile: 'profile',
-  users: 'users',
-  tables: 'tables',
-  payments: 'payments',
-  transactions: 'transactions',
-  histories: 'histories',
-  deposit: 'deposit',
-  withdraw: 'withdraw',
-  transfer: 'transfer',
-}
-
 export const MODEL_FORMS: { [key in TypeModelFormKeys]: TypeFormInput[] } = {
   register: REGISTER_FORM,
   login: LOGIN_FORM,
   profile: PROFILE_FORM,
+  password: PASSWORD_FORM,
   users: USERS_FORM,
   tables: TABLES_FORM,
   payments: PAYMENTS_FORM,

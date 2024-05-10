@@ -32,6 +32,7 @@ export const useSocketActions = (tableId: number) => {
   const handleJoinGame = useCallback(
     (buyinAmount: number) => {
       socket.emit(CLIENT_CHANNELS.joinGame, { tableId, buyinAmount })
+      // @todo change this to profile
       queryClient.invalidateQueries({ queryKey: ['users', getAuthId()] })
     },
     [socket, tableId],

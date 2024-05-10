@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import LockResetIcon from '@mui/icons-material/LockReset'
 // import MenuIcon from '@mui/icons-material/Menu'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
@@ -85,7 +86,11 @@ export const Navbar = () => {
         </MenuItem>
         <MenuItem onClick={() => navigate('/admin/profile')} sx={{ gap: 2 }}>
           <ManageAccountsIcon />
-          My Profile
+          My profile
+        </MenuItem>
+        <MenuItem onClick={() => navigate('/admin/password')} sx={{ gap: 2 }}>
+          <LockResetIcon />
+          Change password
         </MenuItem>
         <MenuItem onClick={handleLogout} sx={{ gap: 2 }}>
           <LogoutIcon /> Logout

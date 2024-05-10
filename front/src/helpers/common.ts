@@ -73,9 +73,11 @@ export const isNumber = (variable: number | string) => typeof variable === 'numb
 
 export const isObject = (variable: object) => typeof variable === 'object'
 
-export const isArray = (variable: []): boolean => Array.isArray(variable)
+export const isArray = (variable: unknown): boolean => Array.isArray(variable)
 
 export const isUndefined = (variable: unknown) => typeof variable === 'undefined'
+
+export const isNull = (variable: unknown) => variable === null
 
 export const isObjectEmpty = (object: object) => !object || !isObject(object) || !Object.keys(object).length
 
@@ -187,7 +189,8 @@ export const toFormalCase = (string?: string): string => {
 
 export const toBool = (value: unknown) => !!value
 
-export const convertNullToEmptyString = (value: unknown) => (value === null || value === undefined ? '' : value)
+export const convertNullToEmptyString = (value: unknown): string =>
+  isNull(value) || isUndefined(value) ? '' : '' + value
 
 export const capitalize = (string: string) => {
   return string[0].toUpperCase() + string.slice(1)

@@ -4,17 +4,14 @@ import { toast } from 'react-toastify'
 
 import { useMutation } from '@tanstack/react-query'
 
-import { API_URLS } from 'src/configs/constants'
-import { getAuthId, removeAccessToken, setAccessToken } from 'src/helpers/auth'
-import { useCrud } from 'src/hooks/useCrud'
+import { removeAccessToken, setAccessToken } from 'src/helpers/auth'
 import { postLogin, postRegister } from 'src/services/apis'
+import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const useAuth = () => {
   const navigate = useNavigate()
 
-  const authId = getAuthId()
-
-  const { single: authUser } = useCrud(API_URLS.users, authId)
+  const { single: authUser } = useCrudProfile()
 
   const loginMutation = useMutation({
     mutationFn: postLogin,

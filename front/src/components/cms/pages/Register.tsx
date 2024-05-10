@@ -6,7 +6,6 @@ import { Avatar, Box, Container, Grid, Link, Typography } from '@mui/material'
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { PageLayout } from 'src/components/cms/templates/PageLayout'
 import { MODEL_FORMS_NAMES } from 'src/configs/forms'
-import { getFormInputs, getFormSchema } from 'src/helpers/forms'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeModel } from 'src/interfaces'
 
@@ -41,8 +40,7 @@ export const Register = () => {
             {t('Register')}
           </Typography>
           <FormMui
-            inputs={getFormInputs(MODEL_FORMS_NAMES.register)}
-            schema={getFormSchema(MODEL_FORMS_NAMES.register)}
+            formName={MODEL_FORMS_NAMES.register}
             values={{}}
             onSubmit={onSubmit}
             submitText={t('Register')}

@@ -43,15 +43,17 @@ export class UsersController {
     return this.userService.update(+id, updateModelDto)
   }
 
+  // in id bayad az token estekhraj beshe
   @Patch(':id/profile')
   updateProfile(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
-    // Need check authorization of user role, updateProfile, updatePassword
+    // Need check authorization of user role, updateProfile
     return this.userService.updateProfile(+id, updateModelDto)
   }
 
+  // in id bayad az token estekhraj beshe
   @Patch(':id/password')
   updatePassword(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
-    // Need check authorization of user role, updateProfile, updatePassword
+    // Need check authorization of user role, updatePassword
     return this.userService.updatePassword(+id, updateModelDto.password)
   }
 

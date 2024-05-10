@@ -4,13 +4,12 @@ import { Box, Typography } from '@mui/material'
 
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { TableMui } from 'src/components/cms/templates/TableMui'
-import { API_URLS } from 'src/configs/constants'
 import { MODEL_FORMS_NAMES, PAYMENTS_STATUSES } from 'src/configs/forms'
 import { getAuthId } from 'src/helpers/auth'
-import { getFormInputs, getFormSchema } from 'src/helpers/forms'
 import { calculateBodyCells, calculateHeadCells, filterTableBodyCells, filterTableHeaderCells } from 'src/helpers/table'
 import { useCrud } from 'src/hooks/useCrud'
 import { TypeModel } from 'src/interfaces'
+import { API_URLS } from 'src/services/apis'
 
 export const DepositForm = () => {
   const { list, createMutation } = useCrud(API_URLS.payments)
@@ -45,8 +44,7 @@ export const DepositForm = () => {
     <Box sx={{ p: 3 }}>
       <Typography variant='h6'>Deposit Form</Typography>
       <FormMui
-        inputs={getFormInputs(MODEL_FORMS_NAMES.deposit)}
-        schema={getFormSchema(MODEL_FORMS_NAMES.deposit)}
+        formName={MODEL_FORMS_NAMES.deposit}
         values={undefined}
         onSubmit={onSubmit}
         submitText={'Deposit'}

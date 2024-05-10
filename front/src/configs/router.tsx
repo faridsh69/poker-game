@@ -60,6 +60,11 @@ const ROUTES: RoutesType = [
         path: 'profile',
         element: <Suspender pageName='AdminProfile' canAuth />,
       },
+      {
+        name: 'admin-password',
+        path: 'password',
+        element: <Suspender pageName='AdminPassword' canAuth />,
+      },
     ],
   },
 ]

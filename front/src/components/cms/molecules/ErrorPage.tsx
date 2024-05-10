@@ -10,7 +10,7 @@ import ErrorImg from 'src/images/errors/500.png'
 export const ErrorPage = () => {
   const error = useRouteError() as Error
 
-  errorHandler(error)
+  errorHandler(error, 'ErrorPage')
 
   return (
     <Alert severity='error'>

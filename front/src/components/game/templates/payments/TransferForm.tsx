@@ -4,13 +4,12 @@ import { Box, Typography } from '@mui/material'
 
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { TableMui } from 'src/components/cms/templates/TableMui'
-import { API_URLS } from 'src/configs/constants'
 import { MODEL_FORMS_NAMES, TRANSACTIONS_REASONS } from 'src/configs/forms'
 import { getAuthId } from 'src/helpers/auth'
-import { getFormInputs, getFormSchema } from 'src/helpers/forms'
 import { calculateBodyCells, calculateHeadCells, filterTableBodyCells, filterTableHeaderCells } from 'src/helpers/table'
 import { useCrud } from 'src/hooks/useCrud'
 import { TypeModel } from 'src/interfaces'
+import { API_URLS } from 'src/services/apis'
 
 export const TransferForm = () => {
   const { list, createMutation } = useCrud(API_URLS.transactions)
@@ -42,11 +41,10 @@ export const TransferForm = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant='h6'>Transfer Form</Typography>
-      <Typography>Available for transfer: 1000$</Typography>
+      <Typography>Available for transfer: x$</Typography>
 
       <FormMui
-        inputs={getFormInputs(MODEL_FORMS_NAMES.transfer)}
-        schema={getFormSchema(MODEL_FORMS_NAMES.transfer)}
+        formName={MODEL_FORMS_NAMES.transfer}
         values={undefined}
         onSubmit={onSubmit}
         submitText={'Transfer'}

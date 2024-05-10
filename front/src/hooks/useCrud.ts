@@ -1,10 +1,11 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { API_KEY_MAP } from 'src/configs/service'
+import { isArray } from 'src/helpers/common'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeApis, TypeModel, TypeUseCrud } from 'src/interfaces'
 
@@ -15,16 +16,19 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
 
   const { listApi, showApi, createApi, updateApi, deleteApi } = API_KEY_MAP[MODEL_SLUG] as TypeApis
 
-  const {
-    data: listApiData,
-    error: listApiError,
-    isFetching,
-  } = useQuery({
+  const { data: listApiData, isFetching } = useQuery({
     queryKey: [MODEL_SLUG],
     queryFn: async () => {
-      const response = await listApi()
+      try {
+        if (!listApi) return []
 
-      return response.data
+        const response = await listApi()
+        const list = response.data
+
+        return isArray(list) ? list : []
+      } catch (error: any) {
+        errorHandler(error, 'listApi useCrud: ' + MODEL_SLUG)
+      }
     },
     placeholderData: [],
   })
@@ -33,26 +37,22 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
     return listApiData || []
   }, [listApiData])
 
-  const { data: single, error: showApiError } = useQuery({
+  const { data: single } = useQuery({
     queryKey: [MODEL_SLUG, modelId],
     queryFn: async () => {
-      if (!modelId) return {}
+      try {
+        if (!showApi || !modelId) return undefined
 
-      const response = await showApi(modelId)
+        const response = await showApi(modelId)
+        const single = response.data
 
-      return response.data
+        return single
+      } catch (error: any) {
+        errorHandler(error, 'showApi useCrud: ' + MODEL_SLUG)
+      }
     },
     placeholderData: {},
   })
-
-  useEffect(() => {
-    if (listApiError) {
-      errorHandler(listApiError as Error)
-    }
-    if (showApiError) {
-      errorHandler(showApiError as Error)
-    }
-  }, [listApiError, showApiError])
 
   const createMutation = useMutation({
     mutationFn: createApi,
@@ -71,8 +71,6 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
       toast.success(t(MODEL_SLUG + ' created successfully'))
     },
   })
-
-  useQuery({ queryKey: ['oldUpdatedItem'], queryFn: () => null })
 
   const updateMutation = useMutation({
     mutationFn: updateApi,

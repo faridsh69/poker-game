@@ -7,6 +7,7 @@ import {
   TypeFormInput,
   TypeHeadCells,
   TypeModel,
+  TypeModelFormKeys,
   TypeOrder,
   TypeSchema,
   TypeSeat,
@@ -62,9 +63,8 @@ export type TypeGameCardProps = {
 }
 
 export type TypePropsFormMui = {
-  inputs: TypeFormInput[]
+  formName: TypeModelFormKeys
   values: TypeModel | undefined
-  schema: TypeSchema
   onSubmit: (data: TypeModel) => void
   isUpdating: boolean
   submitText: string

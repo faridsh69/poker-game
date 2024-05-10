@@ -34,11 +34,11 @@ export type TypeUpdateApiMethod = (data: TypeModel) => Promise<AxiosResponse<Typ
 export type TypeDeleteApiMethod = (id: number) => Promise<AxiosResponse<void>>
 
 export type TypeApis = {
-  listApi: TypeListApiMethod
-  showApi: TypeShowApiMethod
-  createApi: TypeCreateApiMethod
+  listApi?: TypeListApiMethod
+  showApi?: TypeShowApiMethod
+  createApi?: TypeCreateApiMethod
   updateApi: TypeUpdateApiMethod
-  deleteApi: TypeDeleteApiMethod
+  deleteApi?: TypeDeleteApiMethod
 }
 export type TypeApiKeyMap = {
   [key: string]: TypeApis

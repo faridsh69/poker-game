@@ -36,7 +36,7 @@ export const useSocketConnection = () => {
 
     socketInstance.on('connect_error', (error: Error) => {
       setIsConnected(false)
-      errorHandler(error)
+      errorHandler(error, 'connect_error')
       forceLogout(error.message)
     })
 

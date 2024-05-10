@@ -20,7 +20,9 @@ import {
   getUser,
   getUsers,
   updateHistory,
+  updatePassword,
   updatePayment,
+  updateProfile,
   updateTable,
   updateTransaction,
   updateUser,
@@ -34,30 +36,34 @@ export const API_KEY_MAP: TypeApiKeyMap = {
     updateApi: updateUser,
     deleteApi: deleteUser,
   },
+  profile: {
+    showApi: getUser,
+    updateApi: updateProfile,
+  },
+  password: {
+    showApi: getUser,
+    updateApi: updatePassword,
+  },
   tables: {
     listApi: getTables,
-    showApi: getUser,
     createApi: createTable,
     updateApi: updateTable,
     deleteApi: deleteTable,
   },
   payments: {
     listApi: getPayments,
-    showApi: getUser,
     createApi: createPayment,
     updateApi: updatePayment,
     deleteApi: deletePayment,
   },
   transactions: {
     listApi: getTransactions,
-    showApi: getUser,
     createApi: createTransaction,
     updateApi: updateTransaction,
     deleteApi: deleteTransaction,
   },
   histories: {
     listApi: getHistories,
-    showApi: getUser,
     createApi: createHistory,
     updateApi: updateHistory,
     deleteApi: deleteHistory,
@@ -72,7 +78,7 @@ export const REACT_QUERY_CLIENT = new QueryClient({
       staleTime: Infinity,
     },
     mutations: {
-      onError: errorHandler,
+      onError: error => errorHandler(error, 'mutations'),
     },
   },
 })
