@@ -73,13 +73,13 @@ export const deleteUser: TypeDeleteApiMethod = (id: number) =>
 ///////////////////////////////////////////// PROFILE //////////////////////////////////////////
 export const updateProfile: TypeUpdateApiMethod = data =>
   VITE_ADMIN_API_CLIENT.patch({
-    endpoint: `${API_URLS.users}/${data.id}/profile`,
+    endpoint: `${API_URLS.users}/profile`,
     data,
   })
 
 export const updatePassword: TypeUpdateApiMethod = data =>
   VITE_ADMIN_API_CLIENT.patch({
-    endpoint: `${API_URLS.users}/${data.id}/password`,
+    endpoint: `${API_URLS.users}/password`,
     data,
   })
 

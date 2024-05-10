@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Request } from 'express'
 import { Repository } from 'typeorm'
 
+import { PAYMENTS_STATUSES } from 'src/configs/database'
 import { seedData } from 'src/helpers/common'
 import { Payment } from 'src/models/payment.entity'
 import { PAYMENTS_SEEDER } from 'src/seeders/sources/payments.seeder'
@@ -25,19 +26,32 @@ export class PaymentsService {
     return this.modelRepository.softDelete(id)
   }
 
-  create(createModelDto: CreatePaymentDto, request?: Request) {
+  create(createModelDto: CreatePaymentDto) {
     const model = new Payment()
-    // @ts-ignore
-    model.user_id = createModelDto.user_id || request.userx.id
+
+    model.user_id = createModelDto.user_id
     model.price = createModelDto.price
     model.user_giving = createModelDto.user_giving
     model.description = createModelDto.description
     model.gateway = createModelDto.gateway
     model.status = createModelDto.status
     model.wallet = createModelDto.wallet
+    model.status = PAYMENTS_STATUSES.success
 
-    // if user role is not admin
-    // status === pending, user_id == gaurd auth id
+    return this.modelRepository.save(model)
+  }
+
+  depositeWithdraw(createModelDto: CreatePaymentDto, request: Request) {
+    const model = new Payment()
+    // @ts-ignore
+    model.user_id = request.minimalUser.id
+    model.price = createModelDto.price
+    model.user_giving = createModelDto.user_giving
+    model.description = createModelDto.description
+    model.gateway = createModelDto.gateway
+    model.status = createModelDto.status
+    model.wallet = createModelDto.wallet
+    model.status = PAYMENTS_STATUSES.pending
 
     return this.modelRepository.save(model)
   }

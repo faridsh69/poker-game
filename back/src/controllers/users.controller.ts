@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common'
 
 import { AuthGuard } from 'src/guards/auth.gaurd'
 import { PaymentsService } from 'src/services/payments.service'
 import { TransactionsService } from 'src/services/transactions.service'
 import { UsersService } from 'src/services/users.service'
 import { CreateUserDto } from 'src/validations/create-user.dto'
+import { UpdateUserPasswordDto } from 'src/validations/update-user-password.dto'
+import { UpdateUserProfileDto } from 'src/validations/update-user-profile.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
 
 @Controller('users')
@@ -20,7 +22,6 @@ export class UsersController {
   async findAll() {
     return this.userService.find()
   }
-  // find(@Req() request: Request) { request.userx }
 
   @Get(':id')
   async findOne(@Param('id') id: number) {
@@ -37,24 +38,26 @@ export class UsersController {
     return this.userService.create(createModelDto)
   }
 
+  @Patch('profile')
+  updateProfile(@Body() updateUserProfileDto: UpdateUserProfileDto, @Req() request: Request) {
+    // @ts-ignore
+    const id = request.minimalUser.id
+
+    return this.userService.updateProfile(id, updateUserProfileDto)
+  }
+
+  @Patch('password')
+  updatePassword(@Body() updateUserPasswordDto: UpdateUserPasswordDto, @Req() request: Request) {
+    // @ts-ignore
+    const id = request.minimalUser.id
+
+    return this.userService.updatePassword(id, updateUserPasswordDto)
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
     // Need check authorization of user role, updateProfile, updatePassword
     return this.userService.update(+id, updateModelDto)
-  }
-
-  // in id bayad az token estekhraj beshe
-  @Patch(':id/profile')
-  updateProfile(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
-    // Need check authorization of user role, updateProfile
-    return this.userService.updateProfile(+id, updateModelDto)
-  }
-
-  // in id bayad az token estekhraj beshe
-  @Patch(':id/password')
-  updatePassword(@Param('id') id: string, @Body() updateModelDto: UpdateUserDto) {
-    // Need check authorization of user role, updatePassword
-    return this.userService.updatePassword(+id, updateModelDto.password)
   }
 
   @Delete(':id')

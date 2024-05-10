@@ -6,10 +6,10 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 
 import { BOARD_MENU_ITEMS } from 'src/configs/boardMenuItems'
-import { useAuth } from 'src/hooks/useAuth'
+import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const BoardTabs = () => {
-  const { authUser } = useAuth()
+  const { single: authUser } = useCrudProfile()
 
   const [selectedItem, setSelectedItem] = useState(0)
 

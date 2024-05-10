@@ -16,7 +16,7 @@ export class Payment {
   @Column({ type: 'boolean' })
   user_giving!: boolean
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', nullable: true, length: 100 })
   description!: string
 
   @Column({ type: 'enum', enum: Object.values(PAYMENTS_GATEWAYS) })
@@ -25,7 +25,7 @@ export class Payment {
   @Column({ type: 'enum', enum: Object.values(PAYMENTS_STATUSES), default: PAYMENTS_STATUSES.pending })
   status!: string
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', nullable: true, length: 100 })
   wallet!: string
 
   @CreateDateColumn()

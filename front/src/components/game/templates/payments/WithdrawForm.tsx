@@ -7,14 +7,14 @@ import { TableMui } from 'src/components/cms/templates/TableMui'
 import { MODEL_FORMS_NAMES, PAYMENTS_STATUSES } from 'src/configs/forms'
 import { getAuthId } from 'src/helpers/auth'
 import { calculateBodyCells, calculateHeadCells, filterTableBodyCells, filterTableHeaderCells } from 'src/helpers/table'
-import { useAuth } from 'src/hooks/useAuth'
 import { useCrud } from 'src/hooks/useCrud'
 import { TypeModel } from 'src/interfaces'
 import { API_URLS } from 'src/services/apis'
+import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const WithdrawForm = () => {
   const authId = getAuthId()
-  const { authUser } = useAuth()
+  const { single: authUser } = useCrudProfile()
 
   const { list, createMutation } = useCrud(API_URLS.payments)
 

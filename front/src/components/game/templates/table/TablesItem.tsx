@@ -5,14 +5,14 @@ import { Money } from 'src/components/game/molecules/Money'
 import { getAuthUsername } from 'src/helpers/auth'
 import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
-import { useAuth } from 'src/hooks/useAuth'
 import { TypeTable } from 'src/interfaces'
+import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const TablesItem = (props: { table: TypeTable }) => {
   const { table } = props
 
   const username = getAuthUsername()
-  const { authUser } = useAuth()
+  const { single: authUser } = useCrudProfile()
 
   const { handleJoinTable } = useSocketActions(table.id)
 

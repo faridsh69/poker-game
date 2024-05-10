@@ -12,13 +12,15 @@ import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } 
 import { LanguageSwitcher } from 'src/components/cms/molecules/LanguageSwitcher'
 import { ThemeSwitcher } from 'src/components/cms/molecules/ThemeSwitcher'
 import { META_TAGS } from 'src/configs/constants'
-import { isLoggedin } from 'src/helpers/auth'
+import { getAuthUsername, isLoggedin } from 'src/helpers/auth'
 import { useAuth } from 'src/hooks/useAuth'
 
 export const Navbar = () => {
   const navigate = useNavigate()
 
-  const { authUser, handleLogout } = useAuth()
+  const { handleLogout } = useAuth()
+  const authUserUsername = getAuthUsername()
+
   const isLoggedinUser = isLoggedin()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -44,7 +46,7 @@ export const Navbar = () => {
           <MenuIcon />
         </IconButton> */}
         <Typography variant='h6' noWrap component='div' sx={{ display: { xs: 'none', sm: 'block' } }}>
-          {META_TAGS.title} - {isLoggedinUser ? authUser?.username : 'Guest'}
+          {META_TAGS.title} - {isLoggedinUser ? authUserUsername : 'Guest'}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <LanguageSwitcher />
@@ -90,7 +92,7 @@ export const Navbar = () => {
         </MenuItem>
         <MenuItem onClick={() => navigate('/admin/password')} sx={{ gap: 2 }}>
           <LockResetIcon />
-          Change password
+          Reset password
         </MenuItem>
         <MenuItem onClick={handleLogout} sx={{ gap: 2 }}>
           <LogoutIcon /> Logout

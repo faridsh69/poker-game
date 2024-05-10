@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { compare } from 'bcrypt'
+import { compare, hash } from 'bcrypt'
 
 import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
+import { envConfig } from 'src/configs/envConfig'
 import { throwException } from 'src/helpers/http'
 import { TypeUserMinimalObject, TypeUserWithToken } from 'src/interfaces/types'
 import { User } from 'src/models/user.entity'
@@ -37,16 +38,16 @@ export class AuthService {
     }
   }
 
-  register(registerUserDto: RegisterUserDto) {
+  async register(registerUserDto: RegisterUserDto) {
     const user = new User()
     user.username = registerUserDto.username
     user.email = registerUserDto.email
-    user.password = registerUserDto.password
     user.status = USERS_STATUSES.needConfirm
     user.role = USERS_ROLES.player
     user.gender = USERS_GENDERS.male
     user.avatar_id = 1
     user.agent_percent = 0
+    user.password = await hash(registerUserDto.password, envConfig().hashSalt)
 
     return this.usersService.save(user)
   }

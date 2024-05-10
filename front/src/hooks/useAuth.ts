@@ -6,12 +6,9 @@ import { useMutation } from '@tanstack/react-query'
 
 import { removeAccessToken, setAccessToken } from 'src/helpers/auth'
 import { postLogin, postRegister } from 'src/services/apis'
-import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const useAuth = () => {
   const navigate = useNavigate()
-
-  const { single: authUser } = useCrudProfile()
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
@@ -39,9 +36,8 @@ export const useAuth = () => {
   }, [navigate])
 
   return {
-    authUser,
     loginMutation,
-    handleLogout,
     registerMutation,
+    handleLogout,
   }
 }

@@ -17,8 +17,13 @@ export class PaymentsController {
   }
 
   @Post()
-  create(@Body() createModelDto: CreatePaymentDto, @Req() request: Request) {
-    return this.modelService.create(createModelDto, request)
+  create(@Body() createModelDto: CreatePaymentDto) {
+    return this.modelService.create(createModelDto)
+  }
+
+  @Post()
+  depositeWithdraw(@Body() createModelDto: CreatePaymentDto, @Req() request: Request) {
+    return this.modelService.depositeWithdraw(createModelDto, request)
   }
 
   @Patch(':id')

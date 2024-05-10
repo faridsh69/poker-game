@@ -1,5 +1,6 @@
 import { IsBoolean, IsEnum, IsInt, IsString } from 'class-validator'
 import { PAYMENTS_GATEWAYS, PAYMENTS_STATUSES } from 'src/configs/database'
+import { IsNullable } from 'src/validations/customs/IsNullable'
 
 export class CreatePaymentDto {
   @IsInt()
@@ -11,6 +12,7 @@ export class CreatePaymentDto {
   @IsBoolean()
   user_giving!: boolean
 
+  @IsNullable()
   @IsString()
   description!: string
 
@@ -24,6 +26,7 @@ export class CreatePaymentDto {
   })
   status!: string
 
+  @IsNullable()
   @IsString()
   wallet!: string
 }

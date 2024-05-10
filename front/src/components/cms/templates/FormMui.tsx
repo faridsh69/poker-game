@@ -23,7 +23,7 @@ export const FormMui = (props: TypePropsFormMui) => {
 
   const { t } = useTranslation()
 
-  const defaultSubmitText = submitText ? submitText : isUpdating ? t('Update') : t('Create')
+  const defaultSubmitText = submitText ? t(submitText) : isUpdating ? t('Update') : t('Create')
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),

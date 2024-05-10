@@ -13,10 +13,9 @@ export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
     const request: Request = context.switchToHttp().getRequest()
     const authorization = this.getAuthorizationFromHttp(request)
-
     const userMinimalObject = this.verifyHeaderAuthorization(authorization)
     // @ts-ignore
-    request['userx'] = userMinimalObject
+    request['minimalUser'] = userMinimalObject
 
     return true
   }

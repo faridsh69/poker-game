@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { hash } from 'bcrypt'
+import { compare, hash } from 'bcrypt'
 import { Repository, UpdateResult } from 'typeorm'
 
 import { envConfig } from 'src/configs/envConfig'
+import { throwException } from 'src/helpers/http'
 import { User } from 'src/models/user.entity'
 import { USERS_SEEDER } from 'src/seeders/sources/users.seeder'
 import { CreateUserDto } from 'src/validations/create-user.dto'
+import { UpdateUserPasswordDto } from 'src/validations/update-user-password.dto'
+import { UpdateUserProfileDto } from 'src/validations/update-user-profile.dto'
 import { UpdateUserDto } from 'src/validations/update-user.dto'
 
 @Injectable()
@@ -57,21 +60,33 @@ export class UsersService {
     return this.modelRepository.save(model)
   }
 
-  updateProfile(id: number, updateModelDto: UpdateUserDto) {
+  updateProfile(id: number, updateUserProfileDto: UpdateUserProfileDto) {
     const model = new User()
     model.id = id
-    model.first_name = updateModelDto.first_name
-    model.last_name = updateModelDto.last_name
-    model.phone = updateModelDto.phone
-    model.gender = updateModelDto.gender
-    model.avatar_id = updateModelDto.avatar_id
+    model.first_name = updateUserProfileDto.first_name
+    model.last_name = updateUserProfileDto.last_name
+    model.phone = updateUserProfileDto.phone
+    model.gender = updateUserProfileDto.gender
+    model.avatar_id = updateUserProfileDto.avatar_id
 
     return this.modelRepository.update(id, model)
   }
 
-  updatePassword(id: number, password: string) {
+  async updatePassword(id: number, updateUserPasswordDto: UpdateUserPasswordDto) {
+    const user = await this.findOneBy('id', id, true)
+
+    if (!user) {
+      return throwException('The specified user does not exists.', false, 400)
+    }
+
+    const isPasswordMatch = await compare(updateUserPasswordDto.current_password, user.password)
+
+    if (!isPasswordMatch) {
+      return throwException('Your current password is wrong.', false, 400)
+    }
+
     const model = new User()
-    model.password = password
+    model.password = await hash(updateUserPasswordDto.new_password, envConfig().hashSalt)
 
     return this.modelRepository.update(id, model)
   }

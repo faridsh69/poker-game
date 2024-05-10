@@ -100,9 +100,9 @@ const PAYMENTS_SCHEMA = yup.object({
 
 const DEPOSIT_SCHEMA = yup.object({
   price: yup.number().required(),
-  description: yup.string().required(),
+  description: yup.string(),
   gateway: yup.mixed<string>().oneOf(PAYMENTS_GATEWAYS).required(),
-  wallet: yup.string().required(),
+  wallet: yup.string(),
 })
 
 const WITHDRAW_SCHEMA = yup.object({
