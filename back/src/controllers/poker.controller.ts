@@ -229,9 +229,11 @@ export const renderClientJoinGame = (
       }),
     }
 
+    const startTable = isTimeToStartTable(updatedTableJoinGame)
+
     return {
       ...updatedTableJoinGame,
-      timer: isTimeToStartTable(updatedTableJoinGame) ? getStartTableTimer() : updatedTableJoinGame.timer,
+      timer: startTable ? getStartTableTimer() : updatedTableJoinGame.timer,
     }
   })
 }

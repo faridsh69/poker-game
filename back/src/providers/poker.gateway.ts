@@ -210,7 +210,6 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   ) {
     const userFullData = await this.getAuthUser(socket)
     // Validations: check user is joined before as waiting user in this table, also he is not seated
-    console.log('1 userFullData', userFullData)
     this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, userFullData)
 
     renderUpdateClients(this.server, this.tablesState, tableId)

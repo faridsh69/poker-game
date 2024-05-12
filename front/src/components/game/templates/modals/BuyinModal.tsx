@@ -51,6 +51,7 @@ export const BuyinModal = () => {
   }, [inputValue])
 
   const authSeat = buyinModal.table ? getUserSeat(buyinModal.table, username) : null
+
   const remainingSeconds = useSeatTimer(authSeat, 'leaveSeat')
 
   if (!buyinModal.table || !buyinModal.show) return null

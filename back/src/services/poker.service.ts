@@ -99,7 +99,7 @@ const isWithoutRoleSeat = (seat: TypeSeat): boolean => !seat.role
 const isWaitForBBSeat = (seat: TypeSeat): boolean => !!seat.user?.isWaitForBB
 
 const isNotEnoughCashThanBlinds = (seat: TypeSeat, table: TypeTable): boolean => {
-  if (!seat.user) return true
+  if (!seat.user?.cash?.inGame) return true
 
   return seat.user?.cash?.inGame < table.blinds.big
 }
@@ -1012,14 +1012,14 @@ const getSeatoutedNotEnoughCashPlayersTable = (table: TypeTable): TypeTable => {
         },
       }
 
-      const checkedSeatout = seatoutedSeatForNotEnoughCash.user.isSeatoutNextRound
+      const checkedSeatoutCheckbox = seatoutedSeatForNotEnoughCash.user.isSeatoutNextRound
 
       return {
         ...seatoutedSeatForNotEnoughCash,
         user: {
           ...seat.user,
-          isSeatout: checkedSeatout ? true : seatoutedSeatForNotEnoughCash.user.isSeatout,
-          timer: checkedSeatout ? getLeaveSeatTimer(false) : seatoutedSeatForNotEnoughCash.user.timer,
+          isSeatout: checkedSeatoutCheckbox ? true : seatoutedSeatForNotEnoughCash.user.isSeatout,
+          timer: checkedSeatoutCheckbox ? getLeaveSeatTimer(false) : seatoutedSeatForNotEnoughCash.user.timer,
           isSeatoutNextRound: false,
         },
       }
@@ -1048,6 +1048,7 @@ export const resetTable = (pureTable: TypeTable): TypeTable => {
     roleTurn,
     seats: table.seats.map(s => {
       if (!s.user) return s
+
       if (isSeatoutSeat(s)) {
         return {
           ...s,

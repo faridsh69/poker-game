@@ -1,5 +1,5 @@
 import { Money } from 'src/components/game/molecules/Money'
-import { isAllinSeat, isSeatoutSeat } from 'src/helpers/clientHelpersPoker'
+import { isAllinSeat, isSeatoutSeat, isWithoutCardsSeat } from 'src/helpers/clientHelpersPoker'
 import { TypeSeatProps } from 'src/interfaces'
 
 export const SeatUserCash = (props: TypeSeatProps) => {
@@ -13,7 +13,7 @@ export const SeatUserCash = (props: TypeSeatProps) => {
     )
   }
 
-  if (isAllinSeat(seat)) {
+  if (isAllinSeat(seat) && !isWithoutCardsSeat(seat)) {
     return (
       <div className='dnd-window-body-table-seats-seat-user-cash '>
         <span className='all-in'>All-In</span>

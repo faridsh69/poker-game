@@ -16,12 +16,12 @@ import {
 export const KANIAT_PERCENT = 5
 
 export const SERVER_TIMEOUT_EXTRA = 30
-export const SERVER_TIMEOUT_ACTION = 15 // 15
+export const SERVER_TIMEOUT_ACTION = 1500 // 15
 
 export const SERVER_TIMEOUT_SEATOUT_ALLIN = 600 // 120
 export const SERVER_TIMEOUT_SEATOUT = 20
 
-export const SERVER_TIMEOUT_RESTART = 30 // 10
+export const SERVER_TIMEOUT_RESTART = 10 // 10
 export const SERVER_TIMEOUT_CLEAR = 6
 export const SERVER_TIMEOUT_START = 0
 
@@ -143,13 +143,12 @@ export const USER_SEATOUT = {
   winnerPotIds: [],
   achievement: '',
   isFold: false,
-  isSeatout: false,
+  isSeatout: true,
   isAutoAction: false,
   isTableClosed: false,
   isWaitForBB: false,
   isStradle: false,
   isSeatoutNextRound: false,
-  timer: null,
   timeBank: SERVER_TIMEOUT_EXTRA,
   // hot: null,
 }
@@ -162,6 +161,7 @@ export const NEW_USER: TypeUser = {
     inGame: 0,
     inPot: 0,
   },
+  timer: null,
   ...USER_SEATOUT,
 }
 
