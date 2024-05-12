@@ -24,9 +24,7 @@ export const getRandomNumber = (to: number): number => {
   return Math.floor(Math.random() * to)
 }
 
-export const getDeadline = (timeout = 0): number => {
-  return Math.floor(new Date().valueOf() / 1000) + timeout
-}
+export const getDeadline = (timeout = 0): number => Math.floor(new Date().valueOf() / 1000) + timeout
 
 export const isUserWaitingTable = (table: TypeTable): boolean => {
   return !!table.waitingUsers.find(u => u.username === getAuthUsername())
@@ -141,9 +139,9 @@ const isAuthPlayingGame = (table: TypeTable): boolean => {
 
 /////////////////////////////////// 3 POLICY METHODS //////////////////////////////////
 
-export const canSeeSeatUserTimer = (table: TypeTable): boolean => {
+export const canSeeSeatUserTimer = (table: TypeTable, username: string): boolean => {
   if (isShowOrFinishPhase(table)) return false
-  if (!isAuthGameTurn(table)) return false
+  if (!isUserGameTurn(table, username)) return false
 
   return true
 }

@@ -21,7 +21,7 @@ export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
   }, [table.phase])
 
   if (!timer) return null
-  if (!canSeeSeatUserTimer(table)) return null
+  if (!canSeeSeatUserTimer(table, seat.user.username)) return null
 
   return (
     <div

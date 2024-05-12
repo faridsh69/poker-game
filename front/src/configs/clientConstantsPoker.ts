@@ -15,7 +15,7 @@ export const CLIENT_TIMEOUT_ACTION = 15
 export const CLIENT_TIMEOUT_SEATOUT_ALLIN = 20
 export const CLIENT_TIMEOUT_SEATOUT = 20
 
-// export const CLIENT_TIMEOUT_QUIT = 4
+export const DELAY_OEPN_MODAL = 15
 
 export const CLIENT_TIMEOUT_STATUS = 3
 export const CLIENT_TIMEOUT_FAULT = 55555
