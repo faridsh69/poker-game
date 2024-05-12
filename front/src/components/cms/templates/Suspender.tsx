@@ -21,10 +21,8 @@ export const Suspender: TypeSuspenderComponent = props => {
   const LazyComponent = lazy(() => import(`../pages/${pageName}.tsx`))
 
   return (
-    <div>
-      <Suspense fallback={<Loading />}>
-        <LazyComponent />{' '}
-      </Suspense>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <LazyComponent />
+    </Suspense>
   )
 }

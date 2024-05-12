@@ -1,3 +1,10 @@
+import { throwException } from './http'
+
+import { TypeUserFullData } from 'src/interfaces/types'
+import { PaymentsService } from 'src/services/payments.service'
+import { TransactionsService } from 'src/services/transactions.service'
+import { UsersService } from 'src/services/users.service'
+
 export const findInString = (string: string, value: string) => {
   if (!string || !value) return true
 
@@ -80,4 +87,22 @@ export const seedData = (data: any[], repository: any) => {
       })
       .catch((error: any) => Promise.reject(error))
   })
+}
+
+export const getUserFullData = async (
+  userService: UsersService,
+  paymentsService: PaymentsService,
+  transactionsService: TransactionsService,
+  id: number,
+): Promise<TypeUserFullData> => {
+  const user = await userService.findOneBy('id', id)
+  if (!user) {
+    return throwException('The specified user id does not exists.' + id, false, 400)
+  }
+
+  const paymentSum = await paymentsService.findUserBalance(id)
+  const transactionSum = await transactionsService.findUserBalance(id)
+  const balance = paymentSum + transactionSum
+
+  return { id: user.id, username: user.username, email: user?.email, avatar_id: user?.avatar_id, balance }
 }

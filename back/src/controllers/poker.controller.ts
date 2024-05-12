@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
 import { ACTION_NAMES, NEW_USER, SERVER_CHANNELS } from 'src/configs/serverPokerConstants'
 import { TypeAction, TypeTable } from 'src/interfaces/serverPokerTypes'
-import { User } from 'src/models/user.entity'
+import { TypeUserFullData } from 'src/interfaces/types'
 import {
   clearTable,
   getClearTableTimer,
@@ -112,7 +112,7 @@ export const renderClientJoinSeat = (
   tablesState: TypeTable[],
   tableId: number,
   seatId: number,
-  user: User,
+  user: TypeUserFullData,
 ): TypeTable[] => {
   const username = user.username
   const avatar_id = user.avatar_id

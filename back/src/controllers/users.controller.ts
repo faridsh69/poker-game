@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common'
 
 import { AuthGuard } from 'src/guards/auth.gaurd'
+import { getUserFullData } from 'src/helpers/common'
 import { PaymentsService } from 'src/services/payments.service'
 import { TransactionsService } from 'src/services/transactions.service'
 import { UsersService } from 'src/services/users.service'
@@ -24,13 +25,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    const user = await this.userService.findOneBy('id', +id)
-    const paymentSum = await this.paymentsService.findUserBalance(id)
-    const transactionSum = await this.transactionsService.findUserBalance(id)
-    const balance = paymentSum + transactionSum
-
-    return { ...user, balance }
+  async findOne(@Param('id') id: string) {
+    return await getUserFullData(this.userService, this.paymentsService, this.transactionsService, +id)
   }
 
   @Post()

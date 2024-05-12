@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { TableBackground } from '../table/TableBackground'
 import { BoardTabs } from './BoardTabs'
 import { useAtom } from 'jotai'
 
@@ -24,6 +25,7 @@ export const GameBoard = () => {
   return (
     <PageLayout>
       <div className='home'>
+        <TableBackground width={1} height={1} />
         <ConfirmModal />
         <BuyinModal />
         <DndWindow

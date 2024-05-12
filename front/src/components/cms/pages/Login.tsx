@@ -43,7 +43,7 @@ export const Login = () => {
             formName={MODEL_FORMS_NAMES.login}
             values={{}}
             onSubmit={onSubmit}
-            submitText={t('Login')}
+            submitText='Login'
             isUpdating={false}
           />
           <Grid container>

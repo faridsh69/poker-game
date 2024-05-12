@@ -44,6 +44,7 @@ export const REGISTER_FORM: TypeFormInput[] = [
   },
   {
     name: 'password',
+    type: 'password',
     autoComplete: 'new-password',
   },
 ]
@@ -57,6 +58,7 @@ export const LOGIN_FORM: TypeFormInput[] = [
   },
   {
     name: 'password',
+    type: 'password',
     autoComplete: 'current-password',
   },
   {
@@ -94,6 +96,7 @@ export const PASSWORD_FORM: TypeFormInput[] = [
   },
   {
     name: 'current_password',
+    type: 'password',
     autoComplete: 'current-password',
   },
   {

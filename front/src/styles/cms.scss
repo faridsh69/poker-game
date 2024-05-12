@@ -1,3 +1,31 @@
+.minimum-100with {
+  width: 100%;
+  max-height: 100%;
+}
+
+.image-loader {
+  @extend .minimum-100with;
+
+  &-skeleton {
+    @extend .minimum-100with;
+  }
+
+  &-img {
+    user-select: none;
+    transition: opacity 0.5s;
+    @extend .minimum-100with;
+  }
+
+  &-isloading {
+    opacity: 0;
+    width: 5px;
+    height: 4px;
+  }
+
+  &-image {
+  }
+}
+
 .language-switcher {
   fieldset {
     border: none !important;

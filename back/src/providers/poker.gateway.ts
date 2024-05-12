@@ -33,6 +33,7 @@ import {
   renderServerStartTable,
   renderUpdateClients,
 } from 'src/controllers/poker.controller'
+import { getUserFullData } from 'src/helpers/common'
 import {
   TypeAction,
   TypeHandleClientCallAction,
@@ -42,6 +43,7 @@ import {
   TypeHandleClientSitTable,
   TypeTable,
 } from 'src/interfaces/serverPokerTypes'
+import { TypeUserFullData, TypeUserMinimal } from 'src/interfaces/types'
 import { SocketAuthMiddleware } from 'src/middlewares/SocketAuthMiddleware'
 import { Payment } from 'src/models/payment.entity'
 import { Table } from 'src/models/table.entity'
@@ -51,11 +53,12 @@ import { PaymentsService } from 'src/services/payments.service'
 import { getAuthUserCashInGame, getDeadline, isAtLeastTwoPlayers } from 'src/services/poker.service'
 import { TablesService } from 'src/services/tables.service'
 import { TransactionsService } from 'src/services/transactions.service'
+import { UsersService } from 'src/services/users.service'
 import { runTests } from 'src/tests/testData'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Table, Payment, Transaction])],
-  providers: [TablesService, PaymentsService, TransactionsService],
+  imports: [TypeOrmModule.forFeature([User, Table, Payment, Transaction])],
+  providers: [UsersService, TablesService, PaymentsService, TransactionsService],
 })
 @WebSocketGateway({
   cors: {
@@ -66,6 +69,7 @@ import { runTests } from 'src/tests/testData'
 export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
   constructor(
     private readonly jwtService: JwtService,
+    private readonly userService: UsersService,
     private readonly tablesService: TablesService,
     private readonly paymentsService: PaymentsService,
     private readonly transactionsService: TransactionsService,
@@ -82,18 +86,14 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
 
   private getAuthUsername = (client: Socket): string => {
     // @ts-ignore
-    return client.userx.username
+    return client.minimalUser.username
   }
 
-  private getAuthUser = async (client: Socket): Promise<User> => {
+  private getAuthUser = async (client: Socket): Promise<TypeUserFullData> => {
     // @ts-ignore
-    const user: User = client.userx
-    const paymentSum = await this.paymentsService.findUserBalance(user.id)
-    const transactionSum = await this.transactionsService.findUserBalance(user.id)
-    const balance = paymentSum + transactionSum
+    const minimalUser: TypeUserMinimal = client.minimalUser
 
-    // @ts-ignore
-    return { ...user, balance }
+    return await getUserFullData(this.userService, this.paymentsService, this.transactionsService, minimalUser.id)
   }
 
   private saveTransaction = async (
@@ -103,7 +103,7 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
     userGiving: boolean,
   ): Promise<void> => {
     // @ts-ignore
-    const user: User = client.userx
+    const user: User = client.minimalUser
 
     const model = new Transaction()
     model.user_id = user.id
@@ -208,9 +208,10 @@ export class PokerGateway implements OnGatewayInit, OnGatewayConnection {
     @MessageBody() { tableId, seatId }: TypeHandleClientSitTable,
     @ConnectedSocket() socket: Socket,
   ) {
-    const user = await this.getAuthUser(socket)
+    const userFullData = await this.getAuthUser(socket)
     // Validations: check user is joined before as waiting user in this table, also he is not seated
-    this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, user)
+    console.log('1 userFullData', userFullData)
+    this.tablesState = renderClientJoinSeat(this.tablesState, tableId, seatId, userFullData)
 
     renderUpdateClients(this.server, this.tablesState, tableId)
   }

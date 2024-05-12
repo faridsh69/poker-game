@@ -4,7 +4,7 @@ import { Request } from 'express'
 
 import { Socket } from 'socket.io'
 import { throwException } from 'src/helpers/http'
-import { TypeUserMinimalObject } from 'src/interfaces/types'
+import { TypeUserMinimal } from 'src/interfaces/types'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     return true
   }
 
-  verifyHeaderAuthorization(authorization: string | undefined, isWs = false): TypeUserMinimalObject {
+  verifyHeaderAuthorization(authorization: string | undefined, isWs = false): TypeUserMinimal {
     const [type, accessToken] = authorization?.split(' ') || []
     const token = type === 'Bearer' ? accessToken : undefined
 
@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      return this.jwtService.verify(token) as TypeUserMinimalObject
+      return this.jwtService.verify(token) as TypeUserMinimal
     } catch {
       return throwException('Please login again, your token expired.', isWs, HttpStatus.UNAUTHORIZED)
     }

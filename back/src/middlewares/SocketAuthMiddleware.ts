@@ -10,7 +10,7 @@ export const SocketAuthMiddleware = (jwtService: JwtService) => {
       const authorization = authGarud.getAuthorizationFromSocket(socket)
       const userMinimalObject = authGarud.verifyHeaderAuthorization(authorization, true)
       // @ts-ignore
-      socket['userx'] = userMinimalObject
+      socket['minimalUser'] = userMinimalObject
       next()
     } catch (error: any) {
       next(error)

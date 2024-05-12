@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, Skeleton } from '@mui/material'
 
-export const SkeletonBox = () => {
+export const SkeletonCard = () => {
   return (
     <Card sx={{ maxWidth: 345, m: 2 }}>
       <CardHeader

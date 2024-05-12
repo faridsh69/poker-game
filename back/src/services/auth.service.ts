@@ -5,7 +5,7 @@ import { compare, hash } from 'bcrypt'
 import { USERS_GENDERS, USERS_ROLES, USERS_STATUSES } from 'src/configs/database'
 import { envConfig } from 'src/configs/envConfig'
 import { throwException } from 'src/helpers/http'
-import { TypeUserMinimalObject, TypeUserWithToken } from 'src/interfaces/types'
+import { TypeUserMinimal, TypeUserWithToken } from 'src/interfaces/types'
 import { User } from 'src/models/user.entity'
 import { UsersService } from 'src/services/users.service'
 import { LoginUserDto } from 'src/validations/login-user.dto'
@@ -28,7 +28,8 @@ export class AuthService {
       return throwException("Your email and password don't match.", false, 400)
     }
 
-    const userMinimalObject: TypeUserMinimalObject = { id: user.id, username: user.username, email: user.email }
+    const userMinimalObject: TypeUserMinimal = { id: user.id, username: user.username, email: user.email }
+
     const accessToken = this.jwtService.sign(userMinimalObject)
 
     return {

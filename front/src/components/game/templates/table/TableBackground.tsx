@@ -1,5 +1,17 @@
+import { ImageLoader } from 'src/components/cms/molecules/ImageLoader'
 import TableImage from 'src/images/game/table.png'
 
-export const TableBackground = () => {
-  return <img src={TableImage} className='dnd-window-body-table-backgroundimg' alt='poker-table' />
+export const TableBackground = (props: any) => {
+  const { height = 549, loadingColor = '#1c1c1c', ...rest } = props
+
+  return (
+    <ImageLoader
+      src={TableImage}
+      alt='poker-table'
+      className='dnd-window-body-table-backgroundimg'
+      height={height}
+      loadingColor={loadingColor}
+      {...rest}
+    />
+  )
 }
