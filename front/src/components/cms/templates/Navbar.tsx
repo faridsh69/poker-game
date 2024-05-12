@@ -11,6 +11,7 @@ import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } 
 
 import { LanguageSwitcher } from 'src/components/cms/molecules/LanguageSwitcher'
 import { ThemeSwitcher } from 'src/components/cms/molecules/ThemeSwitcher'
+import { UnitSwitcher } from 'src/components/cms/molecules/UnitSwitcher'
 import { META_TAGS } from 'src/configs/constants'
 import { getAuthUsername, isLoggedin } from 'src/helpers/auth'
 import { useAuth } from 'src/hooks/useAuth'
@@ -50,6 +51,7 @@ export const Navbar = () => {
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <LanguageSwitcher />
+        <UnitSwitcher />
         <ThemeSwitcher />
         {!isLoggedinUser && (
           <Button color='inherit' component={Link} to='/login'>

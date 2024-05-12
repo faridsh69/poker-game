@@ -35,14 +35,15 @@ export const useUserCardsAnimation = (table: TypeTable, seat: TypeSeat) => {
       const animDelay =
         turnInPassingCards * ANIMATION_CSS_USER_CARD_DELAY + playersCount * ANIMATION_CSS_USER_CARD_DELAY * cardIndex
 
-      // add animation
       setTimeout(() => {
         if (cardIndex === 0) playSound('card')
+
         setCardClassNames(classes => classes.map((cls, clsIndex) => (clsIndex === cardIndex ? classAnimate : cls)))
       }, animDelay)
 
       // show cards
       const showCardsDelay = animDelay + ANIMATION_CSS_USER_CARD_DURATION
+
       setTimeout(() => {
         setCardClassNames(classes => classes.map((cls, clsIndex) => (clsIndex === cardIndex ? '' : cls)))
       }, showCardsDelay)

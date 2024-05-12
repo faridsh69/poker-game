@@ -20,7 +20,6 @@ export const RaiseActionFirstRow = (props: {
         <PotRaiseButton changeRaiseAmount={changeRaiseAmount} percent={100} />
       </div>
       <div className='dnd-window-body-table-actions-gameturn-firstrow-price'>
-        $
         <RaiseInput
           value={raise}
           min={raiseLimits.min}

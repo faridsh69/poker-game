@@ -11,6 +11,8 @@ export const RaiseInput = (props: {
 }) => {
   const { value, min, step, max, changeRaiseAmount } = props
 
+  console.log('1 value', value)
+
   const [inputValue, setInputValue] = useState<string>('0')
 
   const [focused, setFocused] = useState(false)
@@ -23,10 +25,14 @@ export const RaiseInput = (props: {
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
+    console.log('1 inputValue', inputValue)
     const formatedInput = formatInputTypeFloat(inputValue, max, 2)
+    console.log('2 formatedInput', formatedInput)
     const acceptableValue = getAcceptableValue(formatedInput, min, max, step)
+    console.log('3 acceptableValue', acceptableValue)
 
     setInputValue(formatedInput)
+
     changeRaiseAmount(acceptableValue)
   }
 

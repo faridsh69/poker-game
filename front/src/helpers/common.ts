@@ -264,13 +264,13 @@ export const getAcceptableValue = (value: string, min: number, max: number, step
     return min
   }
 
-  if (numberValue < min + step && numberValue !== min) {
-    return min + step
-  }
-
   if (numberValue > max) {
     return max
   }
 
-  return min
+  if (numberValue < min + step && numberValue !== min) {
+    return min + step
+  }
+
+  return numberValue
 }
