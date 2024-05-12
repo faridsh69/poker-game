@@ -11,7 +11,6 @@ export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
   const { seat, table } = props
 
   const timer = seat.user.timer
-  const username = seat.user.username
 
   const remainingSeconds = useSeatTimer(seat, TIMER_ACTION_NAMES.checkfold)
 
@@ -22,7 +21,7 @@ export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
   }, [table.phase])
 
   if (!timer) return null
-  if (!canSeeSeatUserTimer(table, username)) return null
+  if (!canSeeSeatUserTimer(table)) return null
 
   return (
     <div

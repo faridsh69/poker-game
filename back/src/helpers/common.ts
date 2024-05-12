@@ -104,5 +104,5 @@ export const getUserFullData = async (
   const transactionSum = await transactionsService.findUserBalance(id)
   const balance = paymentSum + transactionSum
 
-  return { id: user.id, username: user.username, email: user?.email, avatar_id: user?.avatar_id, balance }
+  return { ...user, balance }
 }

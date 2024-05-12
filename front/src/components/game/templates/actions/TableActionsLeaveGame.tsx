@@ -1,9 +1,8 @@
 import { RadioAction } from 'src/components/game/templates/actions/details/RadioAction'
-import { getAuthUsername } from 'src/helpers/auth'
 import {
   canSeeTableActionsLeaveGame,
   canSeeTableActionsStradle,
-  getUserSeat,
+  getAuthSeat,
   isSeatoutNextRoundSeat,
   isStradleSeat,
 } from 'src/helpers/clientHelpersPoker'
@@ -13,17 +12,15 @@ import { TypeTableProps } from 'src/interfaces'
 export const TableActionsLeaveGame = (props: TypeTableProps) => {
   const { table } = props
 
-  const username = getAuthUsername()
-
   const { handleStradle, handleSeatoutNextRound } = useSocketActions(table.id)
 
-  const userSeat = getUserSeat(table, username)
-  if (!userSeat) return null
+  const authSeat = getAuthSeat(table)
+  if (!authSeat) return null
 
-  const stradleChecked = isStradleSeat(userSeat)
-  const sitoutNextRoundChecked = isSeatoutNextRoundSeat(userSeat)
+  const stradleChecked = isStradleSeat(authSeat)
+  const sitoutNextRoundChecked = isSeatoutNextRoundSeat(authSeat)
 
-  if (!canSeeTableActionsLeaveGame(table, username)) return null
+  if (!canSeeTableActionsLeaveGame(table)) return null
 
   const canSeeStradle = canSeeTableActionsStradle(table)
 

@@ -1,18 +1,7 @@
 import { ChangeEvent, MouseEvent } from 'react'
 import { Control } from 'react-hook-form'
 
-import {
-  TypeBodyCells,
-  TypeCard,
-  TypeFormInput,
-  TypeHeadCells,
-  TypeModel,
-  TypeModelFormKeys,
-  TypeOrder,
-  TypeSchema,
-  TypeSeat,
-  TypeTable,
-} from '.'
+import { TypeBodyCells, TypeCard, TypeHeadCells, TypeModel, TypeModelFormKeys, TypeOrder, TypeSeat, TypeTable } from '.'
 
 export type TypeDraggableWindowProps = {
   top: number

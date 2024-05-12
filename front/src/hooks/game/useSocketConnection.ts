@@ -8,15 +8,13 @@ import { CLIENT_CHANNELS, SERVER_CHANNELS } from 'src/configs/clientConstantsPok
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { lastActionAtom } from 'src/contexts/lastActionAtom'
 import { socketAtom } from 'src/contexts/socketAtom'
-import { forceLogout, getAccessToken, getAuthUsername } from 'src/helpers/auth'
+import { forceLogout, getAccessToken } from 'src/helpers/auth'
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeServerChannelsUpdateTablesData, TypeSocket, TypeTable } from 'src/interfaces'
 import { SOCKET_URL } from 'src/services/apis'
 
 export const useSocketConnection = () => {
-  const username = getAuthUsername()
-
   const [isConnected, setIsConnected] = useState<boolean>(true)
 
   const [, setSocket] = useAtom(socketAtom)
@@ -65,16 +63,13 @@ export const useSocketConnection = () => {
     }
   }, [])
 
-  const handleAutoJoinTable = useCallback(
-    (tables: TypeTable[], socketInstance: TypeSocket) => {
-      const userTables = findUserTables(tables, username)
+  const handleAutoJoinTable = useCallback((tables: TypeTable[], socketInstance: TypeSocket) => {
+    const authTables = findUserTables(tables)
 
-      for (const userTable of userTables) {
-        socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: userTable.id, username })
-      }
-    },
-    [username],
-  )
+    for (const authTable of authTables) {
+      socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: authTable.id })
+    }
+  }, [])
 
   return { isConnected }
 }

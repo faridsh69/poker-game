@@ -15,12 +15,15 @@ import { getAuthUsername } from 'src/helpers/auth'
 import { findUserTables } from 'src/helpers/clientHelpersPoker'
 
 export const GameBoard = () => {
-  const username = getAuthUsername()
+  const authUsername = useMemo(() => {
+    return getAuthUsername()
+  }, [])
+
   const [allTables] = useAtom(allTablesAtom)
 
   const userTables = useMemo(() => {
-    return findUserTables(allTables, username)
-  }, [allTables, username])
+    return findUserTables(allTables)
+  }, [allTables])
 
   return (
     <PageLayout>
@@ -31,7 +34,7 @@ export const GameBoard = () => {
         <DndWindow
           topbar={
             <div className='dnd-window-topbar-flex'>
-              <div className='dnd-window-topbar-flex-title'>{username} account</div>
+              <div className='dnd-window-topbar-flex-title'>{authUsername} account</div>
             </div>
           }
           body={<BoardTabs />}

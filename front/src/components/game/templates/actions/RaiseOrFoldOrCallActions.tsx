@@ -5,7 +5,6 @@ import { FoldAction } from 'src/components/game/templates/actions/details/FoldAc
 import { RaiseAction } from 'src/components/game/templates/actions/details/RaiseAction'
 import { RaiseActionFirstRow } from 'src/components/game/templates/actions/details/RaiseActionFirstRow'
 import { TimeBank } from 'src/components/game/templates/actions/details/TimeBank'
-import { getAuthUsername } from 'src/helpers/auth'
 import { getCallActionAmount, isOneOtherPersonToCallRaise } from 'src/helpers/clientHelpersPoker'
 import { useRaiseActions } from 'src/hooks/game/useRaiseActions'
 import { TypeTableProps } from 'src/interfaces'
@@ -13,15 +12,13 @@ import { TypeTableProps } from 'src/interfaces'
 export const RaiseOrFoldOrCallActions = (props: TypeTableProps) => {
   const { table } = props
 
-  const username = getAuthUsername()
-
   const { raise, realRestOfRaise, raiseLimits, changeRaiseAmount, handleRaiseAction } = useRaiseActions(table)
 
   const callActionAmount = useMemo(() => {
-    return getCallActionAmount(table, username)
-  }, [table, username])
+    return getCallActionAmount(table)
+  }, [table])
 
-  const userCanRaise = realRestOfRaise > callActionAmount && isOneOtherPersonToCallRaise(table, username)
+  const userCanRaise = realRestOfRaise > callActionAmount && isOneOtherPersonToCallRaise(table)
 
   return (
     <div className='dnd-window-body-table-actions-gameturn'>

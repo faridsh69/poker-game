@@ -682,6 +682,11 @@ html {
                 .card-red {
                   color: #cb1515;
                 }
+
+                .user-card-visible {
+                  display: block !important;
+                  animation: visibleCardAnimation 3s ease-in-out infinite;
+                }
               }
 
               &-dealer {
@@ -874,11 +879,6 @@ html {
                 100% {
                   transform: scale(1.05);
                 }
-              }
-
-              .user-card-visible {
-                display: block !important;
-                animation: visibleCardAnimation 3s ease-in-out infinite;
               }
 
               &:hover {

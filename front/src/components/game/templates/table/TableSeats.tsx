@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { SeatEmpty } from 'src/components/game/templates/seat/SeatEmpty'
 import { SeatUser } from 'src/components/game/templates/seat/SeatUser'
-import { getAuthUsername } from 'src/helpers/auth'
 import {
   getUserCardsCount,
   isAuthSeat,
@@ -14,9 +13,7 @@ import { TypeTableProps } from 'src/interfaces'
 export const TableSeats = (props: TypeTableProps) => {
   const { table } = props
 
-  const username = getAuthUsername()
-
-  const isAuthUserWaitingTable = isUserWaitingTable(table, username)
+  const isAuthUserWaitingTable = isUserWaitingTable(table)
 
   return (
     <div className='dnd-window-body-table-seats'>
@@ -28,7 +25,7 @@ export const TableSeats = (props: TypeTableProps) => {
               'dnd-window-body-table-seats-seat',
               `seat-${table.seats.length}-${s.id}`,
               `seat-pasoor-${getUserCardsCount(table.pasoor)}`,
-              isAuthSeat(s, username) && 'dnd-window-body-table-seats-authseat',
+              isAuthSeat(s) && 'dnd-window-body-table-seats-authseat',
               isFoldSeat(s) && 'dnd-window-body-table-seats-foldSeat',
               isUserGameTurn(table, s.user?.username) && 'dnd-window-body-table-seats-turnseat',
             )}

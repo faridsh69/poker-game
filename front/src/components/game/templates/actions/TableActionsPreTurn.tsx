@@ -26,10 +26,10 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
   const { handleCheckAction, handleFoldAction, handleCallAction } = useSocketActions(table.id)
 
   const callActionAmount = useMemo(() => {
-    return getCallActionAmount(table, username)
-  }, [table, username])
+    return getCallActionAmount(table)
+  }, [table])
 
-  const canSee = canSeeTableActionsPreTurn(table, username)
+  const canSee = canSeeTableActionsPreTurn(table)
 
   const isAuthTurn = isUserGameTurn(table, username)
 
