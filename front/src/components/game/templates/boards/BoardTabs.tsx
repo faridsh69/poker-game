@@ -29,7 +29,7 @@ export const BoardTabs = () => {
           variant='scrollable'
           value={selectedItem}
           onChange={handleChange}
-          sx={{ borderRight: 1, borderColor: 'divider' }}
+          sx={{ borderRight: 1, borderColor: 'divider', width: 130, minWidth: 130 }}
         >
           {BOARD_MENU_ITEMS.map((item, itemIndex) => {
             return (
@@ -38,6 +38,7 @@ export const BoardTabs = () => {
                 label={item.label}
                 id={`vertical-tab-${itemIndex}`}
                 aria-controls={`vertical-tabpanel-${itemIndex}`}
+                sx={{ textAlign: 'left' }}
               />
             )
           })}
@@ -52,6 +53,7 @@ export const BoardTabs = () => {
               hidden={selectedItem !== itemIndex}
               id={`vertical-tabpanel-${itemIndex}`}
               aria-labelledby={`vertical-tab-${itemIndex}`}
+              style={{ overflowY: 'auto', maxHeight: 500 }}
             >
               {selectedItem === itemIndex && <MenuComponent />}
             </div>
