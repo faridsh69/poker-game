@@ -80,6 +80,7 @@ export const seedData = (data: any[], repository: any) => {
       .findOne({ where: { id: record.id } })
       .then(async (dbRecord: any) => {
         if (dbRecord) {
+          console.log('XXX dbRecord', dbRecord.id, dbRecord)
           return Promise.resolve(await repository.update(record.id, record))
         }
 
