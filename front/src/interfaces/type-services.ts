@@ -16,7 +16,7 @@ export type TypeAxiosMethod = (parameters: {
 
 export type CreateApiClientType = (
   baseURL: string,
-  auth: boolean,
+  auth?: boolean,
 ) => {
   get: TypeAxiosMethod
   post: TypeAxiosMethod
@@ -37,7 +37,7 @@ export type TypeApis = {
   listApi?: TypeListApiMethod
   showApi?: TypeShowApiMethod
   createApi?: TypeCreateApiMethod
-  updateApi: TypeUpdateApiMethod
+  updateApi?: TypeUpdateApiMethod
   deleteApi?: TypeDeleteApiMethod
 }
 export type TypeApiKeyMap = {

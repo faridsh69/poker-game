@@ -1,23 +1,35 @@
-import { Chips } from './Chips'
+import { useMemo } from 'react'
+
 import { useAtom } from 'jotai'
 
-import { moneyUnitAtom } from 'src/contexts/moneyUnitAtom'
+import { Chips } from 'src/components/game/molecules/Chips'
+import { MONEY_UNITS } from 'src/configs/moneyUnits'
+import { moneyUnitTitleAtom } from 'src/contexts/moneyUnitTitleAtom'
+import { useCrudExchange } from 'src/services/hooks/useCrudExchange'
 
 export const Money = (props: { money: number; showChips?: boolean }) => {
   const { money, showChips = false } = props
 
-  const [moneyUnit] = useAtom(moneyUnitAtom)
+  const [moneyUnitTitle] = useAtom(moneyUnitTitleAtom)
+  const exchangeList = useCrudExchange()
 
-  const formattedMoney = money.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 2,
-  })
+  const formattedMoney = useMemo(() => {
+    const unit = MONEY_UNITS.find(u => u.title === moneyUnitTitle) || MONEY_UNITS[0]
+    const exchangeRate = exchangeList[unit.apiKey] || 1
+
+    const convertedMoney = money * exchangeRate * 100
+
+    return convertedMoney.toLocaleString(unit.country, {
+      style: 'currency',
+      currency: unit.title,
+      maximumFractionDigits: unit.digits,
+    })
+  }, [money, exchangeList, moneyUnitTitle])
 
   return (
     <div className='cash'>
       {showChips && <Chips money={money} />}
-      <div className='cash-money'>{moneyUnit === 'dollar' ? formattedMoney : `${money}t`}</div>
+      <div className='cash-money'>{formattedMoney}</div>
     </div>
   )
 }

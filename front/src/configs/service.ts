@@ -13,6 +13,7 @@ import {
   deleteTable,
   deleteTransaction,
   deleteUser,
+  getExchangeApi,
   getHistories,
   getPayments,
   getTables,
@@ -67,6 +68,9 @@ export const API_KEY_MAP: TypeApiKeyMap = {
     createApi: createHistory,
     updateApi: updateHistory,
     deleteApi: deleteHistory,
+  },
+  exchange: {
+    listApi: getExchangeApi,
   },
 }
 

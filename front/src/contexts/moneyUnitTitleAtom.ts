@@ -2,4 +2,4 @@ import { atom } from 'jotai'
 
 import { MONEY_UNITS } from 'src/configs/moneyUnits'
 
-export const moneyUnitAtom = atom(MONEY_UNITS.toman)
+export const moneyUnitTitleAtom = atom(MONEY_UNITS[0].title)

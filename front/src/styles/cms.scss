@@ -41,6 +41,26 @@
   }
 }
 
+.unit-switcher {
+  fieldset {
+    border: none !important;
+  }
+
+  .MuiSelect-select {
+    display: flex;
+    gap: 5px;
+    font-size: 14px;
+
+    img {
+      width: 21px !important;
+    }
+  }
+}
+.unit-switcher-img {
+  width: 21px !important;
+  margin-right: 15px;
+}
+
 .grid-container {
   display: grid;
   grid-gap: 0px;

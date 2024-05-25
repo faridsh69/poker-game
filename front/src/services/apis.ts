@@ -9,6 +9,8 @@ import {
 
 const { VITE_API_BASE_URL, VITE_SOCKET_URL } = import.meta.env
 
+const VITE_EXCHANGE_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/irr.json'
+
 export const SOCKET_URL = VITE_SOCKET_URL
 
 if (!VITE_API_BASE_URL) {
@@ -25,10 +27,13 @@ export const API_URLS: { [key: string]: string } = {
 
   password: 'password',
   profile: 'profile',
+
+  exchange: 'exchange',
 }
 
-const VITE_AUTH_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/${API_URLS.auth}`, false)
+const VITE_AUTH_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/${API_URLS.auth}`)
 const VITE_ADMIN_API_CLIENT = createApiClient(`${VITE_API_BASE_URL}/`, true)
+const VITE_EXCHANGE_CLIENT = createApiClient(VITE_EXCHANGE_URL)
 
 ///////////////////////////////////////////// AUTH //////////////////////////////////////////
 export const postLogin: TypeCreateApiMethod = data =>
@@ -174,3 +179,7 @@ export const deleteHistory: TypeDeleteApiMethod = (id: number) =>
   VITE_ADMIN_API_CLIENT.remove({
     endpoint: `${API_URLS.histories}/${id}`,
   })
+
+///////////////////////////////////////////// EXCHANGE //////////////////////////////////////////
+export const getExchangeApi: TypeListApiMethod = () => VITE_EXCHANGE_CLIENT.get({ endpoint: '' })
+///////////////////////////////////////////// EXCHANGE //////////////////////////////////////////

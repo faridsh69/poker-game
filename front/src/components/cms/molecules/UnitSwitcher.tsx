@@ -2,23 +2,27 @@ import { FormControl, MenuItem, Select } from '@mui/material'
 import { useAtom } from 'jotai'
 
 import { MONEY_UNITS } from 'src/configs/moneyUnits'
-import { moneyUnitAtom } from 'src/contexts/moneyUnitAtom'
+import { moneyUnitTitleAtom } from 'src/contexts/moneyUnitTitleAtom'
 
 export const UnitSwitcher = () => {
-  const [unit, setUnit] = useAtom(moneyUnitAtom)
+  const [moneyUnitTitle, setMoneyUnitTitle] = useAtom(moneyUnitTitleAtom)
 
-  const changeUnit = (moneyUnit: string) => {
-    setUnit(moneyUnit)
+  const changeUnit = (title: string) => {
+    setMoneyUnitTitle(title)
   }
 
   return (
-    <FormControl size='small' className='language-switcher'>
-      <Select value={unit}>
-        {Object.keys(MONEY_UNITS).map(moneyUnit => (
-          <MenuItem value={moneyUnit} key={moneyUnit} onClick={() => changeUnit(moneyUnit)}>
-            {moneyUnit.toUpperCase()}
-          </MenuItem>
-        ))}
+    <FormControl size='small' className='unit-switcher'>
+      <Select value={moneyUnitTitle}>
+        {MONEY_UNITS.map(unit => {
+          const { title, flag, name } = unit
+
+          return (
+            <MenuItem value={title} key={title} onClick={() => changeUnit(title)}>
+              <img src={flag} alt={title} className='unit-switcher-img' /> {title} - {name}
+            </MenuItem>
+          )
+        })}
       </Select>
     </FormControl>
   )

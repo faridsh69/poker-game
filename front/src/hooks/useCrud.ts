@@ -25,7 +25,8 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
         const response = await listApi()
         const list = response.data
 
-        return isArray(list) ? list : []
+        // @ts-ignore
+        return isArray(list) ? list : MODEL_SLUG === 'exchange' ? list.usd : []
       } catch (error: any) {
         errorHandler(error, 'listApi useCrud: ' + MODEL_SLUG)
       }
