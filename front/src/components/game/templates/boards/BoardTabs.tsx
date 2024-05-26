@@ -1,5 +1,6 @@
 import { SyntheticEvent, useState } from 'react'
 
+import { Money } from '../../molecules/Money'
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
@@ -20,7 +21,9 @@ export const BoardTabs = () => {
   return (
     <div>
       <Box sx={{ flexGrow: 1, p: 2, border: 1, bgcolor: 'background.paper', display: 'flex' }}>
-        <Typography>Balance: {authUser?.balance || 0}$</Typography>
+        <Typography>
+          Balance: <Money money={authUser?.balance ? +authUser?.balance : 0} />
+        </Typography>
       </Box>
 
       <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
@@ -53,7 +56,7 @@ export const BoardTabs = () => {
               hidden={selectedItem !== itemIndex}
               id={`vertical-tabpanel-${itemIndex}`}
               aria-labelledby={`vertical-tab-${itemIndex}`}
-              style={{ overflowY: 'auto', maxHeight: 500 }}
+              style={{ overflowY: 'auto', maxHeight: 350 }}
             >
               {selectedItem === itemIndex && <MenuComponent />}
             </div>
