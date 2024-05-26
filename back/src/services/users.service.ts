@@ -102,10 +102,10 @@ export class UsersService {
         password: await hash(user.password, envConfig().hashSalt),
       }
       return await this.modelRepository
-        .findOne({ where: { id: record.id } })
+        .findOne({ where: { username: record.username } })
         .then(async dbRecord => {
           if (dbRecord) {
-            return Promise.resolve(await this.modelRepository.update(record.id, record))
+            return Promise.resolve(await this.modelRepository.update(dbRecord.id, record))
           }
 
           return Promise.resolve(await this.modelRepository.save(record))

@@ -3,7 +3,7 @@ import { User } from 'src/models/user.entity'
 
 export const USERS_SEEDER = [
   {
-    id: 1,
+    // id: 1,
     username: 'sagtole',
     email: 'sag.tole@gmail.com',
     status: USERS_STATUSES.active,
@@ -16,7 +16,7 @@ export const USERS_SEEDER = [
     password: 'Fa12',
   },
   {
-    id: 2,
+    // id: 2,
     username: 'alihasani',
     email: 'ali.hasani@gmail.com',
     status: USERS_STATUSES.active,
@@ -29,7 +29,7 @@ export const USERS_SEEDER = [
     password: 'Fa12',
   },
   {
-    id: 3,
+    // id: 3,
     username: 'test3',
     email: 't3@gmail.com',
     status: USERS_STATUSES.active,
@@ -43,7 +43,7 @@ export const USERS_SEEDER = [
     password: 'Fa12',
   },
   {
-    id: 4,
+    // id: 4,
     username: 'test4',
     email: 't4@gmail.com',
     status: USERS_STATUSES.needConfirm,
@@ -56,7 +56,7 @@ export const USERS_SEEDER = [
     password: 'Fa12',
   },
   {
-    id: 5,
+    // id: 5,
     username: 'test5',
     email: 't5@gmail.com',
     status: USERS_STATUSES.suspended,
@@ -69,7 +69,7 @@ export const USERS_SEEDER = [
     password: 'Fa12',
   },
   {
-    id: 6,
+    // id: 6,
     username: 'test6',
     email: 't6@gmail.com',
     status: USERS_STATUSES.blocked,
