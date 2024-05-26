@@ -14,10 +14,14 @@ export const Money = (props: { money: number; showChips?: boolean }) => {
   const exchangeList = useCrudExchange()
 
   const formattedMoney = useMemo(() => {
+    if (money < 0) {
+      console.error('Money negative', money)
+    }
+
     const unit = MONEY_UNITS.find(u => u.title === moneyUnitTitle) || MONEY_UNITS[0]
     const exchangeRate = exchangeList[unit.apiKey] || 1
 
-    const convertedMoney = money * exchangeRate * 100
+    const convertedMoney = money * exchangeRate
 
     return convertedMoney.toLocaleString(unit.country, {
       style: 'currency',

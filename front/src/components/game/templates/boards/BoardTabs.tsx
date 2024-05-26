@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 
 import { Money } from '../../molecules/Money'
 import { Typography } from '@mui/material'
@@ -7,9 +7,14 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 
 import { BOARD_MENU_ITEMS } from 'src/configs/boardMenuItems'
+import { REACT_QUERY_CLIENT } from 'src/configs/service'
+import { getAuthId } from 'src/helpers/auth'
+import { API_URLS } from 'src/services/apis'
 import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const BoardTabs = () => {
+  const authId = getAuthId()
+
   const { single: authUser } = useCrudProfile()
 
   const [selectedItem, setSelectedItem] = useState(0)
@@ -17,6 +22,14 @@ export const BoardTabs = () => {
   const handleChange = (_: SyntheticEvent, selectedItem: number) => {
     setSelectedItem(selectedItem)
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      REACT_QUERY_CLIENT.invalidateQueries({ queryKey: [API_URLS.profile, authId] })
+    }, 10000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <div>

@@ -47,6 +47,7 @@ export type TypeApiKeyMap = {
 export type TypeUseCrud = (
   key: string,
   modelId?: number,
+  createCallback?: (createdModel: TypeModel) => void,
 ) => {
   list: TypeModel[]
   single?: TypeModel

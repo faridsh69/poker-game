@@ -7,16 +7,16 @@ import { TableMui } from 'src/components/cms/templates/TableMui'
 import { MODEL_FORMS_NAMES, PAYMENTS_STATUSES } from 'src/configs/forms'
 import { getAuthId } from 'src/helpers/auth'
 import { calculateBodyCells, calculateHeadCells, filterTableBodyCells, filterTableHeaderCells } from 'src/helpers/table'
-import { useCrud } from 'src/hooks/useCrud'
 import { TypeModel } from 'src/interfaces'
 import { API_URLS } from 'src/services/apis'
+import { useCrudPayment } from 'src/services/hooks/useCrudPayment'
 import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const WithdrawForm = () => {
   const authId = getAuthId()
   const { single: authUser } = useCrudProfile()
 
-  const { list, createMutation } = useCrud(API_URLS.payments)
+  const { list, createMutation } = useCrudPayment()
 
   const onSubmit = (data: TypeModel) => {
     createMutation.mutate({

@@ -114,7 +114,7 @@ export const BuyinModal = () => {
                 value={inputValue}
                 onChange={e => setInputValue(+e.target.value || 0)}
                 size='small'
-                startAdornment={<InputAdornment position='start'>$</InputAdornment>}
+                startAdornment={<InputAdornment position='start'></InputAdornment>}
               />
             </FormControl>
           </div>

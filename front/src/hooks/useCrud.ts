@@ -9,7 +9,7 @@ import { isArray } from 'src/helpers/common'
 import { errorHandler } from 'src/helpers/errorHandler'
 import { TypeApis, TypeModel, TypeUseCrud } from 'src/interfaces'
 
-export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
+export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0, createCallback = undefined) => {
   const queryClient = useQueryClient()
 
   const { t } = useTranslation()
@@ -67,6 +67,8 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
         return [createdModel]
       })
 
+      createCallback?.(createdModel)
+
       toast.success(t(MODEL_SLUG + ' created successfully'))
     },
   })
@@ -84,6 +86,10 @@ export const useCrud: TypeUseCrud = (MODEL_SLUG, modelId = 0) => {
               },
         ),
       )
+      queryClient.setQueryData([MODEL_SLUG, modelId], (record: TypeModel) => ({
+        ...record,
+        ...updatingItem,
+      }))
     },
     onSuccess: () => {
       toast.success(t(MODEL_SLUG + ' updated successfully'))
