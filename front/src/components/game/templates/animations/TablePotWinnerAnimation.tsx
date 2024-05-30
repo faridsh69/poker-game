@@ -21,10 +21,9 @@ export const TablePotWinnerAnimation = (props: TypeTableProps & { amount: number
 
   // #1 && #2
   useEffect(() => {
-    if (!winnerSeats.length) return
-
     setLastTablePhase(table.phase)
 
+    if (!winnerSeats.length) return
     if (lastTablePhase === table.phase) return
 
     setShowAnimation(true)

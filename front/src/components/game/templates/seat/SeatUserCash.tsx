@@ -1,9 +1,25 @@
-import { Money } from 'src/components/game/molecules/Money'
-import { isAllinSeat, isSeatoutSeat, isWithoutCardsSeat } from 'src/helpers/clientHelpersPoker'
-import { TypeSeatProps } from 'src/interfaces'
+import { useEffect, useState } from 'react'
 
-export const SeatUserCash = (props: TypeSeatProps) => {
-  const { seat } = props
+import { Money } from 'src/components/game/molecules/Money'
+import { ANIMATION_CSS_WIN_POT_DURATION } from 'src/configs/clientConstantsPoker'
+import { isAllinSeat, isSeatoutSeat, isWinnerSeat, isWithoutCardsSeat } from 'src/helpers/clientHelpersPoker'
+import { TypeSeatAnTableProps } from 'src/interfaces'
+
+export const SeatUserCash = (props: TypeSeatAnTableProps) => {
+  const { seat, table } = props
+
+  const [userCashInGame, setUserCashInGame] = useState(seat.user.cash.inGame)
+
+  useEffect(() => {
+    const cashInGame = seat.user.cash.inGame
+    if (isWinnerSeat(seat)) {
+      setTimeout(() => {
+        setUserCashInGame(cashInGame)
+      }, ANIMATION_CSS_WIN_POT_DURATION)
+    } else {
+      setUserCashInGame(cashInGame)
+    }
+  }, [seat.user.winnerPotIds.length, table.phase])
 
   if (isSeatoutSeat(seat)) {
     return (
@@ -23,7 +39,7 @@ export const SeatUserCash = (props: TypeSeatProps) => {
 
   return (
     <div className='dnd-window-body-table-seats-seat-user-cash'>
-      <Money money={seat.user.cash.inGame} />
+      <Money money={userCashInGame} />
     </div>
   )
 }

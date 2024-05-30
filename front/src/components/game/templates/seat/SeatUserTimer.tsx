@@ -5,9 +5,9 @@ import { CountDownTimer } from 'src/components/game/molecules/CountDownTimer'
 import { CLIENT_TIMEOUT_ACTION, TIMER_ACTION_NAMES } from 'src/configs/clientConstantsPoker'
 import { canSeeSeatUserTimer } from 'src/helpers/clientHelpersPoker'
 import { useSeatTimer } from 'src/hooks/useSeatTimer'
-import { TypeSeatProps, TypeTable } from 'src/interfaces'
+import { TypeSeatAnTableProps } from 'src/interfaces'
 
-export const SeatUserTimer = (props: TypeSeatProps & { table: TypeTable }) => {
+export const SeatUserTimer = (props: TypeSeatAnTableProps) => {
   const { seat, table } = props
 
   const timer = seat.user.timer

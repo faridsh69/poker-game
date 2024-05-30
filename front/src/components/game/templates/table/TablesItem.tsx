@@ -17,6 +17,8 @@ export const TablesItem = (props: { table: TypeTable }) => {
   return (
     <TableRow>
       <TableCell>
+        <b>{table.title}</b>
+        <br />
         <b>{table.pasoor === 'holdem' && 'Holdem'}</b>
         <b>{table.pasoor === 'omaha4' && 'Omaha 4 Cards'}</b>
         <b>{table.pasoor === 'omaha5' && 'Omaha 5 Cards'}</b>

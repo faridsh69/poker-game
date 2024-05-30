@@ -124,20 +124,48 @@ export const LAST_ACTION_ACTIONS: { [key in TypeAction]: TypeAction } = {
 
 export const CHIP_UNITS = [
   {
+    backgroundPosition: '-437px 0px',
+    value: 1000000000,
+  },
+  {
+    backgroundPosition: '-414px 0px',
+    value: 500000000,
+  },
+  {
+    backgroundPosition: '-391px 0px',
+    value: 100000000,
+  },
+  {
+    backgroundPosition: '-368px 0px',
+    value: 25000000,
+  },
+  {
+    backgroundPosition: '-345px 0px',
+    value: 5000000,
+  },
+  {
+    backgroundPosition: '-322px 0px',
+    value: 1000000,
+  },
+  {
+    backgroundPosition: '-299px 0px',
+    value: 500000,
+  },
+  {
     backgroundPosition: '-277px 0px',
-    value: 250000,
+    value: 100000,
   },
   {
     backgroundPosition: '-253px 0px',
-    value: 50000,
+    value: 25000,
   },
   {
     backgroundPosition: '-230px 0px',
-    value: 10000,
+    value: 5000,
   },
   {
     backgroundPosition: '-206px 0px',
-    value: 2500,
+    value: 1000,
   },
   {
     backgroundPosition: '-184px 0px',
@@ -200,7 +228,7 @@ export const ANIMATION_CSS_USER_CARD_DURATION = 300 // Dont change it
 export const ANIMATION_CSS_TABLE_CARD_DURATION = 500 // Dont change it
 
 export const ANIMATION_CSS_POT_DURATION = 300 // Dont change it
-export const ANIMATION_CSS_WIN_POT_DURATION = 6000 // Dont change it
+export const ANIMATION_CSS_WIN_POT_DURATION = 8000 // Dont change it
 
 export const TABLE_CARD_CLASS_NAMES = {
   hide: 'table-card-hide',

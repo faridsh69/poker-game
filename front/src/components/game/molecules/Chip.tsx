@@ -1,10 +1,13 @@
 import ChipsImage from 'src/images/game/chips.png'
 
-export const Chip = (props: { backgroundPosition: string; chipIndex: number }) => {
-  const { backgroundPosition, chipIndex } = props
+type TypeProps = { backgroundPosition: string; chipIndex: number; value: number }
+
+export const Chip = (props: TypeProps) => {
+  const { backgroundPosition, chipIndex, value } = props
 
   return (
     <div
+      id={'value=' + value}
       className='cash-chips-column-chip'
       style={{
         backgroundImage: `url(${ChipsImage})`,

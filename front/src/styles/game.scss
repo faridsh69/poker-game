@@ -304,8 +304,16 @@ html {
             }
 
             .winning-pot {
-              transform: translateX(243px);
+              transform: translateX(210px);
               position: absolute;
+
+              color: white;
+              background-color: rgba(0, 0, 0, 0.3);
+              line-height: 20px;
+              height: 20px;
+              border-radius: 10px;
+              padding: 0px 5px;
+              background-color: rgba(0, 0, 0, 0.3);
             }
           }
         }
@@ -898,7 +906,7 @@ html {
                 box-shadow: 0px 0px 2px 0px white;
               }
               50% {
-                box-shadow: 0px 0px 8px 4px white;
+                box-shadow: 0px 0px 5px 4px white;
               }
               100% {
                 box-shadow: 0px 0px 2px 0px white;
@@ -906,7 +914,7 @@ html {
             }
 
             .dnd-window-body-table-seats-seat-user-box {
-              animation: turnAnimation 1s ease-in-out infinite;
+              animation: turnAnimation 2s ease-in-out infinite;
             }
           }
 

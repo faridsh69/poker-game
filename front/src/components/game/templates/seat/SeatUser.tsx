@@ -22,7 +22,7 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
       <SeatUserUsername seat={seat} />
       <SeatUserCountry />
       <SeatUserHot />
-      <SeatUserCash seat={seat} />
+      <SeatUserCash seat={seat} table={table} />
       <SeatUserCards seat={seat} table={table} />
       <SeatUserStatus seat={seat} tableId={table.id} />
       <SeatWinnerAnimation seat={seat} />
