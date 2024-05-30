@@ -10,6 +10,7 @@ export const TablePotWinnerAnimation = (props: TypeTableProps & { amount: number
   const { table, amount } = props
 
   const winnerSeats = useMemo(() => {
+    // return [{ id: 2 }]
     return table.seats.filter(s => isWinnerSeat(s))
   }, [table.seats])
 

@@ -34,9 +34,9 @@ export const BoardTabs = () => {
   return (
     <div>
       <Box sx={{ flexGrow: 1, p: 2, border: 1, bgcolor: 'background.paper', display: 'flex' }}>
-        <Typography>
+        <div>
           Balance: <Money money={authUser?.balance ? +authUser?.balance : 0} />
-        </Typography>
+        </div>
       </Box>
 
       <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>

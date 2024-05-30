@@ -42,7 +42,7 @@ html {
 .cash {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
 
   &-chips {
@@ -274,24 +274,24 @@ html {
           display: flex;
           flex-direction: row;
           justify-content: center;
-          gap: 20px;
+          gap: 33px;
 
           &-pot {
-            user-select: none;
-            font-size: 14px;
-            font-weight: 400;
-            color: white;
-            line-height: 20px;
-            height: 20px;
-            border-radius: 10px;
-            padding: 0px 5px;
+            .winning-pot {
+              // transform: translateX(237px);
+              position: absolute;
+              top: 0px;
+              left: 0px;
+            }
 
-            &-money {
+            .cash-money {
+              user-select: none;
+              color: white;
+              background-color: rgba(0, 0, 0, 0.3);
               line-height: 20px;
               height: 20px;
               border-radius: 10px;
               padding: 0px 5px;
-              background-color: rgba(0, 0, 0, 0.3);
             }
 
             .collecting-pot {
@@ -301,19 +301,6 @@ html {
               .cash-money {
                 opacity: 0;
               }
-            }
-
-            .winning-pot {
-              transform: translateX(210px);
-              position: absolute;
-
-              color: white;
-              background-color: rgba(0, 0, 0, 0.3);
-              line-height: 20px;
-              height: 20px;
-              border-radius: 10px;
-              padding: 0px 5px;
-              background-color: rgba(0, 0, 0, 0.3);
             }
           }
         }
@@ -394,6 +381,8 @@ html {
             position: absolute;
             bottom: 7px;
             right: 20px;
+            height: 90px;
+            width: 284px;
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -453,6 +442,10 @@ html {
             }
 
             &-secondrow {
+              position: absolute;
+              bottom: 0px;
+              right: 0px;
+
               display: flex;
               flex-direction: row;
               gap: 7px;

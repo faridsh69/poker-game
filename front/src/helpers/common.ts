@@ -1,6 +1,7 @@
 import { roundNumber } from './clientHelpersPoker'
 
 import { LOCAL_STORAGE_APP_KEY } from 'src/configs/constants'
+import { MONEY_UNITS } from 'src/configs/moneyUnits'
 import { TypeResolve } from 'src/interfaces'
 
 export const findInString = (string: string, value: string) => {
@@ -254,7 +255,7 @@ export const formatInputTypeFloat = (value: string, maximum = 9999999, decimals 
 
   return '0'
 }
-export const getAcceptableValue = (value: string, min: number, max: number, step: number) => {
+export const getAcceptableValue = (value: string, min: number, max: number) => {
   const numberValue = +value
   if (isNaN(numberValue)) {
     return min
@@ -268,9 +269,39 @@ export const getAcceptableValue = (value: string, min: number, max: number, step
     return max
   }
 
-  if (numberValue < min + step && numberValue !== min) {
-    return min + step
+  return numberValue
+}
+
+export const formatMoney = (money: number, moneyUnitTitle: string, exchangeList: any): string => {
+  if (!money) return ''
+
+  const unit = MONEY_UNITS.find(u => u.title === moneyUnitTitle) || MONEY_UNITS[0]
+  const exchangeRate = exchangeList[unit.apiKey] || 1
+  const isToman = unit.title === 'IRT'
+
+  const tomanUnit = isToman ? '\u00A0T' : ''
+
+  let convertedMoney = money * exchangeRate
+  let suffix = ''
+
+  if (!(convertedMoney % 1000000000)) {
+    convertedMoney = convertedMoney / 1000000000
+    suffix = 'B'
+  } else if (!(convertedMoney % 1000000)) {
+    convertedMoney = convertedMoney / 1000000
+    suffix = 'M'
+  } else if (!(convertedMoney % 1000)) {
+    convertedMoney = convertedMoney / 1000
+    suffix = 'K'
   }
 
-  return numberValue
+  const currencyString = isToman
+    ? convertedMoney
+    : convertedMoney.toLocaleString(unit.country, {
+        style: 'currency',
+        currency: unit.title,
+        maximumFractionDigits: unit.digits,
+      })
+
+  return currencyString + suffix + tomanUnit
 }

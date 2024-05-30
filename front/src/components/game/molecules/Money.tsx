@@ -3,8 +3,8 @@ import { useMemo } from 'react'
 import { useAtom } from 'jotai'
 
 import { Chips } from 'src/components/game/molecules/Chips'
-import { MONEY_UNITS } from 'src/configs/moneyUnits'
 import { moneyUnitTitleAtom } from 'src/contexts/moneyUnitTitleAtom'
+import { formatMoney } from 'src/helpers/common'
 import { useCrudExchange } from 'src/services/hooks/useCrudExchange'
 
 export const Money = (props: { money: number; showChips?: boolean }) => {
@@ -18,16 +18,7 @@ export const Money = (props: { money: number; showChips?: boolean }) => {
       console.error('Money negative', money)
     }
 
-    const unit = MONEY_UNITS.find(u => u.title === moneyUnitTitle) || MONEY_UNITS[0]
-    const exchangeRate = exchangeList[unit.apiKey] || 1
-
-    const convertedMoney = money * exchangeRate
-
-    return convertedMoney.toLocaleString(unit.country, {
-      style: 'currency',
-      currency: unit.title,
-      maximumFractionDigits: unit.digits,
-    })
+    return formatMoney(money, moneyUnitTitle, exchangeList)
   }, [money, exchangeList, moneyUnitTitle])
 
   return (

@@ -2,14 +2,15 @@ import { ChangeEvent, useEffect, useState } from 'react'
 
 import { formatInputTypeFloat, getAcceptableValue } from 'src/helpers/common'
 
-export const RaiseInput = (props: {
+type TypeProps = {
   value: number
   min: number
-  step: number
   max: number
   changeRaiseAmount: (value: number) => void
-}) => {
-  const { value, min, step, max, changeRaiseAmount } = props
+}
+
+export const RaiseInput = (props: TypeProps) => {
+  const { value, min, max, changeRaiseAmount } = props
 
   const [inputValue, setInputValue] = useState<string>('0')
 
@@ -24,10 +25,9 @@ export const RaiseInput = (props: {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
     const formatedInput = formatInputTypeFloat(inputValue, max, 2)
-    const acceptableValue = getAcceptableValue(formatedInput, min, max, step)
-
     setInputValue(formatedInput)
 
+    const acceptableValue = getAcceptableValue(formatedInput, min, max)
     changeRaiseAmount(acceptableValue)
   }
 

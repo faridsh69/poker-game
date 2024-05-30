@@ -230,10 +230,11 @@ export const getMaximumBet = (table: TypeTable) => {
 const getPrevMaximumBet = (table: TypeTable) => {
   const maximumBet = getMaximumBet(table)
   let prevMaximumBet = 0
+
   for (const seat of table.seats) {
     if (!seat.user) continue
     if (maximumBet === seat.user.cash.inPot) continue
-    if (table.blinds.small === seat.user.cash.inPot) continue
+    // if (table.blinds.small === seat.user.cash.inPot) continue
 
     if (seat.user.cash.inPot > prevMaximumBet) {
       prevMaximumBet = seat.user.cash.inPot

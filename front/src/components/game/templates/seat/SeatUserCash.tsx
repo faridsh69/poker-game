@@ -19,7 +19,7 @@ export const SeatUserCash = (props: TypeSeatAnTableProps) => {
     } else {
       setUserCashInGame(cashInGame)
     }
-  }, [seat.user.winnerPotIds.length, table.phase])
+  }, [seat.user.cash.inGame, table.phase])
 
   if (isSeatoutSeat(seat)) {
     return (
