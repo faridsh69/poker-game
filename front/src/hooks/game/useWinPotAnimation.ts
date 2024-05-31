@@ -15,7 +15,7 @@ export const useWinPotAnimation = (winnerSeatId: number, tablePotId: number) => 
 
     setTimeout(() => {
       setCoordinates(diffCoordinates)
-    }, ANIMATION_CSS_WIN_POT_DELAY)
+    }, ANIMATION_CSS_WIN_POT_DELAY * tablePotId)
   }, [winnerSeatId])
 
   return coordinates

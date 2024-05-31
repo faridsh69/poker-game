@@ -3,11 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { TablePotCollectingAnimation } from './TablePotCollectingAnimation'
 
 import { TRANSITION_CSS_COLLECT_POT_DURATION } from 'src/configs/clientConstantsPoker'
-import { getMaximumBet, isFoldSeat, isWithoutCardsSeat } from 'src/helpers/clientHelpersPoker'
-import { TypeTablePhase, TypeTableProps, TypeUserPot } from 'src/interfaces'
+import { getMaximumBet, isAllinSeat, isFoldSeat, isWithoutCardsSeat } from 'src/helpers/clientHelpersPoker'
+import { TypePot, TypeTablePhase, TypeTableProps, TypeUserPot } from 'src/interfaces'
 
-export const TablePotsCollectingAnimation = (props: TypeTableProps) => {
-  const { table } = props
+export const TablePotsCollectingAnimation = (props: TypeTableProps & { tablePot: TypePot }) => {
+  const { table, tablePot } = props
+
+  const lastPotId = table.pots.length
 
   const userPots: TypeUserPot[] = useMemo(() => {
     const maximumInPot = getMaximumBet(table)
@@ -16,7 +18,7 @@ export const TablePotsCollectingAnimation = (props: TypeTableProps) => {
       .map(s => ({
         seatId: s.id,
         inPot: maximumInPot,
-        isPlaying: !isFoldSeat(s) && !isWithoutCardsSeat(s),
+        isPlaying: !isWithoutCardsSeat(s) && !isFoldSeat(s) && !isAllinSeat(s),
       }))
       .filter(seat => seat.isPlaying)
   }, [table.seats])
@@ -39,17 +41,18 @@ export const TablePotsCollectingAnimation = (props: TypeTableProps) => {
   }, [table.phase])
 
   // #3 simulate last status of user pots
-  const [userPotsBeforeNextPhase, setUserPotsBeforeNextPhase] = useState<TypeUserPot[]>(userPots)
+  const [userPotsReadyToCollect, setUserPotsReadyToCollect] = useState<TypeUserPot[]>(userPots)
 
   useEffect(() => {
     setTimeout(() => {
-      setUserPotsBeforeNextPhase(userPots)
+      setUserPotsReadyToCollect(userPots)
     }, TRANSITION_CSS_COLLECT_POT_DURATION)
   }, [userPots])
 
-  if (!showAnimation) return null
+  if (!showAnimation) return <></>
+  if (tablePot.id !== lastPotId) return <></>
 
-  return userPotsBeforeNextPhase.map(userPot => {
-    return <TablePotCollectingAnimation userPot={userPot} tablePotId={table.pots.length} key={userPot.seatId} />
+  return userPotsReadyToCollect.map(userPot => {
+    return <TablePotCollectingAnimation userPot={userPot} tablePotId={lastPotId} key={userPot.seatId} />
   })
 }

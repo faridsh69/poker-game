@@ -20,7 +20,7 @@ export const TablePot = (props: TypeProps) => {
 
   return (
     <div className='dnd-window-body-table-pots-pot' id={`${TABLE_POT_ID_PREF}${tablePot.id}`}>
-      <TablePotsCollectingAnimation table={table} />
+      <TablePotsCollectingAnimation table={table} tablePot={tablePot} />
       <TablePotsWinnerAnimation table={table} tablePot={tablePot} tablePotWinnerSeats={tablePotWinnerSeats} />
 
       {showMoney && (

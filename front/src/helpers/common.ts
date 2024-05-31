@@ -311,7 +311,7 @@ export const getElCoordinatesById = (id: string) => {
 }
 
 export const getCoordinatesDiff = (destinationCoordinates: any, sourceCoordinates: any) => {
-  if (!destinationCoordinates || !sourceCoordinates) return {}
+  if (!destinationCoordinates || !sourceCoordinates) return { left: 0, top: 0 }
 
   return {
     left: sourceCoordinates.left - destinationCoordinates.left,
