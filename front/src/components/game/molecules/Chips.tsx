@@ -3,16 +3,20 @@ import { useMemo } from 'react'
 import { Chip } from './Chip'
 
 import { CHIP_UNITS } from 'src/configs/clientConstantsPoker'
+import { isNumber } from 'src/helpers/common'
 import { ChipColumnProp } from 'src/interfaces'
 
 export const Chips = (props: { money: number }) => {
   const { money } = props
 
   const createArrayOfIntegers = (length: number): number[] => {
+    if (!isNumber(length) || length < 0) return []
+
     return new Array(length).fill(0)
   }
 
   const chipColumns = useMemo(() => {
+    if (money < 0) return []
     let remainingChips = money
     const chipColumns: ChipColumnProp[] = []
 
@@ -28,7 +32,6 @@ export const Chips = (props: { money: number }) => {
         })
       }
       if (countCent < 0) {
-        // eslint-disable-next-line no-console
         console.warn('#1 bug count mines:  money', money, countCent, unit)
       }
     }

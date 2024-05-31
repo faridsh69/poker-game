@@ -27,6 +27,8 @@ export const useThrowPotAnimation = (seatId: number, inPot: number, lastUserPot:
   }, [restOfUserPotAnimation])
 
   useEffect(() => {
+    if (inPot < lastUserPot) return
+
     setRestOfUserPotAnimation(inPot - lastUserPot)
 
     if (lastUserPot === inPot) {

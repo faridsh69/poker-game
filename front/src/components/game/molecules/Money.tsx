@@ -14,9 +14,7 @@ export const Money = (props: { money: number; showChips?: boolean }) => {
   const exchangeList = useCrudExchange()
 
   const formattedMoney = useMemo(() => {
-    if (money < 0) {
-      console.error('Money negative', money)
-    }
+    if (money < 0) return '0'
 
     return formatMoney(money, moneyUnitTitle, exchangeList)
   }, [money, exchangeList, moneyUnitTitle])

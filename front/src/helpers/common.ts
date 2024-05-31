@@ -295,15 +295,13 @@ export const formatMoney = (money: number, moneyUnitTitle: string, exchangeList:
     suffix = 'K'
   }
 
-  const currencyString = isToman
-    ? convertedMoney
-    : convertedMoney.toLocaleString(unit.country, {
-        style: 'currency',
-        currency: unit.title,
-        maximumFractionDigits: unit.digits,
-      })
+  const currencyString = convertedMoney.toLocaleString(unit.country, {
+    style: 'currency',
+    currency: unit.title,
+    maximumFractionDigits: unit.digits,
+  })
 
-  return currencyString + suffix + tomanUnit
+  return currencyString.replace('IRT', '') + suffix + tomanUnit
 }
 
 export const getElCoordinatesById = (id: string) => {
