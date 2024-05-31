@@ -1,20 +1,31 @@
+import { useMemo } from 'react'
+
 import { Money } from 'src/components/game/molecules/Money'
-import { TablePotCollectingAnimation } from 'src/components/game/templates/animations/TablePotCollectingAnimation'
 import { TablePotWinnerAnimation } from 'src/components/game/templates/animations/TablePotWinnerAnimation'
-import { isWinnerSeat } from 'src/helpers/clientHelpersPoker'
+import { TablePotsCollectingAnimation } from 'src/components/game/templates/animations/TablePotsCollectingAnimation'
+import { TABLE_POT_ID_PREF } from 'src/configs/clientConstantsPoker'
 import { TypePot, TypeTableProps } from 'src/interfaces'
 
-export const TablePot = (props: TypeTableProps & { tablePot: TypePot }) => {
+type TypeProps = TypeTableProps & { tablePot: TypePot }
+
+export const TablePot = (props: TypeProps) => {
   const { table, tablePot } = props
 
-  const winnerSeats = table.seats.filter(s => isWinnerSeat(s))
+  const winnerSeats = useMemo(() => {
+    return table.seats.filter(s => {
+      if (!s?.user) return false
+      if (!s?.user?.winnerPotIds?.length) return false
+
+      return tablePot.seatIds.includes(s.id) && s.user.winnerPotIds.includes(tablePot.id)
+    })
+  }, [table.seats])
 
   const showMoney = !!tablePot.amount && !winnerSeats.length
 
   return (
-    <div className='dnd-window-body-table-pots-pot'>
-      <TablePotCollectingAnimation table={table} />
-      <TablePotWinnerAnimation table={table} amount={tablePot.amount} />
+    <div className='dnd-window-body-table-pots-pot' id={`${TABLE_POT_ID_PREF}${tablePot.id}`}>
+      <TablePotsCollectingAnimation table={table} />
+      <TablePotWinnerAnimation table={table} tablePot={tablePot} />
       {showMoney && (
         <div className='dnd-window-body-table-pots-pot-money'>
           <Money money={tablePot.amount} showChips />

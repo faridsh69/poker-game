@@ -7,8 +7,6 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
 import 'src/styles/action-button.scss'
-import 'src/styles/animation-pot-collecting.scss'
-import 'src/styles/animation-pot-winning.scss'
 import 'src/styles/buyin-modal.scss'
 import 'src/styles/card-game.scss'
 import 'src/styles/cms.scss'

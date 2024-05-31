@@ -305,3 +305,18 @@ export const formatMoney = (money: number, moneyUnitTitle: string, exchangeList:
 
   return currencyString + suffix + tomanUnit
 }
+
+export const getElCoordinatesById = (id: string) => {
+  const destinationEl = document.getElementById(id)
+
+  return destinationEl?.getBoundingClientRect()
+}
+
+export const getCoordinatesDiff = (destinationCoordinates: any, sourceCoordinates: any) => {
+  if (!destinationCoordinates || !sourceCoordinates) return {}
+
+  return {
+    left: sourceCoordinates.left - destinationCoordinates.left,
+    top: sourceCoordinates.top - destinationCoordinates.top,
+  }
+}

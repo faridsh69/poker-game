@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { SeatEmpty } from 'src/components/game/templates/seat/SeatEmpty'
 import { SeatUser } from 'src/components/game/templates/seat/SeatUser'
+import { SEAT_ID_PREF } from 'src/configs/clientConstantsPoker'
 import {
   getUserCardsCount,
   isAuthSeat,
@@ -20,6 +21,7 @@ export const TableSeats = (props: TypeTableProps) => {
       {table.seats.map(s => {
         return (
           <div
+            id={SEAT_ID_PREF + s.id}
             key={s.id}
             className={classNames(
               'dnd-window-body-table-seats-seat',

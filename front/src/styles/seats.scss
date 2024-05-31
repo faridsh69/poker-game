@@ -85,23 +85,6 @@
     .card-fold-animate-2 {
       animation: foldCard-6-1-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
-
-    @keyframes throwing-pot-6-1 {
-      from {
-        top: 30px;
-        left: -30px;
-        opacity: 0;
-      }
-      to {
-        top: 0px;
-        left: 0px;
-        opacity: 1;
-      }
-    }
-
-    .dnd-window-body-table-seats-seat-user-pot-throwing {
-      animation: throwing-pot-6-1 $ANIMATION_CSS_POT_DURATION ease-out;
-    }
   }
 
   .seat-6-2 {
@@ -184,23 +167,6 @@
 
     .card-fold-animate-2 {
       animation: foldCard-6-2-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
-    }
-
-    @keyframes throwing-pot-6-2 {
-      from {
-        top: 30px;
-        left: -30px;
-        opacity: 0;
-      }
-      to {
-        top: 0px;
-        left: 0px;
-        opacity: 1;
-      }
-    }
-
-    .dnd-window-body-table-seats-seat-user-pot-throwing {
-      animation: throwing-pot-6-2 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -285,23 +251,6 @@
     .card-fold-animate-2 {
       animation: foldCard-6-3-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
-
-    @keyframes throwing-pot-6-3 {
-      from {
-        top: -30px;
-        left: -30px;
-        opacity: 0;
-      }
-      to {
-        top: 0px;
-        left: 0px;
-        opacity: 1;
-      }
-    }
-
-    .dnd-window-body-table-seats-seat-user-pot-throwing {
-      animation: throwing-pot-6-3 $ANIMATION_CSS_POT_DURATION ease-out;
-    }
   }
 
   .seat-6-4 {
@@ -385,23 +334,6 @@
 
     .card-fold-animate-2 {
       animation: foldCard-6-4-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
-    }
-
-    @keyframes throwing-pot-6-4 {
-      from {
-        top: -30px;
-        left: 0px;
-        opacity: 0;
-      }
-      to {
-        top: 0px;
-        left: 0px;
-        opacity: 1;
-      }
-    }
-
-    .dnd-window-body-table-seats-seat-user-pot-throwing {
-      animation: throwing-pot-6-4 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 
@@ -489,23 +421,6 @@
     .card-fold-animate-2 {
       animation: foldCard-6-5-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
     }
-
-    @keyframes throwing-pot-6-5 {
-      from {
-        top: -30px;
-        left: 30px;
-        opacity: 0;
-      }
-      to {
-        top: 0px;
-        left: 0px;
-        opacity: 1;
-      }
-    }
-
-    .dnd-window-body-table-seats-seat-user-pot-throwing {
-      animation: throwing-pot-6-5 $ANIMATION_CSS_POT_DURATION ease-out;
-    }
   }
 
   .seat-6-6 {
@@ -591,23 +506,6 @@
 
     .card-fold-animate-2 {
       animation: foldCard-6-6-2 $ANIMATION_CSS_USER_CARD_DURATION ease-out;
-    }
-
-    @keyframes throwing-pot-6-6 {
-      from {
-        top: 10px;
-        left: 30px;
-        opacity: 0;
-      }
-      to {
-        top: 0px;
-        left: 0px;
-        opacity: 1;
-      }
-    }
-
-    .dnd-window-body-table-seats-seat-user-pot-throwing {
-      animation: throwing-pot-6-6 $ANIMATION_CSS_POT_DURATION ease-out;
     }
   }
 

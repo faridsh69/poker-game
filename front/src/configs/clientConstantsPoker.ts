@@ -222,13 +222,16 @@ export const USER_CARDS_HIDE_CLASS_NAME = [
 
 export const USER_CARDS_FOLD_CLASS_NAME = [USER_CARD_CLASS_NAMES.animateFold1, USER_CARD_CLASS_NAMES.animateFold2]
 
-export const ANIMATION_CSS_USER_CARD_DELAY = 300 // Dont change it
-export const ANIMATION_CSS_USER_CARD_DURATION = 300 // Dont change it
+export const ANIMATION_CSS_USER_CARD_DELAY = 300 // only delay in settimeout
+export const ANIMATION_CSS_USER_CARD_DURATION = 300
+export const ANIMATION_CSS_TABLE_CARD_DURATION = 500
 
-export const ANIMATION_CSS_TABLE_CARD_DURATION = 500 // Dont change it
+export const TRANSITION_CSS_THROW_POT_DURATION = 400
+export const TRANSITION_CSS_COLLECT_POT_DURATION = 800
+export const TRANSITION_CSS_WIN_POT_DURATION = 1500
 
-export const ANIMATION_CSS_POT_DURATION = 300 // Dont change it
-export const ANIMATION_CSS_WIN_POT_DURATION = 8000 // Dont change it
+export const ANIMATION_CSS_WIN_POT_DURATION = 8000
+export const ANIMATION_CSS_WIN_POT_DELAY = 3000 // only delay in settimeout
 
 export const TABLE_CARD_CLASS_NAMES = {
   hide: 'table-card-hide',
@@ -250,3 +253,7 @@ export const TABLE_CARD_FLOP_CLASS_NAMES = [
 export const TABLE_CARD_TURN_CLASS_NAMES = ['', '', '', TABLE_CARD_CLASS_NAMES.turn, TABLE_CARD_CLASS_NAMES.hide]
 
 export const TABLE_CARD_RIVER_CLASS_NAMES = ['', '', '', '', TABLE_CARD_CLASS_NAMES.river]
+
+export const SEAT_ID_PREF = 'seat-'
+export const SEAT_POT_ID_PREF = 'seat-pot-'
+export const TABLE_POT_ID_PREF = 'table-pot-'
