@@ -124,9 +124,6 @@ html {
       &-table {
         position: relative;
 
-        &-backgroundimg {
-        }
-
         &-total {
           right: 0px;
           left: 0px;
@@ -278,6 +275,17 @@ html {
 
           &-pot {
             position: relative;
+            width: 10px;
+
+            .cash-money {
+              user-select: none;
+              color: white;
+              background-color: rgba(0, 0, 0, 0.3);
+              line-height: 20px;
+              height: 20px;
+              border-radius: 10px;
+              padding: 0px 5px;
+            }
 
             &-collecting {
               transition: all $TRANSITION_CSS_COLLECT_POT_DURATION ease-in-out;
@@ -290,21 +298,11 @@ html {
               }
             }
 
-            .winning-pot {
+            &-winning {
               transition: all $TRANSITION_CSS_WIN_POT_DURATION ease-in-out;
               position: absolute;
               top: 0px;
               left: 0px;
-            }
-
-            .cash-money {
-              user-select: none;
-              color: white;
-              background-color: rgba(0, 0, 0, 0.3);
-              line-height: 20px;
-              height: 20px;
-              border-radius: 10px;
-              padding: 0px 5px;
             }
           }
         }
