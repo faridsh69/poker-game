@@ -536,6 +536,14 @@ const getRandomCards = (cardsCount: number, usedCards: TypeCard[]): TypeCard[] =
     }
   }
 
+  // TEST equal hand
+  // if (cardsCount === 2) {
+  //   return [
+  //     { type: CARD_TYPES.hearts, number: CARD_NUMBERS.a },
+  //     { type: CARD_TYPES.hearts, number: CARD_NUMBERS.k },
+  //   ]
+  // }
+
   return cards
 }
 
@@ -1319,7 +1327,7 @@ const getUserPots = (table: TypeTable): TypePot[] => {
   return userPots
 }
 
-const getTablePots = (table: TypeTable): { tablePots: TypePot[]; extraBetUserPot: TypePot | null } => {
+export const getTablePots = (table: TypeTable): { tablePots: TypePot[]; extraBetUserPot: TypePot | null } => {
   const userPots = getUserPots(table)
   const mergedPots = getMergePots(userPots, table)
 

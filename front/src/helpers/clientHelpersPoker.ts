@@ -3,6 +3,7 @@ import { getAuthUsername } from 'src/helpers/auth'
 import { capitalize } from 'src/helpers/common'
 import {
   TypeCard,
+  TypePot,
   TypeRaiseLimits,
   TypeSeat,
   TypeTable,
@@ -76,6 +77,15 @@ export const getUserCardsCount = (tablePasoor: TypeTablePasoor): number => {
   if (tablePasoor === TABLE_PASOORS.omaha4) return 4
 
   return 2
+}
+
+export const getTablePotWinners = (table: TypeTable, tablePot: TypePot): TypeSeat[] => {
+  return table.seats.filter(s => {
+    if (!s?.user) return false
+    if (!s?.user?.winnerPotIds?.length) return false
+
+    return tablePot.seatIds.includes(s.id) && s.user.winnerPotIds.includes(tablePot.id)
+  })
 }
 
 /////////////////////////////////// 2 SEAT METHODS //////////////////////////////////

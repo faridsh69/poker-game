@@ -10,6 +10,8 @@ type TypeProps = TypeTableProps & { tablePot: TypePot; tablePotWinnerSeats: Type
 export const TablePotsWinnerAnimation = (props: TypeProps) => {
   const { table, tablePot, tablePotWinnerSeats } = props
 
+  const winnersCount = tablePotWinnerSeats.length || 1
+
   // #1 only show animation when we have winners changed
   const [showAnimation, setShowAnimation] = useState(false)
 
@@ -31,6 +33,13 @@ export const TablePotsWinnerAnimation = (props: TypeProps) => {
   if (!showAnimation) return null
 
   return tablePotWinnerSeats.map(winnerSeat => {
-    return <TablePotWinnerAnimation winnerSeatId={winnerSeat.id} tablePot={tablePot} key={winnerSeat.id} />
+    return (
+      <TablePotWinnerAnimation
+        winnerSeatId={winnerSeat.id}
+        tablePotId={tablePot.id}
+        tablePotAmount={tablePot.amount / winnersCount}
+        key={winnerSeat.id}
+      />
+    )
   })
 }
