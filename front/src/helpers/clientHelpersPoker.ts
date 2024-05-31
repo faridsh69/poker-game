@@ -224,6 +224,12 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
 
 /////////////////////////////////// 4 BET METHODS //////////////////////////////////
 
+export const getBuyinModalStep = (min: number, max: number) => {
+  const length = max - min
+
+  return roundNumber(length / 10, 3)
+}
+
 export const getMaximumBet = (table: TypeTable) => {
   let maximumBet = 0
   for (const seat of table.seats) {

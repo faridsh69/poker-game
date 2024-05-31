@@ -24,6 +24,7 @@ export type TypeClientChannelKeys =
   | 'showCardAction'
   | 'stradle'
   | 'seatoutNextRound'
+  | 'buyChips'
 
 export type TypeClientChannels =
   | 'client:join_table'
@@ -41,6 +42,7 @@ export type TypeClientChannels =
   | 'client:showcard_action'
   | 'client:stradle'
   | 'client:seatout_next_round'
+  | 'client:buy_chips'
 
 export type TypeSeatRole =
   | 'dealer'

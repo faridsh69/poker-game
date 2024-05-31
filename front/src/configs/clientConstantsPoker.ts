@@ -18,7 +18,7 @@ export const CLIENT_TIMEOUT_SEATOUT = 20
 export const DELAY_OEPN_MODAL = 15
 
 export const CLIENT_TIMEOUT_STATUS = 3
-export const CLIENT_TIMEOUT_FAULT = 55555
+export const CLIENT_TIMEOUT_FAULT = 90
 
 export const SERVER_CHANNELS = {
   connect: 'connect',
@@ -47,6 +47,7 @@ export const CLIENT_CHANNELS: TypeChannels = {
 
   stradle: 'client:stradle',
   seatoutNextRound: 'client:seatout_next_round',
+  buyChips: 'client:buy_chips',
 }
 
 export const TIMER_ACTION_NAMES: { [key in TypeTimerAction]: TypeTimerAction } = {

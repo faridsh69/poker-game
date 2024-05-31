@@ -28,6 +28,7 @@ export type TypeBuyinModalComponent = {
   show: boolean
   table?: TypeTable
   onBuyin?: (amount: number) => void
+  addMoreChips?: boolean
 }
 
 export type TypeSeatProps = {

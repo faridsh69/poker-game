@@ -88,6 +88,13 @@ export const useSocketActions = (tableId: number) => {
     socket.emit(CLIENT_CHANNELS.seatoutNextRound, { tableId })
   }, [socket, tableId])
 
+  const handleBuyChips = useCallback(
+    (buyChipsAmount: number) => {
+      socket.emit(CLIENT_CHANNELS.buyChips, { tableId, buyChipsAmount })
+    },
+    [socket, tableId],
+  )
+
   return {
     handleJoinTable,
     handleLeaveTable,
@@ -107,5 +114,6 @@ export const useSocketActions = (tableId: number) => {
 
     handleStradle,
     handleSeatoutNextRound,
+    handleBuyChips,
   }
 }

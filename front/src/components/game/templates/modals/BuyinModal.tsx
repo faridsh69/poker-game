@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, FormControl, IconButton, InputAdornment, Modal, OutlinedInput, Slider } from '@mui/material'
@@ -9,7 +9,7 @@ import { Money } from 'src/components/game/molecules/Money'
 import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getAuthUsername } from 'src/helpers/auth'
-import { getUserSeat } from 'src/helpers/clientHelpersPoker'
+import { getBuyinModalStep, getUserSeat } from 'src/helpers/clientHelpersPoker'
 import { useSeatTimer } from 'src/hooks/useSeatTimer'
 
 export const BuyinModal = () => {
@@ -18,14 +18,17 @@ export const BuyinModal = () => {
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
   const [inputValue, setInputValue] = useState<number>(0)
 
+  const isAddMoreChips = buyinModal.addMoreChips
+  const min = isAddMoreChips ? 0 : buyinModal.table?.buyin?.min || 0
+  const max = buyinModal.table?.buyin?.max || 0
+  const step = getBuyinModalStep(min, max)
+
   const closeModel = () => {
     setBuyinModal({ show: false })
   }
 
   useEffect(() => {
     if (!buyinModal.table || !buyinModal.show) return
-
-    const min = buyinModal.table.buyin.min
 
     setBuyinAmount(min)
   }, [buyinModal])
@@ -44,11 +47,13 @@ export const BuyinModal = () => {
   useEffect(() => {
     if (!buyinModal.table || !buyinModal.show) return
     if (buyinAmount === inputValue) return
-    if (inputValue < buyinModal.table.buyin.min) return
-    if (inputValue > buyinModal.table.buyin.max) return
+    if (inputValue < min) return
+    if (inputValue > max) return
 
     setBuyinAmount(inputValue)
   }, [inputValue])
+
+  const handleBuyin = useCallback(() => buyinModal.onBuyin?.(buyinAmount), [buyinModal.onBuyin, buyinAmount])
 
   const authSeat = buyinModal.table ? getUserSeat(buyinModal.table, username) : null
 
@@ -60,7 +65,7 @@ export const BuyinModal = () => {
     <Modal open={buyinModal.show} onClose={closeModel} className='buyin-modal'>
       <div className='buyin-modal-container'>
         <div className='buyin-modal-container-header'>
-          <div className='buyin-modal-container-header-title'>Buy-in Option</div>
+          <div className='buyin-modal-container-header-title'>{!isAddMoreChips ? 'Buy-in Option' : 'Add Chips'}</div>
           <IconButton onClick={closeModel} className='buyin-modal-container-header-close'>
             <CloseIcon />
           </IconButton>
@@ -77,33 +82,27 @@ export const BuyinModal = () => {
             </div>
           </div>
           <div className='buyin-modal-container-body-slider'>
-            <div
-              className='buyin-modal-container-body-slider-min'
-              onClick={() => setBuyinAmount(buyinModal.table?.buyin.min || 0)}
-            >
+            <div className='buyin-modal-container-body-slider-min' onClick={() => setBuyinAmount(min)}>
               <div className='buyin-modal-container-body-slider-min-label'>Minimum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
-                <Money money={buyinModal.table.buyin.min} />
+                <Money money={min} />
               </div>
             </div>
             <div className='buyin-modal-container-body-slider-main'>
               <Slider
                 value={buyinAmount}
-                min={buyinModal.table.buyin.min}
-                step={10}
-                max={buyinModal.table.buyin.max}
+                min={min}
+                step={step}
+                max={max}
                 valueLabelFormat={val => '$' + val}
                 onChange={(_, val) => setBuyinAmount(+val)}
                 valueLabelDisplay='auto'
               />
             </div>
-            <div
-              className='buyin-modal-container-body-slider-min'
-              onClick={() => setBuyinAmount(buyinModal.table?.buyin.max || 0)}
-            >
+            <div className='buyin-modal-container-body-slider-min' onClick={() => setBuyinAmount(max)}>
               <div className='buyin-modal-container-body-slider-min-label'>Maximum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
-                <Money money={buyinModal.table.buyin.max} />
+                <Money money={max} />
               </div>
             </div>
           </div>
@@ -128,7 +127,7 @@ export const BuyinModal = () => {
             Second(s) left.
           </div>
           <div className='buyin-modal-container-body-actions'>
-            <Button color='success' variant='contained' onClick={() => buyinModal.onBuyin?.(buyinAmount)}>
+            <Button color='success' variant='contained' onClick={handleBuyin}>
               Ok
             </Button>
             <Button color='secondary' variant='contained' onClick={closeModel}>

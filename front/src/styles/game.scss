@@ -368,6 +368,11 @@ html {
             display: flex;
             flex-direction: column;
             gap: 0px;
+
+            .action-button-front {
+              min-width: 50px;
+              height: 30px;
+            }
           }
 
           &-preturn {
