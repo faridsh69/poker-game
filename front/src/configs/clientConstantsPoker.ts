@@ -231,7 +231,7 @@ export const TRANSITION_CSS_COLLECT_POT_DURATION = 800
 export const TRANSITION_CSS_WIN_POT_DURATION = 1500
 
 export const ANIMATION_CSS_WIN_POT_DURATION = 8000
-export const ANIMATION_CSS_WIN_POT_DELAY = 3000 // only delay in settimeout
+export const ANIMATION_CSS_WIN_POT_DELAY = 2000 // only delay in settimeout
 
 export const TABLE_CARD_CLASS_NAMES = {
   hide: 'table-card-hide',
