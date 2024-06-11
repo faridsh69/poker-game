@@ -2,35 +2,21 @@ import { useMemo } from 'react'
 
 import { TableBackground } from '../table/TableBackground'
 import { BoardTabs } from './BoardTabs'
-import { useAtom } from 'jotai'
 
 import { PageLayout } from 'src/components/cms/templates/PageLayout'
-import { WindowTopBar } from 'src/components/game/templates/boards/WindowTopBar'
 import { DndWindow } from 'src/components/game/templates/dnd/DndWindow'
-import { BuyinModal } from 'src/components/game/templates/modals/BuyinModal'
-import { ConfirmModal } from 'src/components/game/templates/modals/ConfirmModal'
-import { TableWindow } from 'src/components/game/templates/table/TableWindow'
-import { allTablesAtom } from 'src/contexts/allTablesAtom'
 import { getAuthUsername } from 'src/helpers/auth'
-import { findUserTables } from 'src/helpers/clientHelpersPoker'
 
 export const GameBoard = () => {
   const authUsername = useMemo(() => {
     return getAuthUsername()
   }, [])
 
-  const [allTables] = useAtom(allTablesAtom)
-
-  const userTables = useMemo(() => {
-    return findUserTables(allTables)
-  }, [allTables])
-
   return (
     <PageLayout>
       <div className='home'>
         <TableBackground width={1} height={1} />
-        <ConfirmModal />
-        <BuyinModal />
+
         <DndWindow
           topbar={
             <div className='dnd-window-topbar-flex'>
@@ -39,7 +25,7 @@ export const GameBoard = () => {
           }
           body={<BoardTabs />}
         />
-        <div className='home-runtables'>
+        {/* <div className='home-runtables'>
           {userTables.map(userTable => {
             return (
               <DndWindow
@@ -49,7 +35,7 @@ export const GameBoard = () => {
               />
             )
           })}
-        </div>
+        </div> */}
       </div>
     </PageLayout>
   )

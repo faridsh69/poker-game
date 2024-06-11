@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { Button, TableCell, TableRow } from '@mui/material'
 
@@ -13,6 +15,13 @@ export const TablesItem = (props: { table: TypeTable }) => {
   const { single: authUser } = useCrudProfile()
 
   const { handleJoinTable } = useSocketActions(table.id)
+
+  const handleOpenTablePopup = useCallback(() => {
+    const url = `http://localhost:2000/tables/${table.id}`
+
+    window.open(url, 'XXXX', 'width=800,height=640,toolbar=0,menubar=0,location=0')
+    handleJoinTable(table.id)
+  }, [table.id, table.title])
 
   return (
     <TableRow>
@@ -39,7 +48,7 @@ export const TablesItem = (props: { table: TypeTable }) => {
           color='success'
           startIcon={<PlayCircleOutlineIcon />}
           disabled={!canUserJoinTable(table, authUser?.balance as number)}
-          onClick={() => handleJoinTable(table.id)}
+          onClick={handleOpenTablePopup}
         >
           JOIN TABLE
         </Button>

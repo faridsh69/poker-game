@@ -320,3 +320,5 @@ export const getCoordinatesDiff = (destinationCoordinates: any, sourceCoordinate
     top: sourceCoordinates.top - destinationCoordinates.top,
   }
 }
+
+export const openNewPopup = () => {}

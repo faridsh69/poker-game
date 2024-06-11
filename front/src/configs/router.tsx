@@ -30,6 +30,19 @@ const ROUTES: RoutesType = [
     errorElement: <ErrorPage />,
   },
   {
+    name: 'tables',
+    path: '/tables',
+    element: <Suspender pageName='TablePopup' canAuth />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        name: 'tables-show',
+        path: ':tableId',
+        element: <Suspender pageName='TablePopup' canAuth />,
+      },
+    ],
+  },
+  {
     name: 'admin',
     path: 'admin',
     element: <Suspender pageName='AdminDashboard' canAuth />,
