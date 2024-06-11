@@ -5,13 +5,16 @@ import { getCardsScoreAndAchivement } from 'src/services/winner.service'
 
 export const runTests = () => {
   return
+  console.log('1-1 score TestRoyalFlushHand 90000000000', getCardsScoreAndAchivement(TestRoyalFlushHand))
+  console.log('1-2 score TestStraightFlushHand 81300000000', getCardsScoreAndAchivement(TestStraightFlushHand))
+  console.log('1-3 score TestQuadsHand 71310000000', getCardsScoreAndAchivement(TestQuadsHand))
+  console.log('1-4 score TestFullHand 61013000000', getCardsScoreAndAchivement(TestFullHand))
+  console.log('1-5 score TestStraightHand 40504030214', getCardsScoreAndAchivement(TestStraightHand))
+  console.log('1-6 score TestTwoPair 20804110000', getCardsScoreAndAchivement(TestTwoPair))
+  console.log('1-7 score TestAlgo1 21210000000', getCardsScoreAndAchivement(TestAlgo1))
+  console.log('1-8 score TestAlgo2 61012000000', getCardsScoreAndAchivement(TestAlgo2))
+
   console.log('3-1 getIsPhaseFinished2 ', getIsPhaseFinished2(TestTableIsPhaseFinished))
-  console.log('1-1 getCardsScoreAndAchivement TestRoyalFlushHand', getCardsScoreAndAchivement(TestRoyalFlushHand))
-  console.log('1-2 getCardsScoreAndAchivement TestStraightFlushHand', getCardsScoreAndAchivement(TestStraightFlushHand))
-  console.log('1-3 getCardsScoreAndAchivement TestQuadsHand', getCardsScoreAndAchivement(TestQuadsHand))
-  console.log('1-4 getCardsScoreAndAchivement TestFullHand', getCardsScoreAndAchivement(TestFullHand))
-  console.log('1-5 getCardsScoreAndAchivement TestStraightHand', getCardsScoreAndAchivement(TestStraightHand))
-  console.log('1-6 getCardsScoreAndAchivement TestTwoPair', getCardsScoreAndAchivement(TestTwoPair))
 
   // console.log('2-1 tablePots TestSeperatePotTable', getTablePots(TestSeperatePotTable).tablePots)
   return
@@ -148,6 +151,26 @@ const TestTwoPair = [
   { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[9] },
   { type: CARD_TYPES.spades, number: CARD_NUMBERS[4] },
   { type: CARD_TYPES.diamonds, number: CARD_NUMBERS[6] },
+]
+
+const TestAlgo1 = [
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS[2] },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS[9] },
+  { type: CARD_TYPES.diamonds, number: CARD_NUMBERS['a'] },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS[10] },
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS[10] },
+  { type: CARD_TYPES.hearts, number: CARD_NUMBERS['q'] },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS['q'] },
+]
+
+const TestAlgo2 = [
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS[10] },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS[10] },
+  { type: CARD_TYPES.hearts, number: CARD_NUMBERS[10] },
+  { type: CARD_TYPES.hearts, number: CARD_NUMBERS['q'] },
+  { type: CARD_TYPES.clubs, number: CARD_NUMBERS['q'] },
+  { type: CARD_TYPES.spades, number: CARD_NUMBERS[4] },
+  { type: CARD_TYPES.diamonds, number: CARD_NUMBERS['a'] },
 ]
 
 // const TestSeperatePotTable: TypeTable = {

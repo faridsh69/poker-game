@@ -231,10 +231,11 @@ export const TRANSITION_CSS_THROW_POT_DURATION = 400
 export const TRANSITION_CSS_COLLECT_POT_DURATION = 800
 export const TRANSITION_CSS_WIN_POT_DURATION = 1500
 
-export const ANIMATION_CSS_WIN_POT_DURATION = 8000
+export const ANIMATION_CSS_WIN_POT_DURATION = 6000
 export const ANIMATION_CSS_WIN_POT_DELAY = 2000 // only delay in settimeout
 
 export const TABLE_CARD_CLASS_NAMES = {
+  static: '',
   hide: 'table-card-hide',
   flop1: 'table-card-flop-1',
   flop2: 'table-card-flop-2',
@@ -242,6 +243,30 @@ export const TABLE_CARD_CLASS_NAMES = {
   turn: 'table-card-turn',
   river: 'table-card-river',
 }
+
+export const TABLE_CARD_HIDE_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+]
+
+export const TABLE_CARD_SHOW_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+]
+
+export const TABLE_CARD_PRE_FLOP_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+]
 
 export const TABLE_CARD_FLOP_CLASS_NAMES = [
   TABLE_CARD_CLASS_NAMES.flop1,
@@ -251,9 +276,37 @@ export const TABLE_CARD_FLOP_CLASS_NAMES = [
   TABLE_CARD_CLASS_NAMES.hide,
 ]
 
-export const TABLE_CARD_TURN_CLASS_NAMES = ['', '', '', TABLE_CARD_CLASS_NAMES.turn, TABLE_CARD_CLASS_NAMES.hide]
+export const TABLE_CARD_PRE_TURN_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.hide,
+  TABLE_CARD_CLASS_NAMES.hide,
+]
 
-export const TABLE_CARD_RIVER_CLASS_NAMES = ['', '', '', '', TABLE_CARD_CLASS_NAMES.river]
+export const TABLE_CARD_TURN_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.turn,
+  TABLE_CARD_CLASS_NAMES.hide,
+]
+
+export const TABLE_CARD_PRE_RIVER_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.hide,
+]
+
+export const TABLE_CARD_RIVER_CLASS_NAMES = [
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.static,
+  TABLE_CARD_CLASS_NAMES.river,
+]
 
 export const SEAT_ID_PREF = 'seat-'
 export const SEAT_POT_ID_PREF = 'seat-pot-'

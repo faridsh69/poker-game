@@ -1341,7 +1341,7 @@ export const getTablePots = (table: TypeTable): { tablePots: TypePot[]; extraBet
 export const getUpdatedTableIfPhaseFinished3 = (table: TypeTable, isPhaseFinished: boolean): TypeTable => {
   if (!isPhaseFinished) return table
 
-  const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, false, false, false, false, false)
+  const atLeastTwoPlayers = isAtLeastTwoPlayers(table, false, true, false, false, false, false)
   const allPlayersAllIn = isAllPlayersAllIn(table)
   const tablePhase = calculateNewTablePhase(table, atLeastTwoPlayers, allPlayersAllIn)
   const { tablePots, extraBetUserPot } = getTablePots(table)
