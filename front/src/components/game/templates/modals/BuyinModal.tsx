@@ -72,7 +72,7 @@ export const BuyinModal = () => {
         </div>
         <div className='buyin-modal-container-body'>
           <div className='buyin-modal-container-body-title'>
-            <Money money={buyinModal.table.blinds.small} /> / <Money money={buyinModal.table.blinds.big} />
+            <Money money={buyinModal.table.blinds.small} brif /> / <Money money={buyinModal.table.blinds.big} brif />
             {` NL Hold'em #${buyinModal.table.id}`}
           </div>
           <div className='buyin-modal-container-body-balance'>
@@ -85,7 +85,7 @@ export const BuyinModal = () => {
             <div className='buyin-modal-container-body-slider-min' onClick={() => setBuyinAmount(min)}>
               <div className='buyin-modal-container-body-slider-min-label'>Minimum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
-                <Money money={min} />
+                <Money money={min} brif />
               </div>
             </div>
             <div className='buyin-modal-container-body-slider-main'>
@@ -102,7 +102,7 @@ export const BuyinModal = () => {
             <div className='buyin-modal-container-body-slider-min' onClick={() => setBuyinAmount(max)}>
               <div className='buyin-modal-container-body-slider-min-label'>Maximum</div>
               <div className='buyin-modal-container-body-slider-min-value'>
-                <Money money={max} />
+                <Money money={max} brif />
               </div>
             </div>
           </div>

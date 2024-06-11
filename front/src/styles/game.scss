@@ -1,5 +1,11 @@
 @import './animation-durations.scss';
 
+@mixin summary {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 * {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
 }
@@ -614,12 +620,14 @@ html {
               }
 
               &-username {
+                width: 103px;
+                @include summary;
+
                 padding-top: 2px;
                 user-select: none;
                 color: #bbb;
                 top: 80px;
                 left: 0px;
-                width: 92px;
                 height: 20px;
                 line-height: 20px;
                 position: absolute;
@@ -659,6 +667,11 @@ html {
                 .all-in {
                   font-weight: bold;
                   color: #e63030;
+                }
+
+                .cash-money {
+                  width: 100px;
+                  @include summary;
                 }
               }
 

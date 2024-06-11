@@ -7,8 +7,10 @@ import { moneyUnitTitleAtom } from 'src/contexts/moneyUnitTitleAtom'
 import { formatMoney } from 'src/helpers/common'
 import { useCrudExchange } from 'src/services/hooks/useCrudExchange'
 
-export const Money = (props: { money: number; showChips?: boolean }) => {
-  const { money, showChips = false } = props
+type TypeProps = { money: number; showChips?: boolean; brif?: boolean }
+
+export const Money = (props: TypeProps) => {
+  const { money, showChips = false, brif = false } = props
 
   const [moneyUnitTitle] = useAtom(moneyUnitTitleAtom)
   const exchangeList = useCrudExchange()
@@ -16,8 +18,8 @@ export const Money = (props: { money: number; showChips?: boolean }) => {
   const formattedMoney = useMemo(() => {
     if (money <= 0) return '0'
 
-    return formatMoney(money, moneyUnitTitle, exchangeList)
-  }, [money, exchangeList, moneyUnitTitle])
+    return formatMoney(money, moneyUnitTitle, exchangeList, brif)
+  }, [money, exchangeList, moneyUnitTitle, brif])
 
   return (
     <div className='cash'>

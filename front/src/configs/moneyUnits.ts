@@ -2,9 +2,14 @@ import euFlag from 'src/images/flags/eu.svg'
 import irFlag from 'src/images/flags/ir.svg'
 import enFlag from 'src/images/flags/us.svg'
 
+export const MONEY_UNIT_TITLES = {
+  irt: 'IRT',
+  usd: 'USD',
+  eur: 'EUR',
+}
 export const MONEY_UNITS = [
   {
-    title: 'IRT',
+    title: MONEY_UNIT_TITLES.irt,
     name: 'Iranian Toman',
     sign: 't',
     country: 'en-US',
@@ -13,7 +18,7 @@ export const MONEY_UNITS = [
     apiKey: 'irr',
   },
   {
-    title: 'USD',
+    title: MONEY_UNIT_TITLES.usd,
     name: 'US Dollar',
     sign: '$',
     country: 'en-US',
@@ -22,7 +27,7 @@ export const MONEY_UNITS = [
     apiKey: 'usd',
   },
   {
-    title: 'EUR',
+    title: MONEY_UNIT_TITLES.eur,
     name: 'Euro',
     sign: '€',
     country: 'en-GB',

@@ -24,10 +24,10 @@ export const TablesItem = (props: { table: TypeTable }) => {
         <b>{table.pasoor === 'omaha5' && 'Omaha 5 Cards'}</b>
       </TableCell>
       <TableCell>
-        Blinds: <Money money={table.blinds.small} /> - <Money money={table.blinds.big} />
+        Blinds: <Money money={table.blinds.small} brif /> - <Money money={table.blinds.big} brif />
       </TableCell>
       <TableCell>
-        Buy-In: <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
+        Buy-In: <Money money={table.buyin.min} brif /> - <Money money={table.buyin.max} brif />
       </TableCell>
       <TableCell>
         Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length} - {table.phase}

@@ -28,8 +28,8 @@ export const WindowTopBar = (props: TypeTableProps) => {
   return (
     <div className='dnd-window-topbar-flex'>
       <div className='dnd-window-topbar-flex-title'>
-        NL Hold'em #{table.id} - <Money money={table.blinds.small} /> / <Money money={table.blinds.big} /> - Buy-In{' '}
-        <Money money={table.buyin.min} /> - <Money money={table.buyin.max} />
+        NL Hold'em #{table.id} - <Money money={table.blinds.small} brif /> / <Money money={table.blinds.big} brif /> -
+        Buy-In <Money money={table.buyin.min} brif /> - <Money money={table.buyin.max} brif />
       </div>
       <IconButton onMouseDown={handleConfirmLeaveTable} className='dnd-window-topbar-flex-close'>
         <CloseIcon />

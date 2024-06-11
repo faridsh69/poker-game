@@ -2,11 +2,19 @@ import { useEffect, useState } from 'react'
 
 import { Money } from 'src/components/game/molecules/Money'
 import { ANIMATION_CSS_WIN_POT_DURATION } from 'src/configs/clientConstantsPoker'
-import { isAllinSeat, isSeatoutSeat, isWinnerSeat, isWithoutCardsSeat } from 'src/helpers/clientHelpersPoker'
+import {
+  isAllinSeat,
+  isSeatoutSeat,
+  isWinnerSeat,
+  isWithoutCardsSeat,
+  roundNumber,
+} from 'src/helpers/clientHelpersPoker'
 import { TypeSeatAnTableProps } from 'src/interfaces'
 
 export const SeatUserCash = (props: TypeSeatAnTableProps) => {
   const { seat, table } = props
+
+  const bigBlind = table.blinds.big
 
   const [userCashInGame, setUserCashInGame] = useState(seat.user.cash.inGame)
 
@@ -38,7 +46,10 @@ export const SeatUserCash = (props: TypeSeatAnTableProps) => {
   }
 
   return (
-    <div className='dnd-window-body-table-seats-seat-user-cash'>
+    <div
+      className='dnd-window-body-table-seats-seat-user-cash'
+      title={roundNumber(userCashInGame / bigBlind, 2) + ' BB'}
+    >
       <Money money={userCashInGame} />
     </div>
   )
