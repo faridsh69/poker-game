@@ -3,9 +3,11 @@ import { useEffect } from 'react'
 import { useSocketActions } from './useSocketActions'
 
 export const useTableCloseThenLeave = (tableId: number) => {
-  const { handleLeaveTable } = useSocketActions(tableId)
+  const { handleLeaveTable, handleJoinTable } = useSocketActions(tableId)
 
   useEffect(() => {
+    handleJoinTable(tableId)
+
     const onBeforeUnload = () => {
       handleLeaveTable()
     }
