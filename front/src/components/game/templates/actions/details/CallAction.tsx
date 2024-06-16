@@ -1,4 +1,4 @@
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { ActionButton } from 'src/components/game/templates/actions/details/ActionButton'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { TypeTableProps } from 'src/interfaces'

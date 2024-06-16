@@ -2,7 +2,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
 import { useAtom } from 'jotai'
 
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { confirmModalAtom } from 'src/contexts/confirmModalAtom'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { TypeTableProps } from 'src/interfaces'

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
+import { DraggableWindow } from './DraggableWindow'
 import { DndContext } from '@dnd-kit/core'
 import type { Coordinates } from '@dnd-kit/utilities'
 
-import { DraggableWindow } from 'src/components/game/templates/dnd/DraggableWindow'
 import { TypeDndWindowProps } from 'src/interfaces'
 
 export const DndWindow = (props: TypeDndWindowProps) => {

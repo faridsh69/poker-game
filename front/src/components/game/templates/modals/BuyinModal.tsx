@@ -5,7 +5,7 @@ import { Button, FormControl, IconButton, InputAdornment, Modal, OutlinedInput, 
 import { useAtom } from 'jotai'
 
 import { CountDownTimer } from 'src/components/game/molecules/CountDownTimer'
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getAuthUsername } from 'src/helpers/auth'

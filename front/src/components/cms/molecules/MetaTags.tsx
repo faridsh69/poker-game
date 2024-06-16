@@ -1,11 +1,15 @@
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 import i18next from 'i18next'
+import { useAtom } from 'jotai'
 
 import { META_TAGS } from 'src/configs/constants'
+import { pageTitleAtom } from 'src/contexts/pageTitleAtom'
 
 export const MetaTags = () => {
-  const { title, description, keywords, image, author, domain } = META_TAGS
+  const { description, keywords, image, author, domain } = META_TAGS
+
+  const [title] = useAtom(pageTitleAtom)
 
   return (
     <HelmetProvider>

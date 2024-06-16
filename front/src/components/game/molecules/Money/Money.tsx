@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { useAtom } from 'jotai'
 
-import { Chips } from 'src/components/game/molecules/Chips'
+import { Chips } from 'src/components/game/molecules/Money/Chips'
 import { moneyUnitTitleAtom } from 'src/contexts/moneyUnitTitleAtom'
 import { formatMoney } from 'src/helpers/common'
 import { useCrudExchange } from 'src/services/hooks/useCrudExchange'

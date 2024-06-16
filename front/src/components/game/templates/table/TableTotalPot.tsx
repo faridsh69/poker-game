@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { isAtLeastTwoNotSeatOutPlayers } from 'src/helpers/clientHelpersPoker'
 import { TypeTableProps } from 'src/interfaces'
 

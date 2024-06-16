@@ -1,7 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
 
-import { Money } from '../../molecules/Money'
-import { Typography } from '@mui/material'
+import { Money } from '../../molecules/Money/Money'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
@@ -32,7 +31,7 @@ export const BoardTabs = () => {
   }, [])
 
   return (
-    <div>
+    <Box>
       <Box sx={{ flexGrow: 1, p: 2, border: 1, bgcolor: 'background.paper', display: 'flex' }}>
         <div>
           Balance: <Money money={authUser?.balance ? +authUser?.balance : 0} />
@@ -76,6 +75,6 @@ export const BoardTabs = () => {
           )
         })}
       </Box>
-    </div>
+    </Box>
   )
 }

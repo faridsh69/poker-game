@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { CheckboxAction } from './details/CheckboxAction'
 
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { PRE_MOVED_VALUES } from 'src/configs/clientConstantsPoker'
 import { getAuthUsername } from 'src/helpers/auth'
 import { canSeeTableActionsPreTurn, getCallActionAmount, isUserGameTurn } from 'src/helpers/clientHelpersPoker'

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { TablePotsCollectingAnimation } from 'src/components/game/templates/animations/TablePotsCollectingAnimation'
 import { TablePotsWinnerAnimation } from 'src/components/game/templates/animations/TablePotsWinnerAnimation'
 import { TABLE_POT_ID_PREF } from 'src/configs/clientConstantsPoker'

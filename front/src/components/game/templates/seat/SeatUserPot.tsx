@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { SeatUserPotThrowingAnimation } from 'src/components/game/templates/animations/SeatUserPotThrowingAnimation'
 import { SEAT_POT_ID_PREF, TRANSITION_CSS_THROW_POT_DURATION } from 'src/configs/clientConstantsPoker'
 import { TypeSeatProps } from 'src/interfaces'

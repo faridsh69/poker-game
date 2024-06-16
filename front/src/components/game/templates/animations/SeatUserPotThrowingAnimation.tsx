@@ -1,4 +1,4 @@
-import { Money } from 'src/components/game//molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { useThrowPotAnimation } from 'src/hooks/game/useThrowPotAnimation'
 
 type TypeProps = { inPot: number; lastUserPot: number; seatId: number }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { ANIMATION_CSS_WIN_POT_DURATION } from 'src/configs/clientConstantsPoker'
 import {
   isAllinSeat,

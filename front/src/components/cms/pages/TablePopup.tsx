@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Loading } from '../molecules/Loading'
-import { PageLayout } from '../templates/PageLayout'
-import { TablePopupContainer } from '../templates/TablePopupContainer'
-import { SocketLayout } from './SocketLayout'
 import { useAtom } from 'jotai'
 
+import { Loading } from 'src/components/cms/molecules/Loading'
+import { PageLayout } from 'src/components/cms/templates/PageLayout'
+import { SocketLayout } from 'src/components/cms/templates/SocketLayout'
+import { TablePopupContainer } from 'src/components/game/templates/boards/TablePopupContainer'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
 
 const TablePopup = () => {

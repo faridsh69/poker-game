@@ -1,4 +1,4 @@
-import { Money } from '../../molecules/Money'
+import { Money } from '../../molecules/Money/Money'
 
 import { useCollectPotAnimation } from 'src/hooks/game/useCollectPotAnimation'
 import { TypeUserPot } from 'src/interfaces'

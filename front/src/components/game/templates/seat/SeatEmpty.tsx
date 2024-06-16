@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { ArrowBottom } from 'src/components/game/molecules/ArrowBottom'
+import { ArrowBottom } from 'src/components/game/molecules/svgs/ArrowBottom'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { TypeSeat, TypeTable } from 'src/interfaces'
 

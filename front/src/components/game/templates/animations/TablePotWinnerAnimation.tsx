@@ -1,4 +1,4 @@
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { useWinPotAnimation } from 'src/hooks/game/useWinPotAnimation'
 
 type TypeProps = { winnerSeatId: number; tablePotAmount: number; tablePotId: number }

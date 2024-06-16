@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { Button, TableCell, TableRow } from '@mui/material'
 
-import { Money } from 'src/components/game/molecules/Money'
+import { Money } from 'src/components/game/molecules/Money/Money'
 import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { TypeTable } from 'src/interfaces'
