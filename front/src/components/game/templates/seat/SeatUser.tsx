@@ -16,7 +16,7 @@ export const SeatUser = (props: { table: TypeTable; seat: TypeSeat }) => {
   const { seat, table } = props
 
   return (
-    <div className='dnd-window-body-table-seats-seat-user'>
+    <div className='popup-table-seats-seat-user'>
       <SeatUserAvatar seat={seat} />
       <SeatUserBox />
       <SeatUserUsername seat={seat} />

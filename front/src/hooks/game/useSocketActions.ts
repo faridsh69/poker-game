@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import { CLIENT_CHANNELS } from 'src/configs/clientConstantsPoker'
 import { socketAtom } from 'src/contexts/socketAtom'
 import { getAuthId } from 'src/helpers/auth'
+import { API_URLS } from 'src/services/apis'
 
 export const useSocketActions = (tableId: number) => {
   const [socket] = useAtom(socketAtom)
@@ -33,7 +34,7 @@ export const useSocketActions = (tableId: number) => {
     (buyinAmount: number) => {
       socket.emit(CLIENT_CHANNELS.joinGame, { tableId, buyinAmount })
       // @todo change this to profile
-      queryClient.invalidateQueries({ queryKey: ['users', getAuthId()] })
+      queryClient.invalidateQueries({ queryKey: [API_URLS.profile, getAuthId()] })
     },
     [socket, tableId],
   )

@@ -13,7 +13,7 @@ export const TableActionsJoinPlay = (props: TypeTableProps) => {
   if (!canSeeTableActionsJoinPlay(table)) return null
 
   return (
-    <div className='dnd-window-body-table-actions-joinplay'>
+    <div className='popup-table-actions-joinplay'>
       <CheckboxAction label='Wait for Big Blind' checked={isAuthWaitForBB} onClick={handleWaitForBB} />
     </div>
   )

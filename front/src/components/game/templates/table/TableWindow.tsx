@@ -10,7 +10,7 @@ export const TableWindow = (props: TypeTableProps) => {
   const { table } = props
 
   return (
-    <div className='dnd-window-body-table' key={table.id}>
+    <div className='popup-table' key={table.id}>
       <TableBackground />
       <TableTotalPot table={table} />
       <TableCards table={table} />

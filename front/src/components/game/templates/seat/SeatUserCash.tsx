@@ -31,7 +31,7 @@ export const SeatUserCash = (props: TypeSeatAnTableProps) => {
 
   if (isSeatoutSeat(seat)) {
     return (
-      <div className='dnd-window-body-table-seats-seat-user-cash'>
+      <div className='popup-table-seats-seat-user-cash'>
         <span className='sitting-out'>Sitting Out</span>
       </div>
     )
@@ -39,17 +39,14 @@ export const SeatUserCash = (props: TypeSeatAnTableProps) => {
 
   if (isAllinSeat(seat) && !isWithoutCardsSeat(seat)) {
     return (
-      <div className='dnd-window-body-table-seats-seat-user-cash '>
+      <div className='popup-table-seats-seat-user-cash '>
         <span className='all-in'>All-In</span>
       </div>
     )
   }
 
   return (
-    <div
-      className='dnd-window-body-table-seats-seat-user-cash'
-      title={roundNumber(userCashInGame / bigBlind, 2) + ' BB'}
-    >
+    <div className='popup-table-seats-seat-user-cash' title={roundNumber(userCashInGame / bigBlind, 2) + ' BB'}>
       <Money money={userCashInGame} />
     </div>
   )

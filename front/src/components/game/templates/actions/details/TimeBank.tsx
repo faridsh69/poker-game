@@ -18,7 +18,7 @@ export const TimeBank = (props: TypeTableProps) => {
   if (authSeat.user.timer?.extra) return null
 
   return (
-    <div className='dnd-window-body-table-actions-gameturn-timebank'>
+    <div className='popup-table-actions-gameturn-timebank'>
       <ActionButton label={`+${timeBank}`} onClick={handleTimeBankAction} />
     </div>
   )

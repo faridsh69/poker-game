@@ -11,12 +11,11 @@ export const SeatEmpty = (props: { table: TypeTable; seat: TypeSeat }) => {
 
   const handleClickEmptySeat = useCallback((seatId: number) => {
     handleJoinSeat(seatId)
-    // We can create atom to trigger handleConfirmJoinGame
   }, [])
 
   return (
-    <div className='dnd-window-body-table-seats-seat-empty' onClick={() => handleClickEmptySeat(seat.id)}>
-      <div className='dnd-window-body-table-seats-seat-empty-circle'>
+    <div className='popup-table-seats-seat-empty' onClick={() => handleClickEmptySeat(seat.id)}>
+      <div className='popup-table-seats-seat-empty-circle'>
         <ArrowBottom />
         <p>Take Seat</p>
       </div>

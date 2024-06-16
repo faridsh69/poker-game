@@ -6,10 +6,7 @@ export const PotRaiseButton = (props: { percent: number; changeRaiseAmount: (r: 
   }
 
   return (
-    <button
-      className='dnd-window-body-table-actions-gameturn-firstrow-percentactions-potaction'
-      onClick={handleChangeRaisePot}
-    >
+    <button className='popup-table-actions-gameturn-firstrow-percentactions-potaction' onClick={handleChangeRaisePot}>
       {percent}%
     </button>
   )

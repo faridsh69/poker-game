@@ -63,7 +63,7 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
 
   if (!callActionAmount) {
     return (
-      <div className='dnd-window-body-table-actions-preturn'>
+      <div className='popup-table-actions-preturn'>
         <CheckboxAction
           label={PRE_MOVED_VALUES.checkFold}
           checked={premoveChecked === PRE_MOVED_VALUES.checkFold}
@@ -79,7 +79,7 @@ export const TableActionsPreTurn = (props: TypeTableProps) => {
   }
 
   return (
-    <div className='dnd-window-body-table-actions-preturn'>
+    <div className='popup-table-actions-preturn'>
       <CheckboxAction
         label={PRE_MOVED_VALUES.fold}
         checked={premoveChecked === PRE_MOVED_VALUES.fold}

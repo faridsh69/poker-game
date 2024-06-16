@@ -1,16 +1,16 @@
 @import './animation-durations.scss';
 
-.dnd-window-body-table-seats {
+.popup-table-seats {
   .seat-6-1 {
     bottom: 12%;
     left: calc(50% - 45px);
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: -20px;
       left: -20px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: -24px;
       left: 95px;
     }
@@ -20,12 +20,12 @@
     bottom: 28%;
     left: 5%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 43px;
       right: -40px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 9px;
       left: 115px;
     }
@@ -35,12 +35,12 @@
     top: 12%;
     left: 8%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 103px;
       right: -40px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 160px;
       left: 86px;
     }
@@ -50,12 +50,12 @@
     top: 2%;
     left: calc(50% - 45px);
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 135px;
       left: 10px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 163px;
       left: 50px;
     }
@@ -65,12 +65,12 @@
     top: 12%;
     right: 8%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 103px;
       left: -40px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 160px;
       left: -50px;
     }
@@ -80,12 +80,12 @@
     bottom: 28%;
     right: 5%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 43px;
       left: -40px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 20px;
       left: -90px;
     }
@@ -95,12 +95,12 @@
     bottom: 12%;
     left: calc(50% - 45px);
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: -20px;
       left: -20px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: -11px;
       right: -43px;
     }
@@ -110,12 +110,12 @@
     bottom: 26%;
     left: 14%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 55px;
       right: -50px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 30px;
       right: -75px;
     }
@@ -125,12 +125,12 @@
     top: calc(40% - 35px);
     left: 2%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 100px;
       right: -40px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 60px;
       right: -80px;
     }
@@ -140,12 +140,12 @@
     top: 9%;
     left: 12%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 133px;
       right: 10px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 129px;
       right: -80px;
     }
@@ -155,12 +155,12 @@
     top: 2%;
     left: calc(40% - 45px);
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 133px;
       left: 20px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 163px;
       right: -25px;
     }
@@ -170,12 +170,12 @@
     top: 2%;
     right: calc(40% - 45px);
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 133px;
       right: 0px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 163px;
       right: 45px;
     }
@@ -185,12 +185,12 @@
     top: 9%;
     right: 10%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 140px;
       left: 10px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 129px;
       left: -80px;
     }
@@ -200,12 +200,12 @@
     top: calc(40% - 35px);
     right: 3%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 90px;
       left: -40px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 60px;
       left: -90px;
     }
@@ -215,12 +215,12 @@
     bottom: 26%;
     right: 14%;
 
-    .dnd-window-body-table-seats-seat-user-dealer {
+    .popup-table-seats-seat-user-dealer {
       top: 55px;
       left: -50px;
     }
 
-    .dnd-window-body-table-seats-seat-user-pot {
+    .popup-table-seats-seat-user-pot {
       top: 30px;
       left: -80px;
     }

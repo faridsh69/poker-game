@@ -47,7 +47,7 @@ export const TableActionsJoinGame = (props: TypeTableProps) => {
   if (!canSeeJoinGameActions) return null
 
   return (
-    <div className='dnd-window-body-table-actions-joingame'>
+    <div className='popup-table-actions-joingame'>
       <JoingameTimer table={table} />
       <img src={sitoutImage} alt='smoke - wc' />
       <ActionButton label={<div>Deal Me In</div>} onClick={handleConfirmJoinGame} />

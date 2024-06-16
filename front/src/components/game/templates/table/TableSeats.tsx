@@ -17,19 +17,19 @@ export const TableSeats = (props: TypeTableProps) => {
   const isAuthUserWaitingTable = isUserWaitingTable(table)
 
   return (
-    <div className='dnd-window-body-table-seats'>
+    <div className='popup-table-seats'>
       {table.seats.map(s => {
         return (
           <div
             id={SEAT_ID_PREF + s.id}
             key={s.id}
             className={classNames(
-              'dnd-window-body-table-seats-seat',
+              'popup-table-seats-seat',
               `seat-${table.seats.length}-${s.id}`,
               `seat-pasoor-${getUserCardsCount(table.pasoor)}`,
-              isAuthSeat(s) && 'dnd-window-body-table-seats-authseat',
-              isFoldSeat(s) && 'dnd-window-body-table-seats-foldSeat',
-              isUserGameTurn(table, s.user?.username) && 'dnd-window-body-table-seats-turnseat',
+              isAuthSeat(s) && 'popup-table-seats-authseat',
+              isFoldSeat(s) && 'popup-table-seats-foldSeat',
+              isUserGameTurn(table, s.user?.username) && 'popup-table-seats-turnseat',
             )}
           >
             {!s.user && isAuthUserWaitingTable && <SeatEmpty table={table} seat={s} />}

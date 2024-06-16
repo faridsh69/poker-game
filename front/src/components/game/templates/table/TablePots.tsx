@@ -48,7 +48,7 @@ export const TablePots = (props: TypeTableProps) => {
   //   // },
   // ]
   return (
-    <div className='dnd-window-body-table-pots'>
+    <div className='popup-table-pots'>
       {table.pots.map(tablePot => {
         return <TablePot table={table} tablePot={tablePot} key={tablePot.id} />
       })}

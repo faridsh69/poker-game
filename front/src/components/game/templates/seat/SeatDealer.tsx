@@ -8,7 +8,7 @@ export const SeatDealer = (props: TypeSeatProps) => {
   if (!isDealerSeat(seat)) return null
 
   return (
-    <div className='dnd-window-body-table-seats-seat-user-dealer'>
+    <div className='popup-table-seats-seat-user-dealer'>
       <img src={SeatDealerImage} alt='dealer sign' />
     </div>
   )

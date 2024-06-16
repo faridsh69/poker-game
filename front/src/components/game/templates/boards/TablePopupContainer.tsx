@@ -1,4 +1,3 @@
-import { WindowTopBar } from 'src/components/game/templates/boards/WindowTopBar'
 import { BuyinModal } from 'src/components/game/templates/modals/BuyinModal'
 import { ConfirmModal } from 'src/components/game/templates/modals/ConfirmModal'
 import { TableWindow } from 'src/components/game/templates/table/TableWindow'
@@ -13,11 +12,10 @@ export const TablePopupContainer = (props: TypeTableProps) => {
   useTableCloseThenLeave(table.id)
 
   return (
-    <>
+    <div className='popup'>
       <ConfirmModal />
       <BuyinModal />
-      <WindowTopBar table={table} />
       <TableWindow table={table} />
-    </>
+    </div>
   )
 }

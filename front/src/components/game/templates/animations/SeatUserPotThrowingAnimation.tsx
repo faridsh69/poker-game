@@ -9,7 +9,7 @@ export const SeatUserPotThrowingAnimation = (props: TypeProps) => {
   const { coordinates, restOfUserPotAnimation } = useThrowPotAnimation(seatId, inPot, lastUserPot)
 
   return (
-    <div className='dnd-window-body-table-seats-seat-user-pot-throwing' style={coordinates}>
+    <div className='popup-table-seats-seat-user-pot-throwing' style={coordinates}>
       {!!restOfUserPotAnimation && <Money money={restOfUserPotAnimation} showChips />}
     </div>
   )

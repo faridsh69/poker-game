@@ -21,12 +21,12 @@ export const RaiseOrFoldOrCallActions = (props: TypeTableProps) => {
   const userCanRaise = realRestOfRaise > callActionAmount && isOneOtherPersonToCallRaise(table)
 
   return (
-    <div className='dnd-window-body-table-actions-gameturn'>
+    <div className='popup-table-actions-gameturn'>
       {userCanRaise && (
         <RaiseActionFirstRow raise={raise} raiseLimits={raiseLimits} changeRaiseAmount={changeRaiseAmount} />
       )}
 
-      <div className='dnd-window-body-table-actions-gameturn-secondrow'>
+      <div className='popup-table-actions-gameturn-secondrow'>
         <FoldAction table={table} callActionAmount={callActionAmount} />
         <CallOrCheckAction table={table} callActionAmount={callActionAmount} />
         {userCanRaise && (

@@ -11,7 +11,7 @@ export const SeatUserCards = (props: TypeSeatAnTableProps) => {
   const cardsStyles = useUserCardsCoordinatesAnimation(table, seat)
 
   return (
-    <div className='dnd-window-body-table-seats-seat-user-cards'>
+    <div className='popup-table-seats-seat-user-cards'>
       {seat.user.cards.map((card, cardIndex) => {
         const backcard = showBackcard(seat, table, card)
 

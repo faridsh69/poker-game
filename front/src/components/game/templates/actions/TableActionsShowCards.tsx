@@ -19,9 +19,9 @@ export const TableActionsShowCards = (props: TypeTableProps) => {
   if (!canSeeTableActionsShowCards(table, username)) return null
 
   return (
-    <div className='dnd-window-body-table-actions-showcards'>
-      <div className='dnd-window-body-table-actions-showcards-label'>Show Your Cards:</div>
-      <div className='dnd-window-body-table-actions-showcards-buttons'>
+    <div className='popup-table-actions-showcards'>
+      <div className='popup-table-actions-showcards-label'>Show Your Cards:</div>
+      <div className='popup-table-actions-showcards-buttons'>
         <ActionButton
           label={<GameCard card={authSeat.user.cards[0]} backcard={false} isRabbitcard={false} />}
           onClick={() => handleShowCardAction([0])}

@@ -70,6 +70,7 @@ export const useSocketConnection = () => {
   const handleAutoJoinTable = useCallback((tables: TypeTable[], socketInstance: TypeSocket) => {
     const authTables = findUserTables(tables)
 
+    console.log('2 authTables', authTables)
     for (const authTable of authTables) {
       socketInstance.emit(CLIENT_CHANNELS.joinTable, { tableId: authTable.id })
     }

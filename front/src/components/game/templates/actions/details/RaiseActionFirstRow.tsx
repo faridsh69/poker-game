@@ -12,18 +12,18 @@ export const RaiseActionFirstRow = (props: {
   const { raise, raiseLimits, changeRaiseAmount } = props
 
   return (
-    <div className='dnd-window-body-table-actions-gameturn-firstrow'>
-      <div className='dnd-window-body-table-actions-gameturn-firstrow-percentactions'>
+    <div className='popup-table-actions-gameturn-firstrow'>
+      <div className='popup-table-actions-gameturn-firstrow-percentactions'>
         <PotRaiseButton changeRaiseAmount={changeRaiseAmount} percent={33} />
         <PotRaiseButton changeRaiseAmount={changeRaiseAmount} percent={50} />
         <PotRaiseButton changeRaiseAmount={changeRaiseAmount} percent={75} />
         <PotRaiseButton changeRaiseAmount={changeRaiseAmount} percent={100} />
       </div>
-      <div className='dnd-window-body-table-actions-gameturn-firstrow-price'>
+      <div className='popup-table-actions-gameturn-firstrow-price'>
         <RaiseInput value={raise} min={raiseLimits.min} max={raiseLimits.max} changeRaiseAmount={changeRaiseAmount} />
       </div>
       <Slider
-        className='dnd-window-body-table-actions-gameturn-firstrow-slider'
+        className='popup-table-actions-gameturn-firstrow-slider'
         value={raise}
         min={raiseLimits.min}
         step={raiseLimits.step}

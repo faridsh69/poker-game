@@ -126,885 +126,894 @@ html {
     &-body {
       line-height: 0px;
       border-top: 2px solid #232323;
+    }
+  }
+}
 
-      &-table {
-        position: relative;
+.popup {
+  background-color: #181818;
+  width: 100vw;
+  height: 100vh;
 
-        &-total {
-          right: 0px;
+  &-table {
+    line-height: 0px;
+    font-size: 12px;
+    position: relative;
+    max-width: 800px;
+
+    &-total {
+      right: 0px;
+      left: 0px;
+      margin: 0px auto;
+      padding: 0px 10px;
+      width: 190px;
+      user-select: none;
+      top: 200px;
+      font-size: 14px;
+      font-weight: 400;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      height: 25px;
+      line-height: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: #fcc933;
+      background-color: rgba($color: #000000, $alpha: 0.3);
+
+      &-label {
+        margin-right: 5px;
+      }
+    }
+
+    &-cards {
+      position: absolute;
+      left: 240px;
+      top: 230px;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+
+      .card-red {
+        color: #cb1515;
+      }
+
+      .table-card-hide {
+        display: none;
+      }
+
+      @keyframes flop1CardsAnimation {
+        0% {
+          top: 100px;
+          left: 100px;
+          opacity: 0;
+        }
+
+        50% {
+          top: 0px;
           left: 0px;
-          margin: 0px auto;
-          padding: 0px 10px;
-          width: 190px;
+          opacity: 1;
+        }
+      }
+
+      .table-card-flop-1 {
+        animation: flop1CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
+      }
+
+      @keyframes flop2CardsAnimation {
+        0% {
+          top: 100px;
+          left: 35px;
+          opacity: 0;
+        }
+
+        50% {
+          top: 0px;
+          left: -65px;
+          opacity: 1;
+        }
+
+        100% {
+          left: 0px;
+        }
+      }
+
+      .table-card-flop-2 {
+        animation: flop2CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
+      }
+
+      @keyframes flop3CardsAnimation {
+        0% {
+          top: 100px;
+          left: -30px;
+          opacity: 0;
+        }
+
+        50% {
+          top: 0px;
+          left: -130px;
+          opacity: 1;
+        }
+
+        100% {
+          left: 0px;
+        }
+      }
+
+      .table-card-flop-3 {
+        animation: flop3CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
+      }
+
+      @keyframes phaseTurnCardsAnimation {
+        0% {
+          top: 100px;
+          opacity: 0;
+        }
+
+        50% {
+          top: 0px;
+          opacity: 1;
+        }
+      }
+
+      .table-card-turn {
+        animation: phaseTurnCardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
+      }
+
+      @keyframes phaseRiverCardsAnimation {
+        0% {
+          top: 100px;
+          opacity: 0;
+        }
+
+        50% {
+          top: 0px;
+          opacity: 1;
+        }
+      }
+
+      .table-card-river {
+        animation: phaseRiverCardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
+      }
+
+      &-center {
+        position: fixed;
+        top: 45%;
+        left: 45%;
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    &-pots {
+      position: absolute;
+      left: 145px;
+      width: 500px;
+      top: 345px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 55px;
+
+      &-pot {
+        position: relative;
+        width: 10px;
+
+        .cash-money {
           user-select: none;
-          top: 200px;
-          font-size: 14px;
-          font-weight: 400;
-
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          position: absolute;
-          height: 25px;
+          color: white;
+          background-color: rgba(0, 0, 0, 0.3);
           line-height: 20px;
+          height: 20px;
           border-radius: 10px;
-          text-align: center;
-          color: #fcc933;
-          background-color: rgba($color: #000000, $alpha: 0.3);
+          padding: 0px 5px;
+        }
 
-          &-label {
-            margin-right: 5px;
+        &-collecting {
+          transition: all $TRANSITION_CSS_COLLECT_POT_DURATION ease-in-out;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+
+          .cash-money {
+            opacity: 0;
           }
         }
 
-        &-cards {
+        &-winning {
+          transition: all $TRANSITION_CSS_WIN_POT_DURATION ease-in-out;
           position: absolute;
-          left: 240px;
-          top: 230px;
-          display: flex;
-          flex-direction: row;
-          gap: 8px;
+          top: 0px;
+          left: 0px;
+        }
+      }
+    }
 
-          .card-red {
-            color: #cb1515;
-          }
+    &-actions {
+      position: absolute;
+      z-index: 9;
+      width: 100%;
+      height: 130px;
+      bottom: 0px;
 
-          .table-card-hide {
-            display: none;
-          }
+      &-joingame {
+        user-select: none;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 10px;
 
-          @keyframes flop1CardsAnimation {
-            0% {
-              top: 100px;
-              left: 100px;
-              opacity: 0;
-            }
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
 
-            50% {
-              top: 0px;
-              left: 0px;
-              opacity: 1;
-            }
-          }
-
-          .table-card-flop-1 {
-            animation: flop1CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
-          }
-
-          @keyframes flop2CardsAnimation {
-            0% {
-              top: 100px;
-              left: 35px;
-              opacity: 0;
-            }
-
-            50% {
-              top: 0px;
-              left: -65px;
-              opacity: 1;
-            }
-
-            100% {
-              left: 0px;
-            }
-          }
-
-          .table-card-flop-2 {
-            animation: flop2CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
-          }
-
-          @keyframes flop3CardsAnimation {
-            0% {
-              top: 100px;
-              left: -30px;
-              opacity: 0;
-            }
-
-            50% {
-              top: 0px;
-              left: -130px;
-              opacity: 1;
-            }
-
-            100% {
-              left: 0px;
-            }
-          }
-
-          .table-card-flop-3 {
-            animation: flop3CardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
-          }
-
-          @keyframes phaseTurnCardsAnimation {
-            0% {
-              top: 100px;
-              opacity: 0;
-            }
-
-            50% {
-              top: 0px;
-              opacity: 1;
-            }
-          }
-
-          .table-card-turn {
-            animation: phaseTurnCardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
-          }
-
-          @keyframes phaseRiverCardsAnimation {
-            0% {
-              top: 100px;
-              opacity: 0;
-            }
-
-            50% {
-              top: 0px;
-              opacity: 1;
-            }
-          }
-
-          .table-card-river {
-            animation: phaseRiverCardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
-          }
-
-          &-center {
-            position: fixed;
-            top: 45%;
-            left: 45%;
-            width: 10px;
-            height: 10px;
-          }
+        img {
+          height: 40px;
         }
 
-        &-pots {
-          position: absolute;
-          left: 145px;
-          width: 500px;
-          top: 345px;
+        &-timer {
           display: flex;
           flex-direction: row;
-          justify-content: center;
-          gap: 55px;
+          gap: 10px;
+          background: rgba($color: #000000, $alpha: 0.7);
+          border-radius: 8px;
+          position: absolute;
+          top: -240px;
+          left: -190px;
+          padding: 10px 30px;
+          align-items: center;
 
-          &-pot {
-            position: relative;
-            width: 10px;
+          .timer-text {
+            color: white !important;
+            font-size: 20px;
+            font-weight: bold;
+            user-select: none;
+          }
 
-            .cash-money {
+          .timer-action-circle {
+            color: #ccc !important;
+          }
+        }
+      }
+
+      &-joinplay {
+        position: absolute;
+        bottom: 20px;
+        right: 70px;
+        user-select: none;
+      }
+
+      &-leavegame {
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+
+        .action-button-front {
+          min-width: 50px;
+          height: 30px;
+        }
+      }
+
+      &-preturn {
+        position: absolute;
+        bottom: 20px;
+        right: 70px;
+        display: flex;
+        flex-direction: row;
+        gap: 0px;
+      }
+
+      &-gameturn {
+        position: absolute;
+        bottom: 7px;
+        right: 20px;
+        height: 90px;
+        width: 284px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        &-firstrow {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+
+          &-percentactions {
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+
+            &-potaction {
+              height: 25px;
+              padding: 0px 2px;
+              background-color: #444647;
+              color: #b4b4b4;
+              outline: none;
+              border: 1px solid black;
+              border-radius: 3px;
+              cursor: pointer;
+
+              &:hover {
+                background-color: #343637;
+              }
+            }
+          }
+
+          &-price {
+            color: white;
+            font-size: 14px;
+
+            input {
+              margin-right: 3px;
+              margin-left: 3px;
+              font-size: 12px;
+              width: 60px;
+              padding: 3px;
+              height: 25px;
+              line-height: 20px;
               user-select: none;
               color: white;
-              background-color: rgba(0, 0, 0, 0.3);
-              line-height: 20px;
-              height: 20px;
-              border-radius: 10px;
-              padding: 0px 5px;
+
+              box-shadow: inset 0 0 10px #000;
+              background-color: #111;
+              border-bottom: 1px solid #555;
+              border-radius: 5px;
+              outline: none;
+            }
+          }
+
+          &-slider {
+            width: 50px !important;
+          }
+        }
+
+        &-secondrow {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+
+          display: flex;
+          flex-direction: row;
+          gap: 7px;
+        }
+
+        &-timebank {
+          position: absolute;
+          top: -35px;
+
+          .action-button-front {
+            min-width: 50px;
+            height: 30px;
+          }
+        }
+      }
+
+      &-showcards {
+        position: absolute;
+        bottom: 7px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+
+        &-label {
+          color: white;
+          font-size: 14px;
+        }
+
+        &-buttons {
+          display: flex;
+          flex-direction: row;
+          gap: 7px;
+
+          .cards {
+            display: flex;
+            flex-direction: row;
+            gap: 7px;
+          }
+
+          .action-button-front {
+            min-width: 50px;
+            height: 45px;
+            color: inherit;
+
+            .card-game {
+              height: 30px;
+              width: 36px;
+
+              &-number {
+                margin-left: -3px;
+                font-size: 16px;
+              }
+
+              &-smallsign {
+                top: 6px;
+                left: 18px;
+
+                svg {
+                  width: 16px;
+                }
+              }
+
+              &-bigsign {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
+      &-achievements {
+        position: absolute;
+        bottom: 14px;
+        left: 140px;
+        padding: 12px;
+        font-size: 16px;
+        color: white;
+        background-color: #000;
+        border-radius: 10px;
+      }
+    }
+
+    &-seats {
+      &-seat {
+        position: absolute;
+        z-index: 10;
+
+        &-user {
+          &-avatar {
+            overflow: hidden;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            padding: 2px;
+            background-image: repeating-linear-gradient(#dcdddc, #919091c1 10%, #919091c1 100%);
+
+            &-image {
+              width: 86px;
+              height: 86px;
+              border-radius: 50%;
+              background-repeat: no-repeat;
+              background-size: 520px;
             }
 
-            &-collecting {
-              transition: all $TRANSITION_CSS_COLLECT_POT_DURATION ease-in-out;
+            .avatar-1 {
+              background-position: -4px -5px;
+            }
+
+            .avatar-2 {
+              background-position: -110px -5px;
+            }
+
+            .avatar-3 {
+              background-position: -216px -5px;
+            }
+
+            .avatar-4 {
+              background-position: -321px -5px;
+            }
+
+            .avatar-5 {
+              background-position: -427px -5px;
+            }
+
+            .avatar-6 {
+              background-position: -4px -130px;
+            }
+
+            .avatar-7 {
+              background-position: -110px -130px;
+            }
+
+            .avatar-8 {
+              background-position: -216px -130px;
+            }
+
+            .avatar-9 {
+              background-position: -321px -130px;
+            }
+
+            .avatar-10 {
+              background-position: -427px -130px;
+            }
+          }
+
+          &-box {
+            transform: perspective(5px) rotateX(-1deg);
+            border-top: 2px solid #2b2b2b;
+            position: absolute;
+            z-index: 10;
+            top: 80px;
+            left: -10px;
+            box-shadow: 0 -2px 2px -2px #ddd;
+            width: 110px;
+            height: 50px;
+            background: linear-gradient(10deg, #333, #000);
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+          }
+
+          &-username {
+            width: 103px;
+            @include summary;
+
+            padding-top: 2px;
+            user-select: none;
+            color: #bbb;
+            top: 80px;
+            left: 0px;
+            height: 20px;
+            line-height: 20px;
+            position: absolute;
+            z-index: 11;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+
+          &-cash {
+            user-select: none;
+            line-height: 20px;
+            border-top: 2px solid #444;
+            position: absolute;
+            padding-top: 5px;
+            top: 104px;
+            font-size: 14px;
+            left: 0px;
+            z-index: 11;
+            text-align: center;
+            width: 100%;
+            height: 20px;
+            color: #71c2f3;
+            font-weight: 500;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            .sitting-out {
+              font-weight: bold;
+              color: #575757;
+            }
+
+            .all-in {
+              font-weight: bold;
+              color: #e63030;
+            }
+
+            .cash-money {
+              width: 100px;
+              @include summary;
+            }
+          }
+
+          &-cards {
+            position: absolute;
+            top: 5px;
+            left: 0px;
+            z-index: 1;
+            width: 90px;
+            height: 100px;
+
+            .card-game {
+              transition: visibility 0s linear, opacity $ANIMATION_CSS_USER_CARD_DURATION linear,
+                top $ANIMATION_CSS_USER_CARD_DURATION ease-out, left $ANIMATION_CSS_USER_CARD_DURATION ease-out;
               position: absolute;
-              top: 0px;
-              left: 0px;
+              top: 3px;
+            }
+
+            .card-back {
+              padding: 0px;
+
+              img {
+                width: 57px;
+              }
+            }
+
+            .user-card-hide {
+              display: none;
+            }
+
+            .card-red {
+              color: #cb1515;
+            }
+
+            .user-card-visible {
+              display: block !important;
+              animation: visibleCardAnimation 3s ease-in-out infinite;
+            }
+          }
+
+          &-dealer {
+            user-select: none;
+            position: absolute;
+
+            img {
+              width: 20px;
+              height: 15px;
+            }
+          }
+
+          &-pot {
+            user-select: none;
+            font-size: 14px;
+            font-weight: 400;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            color: white;
+
+            &-throwing {
+              transition: all $TRANSITION_CSS_THROW_POT_DURATION ease-in-out;
+              position: absolute;
+              z-index: 12;
 
               .cash-money {
                 opacity: 0;
               }
             }
 
-            &-winning {
-              transition: all $TRANSITION_CSS_WIN_POT_DURATION ease-in-out;
-              position: absolute;
-              top: 0px;
-              left: 0px;
+            &-static {
+              padding: 0px 5px;
+              border-radius: 10px;
+              background-color: rgba($color: #000000, $alpha: 0.3);
             }
           }
-        }
 
-        &-actions {
-          position: absolute;
-          z-index: 9;
-          width: 100%;
-          height: 130px;
-          bottom: 0px;
+          .no-background {
+            background-color: transparent;
+          }
 
-          &-joingame {
+          &-status {
             user-select: none;
-            display: flex;
-            flex-direction: row;
-            align-items: flex-end;
-            gap: 10px;
-
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            z-index: 11;
+            top: 50px;
+            left: 10px;
 
-            img {
-              height: 40px;
-            }
-
-            &-timer {
-              display: flex;
-              flex-direction: row;
-              gap: 10px;
-              background: rgba($color: #000000, $alpha: 0.7);
-              border-radius: 8px;
-              position: absolute;
-              top: -240px;
-              left: -190px;
-              padding: 10px 30px;
-              align-items: center;
-
-              .timer-text {
-                color: white !important;
-                font-size: 20px;
-                font-weight: bold;
-                user-select: none;
-              }
-
-              .timer-action-circle {
-                color: #ccc !important;
-              }
-            }
-          }
-
-          &-joinplay {
-            position: absolute;
-            bottom: 20px;
-            right: 70px;
-            user-select: none;
-          }
-
-          &-leavegame {
-            position: absolute;
-            bottom: 10px;
-            left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 0px;
-
-            .action-button-front {
-              min-width: 50px;
-              height: 30px;
-            }
-          }
-
-          &-preturn {
-            position: absolute;
-            bottom: 20px;
-            right: 70px;
-            display: flex;
-            flex-direction: row;
-            gap: 0px;
-          }
-
-          &-gameturn {
-            position: absolute;
-            bottom: 7px;
-            right: 20px;
-            height: 90px;
-            width: 284px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-
-            &-firstrow {
-              display: flex;
-              flex-direction: row;
-              gap: 10px;
-
-              &-percentactions {
-                display: flex;
-                flex-direction: row;
-                gap: 4px;
-
-                &-potaction {
-                  height: 25px;
-                  padding: 0px 2px;
-                  background-color: #444647;
-                  color: #b4b4b4;
-                  outline: none;
-                  border: 1px solid black;
-                  border-radius: 3px;
-                  cursor: pointer;
-
-                  &:hover {
-                    background-color: #343637;
-                  }
-                }
-              }
-
-              &-price {
-                color: white;
-                font-size: 14px;
-
-                input {
-                  margin-right: 3px;
-                  margin-left: 3px;
-                  font-size: 12px;
-                  width: 60px;
-                  padding: 3px;
-                  height: 25px;
-                  line-height: 20px;
-                  user-select: none;
-                  color: white;
-
-                  box-shadow: inset 0 0 10px #000;
-                  background-color: #111;
-                  border-bottom: 1px solid #555;
-                  border-radius: 5px;
-                  outline: none;
-                }
-              }
-
-              &-slider {
-                width: 50px !important;
-              }
-            }
-
-            &-secondrow {
-              position: absolute;
-              bottom: 0px;
-              right: 0px;
-
-              display: flex;
-              flex-direction: row;
-              gap: 7px;
-            }
-
-            &-timebank {
-              position: absolute;
-              top: -35px;
-
-              .action-button-front {
-                min-width: 50px;
-                height: 30px;
-              }
-            }
-          }
-
-          &-showcards {
-            position: absolute;
-            bottom: 7px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-
-            &-label {
-              color: white;
+            .user-status-box {
+              width: 70px;
+              height: 27px;
+              font-weight: bold;
               font-size: 14px;
-            }
-
-            &-buttons {
               display: flex;
-              flex-direction: row;
-              gap: 7px;
-
-              .cards {
-                display: flex;
-                flex-direction: row;
-                gap: 7px;
-              }
-
-              .action-button-front {
-                min-width: 50px;
-                height: 45px;
-                color: inherit;
-
-                .card-game {
-                  height: 30px;
-                  width: 36px;
-
-                  &-number {
-                    margin-left: -3px;
-                    font-size: 16px;
-                  }
-
-                  &-smallsign {
-                    top: 6px;
-                    left: 18px;
-
-                    svg {
-                      width: 16px;
-                    }
-                  }
-
-                  &-bigsign {
-                    display: none;
-                  }
-                }
-              }
-            }
-          }
-
-          &-achievements {
-            position: absolute;
-            bottom: 14px;
-            left: 140px;
-            padding: 12px;
-            font-size: 16px;
-            color: white;
-            background-color: #000;
-            border-radius: 10px;
-          }
-        }
-
-        &-seats {
-          &-seat {
-            position: absolute;
-            z-index: 10;
-
-            &-user {
-              &-avatar {
-                overflow: hidden;
-                width: 90px;
-                height: 90px;
-                border-radius: 50%;
-                padding: 2px;
-                background-image: repeating-linear-gradient(#dcdddc, #919091c1 10%, #919091c1 100%);
-
-                &-image {
-                  width: 86px;
-                  height: 86px;
-                  border-radius: 50%;
-                  background-repeat: no-repeat;
-                  background-size: 520px;
-                }
-
-                .avatar-1 {
-                  background-position: -4px -5px;
-                }
-
-                .avatar-2 {
-                  background-position: -110px -5px;
-                }
-
-                .avatar-3 {
-                  background-position: -216px -5px;
-                }
-
-                .avatar-4 {
-                  background-position: -321px -5px;
-                }
-
-                .avatar-5 {
-                  background-position: -427px -5px;
-                }
-
-                .avatar-6 {
-                  background-position: -4px -130px;
-                }
-
-                .avatar-7 {
-                  background-position: -110px -130px;
-                }
-
-                .avatar-8 {
-                  background-position: -216px -130px;
-                }
-
-                .avatar-9 {
-                  background-position: -321px -130px;
-                }
-
-                .avatar-10 {
-                  background-position: -427px -130px;
-                }
-              }
-
-              &-box {
-                transform: perspective(5px) rotateX(-1deg);
-                border-top: 2px solid #2b2b2b;
-                position: absolute;
-                z-index: 10;
-                top: 80px;
-                left: -10px;
-                box-shadow: 0 -2px 2px -2px #ddd;
-                width: 110px;
-                height: 50px;
-                background: linear-gradient(10deg, #333, #000);
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
-              }
-
-              &-username {
-                width: 103px;
-                @include summary;
-
-                padding-top: 2px;
-                user-select: none;
-                color: #bbb;
-                top: 80px;
-                left: 0px;
-                height: 20px;
-                line-height: 20px;
-                position: absolute;
-                z-index: 11;
-                text-align: center;
-                font-size: 14px;
-                font-weight: 500;
-                overflow: hidden;
-                white-space: nowrap;
-              }
-
-              &-cash {
-                user-select: none;
-                line-height: 20px;
-                border-top: 2px solid #444;
-                position: absolute;
-                padding-top: 5px;
-                top: 104px;
-                font-size: 14px;
-                left: 0px;
-                z-index: 11;
-                text-align: center;
-                width: 100%;
-                height: 20px;
-                color: #71c2f3;
-                font-weight: 500;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-
-                .sitting-out {
-                  font-weight: bold;
-                  color: #575757;
-                }
-
-                .all-in {
-                  font-weight: bold;
-                  color: #e63030;
-                }
-
-                .cash-money {
-                  width: 100px;
-                  @include summary;
-                }
-              }
-
-              &-cards {
-                position: absolute;
-                top: 5px;
-                left: 0px;
-                z-index: 1;
-                width: 90px;
-                height: 100px;
-
-                .card-game {
-                  transition: visibility 0s linear, opacity $ANIMATION_CSS_USER_CARD_DURATION linear,
-                    top $ANIMATION_CSS_USER_CARD_DURATION ease-out, left $ANIMATION_CSS_USER_CARD_DURATION ease-out;
-                  position: absolute;
-                  top: 3px;
-                }
-
-                .card-back {
-                  padding: 0px;
-
-                  img {
-                    width: 57px;
-                  }
-                }
-
-                .user-card-hide {
-                  display: none;
-                }
-
-                .card-red {
-                  color: #cb1515;
-                }
-
-                .user-card-visible {
-                  display: block !important;
-                  animation: visibleCardAnimation 3s ease-in-out infinite;
-                }
-              }
-
-              &-dealer {
-                user-select: none;
-                position: absolute;
-
-                img {
-                  width: 20px;
-                  height: 15px;
-                }
-              }
-
-              &-pot {
-                user-select: none;
-                font-size: 14px;
-                font-weight: 400;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                height: 20px;
-                line-height: 20px;
-                text-align: center;
-                color: white;
-
-                &-throwing {
-                  transition: all $TRANSITION_CSS_THROW_POT_DURATION ease-in-out;
-                  position: absolute;
-                  z-index: 12;
-
-                  .cash-money {
-                    opacity: 0;
-                  }
-                }
-
-                &-static {
-                  padding: 0px 5px;
-                  border-radius: 10px;
-                  background-color: rgba($color: #000000, $alpha: 0.3);
-                }
-              }
-
-              .no-background {
-                background-color: transparent;
-              }
-
-              &-status {
-                user-select: none;
-                position: absolute;
-                z-index: 11;
-                top: 50px;
-                left: 10px;
-
-                .user-status-box {
-                  width: 70px;
-                  height: 27px;
-                  font-weight: bold;
-                  font-size: 14px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  background-color: rgba($color: #000000, $alpha: 0.8);
-                  text-align: center;
-                  box-shadow: 0px 0px 3px 2px currentColor;
-                  border-radius: 3px;
-
-                  &-Fold {
-                    color: #e22d2c;
-                  }
-
-                  &-Call {
-                    color: #eabc60;
-                  }
-
-                  &-Check {
-                    color: #f5c31f;
-                  }
-
-                  &-Raise {
-                    color: #21c7d4;
-                  }
-
-                  &-All-In {
-                    color: #e63030;
-                  }
-                }
-              }
-
-              &-timeout {
-                position: absolute;
-                top: 129px;
-                left: -6px;
-                z-index: 10;
-              }
-
-              .seat-user-timeout-extra {
-                .MuiLinearProgress-bar {
-                  background-image: linear-gradient(to right, #f5522f, #b82018);
-                  transition: transform 0.1s linear;
-                }
-              }
-
-              &-country {
-                user-select: none;
-                position: absolute;
-                z-index: 10;
-                top: 50px;
-                right: -15px;
-              }
-
-              &-hot {
-                user-select: none;
-                position: absolute;
-                z-index: 10;
-                top: 50px;
-                left: -15px;
-
-                img {
-                  width: 20px;
-                }
-              }
-            }
-
-            &-empty {
-              cursor: pointer;
-              display: flex;
-              user-select: none;
-              flex-direction: column;
               align-items: center;
               justify-content: center;
-              width: 90px;
-              height: 90px;
-              border-radius: 50%;
-              background-color: rgba(10, 10, 10, 0.8);
+              background-color: rgba($color: #000000, $alpha: 0.8);
+              text-align: center;
+              box-shadow: 0px 0px 3px 2px currentColor;
+              border-radius: 3px;
 
-              &-circle {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-                color: #f3f3f3;
-                border: 2px solid #323332;
+              &-Fold {
+                color: #e22d2c;
+              }
 
-                p {
-                  margin-top: 5px;
-                }
+              &-Call {
+                color: #eabc60;
+              }
 
-                .arrow-bottom {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
+              &-Check {
+                color: #f5c31f;
+              }
 
-                  &-triangle-small {
-                    width: 10px;
-                    fill: #777;
-                  }
+              &-Raise {
+                color: #21c7d4;
+              }
 
-                  &-triangle-big {
-                    width: 15px;
-                    fill: #777;
-                  }
-                }
+              &-All-In {
+                color: #e63030;
               }
             }
           }
 
-          &-authseat {
-            .dnd-window-body-table-seats-seat-user-username {
-              color: #f6ad01;
-            }
+          &-timeout {
+            position: absolute;
+            top: 129px;
+            left: -6px;
+            z-index: 10;
+          }
 
-            .dnd-window-body-table-seats-seat-user-cards {
-              &:hover {
-                opacity: 1;
-                filter: brightness(70%);
-              }
+          .seat-user-timeout-extra {
+            .MuiLinearProgress-bar {
+              background-image: linear-gradient(to right, #f5522f, #b82018);
+              transition: transform 0.1s linear;
             }
           }
 
-          &-foldSeat {
-            .dnd-window-body-table-seats-seat-user-cards {
-              @keyframes visibleCardAnimation {
-                0% {
-                  transform: scale(1.05);
-                }
-                50% {
-                  transform: scale(1.25);
-                }
-                100% {
-                  transform: scale(1.05);
-                }
+          &-country {
+            user-select: none;
+            position: absolute;
+            z-index: 10;
+            top: 50px;
+            right: -15px;
+          }
+
+          &-hot {
+            user-select: none;
+            position: absolute;
+            z-index: 10;
+            top: 50px;
+            left: -15px;
+
+            img {
+              width: 20px;
+            }
+          }
+        }
+
+        &-empty {
+          cursor: pointer;
+          display: flex;
+          user-select: none;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          background-color: rgba(10, 10, 10, 0.8);
+
+          &-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            color: #f3f3f3;
+            border: 2px solid #323332;
+
+            p {
+              margin-top: 5px;
+            }
+
+            .arrow-bottom {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              &-triangle-small {
+                width: 10px;
+                fill: #777;
               }
 
-              &:hover {
-                filter: brightness(40%);
-                opacity: 0.8;
-
-                .user-card-hide {
-                  display: block;
-                }
+              &-triangle-big {
+                width: 15px;
+                fill: #777;
               }
             }
           }
+        }
+      }
 
-          &-turnseat {
-            @keyframes turnAnimation {
-              0% {
-                box-shadow: 0px 0px 2px 0px white;
-              }
-              50% {
-                box-shadow: 0px 0px 5px 4px white;
-              }
-              100% {
-                box-shadow: 0px 0px 2px 0px white;
-              }
+      &-authseat {
+        .popup-table-seats-seat-user-username {
+          color: #f6ad01;
+        }
+
+        .popup-table-seats-seat-user-cards {
+          &:hover {
+            opacity: 1;
+            filter: brightness(70%);
+          }
+        }
+      }
+
+      &-foldSeat {
+        .popup-table-seats-seat-user-cards {
+          @keyframes visibleCardAnimation {
+            0% {
+              transform: scale(1.05);
             }
-
-            .dnd-window-body-table-seats-seat-user-box {
-              animation: turnAnimation 2s ease-in-out infinite;
+            50% {
+              transform: scale(1.25);
+            }
+            100% {
+              transform: scale(1.05);
             }
           }
 
-          .seat-pasoor-2 {
-            .card-1 {
-              left: -6px;
-              transform: rotate(-5deg);
-            }
+          &:hover {
+            filter: brightness(40%);
+            opacity: 0.8;
 
-            .card-2 {
-              left: 38px;
-              transform: rotate(5deg);
+            .user-card-hide {
+              display: block;
             }
           }
+        }
+      }
 
-          .seat-pasoor-4 {
-            .card-1 {
-              left: -16px;
-              transform: rotate(-5deg);
-            }
-
-            .card-2 {
-              left: 4px;
-              transform: rotate(-3deg);
-            }
-
-            .card-3 {
-              left: 26px;
-              transform: rotate(3deg);
-            }
-
-            .card-4 {
-              left: 48px;
-              transform: rotate(5deg);
-            }
+      &-turnseat {
+        @keyframes turnAnimation {
+          0% {
+            box-shadow: 0px 0px 2px 0px white;
           }
-
-          .seat-pasoor-5 {
-            .card-1 {
-              left: -26px;
-              transform: rotate(-5deg);
-            }
-
-            .card-2 {
-              left: -6px;
-              transform: rotate(-3deg);
-            }
-
-            .card-3 {
-              left: 15px;
-              transform: rotate(0deg);
-            }
-
-            .card-4 {
-              left: 37px;
-              transform: rotate(3deg);
-            }
-
-            .card-5 {
-              left: 59px;
-              transform: rotate(5deg);
-            }
+          50% {
+            box-shadow: 0px 0px 5px 4px white;
           }
+          100% {
+            box-shadow: 0px 0px 2px 0px white;
+          }
+        }
+
+        .popup-table-seats-seat-user-box {
+          animation: turnAnimation 2s ease-in-out infinite;
+        }
+      }
+
+      .seat-pasoor-2 {
+        .card-1 {
+          left: -6px;
+          transform: rotate(-5deg);
+        }
+
+        .card-2 {
+          left: 38px;
+          transform: rotate(5deg);
+        }
+      }
+
+      .seat-pasoor-4 {
+        .card-1 {
+          left: -16px;
+          transform: rotate(-5deg);
+        }
+
+        .card-2 {
+          left: 4px;
+          transform: rotate(-3deg);
+        }
+
+        .card-3 {
+          left: 26px;
+          transform: rotate(3deg);
+        }
+
+        .card-4 {
+          left: 48px;
+          transform: rotate(5deg);
+        }
+      }
+
+      .seat-pasoor-5 {
+        .card-1 {
+          left: -26px;
+          transform: rotate(-5deg);
+        }
+
+        .card-2 {
+          left: -6px;
+          transform: rotate(-3deg);
+        }
+
+        .card-3 {
+          left: 15px;
+          transform: rotate(0deg);
+        }
+
+        .card-4 {
+          left: 37px;
+          transform: rotate(3deg);
+        }
+
+        .card-5 {
+          left: 59px;
+          transform: rotate(5deg);
         }
       }
     }

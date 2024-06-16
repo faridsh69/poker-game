@@ -8,7 +8,7 @@ export const TableBackground = (props: any) => {
     <ImageLoader
       src={TableImage}
       alt='poker-table'
-      className='dnd-window-body-table-backgroundimg'
+      className='popup-table-backgroundimg'
       height={height}
       loadingColor={loadingColor}
       {...rest}

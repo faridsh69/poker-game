@@ -24,9 +24,7 @@ export const SeatUserTimer = (props: TypeSeatAnTableProps) => {
   if (!canSeeSeatUserTimer(table, seat.user.username)) return null
 
   return (
-    <div
-      className={classNames('dnd-window-body-table-seats-seat-user-timeout', timer.extra && 'seat-user-timeout-extra')}
-    >
+    <div className={classNames('popup-table-seats-seat-user-timeout', timer.extra && 'seat-user-timeout-extra')}>
       <CountDownTimer
         remainingSeconds={remainingSeconds}
         duration={timer.extra ? remainingSeconds : CLIENT_TIMEOUT_ACTION}

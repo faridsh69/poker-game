@@ -10,8 +10,8 @@ export const TableCards = (props: TypeTableProps) => {
   const { cardClassNames, tableCardLength } = useTableCardsAnimation(table.phase)
 
   return (
-    <div className='dnd-window-body-table-cards'>
-      <div id={TABLE_CENTER_ID_PREF} className='dnd-window-body-table-cards-center' />
+    <div className='popup-table-cards'>
+      <div id={TABLE_CENTER_ID_PREF} className='popup-table-cards-center' />
       {table.cards.map((card, cardIndex) => {
         const { hideCard, isRabbitcard } = calculateIsRabbitcard(table, tableCardLength, cardIndex)
 

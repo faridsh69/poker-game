@@ -20,10 +20,10 @@ export const SeatUserPot = (props: TypeSeatProps) => {
   }, [inPot])
 
   return (
-    <div className={classNames('dnd-window-body-table-seats-seat-user-pot')}>
+    <div className={classNames('popup-table-seats-seat-user-pot')}>
       <SeatUserPotThrowingAnimation inPot={inPot} lastUserPot={lastUserPot} seatId={seat.id} />
       <div
-        className={classNames('dnd-window-body-table-seats-seat-user-pot-static', !lastUserPot && 'no-background')}
+        className={classNames('popup-table-seats-seat-user-pot-static', !lastUserPot && 'no-background')}
         id={`${SEAT_POT_ID_PREF}${seat.id}`}
       >
         {!!inPot && <Money money={lastUserPot} showChips />}

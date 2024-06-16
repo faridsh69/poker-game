@@ -34,7 +34,7 @@ export const SeatUserStatus = (props: { seat: TypeSeat; tableId: number }) => {
   if (!correctLastAction) return null
 
   return (
-    <div className='dnd-window-body-table-seats-seat-user-status'>
+    <div className='popup-table-seats-seat-user-status'>
       <div className={classNames('user-status-box', `user-status-box-${correctLastAction}`)}>{correctLastAction}</div>
     </div>
   )

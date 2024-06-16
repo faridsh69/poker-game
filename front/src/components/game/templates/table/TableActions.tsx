@@ -11,7 +11,7 @@ export const TableActions = (props: TypeTableProps) => {
   const { table } = props
 
   return (
-    <div className='dnd-window-body-table-actions'>
+    <div className='popup-table-actions'>
       {/* Only if user is seatout */}
       <TableActionsJoinGame table={table} />
       {/* Only if user has no card */}

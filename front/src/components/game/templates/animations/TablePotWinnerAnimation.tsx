@@ -9,7 +9,7 @@ export const TablePotWinnerAnimation = (props: TypeProps) => {
   const coordinates = useWinPotAnimation(winnerSeatId, tablePotId)
 
   return (
-    <div className='dnd-window-body-table-pots-pot-winning' style={coordinates}>
+    <div className='popup-table-pots-pot-winning' style={coordinates}>
       <Money money={tablePotAmount} showChips />
     </div>
   )

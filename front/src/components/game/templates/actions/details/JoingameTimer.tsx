@@ -14,7 +14,7 @@ export const JoingameTimer = (props: TypeTableProps) => {
   const remainingSeconds = useSeatTimer(authSeat, 'leaveSeat')
 
   return (
-    <div className='dnd-window-body-table-actions-joingame-timer'>
+    <div className='popup-table-actions-joingame-timer'>
       <img src={timerImage} alt='timer' />
       <CountDownTimer remainingSeconds={remainingSeconds} onFinishTimer={() => {}} type='text' />
     </div>

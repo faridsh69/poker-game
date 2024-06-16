@@ -19,12 +19,12 @@ export const TablePot = (props: TypeProps) => {
   const showMoney = !!tablePot.amount && !tablePotWinnerSeats.length
 
   return (
-    <div className='dnd-window-body-table-pots-pot' id={`${TABLE_POT_ID_PREF}${tablePot.id}`}>
+    <div className='popup-table-pots-pot' id={`${TABLE_POT_ID_PREF}${tablePot.id}`}>
       <TablePotsCollectingAnimation table={table} tablePot={tablePot} />
       <TablePotsWinnerAnimation table={table} tablePot={tablePot} tablePotWinnerSeats={tablePotWinnerSeats} />
 
       {showMoney && (
-        <div className='dnd-window-body-table-pots-pot-money'>
+        <div className='popup-table-pots-pot-money'>
           <Money money={tablePot.amount} showChips />
         </div>
       )}

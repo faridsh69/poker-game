@@ -10,12 +10,12 @@ export const TableTotalPot = (props: TypeTableProps) => {
   const { t } = useTranslation()
 
   if (!isAtLeastTwoNotSeatOutPlayers(table)) {
-    return <div className='dnd-window-body-table-total'>{t('Waiting for 2 ready players')}</div>
+    return <div className='popup-table-total'>{t('Waiting for 2 ready players')}</div>
   }
 
   return (
-    <div className='dnd-window-body-table-total'>
-      <div className='dnd-window-body-table-total-label'>{t('Total Pot: ')}</div>
+    <div className='popup-table-total'>
+      <div className='popup-table-total-label'>{t('Total Pot: ')}</div>
       <Money money={table.total} />
     </div>
   )

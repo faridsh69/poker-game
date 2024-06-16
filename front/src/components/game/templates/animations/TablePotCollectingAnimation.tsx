@@ -14,7 +14,7 @@ export const TablePotCollectingAnimation = (props: TypeProps) => {
   const { left, top } = useCollectPotAnimation(userPot.seatId, tablePotId)
 
   return (
-    <div className='dnd-window-body-table-pots-pot-collecting' style={{ left, top }}>
+    <div className='popup-table-pots-pot-collecting' style={{ left, top }}>
       <Money money={userPot.inPot} showChips />
     </div>
   )

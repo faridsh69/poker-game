@@ -15,6 +15,7 @@ import { useSeatTimer } from 'src/hooks/useSeatTimer'
 export const BuyinModal = () => {
   const username = getAuthUsername()
   const [buyinModal, setBuyinModal] = useAtom(buyinModalAtom)
+
   const [buyinAmount, setBuyinAmount] = useState<number>(0)
   const [inputValue, setInputValue] = useState<number>(0)
 

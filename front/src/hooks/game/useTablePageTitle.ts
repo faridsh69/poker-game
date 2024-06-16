@@ -17,7 +17,7 @@ export const useTablePageTitle = (table: TypeTable) => {
     const min = formatMoney(table.buyin.min, moneyUnitTitle, {}, true)
     const max = formatMoney(table.buyin.max, moneyUnitTitle, {}, true)
 
-    const title = `NL Hold'em #${table.id} - ${small} / ${big} - Buy-In ${min} - ${max}`
+    const title = `#${table.id} ${table.title}  - ${small} / ${big} - Buy-In ${min} - ${max}`
 
     setTitle(title)
   }, [table])
