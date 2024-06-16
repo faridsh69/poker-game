@@ -267,6 +267,14 @@ html {
           .table-card-river {
             animation: phaseRiverCardsAnimation $ANIMATION_CSS_TABLE_CARD_DURATION ease-out;
           }
+
+          &-center {
+            position: fixed;
+            top: 45%;
+            left: 45%;
+            width: 10px;
+            height: 10px;
+          }
         }
 
         &-pots {
@@ -684,6 +692,8 @@ html {
                 height: 100px;
 
                 .card-game {
+                  transition: visibility 0s linear, opacity $ANIMATION_CSS_USER_CARD_DURATION linear,
+                    top $ANIMATION_CSS_USER_CARD_DURATION ease-out, left $ANIMATION_CSS_USER_CARD_DURATION ease-out;
                   position: absolute;
                   top: 3px;
                 }

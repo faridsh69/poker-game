@@ -55,6 +55,7 @@ export type TypeGameCardProps = {
   className?: string
   backcard: boolean
   isRabbitcard: boolean
+  style?: any
 }
 
 export type TypePropsFormMui = {

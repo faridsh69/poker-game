@@ -203,25 +203,12 @@ export const CHIP_UNITS = [
 ]
 
 export const USER_CARD_CLASS_NAMES = {
+  static: '',
   hide: 'user-card-hide',
-  animatePass1: 'card-pass-animate-1',
-  animatePass2: 'card-pass-animate-2',
-  animateFold1: 'card-fold-animate-1',
-  animateFold2: 'card-fold-animate-2',
   visible: 'user-card-visible',
 }
 
-export const USER_CARDS_SHOW_CLASS_NAME = ['', '']
-
-export const USER_CARDS_HIDE_CLASS_NAME = [
-  USER_CARD_CLASS_NAMES.hide,
-  USER_CARD_CLASS_NAMES.hide,
-  USER_CARD_CLASS_NAMES.hide,
-  USER_CARD_CLASS_NAMES.hide,
-  USER_CARD_CLASS_NAMES.hide,
-]
-
-export const USER_CARDS_FOLD_CLASS_NAME = [USER_CARD_CLASS_NAMES.animateFold1, USER_CARD_CLASS_NAMES.animateFold2]
+export const USER_CARDS_SHOW_STYLE = { left: 0, top: 0, opacity: 1, visibility: 'visible' }
 
 export const ANIMATION_CSS_USER_CARD_DELAY = 300 // only delay in settimeout
 export const ANIMATION_CSS_USER_CARD_DURATION = 300
@@ -311,3 +298,4 @@ export const TABLE_CARD_RIVER_CLASS_NAMES = [
 export const SEAT_ID_PREF = 'seat-'
 export const SEAT_POT_ID_PREF = 'seat-pot-'
 export const TABLE_POT_ID_PREF = 'table-pot-'
+export const TABLE_CENTER_ID_PREF = 'table-cards-center'

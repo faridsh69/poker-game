@@ -321,4 +321,11 @@ export const getCoordinatesDiff = (destinationCoordinates: any, sourceCoordinate
   }
 }
 
-export const openNewPopup = () => {}
+export const getDiffCordinateElements = (el1Id: string, el2Id: string) => {
+  const sourceCoordinates = getElCoordinatesById(el1Id)
+  const destinationCoordinates = getElCoordinatesById(el2Id)
+
+  const diffCoordinates = getCoordinatesDiff(destinationCoordinates, sourceCoordinates)
+
+  return diffCoordinates
+}

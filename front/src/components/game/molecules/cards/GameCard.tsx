@@ -9,7 +9,7 @@ import { CARD_TYPES } from 'src/configs/clientConstantsPoker'
 import { TypeGameCardProps } from 'src/interfaces'
 
 export const GameCard = (props: TypeGameCardProps) => {
-  const { card, cardIndex = -1, className = '', backcard = false, isRabbitcard = false } = props
+  const { card, cardIndex = -1, className = '', backcard = false, isRabbitcard = false, style = {} } = props
 
   const cardSignComponent =
     card.type === CARD_TYPES.clubs ? (
@@ -34,14 +34,14 @@ export const GameCard = (props: TypeGameCardProps) => {
 
   if (backcard) {
     return (
-      <div className={allClassNames}>
+      <div className={allClassNames} style={style}>
         <img src={BackCardImage} alt='hidden card' />
       </div>
     )
   }
 
   return (
-    <div className={allClassNames}>
+    <div className={allClassNames} style={style}>
       <div className='card-game-number'>{card.number}</div>
       <div className='card-game-smallsign'>{cardSignComponent}</div>
       <div className='card-game-bigsign'>{cardSignComponent}</div>
