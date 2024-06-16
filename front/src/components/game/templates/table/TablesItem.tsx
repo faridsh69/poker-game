@@ -4,22 +4,23 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { Button, TableCell, TableRow } from '@mui/material'
 
 import { Money } from 'src/components/game/molecules/Money/Money'
-import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
+// import { canUserJoinTable } from 'src/helpers/clientHelpersPoker'
 import { useSocketActions } from 'src/hooks/game/useSocketActions'
 import { TypeTable } from 'src/interfaces'
-import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
+
+// import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 export const TablesItem = (props: { table: TypeTable }) => {
   const { table } = props
 
-  const { single: authUser } = useCrudProfile()
+  // const { single: authUser } = useCrudProfile()
 
   const { handleJoinTable } = useSocketActions(table.id)
 
   const handleOpenTablePopup = useCallback(() => {
-    const url = `http://localhost:2000/tables/${table.id}`
+    const url = `/tables/${table.id}`
 
-    window.open(url, 'XXXX', 'width=800,height=640,toolbar=0,menubar=0,location=0')
+    window.open(url, table.title, 'width=800,height=640,toolbar=0,menubar=0,location=0')
     handleJoinTable(table.id)
   }, [table.id, table.title])
 
@@ -47,7 +48,7 @@ export const TablesItem = (props: { table: TypeTable }) => {
           variant='contained'
           color='success'
           startIcon={<PlayCircleOutlineIcon />}
-          disabled={!canUserJoinTable(table, authUser?.balance as number)}
+          // disabled={!canUserJoinTable(table, authUser?.balance as number)}
           onClick={handleOpenTablePopup}
         >
           JOIN TABLE
