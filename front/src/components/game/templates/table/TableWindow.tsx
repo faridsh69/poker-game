@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from 'react'
+
 import { TableActions } from 'src/components/game/templates/table/TableActions'
 import { TableBackground } from 'src/components/game/templates/table/TableBackground'
 import { TableCards } from 'src/components/game/templates/table/TableCards'
@@ -10,7 +12,7 @@ export const TableWindow = (props: TypeTableProps) => {
   const { table } = props
 
   return (
-    <div className='popup-table' key={table.id}>
+    <div className='popup-table'>
       <TableBackground />
       <TableTotalPot table={table} />
       <TableCards table={table} />
