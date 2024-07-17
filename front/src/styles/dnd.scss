@@ -1,0 +1,87 @@
+// .home {
+//   height: calc(100vh - 50px);
+//   display: flex;
+//   flex-direction: row;
+//   gap: 10px;
+
+//   &-tables {
+//     height: 100%;
+//     padding: 10px;
+
+//     &-table {
+//       background-color: white;
+//       padding: 15px;
+//       border-radius: 20px;
+//     }
+//   }
+// }
+
+.dragging {
+  z-index: 10001;
+
+  * {
+    cursor: grabbing;
+  }
+
+  .dnd-window {
+    --box-shadow: -1px 0 15px 0 rgba(34, 33, 81, 0.01), 0px 15px 15px 0 rgba(34, 33, 81, 0.25);
+  }
+}
+
+.dnd {
+  position: relative;
+  z-index: 1201;
+  font-size: 12px;
+
+  &-window {
+    box-shadow: var(--box-shadow);
+    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(var(--scale, 1));
+    transition: box-shadow 300ms ease;
+    width: 800px;
+    border-radius: 7px 7px 0px 0px;
+
+    &-topbar {
+      border-radius: 5px 5px 0px 0px;
+      background-color: #1b1b1d;
+      height: 30px;
+      width: 100%;
+      border-bottom: 2px solid #111111;
+      cursor: grab;
+
+      &-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 10px;
+
+        &-title {
+          user-select: none;
+          color: white;
+          font-weight: 400;
+          font-size: 12px;
+          padding: 5px;
+          padding-left: 10px;
+        }
+
+        &-close {
+          padding: 3px !important;
+
+          &:hover {
+            svg {
+              fill: #ccc;
+            }
+          }
+          svg {
+            fill: white;
+            width: 24px;
+          }
+        }
+      }
+    }
+
+    &-body {
+      line-height: 0px;
+      border-top: 2px solid #232323;
+    }
+  }
+}

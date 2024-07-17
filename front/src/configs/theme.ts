@@ -2,6 +2,16 @@ import { ThemeOptions } from '@mui/material'
 
 export const LIGHT_THEME: ThemeOptions = {
   components: {
+    // MuiTab: {
+    //   styleOverrides: {
+    //     root: {
+    //       background: '#19245B',
+    //       color: '#fff',
+    //       textAlign: 'left',
+    //       alignItems: 'flex-start',
+    //     },
+    //   },
+    // },
     MuiToolbar: {
       styleOverrides: {
         root: {
