@@ -10,6 +10,7 @@ import { CLIENT_TIMEOUT_SEATOUT_ALLIN } from 'src/configs/clientConstantsPoker'
 import { buyinModalAtom } from 'src/contexts/buyinModalAtom'
 import { getAuthUsername } from 'src/helpers/auth'
 import { getBuyinModalStep, getUserSeat } from 'src/helpers/clientHelpersPoker'
+import { useGetTransformScale } from 'src/hooks/useGetTransformScale'
 import { useSeatTimer } from 'src/hooks/useSeatTimer'
 
 export const BuyinModal = () => {
@@ -60,11 +61,13 @@ export const BuyinModal = () => {
 
   const remainingSeconds = useSeatTimer(authSeat, 'leaveSeat')
 
+  const style = useGetTransformScale(500, 450)
+
   if (!buyinModal.table || !buyinModal.show) return null
 
   return (
     <Modal open={buyinModal.show} onClose={closeModel} className='buyin-modal'>
-      <div className='buyin-modal-container'>
+      <div className='buyin-modal-container' style={style}>
         <div className='buyin-modal-container-header'>
           <div className='buyin-modal-container-header-title'>{!isAddMoreChips ? 'Buy-in Option' : 'Add Chips'}</div>
           <IconButton onClick={closeModel} className='buyin-modal-container-header-close'>

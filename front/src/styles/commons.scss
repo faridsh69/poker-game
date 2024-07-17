@@ -1,0 +1,21 @@
+@mixin scrollbar {
+  scrollbar-color: auto !important;
+  scrollbar-width: auto !important;
+
+  &::-webkit-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #dcdcdc !important;
+    border: 2px solid white;
+    border-radius: 8px;
+  }
+}
+
+@mixin summary {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

@@ -12,7 +12,7 @@ import {
 export const CLIENT_TIMEOUT_EXTRA = 30
 export const CLIENT_TIMEOUT_ACTION = 15
 
-export const CLIENT_TIMEOUT_SEATOUT_ALLIN = 20
+export const CLIENT_TIMEOUT_SEATOUT_ALLIN = 120
 export const CLIENT_TIMEOUT_SEATOUT = 20
 
 export const DELAY_OEPN_MODAL = 15

@@ -1,27 +1,22 @@
-import { useMemo } from 'react'
-
 import { BuyinModal } from 'src/components/game/templates/modals/BuyinModal'
 import { ConfirmModal } from 'src/components/game/templates/modals/ConfirmModal'
 import { TableWindow } from 'src/components/game/templates/table/TableWindow'
 import { useTableCloseThenLeave } from 'src/hooks/game/useTableCloseThenLeave'
 import { useTablePageTitle } from 'src/hooks/game/useTablePageTitle'
-import { useWindowWidth } from 'src/hooks/useWindowWidth'
+import { useBodyClassname } from 'src/hooks/useBodyClassname'
+import { useGetTransformScale } from 'src/hooks/useGetTransformScale'
 import { TypeTableProps } from 'src/interfaces'
 
 export const TablePopupContainer = (props: TypeTableProps) => {
   const { table } = props
 
   useTablePageTitle(table)
+  useBodyClassname('popup-body')
   useTableCloseThenLeave(table.id)
-
-  const width = useWindowWidth()
-
-  const scale = useMemo(() => {
-    return width > 800 ? 1 : width / 800
-  }, [width])
+  const style = useGetTransformScale(800, 550)
 
   return (
-    <div className='popup' style={{ transform: `scale(${scale})` }}>
+    <div className='popup' style={style}>
       <ConfirmModal />
       <BuyinModal />
       <TableWindow table={table} />
