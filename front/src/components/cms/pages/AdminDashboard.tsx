@@ -1,23 +1,21 @@
 import { Outlet } from 'react-router-dom'
 
 import { Breadcrumb } from '../molecules/Breadcrumb'
-import { Box } from '@mui/material'
+import { Box, Container } from '@mui/material'
 
-import { AdminSidebar } from 'src/components/cms/templates/AdminSidebar'
-import { PageLayout } from 'src/components/cms/templates/PageLayout'
+import { AdminSidebar } from 'src/components/cms/templates/layouts/AdminSidebar'
+import { PageLayout } from 'src/components/cms/templates/layouts/PageLayout'
 
 const AdminDashboard = () => {
-  const drawerWidth = 240
-
   return (
     <PageLayout>
-      <Box sx={{ display: 'flex' }}>
-        <AdminSidebar drawerWidth={drawerWidth} />
-        <Box component='main' sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+      <Container>
+        <AdminSidebar drawerWidth={240} />
+        <Box sx={{ flexGrow: 1, p: 3 }}>
           <Breadcrumb />
           <Outlet />
         </Box>
-      </Box>
+      </Container>
     </PageLayout>
   )
 }

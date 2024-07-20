@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 
 import { useMutation } from '@tanstack/react-query'
 
+import { ROUTES_PATH_NAMES } from 'src/configs/router'
 import { removeAccessToken, setAccessToken } from 'src/helpers/auth'
 import { postLogin, postRegister } from 'src/services/apis'
 
@@ -17,7 +18,9 @@ export const useAuth = () => {
       setAccessToken(loginResponse)
       toast.success('Logged in successfully!')
 
-      navigate('/admin')
+      navigate({
+        pathname: ROUTES_PATH_NAMES.home,
+      })
     },
   })
 
@@ -26,13 +29,17 @@ export const useAuth = () => {
     onSuccess: () => {
       toast.success('Registered successfully, please confirm your email and login.')
 
-      navigate('/login')
+      navigate({
+        pathname: ROUTES_PATH_NAMES.login,
+      })
     },
   })
 
   const handleLogout = useCallback(() => {
     removeAccessToken()
-    navigate('/login')
+    navigate({
+      pathname: ROUTES_PATH_NAMES.login,
+    })
   }, [navigate])
 
   return {

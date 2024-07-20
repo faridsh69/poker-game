@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { Avatar, Box, Container, Grid, Link, Typography } from '@mui/material'
+import LoginIcon from '@mui/icons-material/Login'
+import { Avatar, Container, Grid, Link, Typography } from '@mui/material'
 
 import { FormMui } from 'src/components/cms/templates/FormMui'
-import { PageLayout } from 'src/components/cms/templates/PageLayout'
+import { PageLayout } from 'src/components/cms/templates/layouts/PageLayout'
 import { MODEL_FORMS_NAMES } from 'src/configs/forms'
 import { useAuth } from 'src/hooks/useAuth'
 import { TypeModel } from 'src/interfaces'
@@ -24,50 +24,37 @@ export const Login = () => {
 
   return (
     <PageLayout>
-      <Container component='main' maxWidth='xs'>
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            {t('Login')}
-          </Typography>
-          <FormMui
-            formName={MODEL_FORMS_NAMES.login}
-            values={{}}
-            onSubmit={onSubmit}
-            submitText='Login'
-            isUpdating={false}
-          />
-          <Grid container>
-            <Grid item xs>
-              <Link href='#' variant='body2'>
-                {t('Forgot password?')}
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href='/register' variant='body2'>
-                {t('dont have an account')}
-              </Link>
-            </Grid>
+      <Container
+        maxWidth='xs'
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <LoginIcon />
+        </Avatar>
+        <Typography component='h5' variant='h5'>
+          {t('Login')}
+        </Typography>
+        <FormMui
+          formName={MODEL_FORMS_NAMES.login}
+          values={{}}
+          onSubmit={onSubmit}
+          submitText='Login'
+          isUpdating={false}
+        />
+        <Grid container>
+          <Grid item xs>
+            <Link href='#'>{t('Forgot password?')}</Link>
           </Grid>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-        </Box>
+          <Grid item>
+            <Link href='/register'>{t('dont have an account')}</Link>
+          </Grid>
+        </Grid>
+        {/* </Box> */}
       </Container>
     </PageLayout>
   )

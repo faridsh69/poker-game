@@ -28,7 +28,7 @@ export const ConfirmModal = () => {
             <Button color='success' variant='contained' onClick={confirmModal.onConfirm}>
               Ok
             </Button>
-            <Button color='secondary' variant='contained' onClick={closeConfirmModal}>
+            <Button color='primary' variant='contained' onClick={closeConfirmModal}>
               Cancel
             </Button>
           </div>

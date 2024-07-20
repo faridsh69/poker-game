@@ -30,6 +30,7 @@ export const TextController = (props: TypePropsInputController) => {
 
         return (
           <TextField
+            variant='filled'
             name={name}
             type={type}
             label={label}

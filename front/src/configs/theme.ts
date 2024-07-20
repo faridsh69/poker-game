@@ -1,12 +1,39 @@
 import { ThemeOptions } from '@mui/material'
 
+const important = ' !important'
+const globalTheme = {
+  palette: {
+    primary: {
+      // #5A0002 panel header
+      // #B24639 border title
+      // #DF3939 button bg
+      main: '#DF3939',
+      // dark: '#5A0002',
+      contrastText: '#fff',
+    },
+    black: {
+      light: '#B8B8B8',
+      main: '#1A1A1A',
+      dark: '#171717',
+      contrastText: '#fff',
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+}
+
 export const LIGHT_THEME: ThemeOptions = {
   components: {
     // MuiTab: {
     //   styleOverrides: {
     //     root: {
-    //       background: '#19245B',
-    //       color: '#fff',
     //       textAlign: 'left',
     //       alignItems: 'flex-start',
     //     },
@@ -15,7 +42,7 @@ export const LIGHT_THEME: ThemeOptions = {
     MuiToolbar: {
       styleOverrides: {
         root: {
-          minHeight: '50px !important',
+          minHeight: '50px' + important,
         },
       },
     },
@@ -36,21 +63,6 @@ export const LIGHT_THEME: ThemeOptions = {
         },
       },
     },
-    MuiFormControlLabel: {
-      styleOverrides: {
-        label: {},
-      },
-    },
-    MuiInputBase: {
-      styleOverrides: {
-        input: {},
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {},
-      },
-    },
     MuiTextField: {
       styleOverrides: {
         root: {
@@ -58,17 +70,7 @@ export const LIGHT_THEME: ThemeOptions = {
         },
       },
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {},
-        outlined: {},
-      },
-    },
-    MuiCheckbox: {
-      styleOverrides: {
-        root: {},
-      },
-    },
+
     MuiSelect: {
       styleOverrides: {
         select: {},
@@ -79,31 +81,77 @@ export const LIGHT_THEME: ThemeOptions = {
         body: {},
       },
     },
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
+    // Start of theme
+    MuiContainer: {
+      styleOverrides: {
+        disableGutters: {
+          backgroundColor: globalTheme.palette.black.dark,
+          height: '100vh',
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: globalTheme.palette.black.contrastText,
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: globalTheme.palette.primary.main,
+          fontSize: 14,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          height: 40,
+          borderRadius: 20,
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'inset 0 2px 1px #000',
+          borderBottom: '1px solid #3B3D3C',
+          backgroundColor: globalTheme.palette.black.main + important,
+          borderRadius: 7,
+          '&&:after': {
+            borderColor: '#DEBA79',
+          },
+        },
+        input: {
+          color: globalTheme.palette.black.contrastText,
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: globalTheme.palette.black.light + important,
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        label: {
+          color: globalTheme.palette.black.contrastText,
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: globalTheme.palette.black.contrastText + important,
+        },
+      },
     },
   },
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2',
-      light: '#42a5f5',
-      dark: '#1565c0',
-      contrastText: '#fff',
-    },
-    secondary: {
-      main: '#9c27b0',
-      light: '#ba68c8',
-      dark: '#7b1fa2',
-      contrastText: '#fff',
-    },
-  },
+  ...globalTheme,
 }
 
 export const THEME_NAMES = {

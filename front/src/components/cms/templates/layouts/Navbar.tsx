@@ -1,22 +1,26 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import LockResetIcon from '@mui/icons-material/LockReset'
-// import MenuIcon from '@mui/icons-material/Menu'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import MenuIcon from '@mui/icons-material/Menu'
 import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 
 import { LanguageSwitcher } from 'src/components/cms/molecules/LanguageSwitcher'
 import { ThemeSwitcher } from 'src/components/cms/molecules/ThemeSwitcher'
 import { UnitSwitcher } from 'src/components/cms/molecules/UnitSwitcher'
 import { META_TAGS } from 'src/configs/constants'
+import { ROUTES_PATH_NAMES } from 'src/configs/router'
 import { getAuthUsername, isLoggedin } from 'src/helpers/auth'
 import { useAuth } from 'src/hooks/useAuth'
 
 export const Navbar = () => {
+  const { t } = useTranslation()
+
   const navigate = useNavigate()
 
   const { handleLogout } = useAuth()
@@ -37,15 +41,9 @@ export const Navbar = () => {
   return (
     <AppBar position='static' sx={{ zIndex: 1201, height: '50px' }}>
       <Toolbar>
-        {/* <IconButton
-          size='large'
-          edge='start'
-          color='inherit'
-          aria-label='open drawer'
-          sx={{ mr: 2 }}
-        >
+        <IconButton size='large' edge='start' color='inherit' aria-label='open drawer' sx={{ mr: 2 }}>
           <MenuIcon />
-        </IconButton> */}
+        </IconButton>
         <Typography variant='h6' noWrap component='div' sx={{ display: { xs: 'none', sm: 'block' } }}>
           {META_TAGS.title} - {isLoggedinUser ? authUserUsername : 'Guest'}
         </Typography>
@@ -54,13 +52,13 @@ export const Navbar = () => {
         <UnitSwitcher />
         <ThemeSwitcher />
         {!isLoggedinUser && (
-          <Button color='inherit' component={Link} to='/login'>
-            Login
+          <Button component={Link} to={ROUTES_PATH_NAMES.login}>
+            {t('Login')}
           </Button>
         )}
         {!isLoggedinUser && (
-          <Button color='inherit' component={Link} to='/register'>
-            Register
+          <Button component={Link} to={ROUTES_PATH_NAMES.register}>
+            {t('Register')}
           </Button>
         )}
         {isLoggedinUser && (
@@ -84,15 +82,36 @@ export const Navbar = () => {
         onClose={handleMenuClose}
         sx={{ zIndex: 1201 }}
       >
-        <MenuItem onClick={() => navigate('/admin')} sx={{ gap: 2 }}>
+        <MenuItem
+          onClick={() =>
+            navigate({
+              pathname: ROUTES_PATH_NAMES.admin,
+            })
+          }
+          sx={{ gap: 2 }}
+        >
           <AdminPanelSettingsIcon />
-          Admin
+          {t('Admin')}
         </MenuItem>
-        <MenuItem onClick={() => navigate('/admin/profile')} sx={{ gap: 2 }}>
+        <MenuItem
+          onClick={() =>
+            navigate({
+              pathname: ROUTES_PATH_NAMES.profile,
+            })
+          }
+          sx={{ gap: 2 }}
+        >
           <ManageAccountsIcon />
           My profile
         </MenuItem>
-        <MenuItem onClick={() => navigate('/admin/password')} sx={{ gap: 2 }}>
+        <MenuItem
+          onClick={() =>
+            navigate({
+              pathname: ROUTES_PATH_NAMES.password,
+            })
+          }
+          sx={{ gap: 2 }}
+        >
           <LockResetIcon />
           Reset password
         </MenuItem>

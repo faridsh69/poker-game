@@ -6,11 +6,15 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
+// Components css
 import 'src/styles/action-button.scss'
 import 'src/styles/buyin-modal.scss'
 import 'src/styles/card-game.scss'
 import 'src/styles/cms.scss'
 import 'src/styles/confirm-modal.scss'
+// Game css
 import 'src/styles/game.scss'
+// Theme css
+import 'src/styles/mui.scss'
 import 'src/styles/seats.scss'
 import 'src/styles/winner.scss'

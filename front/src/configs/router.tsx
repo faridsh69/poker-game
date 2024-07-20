@@ -4,77 +4,69 @@ import { ErrorPage } from 'src/components/cms/molecules/ErrorPage'
 import { Suspender } from 'src/components/cms/templates/Suspender'
 import { RoutesType } from 'src/interfaces'
 
+export const ROUTES_PATH_NAMES = {
+  home: '/',
+  login: '/login',
+  register: '/register',
+  tablePopup: '/tables',
+  admin: '/admin',
+  profile: '/admin/profile',
+  password: '/admin/password',
+}
+
 const ROUTES: RoutesType = [
   {
-    name: 'home',
-    path: '/',
+    path: ROUTES_PATH_NAMES.home,
     element: <Suspender pageName='Home' />,
     errorElement: <ErrorPage />,
   },
   {
-    name: 'test',
-    path: '/test',
-    element: <Suspender pageName='Test' />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    name: 'login',
-    path: '/login',
+    path: ROUTES_PATH_NAMES.login,
     element: <Suspender pageName='Login' canGuest />,
     errorElement: <ErrorPage />,
   },
   {
-    name: 'register',
-    path: '/register',
+    path: ROUTES_PATH_NAMES.register,
     element: <Suspender pageName='Register' canGuest />,
     errorElement: <ErrorPage />,
   },
   {
-    name: 'tables',
-    path: '/tables',
+    path: ROUTES_PATH_NAMES.tablePopup,
     element: <Suspender pageName='TablePopup' canAuth />,
     errorElement: <ErrorPage />,
     children: [
       {
-        name: 'tables-show',
         path: ':tableId',
         element: <Suspender pageName='TablePopup' canAuth />,
       },
     ],
   },
   {
-    name: 'admin',
-    path: 'admin',
+    path: ROUTES_PATH_NAMES.admin,
     element: <Suspender pageName='AdminDashboard' canAuth />,
     errorElement: <ErrorPage />,
     children: [
       {
-        name: 'admin-list',
         path: ':model',
         element: <Suspender pageName='AdminList' canAuth />,
       },
       {
-        name: 'admin-form',
         path: ':model/create',
         element: <Suspender pageName='AdminForm' canAuth />,
       },
       {
-        name: 'admin-show',
         path: ':model/:id',
         element: <Suspender pageName='AdminShow' canAuth />,
       },
       {
-        name: 'admin-edit',
         path: ':model/:id/edit',
         element: <Suspender pageName='AdminForm' canAuth />,
       },
       {
-        name: 'admin-profile',
         path: 'profile',
         element: <Suspender pageName='AdminProfile' canAuth />,
       },
       {
-        name: 'admin-password',
         path: 'password',
         element: <Suspender pageName='AdminPassword' canAuth />,
       },

@@ -134,7 +134,7 @@ export const BuyinModal = () => {
             <Button color='success' variant='contained' onClick={handleBuyin}>
               Ok
             </Button>
-            <Button color='secondary' variant='contained' onClick={closeModel}>
+            <Button color='primary' variant='contained' onClick={closeModel}>
               Cancel
             </Button>
           </div>
