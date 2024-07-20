@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Container, Toolbar } from '@mui/material'
+import { AppBar, Box, Button, Container } from '@mui/material'
 
 export const Navbar = () => {
   const NAVBAR_MENU_ITEMS = [
@@ -29,17 +29,15 @@ export const Navbar = () => {
   ]
 
   return (
-    <AppBar position='static' component='nav'>
+    <AppBar position='static' component='nav' className='nav-bar'>
       <Container maxWidth='xl'>
-        <Toolbar>
-          <Box>
-            {NAVBAR_MENU_ITEMS.map(menuItem => (
-              <Button key={menuItem.title} sx={{ color: 'white' }}>
-                {menuItem.title}
-              </Button>
-            ))}
-          </Box>
-        </Toolbar>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0 }}>
+          {NAVBAR_MENU_ITEMS.map(menuItem => (
+            <Button key={menuItem.title} className='nav-bar-button'>
+              {menuItem.title}
+            </Button>
+          ))}
+        </Box>
       </Container>
     </AppBar>
   )

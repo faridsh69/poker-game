@@ -7,7 +7,7 @@ export const globalTheme = {
       main: '#DF3939',
       contrastText: '#fff',
     },
-    black: {
+    secondary: {
       light: '#B8B8B8',
       main: '#1A1A1A',
       dark: '#171717',
@@ -81,7 +81,7 @@ export const LIGHT_THEME: ThemeOptions = {
     MuiContainer: {
       styleOverrides: {
         disableGutters: {
-          backgroundColor: globalTheme.palette.black.dark,
+          backgroundColor: globalTheme.palette.secondary.dark,
         },
         maxWidthXs: {
           marginTop: 50,
@@ -91,10 +91,17 @@ export const LIGHT_THEME: ThemeOptions = {
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          color: globalTheme.palette.primary.contrastText + important,
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.black.contrastText,
+          color: globalTheme.palette.primary.contrastText,
         },
       },
     },
@@ -119,35 +126,35 @@ export const LIGHT_THEME: ThemeOptions = {
         root: {
           boxShadow: 'inset 0 2px 1px #000',
           borderBottom: '1px solid #3B3D3C',
-          backgroundColor: globalTheme.palette.black.main + important,
+          backgroundColor: globalTheme.palette.secondary.main + important,
           borderRadius: 7,
           '&&:after': {
             borderColor: '#DEBA79',
           },
         },
         input: {
-          color: globalTheme.palette.black.contrastText,
+          color: globalTheme.palette.primary.contrastText,
         },
       },
     },
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.black.light + important,
+          color: globalTheme.palette.secondary.light + important,
         },
       },
     },
     MuiFormControlLabel: {
       styleOverrides: {
         label: {
-          color: globalTheme.palette.black.contrastText,
+          color: globalTheme.palette.primary.contrastText,
         },
       },
     },
     MuiCheckbox: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.black.contrastText + important,
+          color: globalTheme.palette.primary.contrastText + important,
         },
       },
     },

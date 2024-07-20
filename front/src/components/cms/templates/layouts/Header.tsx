@@ -23,13 +23,13 @@ export const Header = () => {
 
   return (
     <Container maxWidth='xl' component='header'>
-      <Box sx={{ mx: 4, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <ImageLoader
           src={LogoImage}
           alt='Royal-logo'
           height={140}
           width={140}
-          loadingColor={globalTheme.palette.black.dark}
+          loadingColor={globalTheme.palette.secondary.dark}
         />
         <Typography variant='h6' noWrap component='div' sx={{ display: { xs: 'none', sm: 'block' } }}>
           {t('Welcome')} <b>{isLoggedinUser ? authUser?.username : 'Guest'}</b> {t('To')} {META_TAGS.title}
@@ -39,7 +39,7 @@ export const Header = () => {
           alt='Banner'
           height={55}
           width={330}
-          loadingColor={globalTheme.palette.black.dark}
+          loadingColor={globalTheme.palette.secondary.dark}
         />
         {!isLoggedinUser && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>

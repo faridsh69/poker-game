@@ -1,5 +1,23 @@
 @import './commons.scss';
 
+.nav-bar {
+  background: linear-gradient(0deg, #1c1c1c 12%, #1c1c1c 62%, #585859 100%);
+
+  &-button {
+    border-color: #df3939 !important;
+    border-right: 1px solid #999 !important;
+    border-left: 1px solid #333 !important;
+    border-radius: 0px !important;
+    color: white !important;
+    background: linear-gradient(0deg, #1c1c1c 12%, #1c1c1c 62%, #585859 100%);
+    padding: 5px 20px !important;
+
+    &:hover {
+      border-bottom: 2px solid #df3939;
+    }
+  }
+}
+
 .section-container {
   height: calc(100vh - 240px);
   overflow-y: auto;
