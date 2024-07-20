@@ -9,9 +9,9 @@ export const ROUTES_PATH_NAMES = {
   login: '/login',
   register: '/register',
   tablePopup: '/tables',
+  profile: '/profile',
+  password: '/password',
   admin: '/admin',
-  profile: '/admin/profile',
-  password: '/admin/password',
 }
 
 const ROUTES: RoutesType = [
@@ -28,6 +28,16 @@ const ROUTES: RoutesType = [
   {
     path: ROUTES_PATH_NAMES.register,
     element: <Suspender pageName='Register' canGuest />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: ROUTES_PATH_NAMES.profile,
+    element: <Suspender pageName='UserProfile' canAuth />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: ROUTES_PATH_NAMES.password,
+    element: <Suspender pageName='UserPassword' canAuth />,
     errorElement: <ErrorPage />,
   },
   {
@@ -61,14 +71,6 @@ const ROUTES: RoutesType = [
       {
         path: ':model/:id/edit',
         element: <Suspender pageName='AdminForm' canAuth />,
-      },
-      {
-        path: 'profile',
-        element: <Suspender pageName='AdminProfile' canAuth />,
-      },
-      {
-        path: 'password',
-        element: <Suspender pageName='AdminPassword' canAuth />,
       },
     ],
   },

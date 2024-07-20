@@ -9,7 +9,9 @@ export const PageLayout = ({ children }: { children: JSX.Element }) => {
     <Container maxWidth={false} disableGutters component='main'>
       <Header />
       <Navbar />
-      {children}
+      <Container maxWidth='xl' component='section' className='section-container'>
+        {children}
+      </Container>
       <Footer />
     </Container>
   )

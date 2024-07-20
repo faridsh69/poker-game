@@ -1,14 +1,10 @@
 import { ThemeOptions } from '@mui/material'
 
 const important = ' !important'
-const globalTheme = {
+export const globalTheme = {
   palette: {
     primary: {
-      // #5A0002 panel header
-      // #B24639 border title
-      // #DF3939 button bg
       main: '#DF3939',
-      // dark: '#5A0002',
       contrastText: '#fff',
     },
     black: {
@@ -86,7 +82,12 @@ export const LIGHT_THEME: ThemeOptions = {
       styleOverrides: {
         disableGutters: {
           backgroundColor: globalTheme.palette.black.dark,
-          height: '100vh',
+        },
+        maxWidthXs: {
+          marginTop: 50,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         },
       },
     },

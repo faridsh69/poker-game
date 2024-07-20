@@ -24,15 +24,7 @@ export const Register = () => {
 
   return (
     <PageLayout>
-      <Container
-        maxWidth='xs'
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+      <Container maxWidth='xs'>
         <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <HowToRegIcon />
         </Avatar>

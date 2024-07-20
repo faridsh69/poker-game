@@ -1,6 +1,6 @@
 @mixin scrollbar {
-  scrollbar-color: auto !important;
-  scrollbar-width: auto !important;
+  // scrollbar-color: auto !important;
+  // scrollbar-width: auto !important;
 
   &::-webkit-scrollbar {
     scrollbar-width: thin;
@@ -8,8 +8,8 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #dcdcdc !important;
-    border: 2px solid white;
+    background-color: #b8b8b8 !important;
+    border: 2px solid #1a1a1a;
     border-radius: 8px;
   }
 }

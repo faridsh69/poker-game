@@ -1,3 +1,11 @@
+@import './commons.scss';
+
+.section-container {
+  height: calc(100vh - 240px);
+  overflow-y: auto;
+  @include scrollbar;
+}
+
 // start image loader
 @mixin minimum100with {
   width: 100%;
