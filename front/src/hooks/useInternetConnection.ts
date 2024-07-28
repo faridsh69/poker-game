@@ -14,4 +14,6 @@ export const useInternetConnection = () => {
 
   useEventListener('offline', () => setInternetConnectionStatus(false))
   useEventListener('online', () => setInternetConnectionStatus(true))
+
+  return internetConnectionStatus
 }

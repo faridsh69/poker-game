@@ -1,3 +1,4 @@
+import { ConnectionDetector } from '../../molecules/ConnectionDetector'
 import { DisplayDate } from '../../molecules/DisplayDate'
 import { AppBar, Box, Container } from '@mui/material'
 
@@ -13,6 +14,7 @@ export const Footer = () => {
           <ThemeSwitcher />
           <UnitSwitcher />
           <LanguageSwitcher />
+          <ConnectionDetector />
           <DisplayDate />
         </Box>
       </Container>

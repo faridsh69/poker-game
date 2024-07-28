@@ -7,7 +7,6 @@ import { useAtom } from 'jotai'
 import { LANGUAGES } from 'src/configs/locale'
 import { THEMES } from 'src/configs/theme'
 import { themeAtom } from 'src/contexts/themeAtom'
-import { useInternetConnection } from 'src/hooks/useInternetConnection'
 
 export const useThemeWithLocale = () => {
   const [theme] = useAtom(themeAtom)
@@ -18,8 +17,6 @@ export const useThemeWithLocale = () => {
 
     return createTheme(THEMES[theme as string], currentLang.muiLocal)
   }, [i18n.language, theme])
-
-  useInternetConnection()
 
   return themeWithLocale
 }
