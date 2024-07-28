@@ -8,7 +8,7 @@ import { ImageLoader } from 'src/components/cms/molecules/ImageLoader'
 import { Money } from 'src/components/game/molecules/Money/Money'
 import { META_TAGS } from 'src/configs/constants'
 import { ROUTES_PATH_NAMES } from 'src/configs/router'
-import { globalTheme } from 'src/configs/theme'
+import { GLOBAL_THEME } from 'src/configs/theme'
 import { isLoggedin } from 'src/helpers/auth'
 import { useAuth } from 'src/hooks/useAuth'
 import BannerImage from 'src/images/game/banner.png'
@@ -29,7 +29,7 @@ export const Header = () => {
           alt='Royal-logo'
           height={140}
           width={140}
-          loadingColor={globalTheme.palette.secondary.dark}
+          loadingColor={GLOBAL_THEME.palette.secondary.dark}
         />
         <Typography variant='h6' noWrap component='div' sx={{ display: { xs: 'none', sm: 'block' } }}>
           {t('Welcome')} <b>{isLoggedinUser ? authUser?.username : 'Guest'}</b> {t('To')} {META_TAGS.title}
@@ -39,7 +39,7 @@ export const Header = () => {
           alt='Banner'
           height={55}
           width={330}
-          loadingColor={globalTheme.palette.secondary.dark}
+          loadingColor={GLOBAL_THEME.palette.secondary.dark}
         />
         {!isLoggedinUser && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>

@@ -1,28 +1,42 @@
 import { initReactI18next } from 'react-i18next'
 
-import { deDE, enUS } from '@mui/material/locale'
+import { deDE, enUS, faIR } from '@mui/material/locale'
 import i18next from 'i18next'
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector'
 
-import deFlag from 'src/images/flags/de.png'
-import enFlag from 'src/images/flags/us.png'
-import deLocales from 'src/locales/de.json'
-import enLocales from 'src/locales/en.json'
+import deFlag from 'src/images/flags/de.svg'
+import enFlag from 'src/images/flags/en.svg'
+import faFlag from 'src/images/flags/fa.svg'
+import deTranslation from 'src/locales/de.json'
+import enTranslation from 'src/locales/en.json'
+import faTranslation from 'src/locales/fa.json'
 
-export const LANGUAGES = {
-  en: 'en',
-  de: 'de',
-}
-
-export const MUI_LOCALES = {
-  [LANGUAGES.en]: enUS,
-  [LANGUAGES.de]: deDE,
-}
-
-export const FLAG_LOCALES = {
-  [LANGUAGES.en]: enFlag,
-  [LANGUAGES.de]: deFlag,
-}
+export const LANGUAGES = [
+  {
+    title: 'en',
+    label: 'English',
+    muiLocal: enUS,
+    translations: enTranslation,
+    flag: enFlag,
+    country: 'en-GB',
+  },
+  {
+    title: 'de',
+    label: 'Germany',
+    muiLocal: deDE,
+    translations: deTranslation,
+    flag: deFlag,
+    country: 'de-DE',
+  },
+  {
+    title: 'fa',
+    label: 'Persian',
+    muiLocal: faIR,
+    translations: faTranslation,
+    flag: faFlag,
+    country: 'fa-IR',
+  },
+]
 
 i18next
   .use(initReactI18next)
@@ -30,14 +44,15 @@ i18next
   .init({
     resources: {
       en: {
-        translation: enLocales,
+        translation: LANGUAGES[0].translations,
       },
       de: {
-        translation: deLocales,
+        translation: LANGUAGES[1].translations,
+      },
+      fa: {
+        translation: LANGUAGES[2].translations,
       },
     },
-    fallbackLng: LANGUAGES.en,
+    fallbackLng: LANGUAGES[0].name,
     debug: false,
   })
-
-// en-US

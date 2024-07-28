@@ -66,16 +66,21 @@
   }
 }
 
-// start money unit switcher
-.unit-switcher {
+.small-dropdown {
   fieldset {
     border: none !important;
+  }
+
+  svg {
+    fill: white !important;
   }
 
   .MuiSelect-select {
     display: flex;
     gap: 5px;
     font-size: 14px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 
     img {
       width: 21px !important;

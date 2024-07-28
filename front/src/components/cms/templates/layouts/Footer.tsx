@@ -1,3 +1,4 @@
+import { DisplayDate } from '../../molecules/DisplayDate'
 import { AppBar, Box, Container } from '@mui/material'
 
 import { LanguageSwitcher } from 'src/components/cms/molecules/LanguageSwitcher'
@@ -8,10 +9,11 @@ export const Footer = () => {
   return (
     <AppBar position='static' component='footer' className='nav-bar'>
       <Container maxWidth='xl'>
-        <Box sx={{ mx: 4, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <LanguageSwitcher />
-          <UnitSwitcher />
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: 2 }}>
           <ThemeSwitcher />
+          <UnitSwitcher />
+          <LanguageSwitcher />
+          <DisplayDate />
         </Box>
       </Container>
     </AppBar>

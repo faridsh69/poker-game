@@ -12,14 +12,12 @@ export const UnitSwitcher = () => {
   }
 
   return (
-    <FormControl size='small' className='unit-switcher'>
+    <FormControl size='small' className='small-dropdown'>
       <Select value={moneyUnitTitle}>
         {MONEY_UNITS.map(unit => {
-          const { title, flag, name } = unit
-
           return (
-            <MenuItem value={title} key={title} onClick={() => changeUnit(title)}>
-              <img src={flag} alt={title} className='unit-switcher-img' /> {title} - {name}
+            <MenuItem value={unit.title} key={unit.title} onClick={() => changeUnit(unit.title)}>
+              <img src={unit.flag} alt={unit.title} className='small-dropdown-img' /> {unit.title} - {unit.label}
             </MenuItem>
           )
         })}

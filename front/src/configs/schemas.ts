@@ -18,6 +18,14 @@ const REGEXS = {
 }
 
 const INPUT_VALIDATIONS = {
+  email: yup.string().email().required(),
+  username: yup
+    .string()
+    .required()
+    .min(3, 'Username must have atleast 3 characters.')
+    .matches(REGEXS.alphabeticAndNumbers, {
+      message: 'Only alphabetic and number allowed.',
+    }),
   password: yup
     .string()
     .required()
@@ -28,29 +36,30 @@ const INPUT_VALIDATIONS = {
     one lowercase letter
     and one number`,
     ),
-}
-
-const LOGIN_SCHEMA = yup.object({
-  email: yup.string().email().required(),
-  password: yup.string().required(),
-})
-
-const USERS_SCHEMA = yup.object({
-  username: yup
-    .string()
-    .required()
-    .min(3, 'Username must have atleast 3 characters.')
-    .matches(REGEXS.alphabeticAndNumbers, {
-      message: 'Only alphabetic and number allowed.',
-    }),
-  first_name: yup.string().required().min(2, 'First name must have atleast 2 characters.'),
-  last_name: yup.string().required().min(2, 'Last name must have atleast 2 characters.'),
-  email: yup.string().required().email(),
   phone: yup
     .string()
     .transform(value => (!value ? null : value))
     .nullable()
     .matches(REGEXS.phone, 'Phone number is not valid'),
+}
+
+const LOGIN_SCHEMA = yup.object({
+  email: INPUT_VALIDATIONS.email,
+  password: INPUT_VALIDATIONS.password,
+})
+
+const REGISTERR_SCHEMA = yup.object({
+  email: INPUT_VALIDATIONS.email,
+  username: INPUT_VALIDATIONS.username,
+  password: INPUT_VALIDATIONS.password,
+})
+
+const USERS_SCHEMA = yup.object({
+  username: INPUT_VALIDATIONS.username,
+  first_name: yup.string().required().min(2, 'First name must have atleast 2 characters.'),
+  last_name: yup.string().required().min(2, 'Last name must have atleast 2 characters.'),
+  email: INPUT_VALIDATIONS.email,
+  phone: INPUT_VALIDATIONS.phone,
   status: yup.mixed<string>().oneOf(USERS_STATUS_ENUM).required(),
   role: yup.mixed<string>().oneOf(USERS_ROLE_ENUM).required(),
   gender: yup.mixed<string>().oneOf(USERS_GENDER_ENUM).required(),
@@ -62,11 +71,7 @@ const USERS_SCHEMA = yup.object({
 const PROFILE_SCHEMA = yup.object({
   first_name: yup.string().required(),
   last_name: yup.string().required(),
-  phone: yup
-    .string()
-    .transform(value => (!value ? null : value))
-    .nullable()
-    .matches(REGEXS.phone, 'Phone number is not valid'),
+  phone: INPUT_VALIDATIONS.phone,
 })
 
 const PASSWORD_SCHEMA = yup.object({
@@ -123,13 +128,7 @@ const TRANSACTIONS_SCHEMA = yup.object({
 })
 
 const TRANSFER_SCHEMA = yup.object({
-  username: yup
-    .string()
-    .required()
-    .min(3, 'Username must have atleast 3 characters.')
-    .matches(REGEXS.alphabeticAndNumbers, {
-      message: 'Only alphabetic and number allowed.',
-    }),
+  username: INPUT_VALIDATIONS.username,
   price: yup.number().required(),
   description: yup.string().required(),
 })
@@ -145,7 +144,7 @@ const HISTORIES_SCHEMA = yup.object({
 })
 
 export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {
-  register: LOGIN_SCHEMA,
+  register: REGISTERR_SCHEMA,
   login: LOGIN_SCHEMA,
   profile: PROFILE_SCHEMA,
   users: USERS_SCHEMA,

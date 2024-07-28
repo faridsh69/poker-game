@@ -1,7 +1,7 @@
 import { ThemeOptions } from '@mui/material'
 
 const important = ' !important'
-export const globalTheme = {
+export const GLOBAL_THEME = {
   palette: {
     primary: {
       main: '#DF3939',
@@ -13,6 +13,11 @@ export const globalTheme = {
       dark: '#171717',
       contrastText: '#fff',
     },
+  },
+  fonts: {
+    small: 12,
+    medium: 14,
+    big: 16,
   },
   breakpoints: {
     values: {
@@ -81,7 +86,7 @@ export const LIGHT_THEME: ThemeOptions = {
     MuiContainer: {
       styleOverrides: {
         disableGutters: {
-          backgroundColor: globalTheme.palette.secondary.dark,
+          backgroundColor: GLOBAL_THEME.palette.secondary.dark,
         },
         maxWidthXs: {
           marginTop: 50,
@@ -94,22 +99,25 @@ export const LIGHT_THEME: ThemeOptions = {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.primary.contrastText + important,
+          color: GLOBAL_THEME.palette.primary.contrastText + important,
         },
       },
     },
     MuiTypography: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.primary.contrastText,
+          color: GLOBAL_THEME.palette.primary.contrastText,
+        },
+        subtitle1: {
+          fontSize: GLOBAL_THEME.fonts.small,
         },
       },
     },
     MuiLink: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.primary.main,
-          fontSize: 14,
+          color: GLOBAL_THEME.palette.primary.main,
+          fontSize: GLOBAL_THEME.fonts.medium,
         },
       },
     },
@@ -126,40 +134,40 @@ export const LIGHT_THEME: ThemeOptions = {
         root: {
           boxShadow: 'inset 0 2px 1px #000',
           borderBottom: '1px solid #3B3D3C',
-          backgroundColor: globalTheme.palette.secondary.main + important,
+          backgroundColor: GLOBAL_THEME.palette.secondary.main + important,
           borderRadius: 7,
           '&&:after': {
             borderColor: '#DEBA79',
           },
         },
         input: {
-          color: globalTheme.palette.primary.contrastText,
+          color: GLOBAL_THEME.palette.primary.contrastText,
         },
       },
     },
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.secondary.light + important,
+          color: GLOBAL_THEME.palette.secondary.light + important,
         },
       },
     },
     MuiFormControlLabel: {
       styleOverrides: {
         label: {
-          color: globalTheme.palette.primary.contrastText,
+          color: GLOBAL_THEME.palette.primary.contrastText,
         },
       },
     },
     MuiCheckbox: {
       styleOverrides: {
         root: {
-          color: globalTheme.palette.primary.contrastText + important,
+          color: GLOBAL_THEME.palette.primary.contrastText + important,
         },
       },
     },
   },
-  ...globalTheme,
+  ...GLOBAL_THEME,
 }
 
 export const THEME_NAMES = {

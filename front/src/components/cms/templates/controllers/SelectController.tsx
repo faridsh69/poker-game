@@ -20,7 +20,7 @@ export const SelectController = (props: TypePropsInputController) => {
         const selectValue = !multiple ? convertNullToEmptyString(value) : value || []
 
         return (
-          <FormControl variant='standard' error={toBool(error)}>
+          <FormControl variant='filled' error={toBool(error)}>
             <InputLabel>{inputLabel}</InputLabel>
             <Select
               label={label}
