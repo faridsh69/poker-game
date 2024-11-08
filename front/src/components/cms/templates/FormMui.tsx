@@ -2,7 +2,6 @@ import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import { TextController } from './controllers/TextController'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button } from '@mui/material'
 
@@ -25,11 +24,16 @@ export const FormMui = (props: TypePropsFormMui) => {
 
   const defaultSubmitText = submitText ? t(submitText) : isUpdating ? t('Update') : t('Create')
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
     mode: 'onTouched',
     values,
   })
+  console.log('x errors ', errors)
 
   const onGeneralSubmit = useCallback(
     (data: TypeModel) => {
@@ -45,7 +49,7 @@ export const FormMui = (props: TypePropsFormMui) => {
       sx={{ mt: 2, display: 'flex', flexDirection: 'column', minWidth: '333px' }}
     >
       {inputs.map(input => {
-        const { component: InputController = TextController, name, disableOnUpdate, ...rest } = input
+        const { component: InputController = <TextController></TextController>, name, disableOnUpdate, ...rest } = input
         const inputType = input.type || 'text'
         const inputLabel = input.label || toFormalCase(name)
         const disabled = isUpdating ? disableOnUpdate : false

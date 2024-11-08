@@ -17,4 +17,5 @@ import 'src/styles/game.scss'
 // Theme css
 import 'src/styles/mui.scss'
 import 'src/styles/seats.scss'
+import 'src/styles/test.scss'
 import 'src/styles/winner.scss'
