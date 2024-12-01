@@ -26,7 +26,7 @@ export const useAuth = () => {
 
   const registerMutation = useMutation({
     mutationFn: postRegister,
-    onError: (_, { callback }) => {
+    onSuccess: (_, { callback }) => {
       toast.success('Registered successfully, please confirm your email and login.')
       callback?.()
     },
