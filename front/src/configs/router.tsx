@@ -18,7 +18,8 @@ export const ROUTES_PATH_NAMES = {
   rakeback: '/rakeback',
   bunoses: '/bunoses',
   ranking: '/ranking',
-  cashier: '/cashier',
+  deposit: '/deposit',
+  withdraw: '/withdraw',
 }
 
 const ROUTES: RoutesType = [
@@ -45,6 +46,22 @@ const ROUTES: RoutesType = [
   {
     path: ROUTES_PATH_NAMES.password,
     element: <Suspender pageName='UserPassword' canAuth />,
+    errorElement: <ErrorPage />,
+  },
+
+  {
+    path: ROUTES_PATH_NAMES.deposit,
+    element: <Suspender pageName='Deposit' canAuth />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: ROUTES_PATH_NAMES.withdraw,
+    element: <Suspender pageName='Withdraw' canAuth />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: ROUTES_PATH_NAMES.holdem,
+    element: <Suspender pageName='Holdem' canAuth />,
     errorElement: <ErrorPage />,
   },
   {

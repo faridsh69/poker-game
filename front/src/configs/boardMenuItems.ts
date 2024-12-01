@@ -1,9 +1,6 @@
-import { BonuscodeForm } from 'src/components/game/templates/payments/BonuscodeForm'
-import { DepositForm } from 'src/components/game/templates/payments/DepositForm'
-import { RakebackForm } from 'src/components/game/templates/payments/RakebackForm'
-import { RewardForm } from 'src/components/game/templates/payments/RewardForm'
+import { DepositForm } from 'src/components/cms/forms/DepositForm'
+import { WithdrawForm } from 'src/components/cms/forms/WithdrawForm'
 import { TransferForm } from 'src/components/game/templates/payments/TransferForm'
-import { WithdrawForm } from 'src/components/game/templates/payments/WithdrawForm'
 import { TablesList } from 'src/components/game/templates/table/TablesList'
 
 export const BOARD_MENU_ITEMS = [
@@ -23,16 +20,16 @@ export const BOARD_MENU_ITEMS = [
     label: 'Transfer',
     component: TransferForm,
   },
-  {
-    label: 'Reward',
-    component: RewardForm,
-  },
-  {
-    label: 'Rake back',
-    component: RakebackForm,
-  },
-  {
-    label: 'Bonus code',
-    component: BonuscodeForm,
-  },
+  // {
+  //   label: 'Reward',
+  //   component: RewardForm,
+  // },
+  // {
+  //   label: 'Rake back',
+  //   component: RakebackForm,
+  // },
+  // {
+  //   label: 'Bonus code',
+  //   component: BonuscodeForm,
+  // },
 ]

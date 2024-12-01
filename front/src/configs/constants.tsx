@@ -70,7 +70,7 @@ export const NAVBAR_MENU_ITEMS = [
   },
   {
     title: '',
-    path: ROUTES_PATH_NAMES.omaha,
+    path: ROUTES_PATH_NAMES.holdem,
     image: OmahaImage,
   },
   {
@@ -78,23 +78,27 @@ export const NAVBAR_MENU_ITEMS = [
     path: ROUTES_PATH_NAMES.profile,
   },
   {
-    title: 'Cashier',
-    path: ROUTES_PATH_NAMES.cashier,
+    title: 'Deposit',
+    path: ROUTES_PATH_NAMES.deposit,
   },
   {
-    title: 'Ranking',
-    path: ROUTES_PATH_NAMES.ranking,
+    title: 'Withdraw',
+    path: ROUTES_PATH_NAMES.withdraw,
   },
-  {
-    title: 'Bunoses',
-    path: ROUTES_PATH_NAMES.bunoses,
-  },
-  {
-    title: 'Rake back',
-    path: ROUTES_PATH_NAMES.rakeback,
-  },
-  {
-    title: 'settings',
-    path: ROUTES_PATH_NAMES.settings,
-  },
+  // {
+  //   title: 'Ranking',
+  //   path: ROUTES_PATH_NAMES.ranking,
+  // },
+  // {
+  //   title: 'Bunoses',
+  //   path: ROUTES_PATH_NAMES.bunoses,
+  // },
+  // {
+  //   title: 'Rake back',
+  //   path: ROUTES_PATH_NAMES.rakeback,
+  // },
+  // {
+  //   title: 'settings',
+  //   path: ROUTES_PATH_NAMES.settings,
+  // },
 ]

@@ -81,91 +81,89 @@ export const TableMui = (props: TypePropsTableMui) => {
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '98%' }}>
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size='medium'>
-            <TableHeader
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={list.length}
-              headCells={headCells}
-            />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                // @ts-ignore
-                const rowId = row.id
-                const isItemSelected = isSelected(rowId)
-                const labelId = `enhanced-table-checkbox-${index}`
+    <Paper>
+      <TableContainer>
+        <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size='medium'>
+          <TableHeader
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={list.length}
+            headCells={headCells}
+          />
+          <TableBody>
+            {visibleRows.map((row, index) => {
+              // @ts-ignore
+              const rowId = row.id
+              const isItemSelected = isSelected(rowId)
+              const labelId = `enhanced-table-checkbox-${index}`
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={event => handleClick(event, rowId)}
-                    role='checkbox'
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={rowId}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding='checkbox'>
-                      <Checkbox
-                        color='primary'
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    {bodyCells.map(cell => {
-                      // @ts-ignore
-                      const val = row[cell.name]
-                      return (
-                        <TableCell key={cell.name} align='left'>
-                          <div>{!isUndefined(val) && val !== null ? val.toString() : val}</div>
-                        </TableCell>
-                      )
-                    })}
-
-                    {handleEdit && handleDelete && (
-                      <TableCell align='right'>
-                        <IconButton onClick={() => handleEdit(rowId)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton onClick={() => handleDelete(rowId)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )
-              })}
-              {emptyRows > 0 && (
+              return (
                 <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
+                  hover
+                  onClick={event => handleClick(event, rowId)}
+                  role='checkbox'
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={rowId}
+                  selected={isItemSelected}
+                  sx={{ cursor: 'pointer' }}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell padding='checkbox'>
+                    <Checkbox
+                      color='primary'
+                      checked={isItemSelected}
+                      inputProps={{
+                        'aria-labelledby': labelId,
+                      }}
+                    />
+                  </TableCell>
+                  {bodyCells.map(cell => {
+                    // @ts-ignore
+                    const val = row[cell.name]
+                    return (
+                      <TableCell key={cell.name} align='left'>
+                        <div>{!isUndefined(val) && val !== null ? val.toString() : val}</div>
+                      </TableCell>
+                    )
+                  })}
+
+                  {handleEdit && handleDelete && (
+                    <TableCell align='right'>
+                      <IconButton onClick={() => handleEdit(rowId)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => handleDelete(rowId)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  )}
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component='div'
-          count={list.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+              )
+            })}
+            {emptyRows > 0 && (
+              <TableRow
+                style={{
+                  height: 53 * emptyRows,
+                }}
+              >
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component='div'
+        count={list.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   )
 }
