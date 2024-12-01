@@ -26,12 +26,9 @@ export const useAuth = () => {
 
   const registerMutation = useMutation({
     mutationFn: postRegister,
-    onSuccess: () => {
+    onError: (_, { callback }) => {
       toast.success('Registered successfully, please confirm your email and login.')
-
-      navigate({
-        pathname: ROUTES_PATH_NAMES.login,
-      })
+      callback?.()
     },
   })
 

@@ -12,13 +12,26 @@ import { TypeModel } from 'src/interfaces'
 export const Register = () => {
   const { t } = useTranslation()
 
-  const { registerMutation } = useAuth()
+  const { loginMutation, registerMutation } = useAuth()
+
+  const onLogin = (data: TypeModel) => {
+    loginMutation.mutate({
+      email: data.email,
+      password: data.password,
+      remember: true,
+    })
+  }
 
   const onSubmit = (data: TypeModel) => {
     registerMutation.mutate({
-      email: data.email,
-      username: data.username,
-      password: data.password,
+      data: {
+        email: data.email,
+        username: data.username,
+        password: data.password,
+      },
+      callback: () => {
+        onLogin(data)
+      },
     })
   }
 

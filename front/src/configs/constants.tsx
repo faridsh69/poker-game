@@ -68,11 +68,11 @@ export const NAVBAR_MENU_ITEMS = [
     path: ROUTES_PATH_NAMES.holdem,
     image: HoldemImage,
   },
-  {
-    title: '',
-    path: ROUTES_PATH_NAMES.holdem,
-    image: OmahaImage,
-  },
+  // {
+  //   title: '',
+  //   path: ROUTES_PATH_NAMES.holdem,
+  //   image: OmahaImage,
+  // },
   {
     title: 'Profile',
     path: ROUTES_PATH_NAMES.profile,

@@ -42,7 +42,7 @@ export const postLogin: TypeCreateApiMethod = data =>
     data,
   })
 
-export const postRegister: TypeCreateApiMethod = data =>
+export const postRegister: TypeCreateApiMethod = ({ data }) =>
   VITE_AUTH_API_CLIENT.post({
     endpoint: 'register',
     data,
