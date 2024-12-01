@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Box, Button, Container, Typography } from '@mui/material'
 
+import classNames from 'classnames'
 import { ImageLoader } from 'src/components/cms/molecules/ImageLoader'
 import { Money } from 'src/components/game/molecules/Money/Money'
 import { META_TAGS } from 'src/configs/constants'
@@ -11,6 +12,7 @@ import { ROUTES_PATH_NAMES } from 'src/configs/router'
 import { GLOBAL_THEME } from 'src/configs/theme'
 import { isLoggedin } from 'src/helpers/auth'
 import { useAuth } from 'src/hooks/useAuth'
+import UserAvatarsImage from 'src/images/game/avatars.png'
 import BannerImage from 'src/images/game/banner2.png'
 import LogoImage from 'src/images/game/logo2.png'
 import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
@@ -41,30 +43,34 @@ export const Header = () => {
         loadingColor={GLOBAL_THEME.palette.secondary.dark}
       />
       {!isLoggedinUser && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <Button variant='contained' component={Link} to={ROUTES_PATH_NAMES.login}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+          <Button variant='outlined' size='small' component={Link} to={ROUTES_PATH_NAMES.login}>
             {t('Login')}
           </Button>
-          <Button variant='contained' component={Link} to={ROUTES_PATH_NAMES.register}>
+          <Button variant='outlined' size='small' component={Link} to={ROUTES_PATH_NAMES.register}>
             {t('Register')}
           </Button>
         </Box>
       )}
 
       {isLoggedinUser && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <Button variant='contained' component={Link} to={ROUTES_PATH_NAMES.profile}>
-            {authUser?.username} {t('Profile')}
-          </Button>
-          <Box sx={{ flexGrow: 1, p: 0, border: 1, bgcolor: 'background.paper', display: 'flex' }}>
-            <div>
+        <div className='main-header-rightside'>
+          <Link to={ROUTES_PATH_NAMES.profile} className='main-header-user'>
+            <div className='main-header-user-avatar'>
+              <div
+                className={classNames('main-header-user-avatar-image', `avatar-${authUser?.avatar_id || 1}`)}
+                style={{ backgroundImage: `url(${UserAvatarsImage})` }}
+              />
+              {/* {authUser?.username} */}
+            </div>
+            <div className='main-header-user-balance'>
               Balance: <Money money={authUser?.balance ? +authUser?.balance : 0} />
             </div>
-          </Box>
-          <Button variant='contained' onClick={handleLogout} sx={{ gap: 1 }}>
-            <LogoutIcon /> {t('Logout')}
+          </Link>
+          <Button className='main-header-logout' onClick={handleLogout} sx={{ gap: 1 }}>
+            <LogoutIcon />
           </Button>
-        </Box>
+        </div>
       )}
     </Container>
   )
