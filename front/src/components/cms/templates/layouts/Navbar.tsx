@@ -1,43 +1,38 @@
-import { AppBar, Box, Button, Container } from '@mui/material'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+import { ImageLoader } from '../../molecules/ImageLoader'
+import { AppBar, Button, Container } from '@mui/material'
+
+import classNames from 'classnames'
+import { NAVBAR_MENU_ITEMS } from 'src/configs/constants'
 
 export const Navbar = () => {
-  const NAVBAR_MENU_ITEMS = [
-    {
-      title: 'home',
-    },
-    {
-      title: 'Lobby (holdem + omaha + tournoments)',
-    },
-    {
-      title: 'My profile',
-    },
-    {
-      title: 'Cashier',
-    },
-    {
-      title: 'Ranking',
-    },
-    {
-      title: 'Bunoses',
-    },
-    {
-      title: 'Rake back',
-    },
-    {
-      title: 'Settings',
-    },
-  ]
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  const handleNavigate = (pathname: string) =>
+    navigate({
+      pathname,
+    })
 
   return (
-    <AppBar position='static' component='nav' className='nav-bar'>
+    <AppBar position='static' className='main-nav'>
       <Container maxWidth='xl'>
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0 }}>
-          {NAVBAR_MENU_ITEMS.map(menuItem => (
-            <Button key={menuItem.title} className='nav-bar-button'>
-              {menuItem.title}
+        {NAVBAR_MENU_ITEMS.map(menuItem => {
+          return (
+            <Button
+              key={menuItem.path}
+              className={classNames('main-nav-btn', pathname === menuItem.path && 'main-nav-active')}
+              onClick={() => handleNavigate(menuItem.path)}
+            >
+              <div className='main-nav-btn-text'>
+                {menuItem.title && <span>{menuItem.title}</span>}
+                {menuItem.icon}
+                {menuItem.image && <ImageLoader src={menuItem.image} height={40} />}
+              </div>
             </Button>
-          ))}
-        </Box>
+          )
+        })}
       </Container>
     </AppBar>
   )

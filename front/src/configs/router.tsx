@@ -12,6 +12,13 @@ export const ROUTES_PATH_NAMES = {
   profile: '/profile',
   password: '/password',
   admin: '/admin',
+  holdem: '/holdem',
+  omaha: '/omaha',
+  settings: '/settings',
+  rakeback: '/rakeback',
+  bunoses: '/bunoses',
+  ranking: '/ranking',
+  cashier: '/cashier',
 }
 
 const ROUTES: RoutesType = [

@@ -1,11 +1,15 @@
 import packageJson from '../../package.json'
+import { ROUTES_PATH_NAMES } from './router'
 import Diversity2Icon from '@mui/icons-material/Diversity2'
 import HistoryIcon from '@mui/icons-material/History'
+import HomeIcon from '@mui/icons-material/Home'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import PaidIcon from '@mui/icons-material/Paid'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import TableBarIcon from '@mui/icons-material/TableBar'
 
+import HoldemImage from 'src/images/game/holdem.png'
+import OmahaImage from 'src/images/game/omaha.png'
 import { TypeSidebarItem } from 'src/interfaces'
 
 export const LOCAL_STORAGE_APP_KEY = 'PER'
@@ -50,5 +54,47 @@ export const ADMIN_SIDEBAR_ITEMS: TypeSidebarItem[] = [
     title: 'table logs',
     url: 'histories',
     icon: HistoryIcon,
+  },
+]
+
+export const NAVBAR_MENU_ITEMS = [
+  {
+    title: '',
+    path: ROUTES_PATH_NAMES.home,
+    icon: <HomeIcon />,
+  },
+  {
+    title: '',
+    path: ROUTES_PATH_NAMES.holdem,
+    image: HoldemImage,
+  },
+  {
+    title: '',
+    path: ROUTES_PATH_NAMES.omaha,
+    image: OmahaImage,
+  },
+  {
+    title: 'Profile',
+    path: ROUTES_PATH_NAMES.profile,
+  },
+  {
+    title: 'Cashier',
+    path: ROUTES_PATH_NAMES.cashier,
+  },
+  {
+    title: 'Ranking',
+    path: ROUTES_PATH_NAMES.ranking,
+  },
+  {
+    title: 'Bunoses',
+    path: ROUTES_PATH_NAMES.bunoses,
+  },
+  {
+    title: 'Rake back',
+    path: ROUTES_PATH_NAMES.rakeback,
+  },
+  {
+    title: 'settings',
+    path: ROUTES_PATH_NAMES.settings,
   },
 ]

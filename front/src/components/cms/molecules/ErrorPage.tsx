@@ -13,10 +13,10 @@ export const ErrorPage = () => {
   errorHandler(error, 'ErrorPage')
 
   return (
-    <Alert severity='error'>
-      <AlertTitle>Oops! {META_TAGS.title}</AlertTitle>
+    <Alert severity='error' sx={{ height: '100vh' }}>
+      <AlertTitle sx={{ color: 'black' }}>Oops! {META_TAGS.title}</AlertTitle>
       <strong>
-        <Link to='/'>Retry</Link>
+        <Link to='/'>Go to home page</Link>
       </strong>
       {/* @ts-ignore */}
       <pre>{error.message || error.name || error.data}</pre>
