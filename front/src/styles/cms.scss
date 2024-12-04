@@ -1,6 +1,9 @@
 @import './commons.scss';
 
-section {
+body,
+#root {
+  background-color: #181818;
+  color: white;
   @include scrollbar;
 }
 
@@ -97,6 +100,10 @@ section {
     }
   }
 
+  section {
+    @include scrollbar;
+  }
+
   &-section {
     padding-right: 0px !important;
     overflow-y: auto !important;
@@ -109,6 +116,8 @@ section {
         background-color: #242424;
         border-left: 3px solid #12c012;
         margin: 10px;
+        border-radius: 10px;
+        width: 100%;
 
         &-title {
           display: flex;
@@ -155,6 +164,24 @@ section {
     background: linear-gradient(0deg, #1c1c1c 12%, #1c1c1c 72%, #585859 100%);
     top: auto !important;
     bottom: 0px;
+  }
+}
+
+.admin {
+  background-color: #171717;
+  color: white;
+
+  &-drawer {
+    div {
+      background: #eee !important;
+    }
+    span {
+      color: black !important;
+    }
+  }
+
+  &-content {
+    padding: 30px;
   }
 }
 

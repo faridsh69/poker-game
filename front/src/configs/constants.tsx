@@ -9,7 +9,6 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import TableBarIcon from '@mui/icons-material/TableBar'
 
 import HoldemImage from 'src/images/game/holdem.png'
-import OmahaImage from 'src/images/game/omaha.png'
 import { TypeSidebarItem } from 'src/interfaces'
 
 export const LOCAL_STORAGE_APP_KEY = 'PER'
@@ -68,11 +67,6 @@ export const NAVBAR_MENU_ITEMS = [
     path: ROUTES_PATH_NAMES.holdem,
     image: HoldemImage,
   },
-  // {
-  //   title: '',
-  //   path: ROUTES_PATH_NAMES.holdem,
-  //   image: OmahaImage,
-  // },
   {
     title: 'Profile',
     path: ROUTES_PATH_NAMES.profile,

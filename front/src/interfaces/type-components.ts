@@ -79,12 +79,12 @@ export type TypePropsInputController = {
 }
 
 export type TypePropsTableHeader = {
-  onSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void
-  order: TypeOrder
-  orderBy: string
-  numSelected: number
-  rowCount: number
-  onRequestSort: (event: MouseEvent, property: string) => void
+  onSelectAllClick?: (event: ChangeEvent<HTMLInputElement>) => void
+  order?: TypeOrder
+  orderBy?: string
+  numSelected?: number
+  rowCount?: number
+  onRequestSort?: (event: MouseEvent, property: string) => void
   headCells: TypeHeadCells[]
 }
 

@@ -18,6 +18,7 @@ const REGEXS = {
 }
 
 const INPUT_VALIDATIONS = {
+  required: yup.string().required(),
   email: yup.string().email().required(),
   username: yup
     .string()
@@ -45,7 +46,7 @@ const INPUT_VALIDATIONS = {
 
 const LOGIN_SCHEMA = yup.object({
   email: INPUT_VALIDATIONS.email,
-  password: INPUT_VALIDATIONS.password,
+  password: INPUT_VALIDATIONS.required,
 })
 
 const REGISTERR_SCHEMA = yup.object({
@@ -56,8 +57,8 @@ const REGISTERR_SCHEMA = yup.object({
 
 const USERS_SCHEMA = yup.object({
   username: INPUT_VALIDATIONS.username,
-  first_name: yup.string().required().min(2, 'First name must have atleast 2 characters.'),
-  last_name: yup.string().required().min(2, 'Last name must have atleast 2 characters.'),
+  first_name: INPUT_VALIDATIONS.required.min(2, 'First name must have atleast 2 characters.'),
+  last_name: INPUT_VALIDATIONS.required.min(2, 'Last name must have atleast 2 characters.'),
   email: INPUT_VALIDATIONS.email,
   phone: INPUT_VALIDATIONS.phone,
   status: yup.mixed<string>().oneOf(USERS_STATUS_ENUM).required(),
@@ -69,13 +70,13 @@ const USERS_SCHEMA = yup.object({
 })
 
 const PROFILE_SCHEMA = yup.object({
-  first_name: yup.string().required(),
-  last_name: yup.string().required(),
+  first_name: INPUT_VALIDATIONS.required,
+  last_name: INPUT_VALIDATIONS.required,
   phone: INPUT_VALIDATIONS.phone,
 })
 
 const PASSWORD_SCHEMA = yup.object({
-  current_password: yup.string().required(),
+  current_password: INPUT_VALIDATIONS.required,
   new_password: INPUT_VALIDATIONS.password,
   repeated_new_password: yup
     .string()
@@ -84,7 +85,7 @@ const PASSWORD_SCHEMA = yup.object({
 })
 
 const TABLES_SCHEMA = yup.object({
-  title: yup.string().required().min(3),
+  title: INPUT_VALIDATIONS.required.min(3),
   pasoor: yup.mixed<string>().oneOf(Object.values(TABLE_PASOORS)).required(),
   blinds_small: yup.number().required(),
   blinds_big: yup.number().required(),
@@ -97,10 +98,10 @@ const PAYMENTS_SCHEMA = yup.object({
   user_id: yup.number().required(),
   price: yup.number().required(),
   user_giving: yup.boolean().required(),
-  description: yup.string().required(),
+  description: INPUT_VALIDATIONS.required,
   gateway: yup.mixed<string>().oneOf(PAYMENTS_GATEWAYS).required(),
   status: yup.mixed<string>().oneOf(PAYMENTS_STATUSES).required(),
-  wallet: yup.string().required(),
+  wallet: INPUT_VALIDATIONS.required,
 })
 
 const DEPOSIT_SCHEMA = yup.object({
@@ -112,16 +113,16 @@ const DEPOSIT_SCHEMA = yup.object({
 
 const WITHDRAW_SCHEMA = yup.object({
   price: yup.number().required(),
-  description: yup.string().required(),
+  description: INPUT_VALIDATIONS.required,
   gateway: yup.mixed<string>().oneOf(PAYMENTS_GATEWAYS).required(),
-  wallet: yup.string().required(),
+  wallet: INPUT_VALIDATIONS.required,
 })
 
 const TRANSACTIONS_SCHEMA = yup.object({
   user_id: yup.number().required(),
   price: yup.number().required(),
   user_giving: yup.boolean().required(),
-  description: yup.string().required(),
+  description: INPUT_VALIDATIONS.required,
   reason: yup.mixed<string>().oneOf(TRANSACTIONS_REASONS).required(),
   table_id: yup.number().required(),
   bonus_code_id: yup.number().required(),
@@ -130,7 +131,7 @@ const TRANSACTIONS_SCHEMA = yup.object({
 const TRANSFER_SCHEMA = yup.object({
   username: INPUT_VALIDATIONS.username,
   price: yup.number().required(),
-  description: yup.string().required(),
+  description: INPUT_VALIDATIONS.required,
 })
 
 const HISTORIES_SCHEMA = yup.object({
@@ -138,9 +139,9 @@ const HISTORIES_SCHEMA = yup.object({
   total: yup.number().required(),
   roleTurn: yup.mixed<string>().oneOf(Object.values(SEAT_ROLES)).required(),
   phase: yup.mixed<string>().oneOf(Object.values(TABLE_PHASES)).required(),
-  seats: yup.string().required(),
-  cards: yup.string().required(),
-  pots: yup.string().required(),
+  seats: INPUT_VALIDATIONS.required,
+  cards: INPUT_VALIDATIONS.required,
+  pots: INPUT_VALIDATIONS.required,
 })
 
 export const MODEL_SCHEMAS: { [key in TypeModelFormKeys]: TypeSchema } = {

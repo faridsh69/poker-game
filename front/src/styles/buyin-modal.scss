@@ -1,8 +1,10 @@
 .buyin-modal {
   user-select: none;
   z-index: 1202 !important;
+  outline: none !important;
 
   &-container {
+    outline: none !important;
     max-width: 400px;
     padding: 0px;
     position: absolute;
@@ -120,6 +122,8 @@
         width: 100%;
 
         .MuiInputBase-root {
+          outline: none !important;
+          border: none !important;
           width: 160px;
           border: 2px solid #d5a654;
 

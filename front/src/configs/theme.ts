@@ -4,12 +4,12 @@ const important = ' !important'
 export const GLOBAL_THEME = {
   palette: {
     primary: {
-      main: '#DF3939',
+      main: '#DF3939', // red
       contrastText: '#fff',
     },
     secondary: {
-      light: '#B8B8B8',
-      main: '#1A1A1A',
+      light: '#B8B8B8', // grey
+      main: '#616361',
       dark: '#171717',
       contrastText: '#fff',
     },
@@ -32,14 +32,6 @@ export const GLOBAL_THEME = {
 
 export const LIGHT_THEME: ThemeOptions = {
   components: {
-    // MuiTab: {
-    //   styleOverrides: {
-    //     root: {
-    //       textAlign: 'left',
-    //       alignItems: 'flex-start',
-    //     },
-    //   },
-    // },
     MuiToolbar: {
       styleOverrides: {
         root: {
@@ -125,7 +117,7 @@ export const LIGHT_THEME: ThemeOptions = {
       styleOverrides: {
         root: {
           height: 40,
-          borderRadius: 20,
+          borderRadius: 5,
         },
       },
     },

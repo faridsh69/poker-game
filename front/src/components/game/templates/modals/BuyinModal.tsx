@@ -63,6 +63,11 @@ export const BuyinModal = () => {
 
   const style = useGetTransformScale(500, 450)
 
+  const inputUnitValue = inputValue * 0.000015
+  const setInputUnitValue = (v: number) => {
+    setInputValue(v * 10000)
+  }
+
   if (!buyinModal.table || !buyinModal.show) return null
 
   return (
@@ -114,8 +119,8 @@ export const BuyinModal = () => {
             Buy-in Amount
             <FormControl>
               <OutlinedInput
-                value={inputValue}
-                onChange={e => setInputValue(+e.target.value || 0)}
+                value={inputUnitValue}
+                onChange={e => setInputUnitValue(+e.target.value || 0)}
                 size='small'
                 startAdornment={<InputAdornment position='start'></InputAdornment>}
               />
@@ -125,7 +130,7 @@ export const BuyinModal = () => {
             <CountDownTimer
               remainingSeconds={remainingSeconds}
               onFinishTimer={closeModel}
-              type='circle'
+              type='text'
               duration={CLIENT_TIMEOUT_SEATOUT_ALLIN}
             />
             Second(s) left.
@@ -134,7 +139,7 @@ export const BuyinModal = () => {
             <Button color='success' variant='contained' onClick={handleBuyin}>
               Ok
             </Button>
-            <Button color='primary' variant='contained' onClick={closeModel}>
+            <Button color='secondary' variant='contained' onClick={closeModel}>
               Cancel
             </Button>
           </div>
