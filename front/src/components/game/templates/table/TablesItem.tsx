@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
 
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
-import { Button, TableCell, TableRow } from '@mui/material'
+import { ActionButton } from '../actions/details/ActionButton'
+import GifIcon from '@mui/icons-material/TableRestaurant'
+import { TableCell, TableRow } from '@mui/material'
 
 import { Money } from 'src/components/game/molecules/Money/Money'
 import { TypeTable } from 'src/interfaces'
@@ -16,34 +17,32 @@ export const TablesItem = (props: { table: TypeTable }) => {
   }, [table.id, table.title])
 
   return (
-    <TableRow>
+    <TableRow className='holdem-table'>
       <TableCell>
-        <b>{table.title}</b>
-        <br />
-        <b>{table.pasoor === 'holdem' && 'Holdem'}</b>
-        <b>{table.pasoor === 'omaha4' && 'Omaha 4 Cards'}</b>
-        <b>{table.pasoor === 'omaha5' && 'Omaha 5 Cards'}</b>
+        <div className='holdem-table-title'>
+          <GifIcon />
+          {table.title}
+        </div>
       </TableCell>
       <TableCell>
-        Blinds: <Money money={table.blinds.small} brif /> - <Money money={table.blinds.big} brif />
+        <div className='holdem-table-buyin'>
+          <Money money={table.buyin.min} brif noDigits />
+        </div>
       </TableCell>
       <TableCell>
-        Buy-In: <Money money={table.buyin.min} brif /> - <Money money={table.buyin.max} brif />
+        <div className='holdem-table-stak'>
+          <Money money={table.blinds.small} brif /> / <Money money={table.blinds.big} brifholdem-table />
+        </div>
       </TableCell>
       <TableCell>
-        Filled Seats: {table.seats.filter(s => s.user).length} / {table.seats.length} - {table.phase}
+        <div className='holdem-table-size'>
+          {table.seats.filter(s => s.user).length} / {table.seats.length}
+        </div>
       </TableCell>
       <TableCell>
-        <Button
-          size='small'
-          variant='contained'
-          color='success'
-          startIcon={<PlayCircleOutlineIcon />}
-          // disabled={!canUserJoinTable(table, authUser?.balance as number)}
-          onClick={handleOpenTablePopup}
-        >
-          JOIN TABLE
-        </Button>
+        <div className='holdem-table-join'>
+          <ActionButton label='Join' onClick={handleOpenTablePopup} />
+        </div>
       </TableCell>
     </TableRow>
   )

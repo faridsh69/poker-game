@@ -13,7 +13,6 @@ const Holdem = () => {
     <PageLayout>
       <SocketLayout>
         {!allTables.length && <Loading />}
-
         {!!allTables.length && <TablesList />}
       </SocketLayout>
     </PageLayout>

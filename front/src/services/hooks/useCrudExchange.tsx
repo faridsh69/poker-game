@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { API_KEY_MAP } from 'src/configs/service'
-import { errorHandler } from 'src/helpers/errorHandler'
 import { API_URLS } from 'src/services/apis'
 
 export const useCrudExchange = () => {
@@ -17,11 +16,15 @@ export const useCrudExchange = () => {
         // @ts-ignore
         return response?.data?.irr
       } catch (error: any) {
-        errorHandler(error, 'listApi useCrudExchange')
+        // errorHandler(error, 'listApi useCrudExchange')
       }
     },
     placeholderData: [],
   })
 
-  return data
+  const x = {
+    usd: 0.000015,
+  }
+
+  return data || x
 }

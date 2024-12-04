@@ -272,11 +272,17 @@ export const getAcceptableValue = (value: string, min: number, max: number) => {
   return numberValue
 }
 
-export const formatMoney = (money: number, moneyUnitTitle: string, exchangeList: any, brif: boolean): string => {
+export const formatMoney = (
+  money: number,
+  moneyUnitTitle: string,
+  exchangeList: any,
+  brif: boolean,
+  noDigits: boolean,
+): string => {
   if (!money) return ''
 
   const unit = MONEY_UNITS.find(u => u.title === moneyUnitTitle) || MONEY_UNITS[0]
-  const exchangeRate = exchangeList[unit.apiKey] || 1
+  const exchangeRate = exchangeList?.[unit.apiKey] || 1
   const isToman = unit.title === MONEY_UNIT_TITLES.irt
 
   const tomanUnit = isToman && brif ? '\u00A0T' : ''
@@ -297,10 +303,12 @@ export const formatMoney = (money: number, moneyUnitTitle: string, exchangeList:
     }
   }
 
+  const digits = noDigits ? 0 : unit.digits
+
   const currencyString = convertedMoney.toLocaleString(unit.country, {
     style: 'currency',
     currency: unit.title,
-    maximumFractionDigits: unit.digits,
+    maximumFractionDigits: digits,
   })
 
   return currencyString.replace('IRT', '') + suffix + tomanUnit

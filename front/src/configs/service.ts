@@ -79,6 +79,7 @@ export const REACT_QUERY_CLIENT = new QueryClient({
     queries: {
       retry: false,
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
       staleTime: Infinity,
     },
     mutations: {
