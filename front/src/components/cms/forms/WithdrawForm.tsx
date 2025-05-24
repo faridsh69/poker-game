@@ -30,7 +30,7 @@ export const WithdrawForm = () => {
     })
   }
 
-  const defaultValues = { gateway: PAYMENTS_GATEWAYS[1], description: 'withdraw userid: ' + authId, wallet: 'Default' }
+  const defaultValues = { gateway: PAYMENTS_GATEWAYS[1], description: 'I want my money until tmrw', wallet: 'Default' }
 
   return (
     <Container maxWidth='xs'>

@@ -28,7 +28,7 @@ export const Navbar = () => {
               <div className='main-nav-btn-text'>
                 {menuItem.title && <span>{menuItem.title}</span>}
                 {menuItem.icon}
-                {menuItem.image && <ImageLoader src={menuItem.image} height={40} />}
+                {menuItem.image && <ImageLoader src={menuItem.image} height={40} width={105} />}
               </div>
             </Button>
           )

@@ -16,7 +16,7 @@ export const Money = (props: TypeProps) => {
   const exchangeList = useCrudExchange()
 
   const formattedMoney = useMemo(() => {
-    if (money <= 0) return '0'
+    if (money <= 0) return '0.00'
 
     return formatMoney(money, moneyUnitTitle, exchangeList, brif, noDigits)
   }, [money, exchangeList, moneyUnitTitle, brif])

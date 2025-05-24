@@ -9,7 +9,7 @@ import {
 
 const { VITE_API_BASE_URL, VITE_SOCKET_URL } = import.meta.env
 
-const VITE_EXCHANGE_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/irr.json'
+const VITE_EXCHANGE_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json'
 
 export const SOCKET_URL = VITE_SOCKET_URL
 

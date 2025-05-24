@@ -26,7 +26,7 @@ export const DepositForm = () => {
     })
   }
 
-  const defaultValues = { gateway: PAYMENTS_GATEWAYS[1], description: 'deposite userid: ' + authId, wallet: 'Default' }
+  const defaultValues = { gateway: PAYMENTS_GATEWAYS[1], description: 'will pay by crypto', wallet: 'Default' }
 
   return (
     <Container maxWidth='xs'>

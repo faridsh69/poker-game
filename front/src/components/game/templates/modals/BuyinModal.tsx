@@ -63,7 +63,7 @@ export const BuyinModal = () => {
 
   const style = useGetTransformScale(500, 450)
 
-  const inputUnitValue = inputValue * 0.000015
+  const inputUnitValue = inputValue
   const setInputUnitValue = (v: number) => {
     setInputValue(v * 10000)
   }

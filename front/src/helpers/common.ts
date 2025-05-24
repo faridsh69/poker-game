@@ -276,13 +276,14 @@ export const formatMoney = (
   money: number,
   moneyUnitTitle: string,
   exchangeList: any,
-  brif: boolean,
-  noDigits: boolean,
+  brif = false, // Tp use K or M instead of 000
+  noDigits = false,
 ): string => {
   if (!money) return ''
 
   const unit = MONEY_UNITS.find(u => u.title === moneyUnitTitle) || MONEY_UNITS[0]
   const exchangeRate = exchangeList?.[unit.apiKey] || 1
+
   const isToman = unit.title === MONEY_UNIT_TITLES.irt
 
   const tomanUnit = isToman && brif ? '\u00A0T' : ''

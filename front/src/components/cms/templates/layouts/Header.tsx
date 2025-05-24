@@ -61,10 +61,9 @@ export const Header = () => {
                 className={classNames('main-header-user-avatar-image', `avatar-${authUser?.avatar_id || 1}`)}
                 style={{ backgroundImage: `url(${UserAvatarsImage})` }}
               />
-              {/* {authUser?.username} */}
             </div>
             <div className='main-header-user-balance'>
-              Balance: <Money money={authUser?.balance ? +authUser?.balance : 0} />
+              {authUser?.first_name}: Balance <Money money={authUser?.balance ? +authUser?.balance : 0} />
             </div>
           </Link>
           <Button className='main-header-logout' onClick={handleLogout} sx={{ gap: 1 }}>

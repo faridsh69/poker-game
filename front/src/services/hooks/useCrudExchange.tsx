@@ -14,7 +14,7 @@ export const useCrudExchange = () => {
         const response = await listApi?.()
 
         // @ts-ignore
-        return response?.data?.irr
+        return response?.data?.usd
       } catch (error: any) {
         // errorHandler(error, 'listApi useCrudExchange')
       }
@@ -22,9 +22,5 @@ export const useCrudExchange = () => {
     placeholderData: [],
   })
 
-  const x = {
-    usd: 0.000015,
-  }
-
-  return data || x
+  return data
 }

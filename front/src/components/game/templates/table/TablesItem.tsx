@@ -31,7 +31,7 @@ export const TablesItem = (props: { table: TypeTable }) => {
       </TableCell>
       <TableCell>
         <div className='holdem-table-stak'>
-          <Money money={table.blinds.small} brif /> / <Money money={table.blinds.big} brifholdem-table />
+          <Money money={table.blinds.small} brif /> / <Money money={table.blinds.big} brif />
         </div>
       </TableCell>
       <TableCell>
