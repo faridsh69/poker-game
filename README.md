@@ -12,7 +12,6 @@ A full-stack poker game application built with NestJS (backend) and React + Vite
 Make sure you have the following installed on your system:
 
 - Node.js (v14 or higher)
-- Yarn package manager
 - PostgreSQL or your configured database service
 
 ## Installation and Setup
@@ -28,7 +27,7 @@ yarn install
 
 # Install frontend dependencies
 cd ../front
-yarn install
+pnpm install
 ```
 
 ### 2. Environment Configuration
@@ -75,15 +74,15 @@ After configuring the backend environment variables:
 # Navigate to the back directory
 cd back
 
-# Run NestJS migrations
-yarn migration:run
-
-# (Optional) If you need to generate a new migration
-# yarn migration:generate src/migrations/MigrationName
-
-# (Optional) If you need to revert migrations
-# yarn migration:revert
+# Run NestJS seed
+yarn run seed
 ```
+
+player 1 email: farid.sh69@gmail.com
+player 1 password: Aa11
+
+player 2 email: player2@gmail.com
+player 1 password: Aa11
 
 ## Running the Applications
 
@@ -117,7 +116,7 @@ yarn build
 yarn preview
 ```
 
-The frontend will be running at `http://localhost:5173` (or the configured port).
+The frontend will be running at `http://localhost:2000` (or the configured port).
 
 ## Running Both Applications Together
 
