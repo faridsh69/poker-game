@@ -8,12 +8,14 @@ const DATABASE_CONFIG = {
   synchronize: true,
   logging: true,
   autoLoadEntities: true,
-  retryAttempts: 3,
+  retryAttempts: 1,
 }
 
 export const getDbConfig = () => {
   return {
     ...DATABASE_CONFIG,
+    host: envConfig().dbHost,
+    port: envConfig().dbPort,
     database: envConfig().dbName,
     password: envConfig().dbPassword,
     username: envConfig().dbUsername,

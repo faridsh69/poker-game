@@ -1,8 +1,10 @@
-export const envConfig = (): { [key: string]: string } => {
+export const envConfig = () => {
   const config = {
     port: process.env.PORT as string,
     secretKey: process.env.JWT_SECRET_KEY as string,
 
+    dbHost: process.env.DB_HOST as string,
+    dbPort: process.env.DB_PORT as any as number,
     dbPassword: process.env.DB_PASSWORD as string,
     dbUsername: process.env.DB_USERNAME as string,
     dbName: process.env.DB_NAME as string,

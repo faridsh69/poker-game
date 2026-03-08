@@ -11,6 +11,7 @@
     "mock-api": "json-server --watch mocks/foods.json --port 3001 --middlewares mocks/mock-api.cjs",
     "precommit": "lint-staged",
     "preview": "vite preview",
+    "dev": "vite",
     "start": "vite"
   },
   "dependencies": {

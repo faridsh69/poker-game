@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "nest build",
+    "dev": "nest start",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "seed": "ts-node -r tsconfig-paths/register src/seeders/seeder.bootstrap.ts",
