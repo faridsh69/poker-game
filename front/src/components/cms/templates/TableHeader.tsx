@@ -1,5 +1,4 @@
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material'
-import { visuallyHidden } from '@mui/utils'
 
 import { TypePropsTableHeader } from 'src/interfaces'
 
@@ -40,9 +39,7 @@ export const TableHeader = (props: TypePropsTableHeader) => {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component='span' sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
+                <Box component='span'>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box>
               ) : null}
             </TableSortLabel>
           </TableCell>
