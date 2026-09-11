@@ -39,7 +39,7 @@ export class SeederService {
       // ...this.historiesService.seed(),
     ])
       .then(createdModels => {
-        this.logger.debug('No. of models created : ' + createdModels.filter(nullValue => nullValue).length)
+        this.logger.debug('Number of models created : ' + createdModels.filter(nullValue => nullValue).length)
         return Promise.resolve(true)
       })
       .catch(error => Promise.reject(error))

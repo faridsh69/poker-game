@@ -1,6 +1,6 @@
 import enFlag from 'src/images/flags/en.svg'
 import euFlag from 'src/images/flags/eu.svg'
-import faFlag from 'src/images/flags/fa.svg'
+// import faFlag from 'src/images/flags/fa.svg'
 
 export const MONEY_UNIT_TITLES = {
   usd: 'USD',
@@ -26,13 +26,13 @@ export const MONEY_UNITS = [
     flag: euFlag,
     apiKey: 'eur',
   },
-  {
-    title: MONEY_UNIT_TITLES.irt,
-    label: 'Iranian Toman',
-    sign: 't',
-    country: 'en-US',
-    digits: 0,
-    flag: faFlag,
-    apiKey: 'irr',
-  },
+  // {
+  //   title: MONEY_UNIT_TITLES.irt,
+  //   label: 'Iranian Toman',
+  //   sign: 't',
+  //   country: 'en-US',
+  //   digits: 0,
+  //   flag: faFlag,
+  //   apiKey: 'irr',
+  // },
 ]

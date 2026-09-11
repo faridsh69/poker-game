@@ -26,7 +26,12 @@ export const DepositForm = () => {
     })
   }
 
-  const defaultValues = { gateway: PAYMENTS_GATEWAYS[1], description: 'will pay by crypto', wallet: 'Default' }
+  const defaultValues = {
+    price: 900000,
+    gateway: PAYMENTS_GATEWAYS[1],
+    description: 'will pay by crypto',
+    wallet: 'Default',
+  }
 
   return (
     <Container maxWidth='xs'>

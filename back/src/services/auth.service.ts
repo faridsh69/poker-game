@@ -16,10 +16,13 @@ export class AuthService {
   constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
 
   async login(loginUserDto: LoginUserDto): Promise<TypeUserWithToken> {
-    const user = await this.usersService.findOneBy('email', loginUserDto.email, true)
+    const userWithEmail = await this.usersService.findOneBy('email', loginUserDto.email, true)
+    const userWithUsername = await this.usersService.findOneBy('username', loginUserDto.email, true)
+
+    const user = userWithEmail || userWithUsername
 
     if (!user) {
-      return throwException('The specified user email does not exists.', false, 400)
+      return throwException('The specified user email or username does not exists.', false, 400)
     }
 
     const isPasswordMatch = await compare(loginUserDto.password, user.password)

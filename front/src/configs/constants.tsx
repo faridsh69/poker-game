@@ -67,10 +67,7 @@ export const NAVBAR_MENU_ITEMS = [
     path: ROUTES_PATH_NAMES.holdem,
     image: HoldemImage,
   },
-  {
-    title: 'Profile',
-    path: ROUTES_PATH_NAMES.profile,
-  },
+
   {
     title: 'Deposit',
     path: ROUTES_PATH_NAMES.deposit,
@@ -78,6 +75,10 @@ export const NAVBAR_MENU_ITEMS = [
   {
     title: 'Withdraw',
     path: ROUTES_PATH_NAMES.withdraw,
+  },
+  {
+    title: 'Profile',
+    path: ROUTES_PATH_NAMES.profile,
   },
   // {
   //   title: 'Ranking',

@@ -7,6 +7,16 @@ const omaha_seven_seats = 9
 export const TABLES_SEEDER = [
   {
     // id: 1,
+    title: 'Munich',
+    pasoor: TABLE_PASOORS.holdem,
+    blinds_small: 1000,
+    blinds_big: 2000,
+    buyin_min: 40000,
+    buyin_max: 200000,
+    seats: holdem_eight_seats,
+  },
+  {
+    // id: 1,
     title: 'Ottawa',
     pasoor: TABLE_PASOORS.holdem,
     blinds_small: 5000,

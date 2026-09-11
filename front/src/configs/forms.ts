@@ -52,7 +52,7 @@ export const REGISTER_FORM: TypeFormInput[] = [
 export const LOGIN_FORM: TypeFormInput[] = [
   {
     name: 'email',
-    label: 'Email Address',
+    label: 'Email Or Username',
     autoComplete: 'email',
     autoFocus: true,
   },

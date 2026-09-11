@@ -45,7 +45,7 @@ const INPUT_VALIDATIONS = {
 }
 
 const LOGIN_SCHEMA = yup.object({
-  email: INPUT_VALIDATIONS.email,
+  email: INPUT_VALIDATIONS.required,
   password: INPUT_VALIDATIONS.required,
 })
 
