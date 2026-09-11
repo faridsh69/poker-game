@@ -118,7 +118,7 @@ export const TABLES_SEEDER = [
   },
   {
     // id: 11,
-    title: 'Cairo',
+    title: 'Cairox',
     pasoor: TABLE_PASOORS.omaha4,
     blinds_small: 5000,
     blinds_big: 10000,
@@ -387,6 +387,4 @@ export const TABLES_SEEDER = [
     buyin_max: 50000000,
     seats: 6,
   },
-
-  //   title: 'Holdem 5$ 10$, Buy in: 500$ - 1000$',
 ] as Table[]
