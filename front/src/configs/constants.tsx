@@ -8,7 +8,6 @@ import PaidIcon from '@mui/icons-material/Paid'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import TableBarIcon from '@mui/icons-material/TableBar'
 
-import HoldemImage from 'src/images/game/holdem.png'
 import { TypeSidebarItem } from 'src/interfaces'
 
 export const LOCAL_STORAGE_APP_KEY = 'PER'
@@ -56,7 +55,7 @@ export const ADMIN_SIDEBAR_ITEMS: TypeSidebarItem[] = [
   },
 ]
 
-export const NAVBAR_MENU_ITEMS = [
+export const NAVBAR_MENU_ITEMS: { title?: string; path: string; icon?: JSX.Element; image?: string }[] = [
   {
     title: '',
     path: ROUTES_PATH_NAMES.home,
