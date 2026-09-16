@@ -16,10 +16,10 @@ export const Money = (props: TypeProps) => {
   const exchangeList = useCrudExchange()
 
   const formattedMoney = useMemo(() => {
-    if (money <= 0) return '0.00'
+    if (money <= 0) return noCent || noDigits ? '0' : '0.00'
 
-    return formatMoney(money, moneyUnitTitle, exchangeList, brif, noDigits)
-  }, [money, exchangeList, moneyUnitTitle, brif])
+    return formatMoney(money, moneyUnitTitle, exchangeList, brif, noDigits || noCent)
+  }, [money, exchangeList, moneyUnitTitle, brif, noDigits, noCent])
 
   return (
     <div className='cash'>
