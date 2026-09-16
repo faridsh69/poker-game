@@ -17,7 +17,7 @@ export const Navbar = () => {
 
   return (
     <AppBar position='static' className='main-nav'>
-      <Container maxWidth='xl'>
+      <Container maxWidth='xl' className='main-nav-items'>
         {NAVBAR_MENU_ITEMS.map(menuItem => {
           return (
             <Button

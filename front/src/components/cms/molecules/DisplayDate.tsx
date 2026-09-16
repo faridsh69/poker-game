@@ -18,7 +18,7 @@ export const DisplayDate = () => {
   const finalDate = new Date().toLocaleString(currentLang.country, options)
 
   return (
-    <Box>
+    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
       <Typography variant='subtitle1'>{finalDate}</Typography>
     </Box>
   )

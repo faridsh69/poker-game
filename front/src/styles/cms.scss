@@ -12,6 +12,7 @@ body,
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  padding-bottom: 100px !important;
 
   &-header {
     min-height: 125px;
@@ -58,20 +59,24 @@ body,
         cursor: pointer;
       }
     }
-
-    &-logout {
-      margin: 10px;
-    }
   }
 
   &-nav {
     background: linear-gradient(0deg, #1c1c1c 12%, #1c1c1c 72%, #585859 100%);
+
+    &-items {
+      display: flex !important;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
 
     &-active {
       background: linear-gradient(0deg, #551f1f 0%, #973a3a 60%, #873333 83%, #ba5252 100%) !important;
     }
 
     &-btn {
+      flex-shrink: 0;
+      white-space: nowrap;
       min-width: 50px !important;
       border-right: 1px solid #999 !important;
       border-left: 1px solid #333 !important;

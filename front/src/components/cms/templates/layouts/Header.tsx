@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import LogoutIcon from '@mui/icons-material/Logout'
 import { Box, Button, Container, Typography } from '@mui/material'
 
 import classNames from 'classnames'
@@ -11,7 +10,6 @@ import { META_TAGS } from 'src/configs/constants'
 import { ROUTES_PATH_NAMES } from 'src/configs/router'
 import { GLOBAL_THEME } from 'src/configs/theme'
 import { isLoggedin } from 'src/helpers/auth'
-import { useAuth } from 'src/hooks/useAuth'
 import UserAvatarsImage from 'src/images/game/avatars.png'
 import BannerImage from 'src/images/game/banner2.png'
 import LogoImage from 'src/images/game/logo2.png'
@@ -20,7 +18,6 @@ import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 export const Header = () => {
   const { t } = useTranslation()
   const isLoggedinUser = isLoggedin()
-  const { handleLogout } = useAuth()
   const { single: authUser } = useCrudProfile()
 
   return (
@@ -66,9 +63,6 @@ export const Header = () => {
               {authUser?.first_name}: Balance <Money money={authUser?.balance ? +authUser?.balance : 0} />
             </div>
           </Link>
-          <Button className='main-header-logout' onClick={handleLogout} sx={{ gap: 1 }}>
-            <LogoutIcon />
-          </Button>
         </div>
       )}
     </Container>

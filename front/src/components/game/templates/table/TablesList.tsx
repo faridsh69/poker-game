@@ -6,7 +6,7 @@ import { useAtom } from 'jotai'
 
 import { TableHeader } from 'src/components/cms/templates/TableHeader'
 import { allTablesAtom } from 'src/contexts/allTablesAtom'
-import { calculateHeadCells, filterTableHeaderCells } from 'src/helpers/table'
+import { calculateHeadCells } from 'src/helpers/table'
 
 export const TablesList = () => {
   const [tables] = useAtom(allTablesAtom)

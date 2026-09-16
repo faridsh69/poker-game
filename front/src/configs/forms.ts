@@ -61,11 +61,11 @@ export const LOGIN_FORM: TypeFormInput[] = [
     type: 'password',
     autoComplete: 'current-password',
   },
-  {
-    name: 'remember',
-    label: 'Remember me',
-    component: CheckBoxController,
-  },
+  // {
+  //   name: 'remember',
+  //   label: 'Remember me',
+  //   component: CheckBoxController,
+  // },
 ]
 
 export const PROFILE_FORM: TypeFormInput[] = [

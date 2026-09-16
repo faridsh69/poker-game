@@ -21,7 +21,7 @@ export const SERVER_TIMEOUT_ACTION = 15
 export const SERVER_TIMEOUT_SEATOUT_ALLIN = 600
 export const SERVER_TIMEOUT_SEATOUT = 120
 
-export const SERVER_TIMEOUT_RESTART = 10 // 10
+export const SERVER_TIMEOUT_RESTART = 6 // 8
 export const SERVER_TIMEOUT_CLEAR = 6
 export const SERVER_TIMEOUT_START = 0
 

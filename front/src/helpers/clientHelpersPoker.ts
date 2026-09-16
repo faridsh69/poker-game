@@ -212,11 +212,12 @@ export const canSeeTableActionsShowCards = (table: TypeTable, username: string):
   const userSeat = getUserSeat(table, username)
 
   if (!userSeat) return false
-  console.log('xxx userSeat', userSeat, isWithoutCardsSeat(userSeat)) // @TODO check why when user fold he can see
+
+  if (!isShowOrFinishPhase(table)) return false
+  if (isFoldSeat(userSeat)) return false
   if (isWithoutCardsSeat(userSeat)) return false
   if (isSeatoutSeat(userSeat)) return false
   if (isAnyCardsVisible(userSeat)) return false
-  if (!isShowOrFinishPhase(table)) return false
 
   if (isShowPhase(table) && !isFoldSeat(userSeat)) return false
 

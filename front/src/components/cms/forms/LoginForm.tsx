@@ -17,7 +17,8 @@ export const LoginForm = () => {
     loginMutation.mutate({
       email: data.email,
       password: data.password,
-      remember: !!data.remember,
+      // remember: !!data.remember,
+      remember: true,
     })
   }
 

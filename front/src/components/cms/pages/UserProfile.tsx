@@ -2,16 +2,19 @@ import { useTranslation } from 'react-i18next'
 
 import { PageLayout } from '../templates/layouts/PageLayout'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
-import { Avatar, Container, Typography } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { Avatar, Button, Container, Typography } from '@mui/material'
 
 import { Loading } from 'src/components/cms/molecules/Loading'
 import { FormMui } from 'src/components/cms/templates/FormMui'
 import { MODEL_FORMS_NAMES } from 'src/configs/forms'
+import { useAuth } from 'src/hooks/useAuth'
 import { TypeModel } from 'src/interfaces'
 import { useCrudProfile } from 'src/services/hooks/useCrudProfile'
 
 const UserProfile = () => {
   const { t } = useTranslation()
+  const { handleLogout } = useAuth()
 
   const { single: authUser, updateMutation } = useCrudProfile()
 
@@ -38,6 +41,9 @@ const UserProfile = () => {
           submitText='Update Profile'
           isUpdating={true}
         />
+        <Button variant='outlined' fullWidth startIcon={<LogoutIcon />} onClick={handleLogout} sx={{ mt: 2 }}>
+          {t('Logout')}
+        </Button>
       </Container>
     </PageLayout>
   )

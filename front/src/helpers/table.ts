@@ -6,6 +6,13 @@ export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCel
   const headerCells: TypeHeadCells[] = []
   const firstItemOfModel = list[0]
 
+  headerCells.push({
+    id: 'actions',
+    label: 'Actions',
+    numeric: false,
+    disablePadding: false,
+  })
+
   if (firstItemOfModel) {
     Object.keys(firstItemOfModel).map(key => {
       if (key === 'deleted_at') return null
@@ -34,13 +41,6 @@ export const calculateHeadCells = (list: object[], model = 'users'): TypeHeadCel
       })
     }
   }
-
-  headerCells.push({
-    id: 'actions',
-    label: 'Actions',
-    numeric: false,
-    disablePadding: false,
-  })
 
   return headerCells
 }

@@ -19,6 +19,11 @@ export const TablesItem = (props: { table: TypeTable }) => {
   return (
     <TableRow className='holdem-table'>
       <TableCell>
+        <div className='holdem-table-join'>
+          <ActionButton label='Join' onClick={handleOpenTablePopup} />
+        </div>
+      </TableCell>
+      <TableCell>
         <div className='holdem-table-title'>
           <GifIcon />
           {table.title}
@@ -37,11 +42,6 @@ export const TablesItem = (props: { table: TypeTable }) => {
       <TableCell>
         <div className='holdem-table-size'>
           {table.seats.filter(s => s.user).length} / {table.seats.length}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className='holdem-table-join'>
-          <ActionButton label='Join' onClick={handleOpenTablePopup} />
         </div>
       </TableCell>
     </TableRow>
