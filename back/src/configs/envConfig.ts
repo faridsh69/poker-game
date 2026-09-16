@@ -16,4 +16,10 @@ export const envConfig = () => {
   return config
 }
 
-export const CORS_ORIGINS = ['http://localhost:2000', 'https://admin.socket.io', 'http://31.70.142.127']
+export const CORS_ORIGINS = [
+  'http://localhost:2000',
+  'https://admin.socket.io',
+  'http://31.70.142.127',
+  'https://sampleproject.app',
+  'https://www.sampleproject.app',
+]
