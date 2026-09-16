@@ -25,7 +25,7 @@ export const TablePot = (props: TypeProps) => {
 
       {showMoney && (
         <div className='popup-table-pots-pot-money'>
-          <Money money={tablePot.amount} showChips />
+          <Money money={tablePot.amount} showChips brif noDigits noCent />
         </div>
       )}
     </div>

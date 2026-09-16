@@ -334,6 +334,10 @@
         flex-direction: column;
         gap: 5px;
 
+        @media (max-width: 599.95px) {
+          width: 384px;
+        }
+
         &-firstrow {
           display: flex;
           flex-direction: row;
@@ -385,6 +389,11 @@
 
           &-slider {
             width: 50px !important;
+
+            @media (max-width: 599.95px) {
+              width: 150px !important;
+              flex-shrink: 0;
+            }
           }
         }
 

@@ -17,7 +17,7 @@ export const UnitSwitcher = () => {
         {MONEY_UNITS.map(unit => {
           return (
             <MenuItem value={unit.title} key={unit.title} onClick={() => changeUnit(unit.title)}>
-              <img src={unit.flag} alt={unit.title} className='small-dropdown-img' /> {unit.title} - {unit.label}
+              <img src={unit.flag} alt={unit.title} className='small-dropdown-img' /> {unit.title}
             </MenuItem>
           )
         })}

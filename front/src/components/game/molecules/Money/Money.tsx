@@ -7,10 +7,10 @@ import { moneyUnitTitleAtom } from 'src/contexts/moneyUnitTitleAtom'
 import { formatMoney } from 'src/helpers/common'
 import { useCrudExchange } from 'src/services/hooks/useCrudExchange'
 
-type TypeProps = { money: number; showChips?: boolean; brif?: boolean; noDigits?: boolean }
+type TypeProps = { money: number; noCent?: boolean; showChips?: boolean; brif?: boolean; noDigits?: boolean }
 
 export const Money = (props: TypeProps) => {
-  const { money, showChips = false, brif = false, noDigits = false } = props
+  const { money, noCent = false, showChips = false, brif = false, noDigits = false } = props
 
   const [moneyUnitTitle] = useAtom(moneyUnitTitleAtom)
   const exchangeList = useCrudExchange()

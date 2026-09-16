@@ -60,7 +60,8 @@ export const Header = () => {
               />
             </div>
             <div className='main-header-user-balance'>
-              {authUser?.first_name}: Balance <Money money={authUser?.balance ? +authUser?.balance : 0} />
+              <div>{authUser?.first_name}</div>{' '}
+              <Money money={authUser?.balance ? +authUser?.balance : 0} noDigits brif />
             </div>
           </Link>
         </div>

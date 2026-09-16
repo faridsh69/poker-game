@@ -47,7 +47,7 @@ export const TableActionsLeaveGame = (props: TypeTableProps) => {
 
   return (
     <div className='popup-table-actions-leavegame'>
-      <ActionButton label='Buy Chips' onClick={handleOpenModalBuyChips} />
+      {/* <ActionButton label='Buy Chips' onClick={handleOpenModalBuyChips} /> */}
       {canSeeStradle && <RadioAction checked={stradleChecked} onClick={handleStradle} label='Stradle' />}
       <RadioAction checked={sitoutNextRoundChecked} onClick={handleSeatoutNextRound} label='Sit out next hand' />
     </div>

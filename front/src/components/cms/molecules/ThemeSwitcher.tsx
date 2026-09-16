@@ -58,5 +58,5 @@ export const ThemeSwitcher = () => {
     setTheme(theme === THEME_NAMES.dark ? THEME_NAMES.light : THEME_NAMES.dark)
   }
 
-  return <MaterialUISwitch sx={{ m: 1 }} checked={theme === THEME_NAMES.dark} onChange={changeTheme} />
+  return <MaterialUISwitch checked={theme === THEME_NAMES.dark} onChange={changeTheme} />
 }

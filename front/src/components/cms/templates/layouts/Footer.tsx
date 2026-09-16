@@ -10,7 +10,7 @@ export const Footer = () => {
   return (
     <AppBar position='fixed' component='footer' className='main-footer'>
       <Container maxWidth='xl'>
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: 1 }}>
           <ThemeSwitcher />
           <UnitSwitcher />
           <LanguageSwitcher />
